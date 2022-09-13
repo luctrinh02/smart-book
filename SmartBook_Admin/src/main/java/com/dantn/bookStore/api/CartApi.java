@@ -45,14 +45,31 @@ public class CartApi {
 			CartPK pk=new CartPK();
 			pk.setBookId(book.getId());
 			pk.setUserId(user.getId());
-			Cart cart=new Cart();
-			cart.setUser(user);
-			cart.setAmount(amount);
-			cart.setBook(book);
-			cart.setCartPK(pk);
-			cart=cartService.save(cart);
-			HashMap<String, Object> map=DataUltil.setData("ok", "Thêm vào giỏ thành công");
-			return ResponseEntity.ok(map);
+			Cart c=cartService.getById(pk);
+			if(c==null) {
+				Cart cart=new Cart();
+				cart.setUser(user);
+				cart.setAmount(amount);
+				cart.setBook(book);
+				cart.setCartPK(pk);
+				cart=cartService.save(cart);
+				HashMap<String, Object> map=DataUltil.setData("ok", "Thêm vào giỏ thành công");
+				return ResponseEntity.ok(map);
+			}else {
+				if(amount+c.getAmount()>book.getAmount()) {
+					HashMap<String, Object> map=DataUltil.setData("error", "Số lượng sách không đủ");
+					return ResponseEntity.ok(map);
+				}else {
+					Cart cart=c;
+					cart.setUser(user);
+					cart.setAmount(amount);
+					cart.setBook(book);
+					cart.setCartPK(pk);
+					cart=cartService.save(cart);
+					HashMap<String, Object> map=DataUltil.setData("ok", "Thêm vào giỏ thành công");
+					return ResponseEntity.ok(map);
+				}
+			}
 		}
 	}
 	@DeleteMapping("/api/product/{id}")
