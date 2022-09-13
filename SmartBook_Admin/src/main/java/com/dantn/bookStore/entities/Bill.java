@@ -30,6 +30,7 @@ public class Bill implements Serializable{
 	private BigDecimal totalMoney;
 	@Column(name = "transport_fee")
 	private BigDecimal transportFee;
+	private String message;
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -107,6 +108,12 @@ public class Bill implements Serializable{
 	}
 	public void setReturnBills(List<ReturnBill> returnBills) {
 		this.returnBills = returnBills;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
 }

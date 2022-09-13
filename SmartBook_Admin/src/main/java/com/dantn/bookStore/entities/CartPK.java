@@ -1,6 +1,7 @@
 package com.dantn.bookStore.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -22,4 +23,20 @@ public class CartPK implements Serializable{
 	public void setBookId(Integer bookId) {
 		this.bookId = bookId;
 	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(bookId, userId);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CartPK other = (CartPK) obj;
+		return Objects.equals(bookId, other.bookId) && Objects.equals(userId, other.userId);
+	}
+	
 }

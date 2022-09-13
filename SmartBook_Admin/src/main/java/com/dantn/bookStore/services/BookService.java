@@ -1,5 +1,6 @@
 package com.dantn.bookStore.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -19,5 +20,8 @@ public class BookService {
 	public Book getById(Integer id) {
 		Optional<Book> optional=this.repository.findById(id);
 		return optional.isPresent()?optional.get():null;
+	}
+	public List<Book> getByIds(List<Integer> ids){
+		return this.repository.findAllById(ids);
 	}
 }

@@ -1,6 +1,7 @@
 package com.dantn.bookStore.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,8 +29,15 @@ public class CartService {
 	public void delete(CartPK cartPK) {
 		this.repository.deleteById(cartPK);
 	}
+	public void deleteByIds(List<CartPK> pks) {
+		this.repository.deleteAllById(pks);
+	}
 	public void deleteAll(User user) {
 		List<Cart> list=repository.findByUser(user);
 		this.repository.deleteAll(list);
+	}
+	public Cart getById(CartPK cartPK) {
+		Optional<Cart> optional=this.repository.findById(cartPK);
+		return optional.isPresent()?optional.get():null;
 	}
 }
