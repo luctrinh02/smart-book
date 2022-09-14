@@ -24,4 +24,7 @@ public class BookService {
 	public List<Book> getByIds(List<Integer> ids){
 		return this.repository.findAllById(ids);
 	}
+	public List<Book> getall() {
+		return this.repository.findAll();
+	}
 }

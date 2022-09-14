@@ -27,7 +27,22 @@
 
   <!-- Template Main CSS File -->
   <link href="/index/css/main.css" rel="stylesheet">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="text/javascript">
+  const Toast = Swal.mixin({
+	  toast: true,
+	  position: 'top-end',
+	  showConfirmButton: false,
+	  timer: 1500,
+	  timerProgressBar: true,
+	  didOpen: (toast) => {
+	    toast.addEventListener('mouseenter', Swal.stopTimer)
+	    toast.addEventListener('mouseleave', Swal.resumeTimer)
+	  }
+	})
 
+	</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- =======================================================
   * Template Name: Yummy - v1.1.0
   * Template URL: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/
@@ -36,7 +51,7 @@
   ======================================================== -->
 </head>
 
-<body>
+<body ng-app="myApp">
 
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
@@ -286,74 +301,18 @@
               <h3>Starters</h3>
             </div>
 
-            <div class="row gy-5">
-
-              <div class="col-lg-4 menu-item">
+            <div class="row gy-5" ng-controller="MyController">
+              <div class="col-lg-4 menu-item" ng-repeat="book in books">
                 <a href="/index/img/menu/menu-item-1.png" class="glightbox"><img src="/index/img/menu/menu-item-1.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Magnam Tiste</h4>
+                <h4>{{book.name}}</h4>
                 <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
+                  
                 </p>
                 <p class="price">
-                  $5.95
+                  {{book.price}}
                 </p>
+                <button class="btn btn-primary" ng-click="addToCart(book.id)">Add to cart</button>
               </div><!-- Menu Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="/index/img/menu/menu-item-2.png" class="glightbox"><img src="/index/img/menu/menu-item-2.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Aut Luia</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $14.95
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="/index/img/menu/menu-item-3.png" class="glightbox"><img src="/index/img/menu/menu-item-3.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Est Eligendi</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $8.95
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="/index/img/menu/menu-item-4.png" class="glightbox"><img src="/index/img/menu/menu-item-4.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Eos Luibusdam</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $12.95
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="/index/img/menu/menu-item-5.png" class="glightbox"><img src="/index/img/menu/menu-item-5.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Eos Luibusdam</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $12.95
-                </p>
-              </div><!-- Menu Item -->
-
-              <div class="col-lg-4 menu-item">
-                <a href="/index/img/menu/menu-item-6.png" class="glightbox"><img src="/index/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>
-                <h4>Laboriosam Direva</h4>
-                <p class="ingredients">
-                  Lorem, deren, trataro, filede, nerada
-                </p>
-                <p class="price">
-                  $9.95
-                </p>
-              </div><!-- Menu Item -->
-
             </div>
           </div><!-- End Starter Menu Content -->
 
@@ -1082,7 +1041,30 @@
 
   <!-- Template Main JS File -->
   <script src="/index/js/main.js"></script>
-
+	<script type="text/javascript">
+	angular.module('myApp', [])
+    .controller('MyController', function($scope,$http) {
+        $scope.books = [];
+        $http.get("/api/book").then( function(response) {
+            $scope.books = response.data;
+         });
+        $scope.addToCart=function(id){
+        	$http.post("/api/book/"+id+"?amount=1").then( function(response) {
+                if(response.data.statusCode=="error"){
+                	Toast.fire({
+                		  icon: 'error',
+                		  title: response.data.data
+                		})
+                }else{
+                	Toast.fire({
+              		  icon: 'success',
+              		  title: response.data.data
+              		})
+                }
+             });
+        }
+    });
+	</script>
 </body>
 
 </html>

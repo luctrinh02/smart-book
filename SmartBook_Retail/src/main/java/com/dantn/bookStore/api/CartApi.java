@@ -3,9 +3,11 @@ package com.dantn.bookStore.api;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,13 +34,14 @@ public class CartApi {
 		this.cartService = cartService;
 		this.bookService = bookService;
 	}
-	@PostMapping("/api/product/{id}")
+	@PostMapping("/api/book/{id}")
 	public ResponseEntity<?> addToCart(@PathVariable("id") Integer id,
 			@RequestParam(name = "amount") Long amount
 			,Principal principal) {
 		Book book=this.bookService.getById(id);
 		if(amount>book.getAmount()) {
 			HashMap<String, Object> map=DataUltil.setData("error", "Số lượng sách không đủ");
+			map.put("max", book.getAmount());
 			return ResponseEntity.ok(map);
 		}else{
 			User user=userService.getByEmail(principal.getName());
@@ -62,7 +65,7 @@ public class CartApi {
 				}else {
 					Cart cart=c;
 					cart.setUser(user);
-					cart.setAmount(amount);
+					cart.setAmount(amount+cart.getAmount());
 					cart.setBook(book);
 					cart.setCartPK(pk);
 					cart=cartService.save(cart);
@@ -72,7 +75,7 @@ public class CartApi {
 			}
 		}
 	}
-	@DeleteMapping("/api/product/{id}")
+	@DeleteMapping("/api/book/{id}")
 	public ResponseEntity<?> delete(@PathVariable(name = "id",required = false) Integer id,Principal principal){
 		User user=userService.getByEmail(principal.getName());
 		if(id==null) {
@@ -86,5 +89,11 @@ public class CartApi {
 			this.cartService.delete(pk);
 			return ResponseEntity.ok("Xóa thành công");
 		}
+	}
+	@GetMapping("/api/cart")
+	public ResponseEntity<?> get(Principal principal){
+		User user=userService.getByEmail(principal.getName());
+		List<Cart> carts=cartService.getByUser(user);
+		return ResponseEntity.ok(carts);
 	}
 }
