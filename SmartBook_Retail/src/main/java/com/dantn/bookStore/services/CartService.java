@@ -40,4 +40,7 @@ public class CartService {
 		Optional<Cart> optional=this.repository.findById(cartPK);
 		return optional.isPresent()?optional.get():null;
 	}
+	public List<Cart> getByIds(List<CartPK> cartPKs){
+		return this.repository.findAllById(cartPKs);
+	}
 }
