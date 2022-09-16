@@ -13,4 +13,8 @@ public class HomeController {
 	public String cart() {
 		return "cart/cart";
 	}
+	@GetMapping("/smart-book/history")
+	public String history() {
+		return "history/history";
+	}
 }

@@ -1,10 +1,10 @@
 package com.dantn.bookStore.services;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.dantn.bookStore.entities.Bill;
@@ -21,11 +21,11 @@ public class BillService {
 		super();
 		this.repository = repository;
 	}
-	public List<Bill> getByUser(User user){
-		return this.repository.findByUser(user);
+	public Page<Bill> getByUser(User user,Integer page){
+		return this.repository.findByUser(user,PageRequest.of(page, AppConstraint.PAGE_NUM,Sort.by("id").descending()));
 	}
-	public Bill getByTranSn(String transn) {
-		return this.repository.findByTranSn(transn);
+	public Bill getByTranSn(String transn,User user) {
+		return this.repository.findByTranSnAndUser(transn,user);
 	}
 	public Bill save(Bill bill) {
 		return this.repository.save(bill);
@@ -35,7 +35,7 @@ public class BillService {
 		return this.save(bill);
 	}
 	public Page<Bill> getAll(Integer page) {
-		return this.repository.findAll(PageRequest.of(page, AppConstraint.PAGE_NUM));
+		return this.repository.findAll(PageRequest.of(page, AppConstraint.PAGE_NUM,Sort.by("id").descending()));
 	}
 	public Bill getById(Integer id) {
 		Optional<Bill> optional=this.repository.findById(id);

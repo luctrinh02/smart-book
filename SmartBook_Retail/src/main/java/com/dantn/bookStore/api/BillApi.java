@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,13 +59,14 @@ public class BillApi {
 	}
 	@GetMapping("/api/bill")
 	public ResponseEntity<?> history(@RequestParam(name = "page",defaultValue = "0") Integer pageNum
-			,@RequestParam("transn") String transn){
+			,@RequestParam(name="transn",required = false) String transn,Principal principal){
+		User user=userService.getByEmail(principal.getName());
 		if(transn==null) {
-			Page<Bill> page=billService.getAll(pageNum);
+			Page<Bill> page=billService.getByUser(user, pageNum);
 			HashMap<String, Object> map=DataUltil.setData("ok", page);
 			return ResponseEntity.ok(map);
 		}else {
-			Bill bill=billService.getByTranSn(transn);
+			Bill bill=billService.getByTranSn(transn,user);
 			HashMap<String, Object> map=DataUltil.setData("ok", bill);
 			return ResponseEntity.ok(map);
 		}
@@ -119,7 +121,7 @@ public class BillApi {
 			book.setAmount(book.getAmount()-cart.getAmount());
 			detail.setBill(bill);
 			detail.setBook(book);
-			detail.setPrice(book.getPrice().multiply(new BigDecimal(100-book.getDiscount())));
+			detail.setPrice(book.getPrice().multiply(new BigDecimal(100-book.getDiscount())).divide(new BigDecimal(100)));
 			detailService.save(detail);
 			book.setSaleAmount(cart.getAmount()+book.getSaleAmount());
 			bookService.save(book);
@@ -132,15 +134,15 @@ public class BillApi {
 		return ResponseEntity.ok(map);
 	}
 	
-	@PatchMapping("/api/bill/{id}")
-	public ResponseEntity<?> cancel(@PathVariable("id") Integer id,@RequestParam("message") String mesage){
+	@PutMapping("/api/bill/{id}")
+	public ResponseEntity<?> cancel(@PathVariable("id") Integer id,@RequestBody String mesage){
 		if(mesage==null || mesage.length()==0) {
 			HashMap<String, Object> map=DataUltil.setData("error", "Vui lòng nhập message");
 			return ResponseEntity.ok(map);
 		}else {
-			BillStatus status=BillStatusSingleton.getInstance(statusService).get(1);
+			BillStatus status=BillStatusSingleton.getInstance(statusService).get(2);
 			Bill b=billService.getById(id);
-			if(b.getStatus().getId()==0) {
+			if(b.getStatus().getId()==1) {
 				b.setMessage(mesage);
 				b.setStatus(status);
 				b.setUpdatedTime(new Date());
