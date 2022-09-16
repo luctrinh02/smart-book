@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -75,25 +77,34 @@ public class CartApi {
 			}
 		}
 	}
-	@DeleteMapping("/api/book/{id}")
-	public ResponseEntity<?> delete(@PathVariable(name = "id",required = false) Integer id,Principal principal){
+	@PostMapping("/api/cart")
+	public ResponseEntity<?> delete(@RequestBody CartPK id,Principal principal){
 		User user=userService.getByEmail(principal.getName());
 		if(id==null) {
 			this.cartService.deleteAll(user);
-			return ResponseEntity.ok("Xóa thành công");
 		}else {
-			Book book=this.bookService.getById(id);
-			CartPK pk=new CartPK();
-			pk.setBookId(book.getId());
-			pk.setUserId(user.getId());
-			this.cartService.delete(pk);
-			return ResponseEntity.ok("Xóa thành công");
+			this.cartService.delete(id);
 		}
+		HashMap<String, Object> map=DataUltil.setData("ok", "Xóa thành công");
+		return ResponseEntity.ok(map);
 	}
 	@GetMapping("/api/cart")
 	public ResponseEntity<?> get(Principal principal){
 		User user=userService.getByEmail(principal.getName());
 		List<Cart> carts=cartService.getByUser(user);
 		return ResponseEntity.ok(carts);
+	}
+	@PutMapping("/api/cart")
+	public ResponseEntity<?> update(@RequestBody CartPK cartPK,@RequestParam("amount") Long amount){
+		Cart cart=cartService.getById(cartPK);
+		if(amount>cart.getBook().getAmount()) {
+			HashMap<String, Object> map=DataUltil.setData("error", "Số lượng sản phẩm không đủ");
+			map.put("max", cart.getAmount());
+			return ResponseEntity.ok(map);
+		}else {
+			cart.setAmount((long)amount);
+			cartService.save(cart);
+			return ResponseEntity.ok("");
+		}
 	}
 }

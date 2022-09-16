@@ -7,12 +7,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.xml.crypto.Data;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +24,7 @@ import com.dantn.bookStore.entities.BillDetail;
 import com.dantn.bookStore.entities.BillDetailPK;
 import com.dantn.bookStore.entities.BillStatus;
 import com.dantn.bookStore.entities.Book;
+import com.dantn.bookStore.entities.Cart;
 import com.dantn.bookStore.entities.CartPK;
 import com.dantn.bookStore.entities.User;
 import com.dantn.bookStore.services.BillDetailService;
@@ -31,6 +35,7 @@ import com.dantn.bookStore.services.CartService;
 import com.dantn.bookStore.services.UserService;
 import com.dantn.bookStore.ultilities.BillStatusSingleton;
 import com.dantn.bookStore.ultilities.DataUltil;
+import com.dantn.bookStore.ultilities.TranSnUltil;
 
 @RestController
 public class BillApi {
@@ -79,40 +84,52 @@ public class BillApi {
 	}
 	@PostMapping("/api/bill")
 	public ResponseEntity<?> add(
-			@RequestParam(name = "chk[]",required = false) Integer[] chk
-			,@RequestParam(name = "amount[]",required = false,defaultValue = "0") Integer[] amountArr
+			@RequestBody List<CartPK> cartPKs
 			,Principal principal){
 		User user=userService.getByEmail(principal.getName());
-		List<Integer> bookIds=Arrays.asList(chk);
-		List<Integer> amounts=Arrays.asList(amountArr);
-		BigDecimal total=BigDecimal.ZERO;
-		for(int i=0;i<chk.length;i++) {
-			Book b=bookService.getById(chk[i]);
-			if(amountArr[i]>b.getAmount()) {
-				HashMap<String, Object> map=DataUltil.setData("error", "Sản phẩm "+b.getName()+" chỉ còn "+b.getAmount());
+//		List<CartPK> pks=Arrays.asList(cartPKs);
+		List<Cart> carts=cartService.getByIds(cartPKs);
+		for(Cart cart:carts) {
+			if(cart.getAmount()>cart.getBook().getAmount()) {
+				// @formatter:off
+				StringBuilder builder=new StringBuilder().append("Sách ")
+						.append(cart.getBook().getName()).append(" chỉ còn ")
+						.append(cart.getBook().getAmount());
+				// @formatter:on
+				HashMap<String, Object> map=DataUltil.setData("error", builder.toString());
 				return ResponseEntity.ok(map);
-			}else {
-				BigDecimal amountBigDecimal=new BigDecimal(amountArr[i]);
-				BigDecimal discount=new BigDecimal((100-b.getDiscount())/100);
-				total=total.add(amountBigDecimal.multiply(b.getPrice().multiply(discount)));
 			}
 		}
 		Bill bill=new Bill();
 		bill.setCreatedTime(new Date());
-		bill.setStatus(BillStatusSingleton.getInstance(statusService).get(0));
-		bill.setTotalMoney(total);
+		bill.setMessage("");
+		bill.setTranSn(TranSnUltil.getTranSn());
 		bill.setUser(user);
+		bill.setStatus(BillStatusSingleton.getInstance(statusService).get(0));
 		bill=billService.save(bill);
-		List<Book> books=bookService.getByIds(bookIds);
-		for(Book x:books) {
-			BillDetailPK pk=new BillDetailPK();
-			pk.setBillId(bill.getId());
-			pk.setUserId(user.getId());
-			CartPK cartPK=new CartPK();
+		BigDecimal total=BigDecimal.ZERO;
+		for(Cart cart:carts) {
+			Book book=cart.getBook();
+			BillDetailPK detailPK=new BillDetailPK();
+			detailPK.setBillId(bill.getId());
+			detailPK.setBookId(book.getId());
 			BillDetail detail=new BillDetail();
-//			detail.set
+			detail.setBillDetailPK(detailPK);
+			detail.setAmount(cart.getAmount());
+			book.setAmount(book.getAmount()-cart.getAmount());
+			detail.setBill(bill);
+			detail.setBook(book);
+			detail.setPrice(book.getPrice().multiply(new BigDecimal(100-book.getDiscount())));
+			detailService.save(detail);
+			book.setSaleAmount(cart.getAmount()+book.getSaleAmount());
+			bookService.save(book);
+			cartService.delete(cart.getCartPK());
+			total=total.add(detail.getPrice().multiply(new BigDecimal(cart.getAmount())));
 		}
-		return ResponseEntity.ok("");
+		bill.setTotalMoney(total);
+		billService.save(bill);
+		HashMap<String, Object> map=DataUltil.setData("ok", "Đặt hàng thành công");
+		return ResponseEntity.ok(map);
 	}
 	
 	@PatchMapping("/api/bill/{id}")
