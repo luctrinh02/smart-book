@@ -50,14 +50,16 @@
                         <th>Ngày mua</th>
                         <th>Tổng tiền</th>
                         <th>Trạng thái</th>
-                        <th colspan="3"></th>
+                        <th colspan="3"  style="width: 5%;"></th>
                     </thead>
                     <tbody>
                         <tr ng-repeat="bill in bills">
                             <td>{{bill.tranSn}}</td>
                             <td>{{formatDate(bill.createdTime)}}</td>
                             <td>{{bill.totalMoney+' vnđ'}}</td>
-                            <td>{{bill.status.value}}</td>
+                            <td class="{{'text-'+bill.status.color}}">
+                                {{bill.status.value}}
+                            </td>
                             <td>
                                 <button ng-click="getDetail(bill.id)" class="btn" data-bs-toggle="modal"
                                     data-bs-target="#detailmodal"><i class="fa-solid fa-eye"></i></button>
@@ -88,9 +90,9 @@
                                 </div>
                             </td>
                             <td>
-                            	<button class="btn">
-                            		<i class="fa-solid fa-right-left"></i>
-                            	</button>
+                                <button class="btn" data-bs-toggle="modal" data-bs-target="#returnBillModal" ng-click="getDetail(bill.id)">
+                                    <i class="fa-solid fa-right-left"></i>
+                                </button>
                             </td>
                         </tr>
                     </tbody>
@@ -116,19 +118,56 @@
                                 <tr ng-repeat="detail in details">
                                     <td>{{detail.book.name}}</td>
                                     <td>{{detail.book.img}}</td>
-                                    <td>{{detail.amount}}</td>
+                                    <td align="center">{{detail.amount}}</td>
                                     <td>{{detail.price}}</td>
                                 </tr>
                             </tbody>
                             <tfoot>
-                                <th>Trạng thái: {{details[0].bill.status.value}}</th>
+                                <th colspan="4">Trạng thái: <span class="{{'text-'+details[0].bill.status.color}}">{{details[0].bill.status.value}}</span></th>
                             </tfoot>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-
+        <div class="modal fade" id="returnBillModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Chọn sản phẩm đổi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <th>Tên sách</th>
+                                <th>Hình ảnh</th>
+                                <th>Số lượng mua</th>
+                                <th>Số lượng hợp pháp</th>
+                                <th>Số lượng đổi</th>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="detail in details">
+                                    <td>{{detail.book.name}}</td>
+                                    <td>{{detail.book.img}}</td>
+                                    <td align="center">{{detail.amount}}</td>
+                                    <td align="center">{{detail.available}}</td>
+                                    <td>
+                                        <input type="text" id="returnAmount" class="form-control">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                            ng-click="cancel($index)">Đổi hàng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
         const myApp = angular.module("myApp", []);
@@ -148,16 +187,17 @@
                 })
             }
             $scope.cancel = function (index) {
-                $scope.message=" "
-                $http.put("/api/bill/" + $scope.bills[index].id,$scope.message).then(function (response) {
+                $scope.message = " "
+                $http.put("/api/bill/" + $scope.bills[index].id, $scope.message).then(function (response) {
                     if (response.data.statusCode == "ok") {
                         Toast.fire({
                             icon: 'success',
                             title: response.data.data
                         });
-                        $scope.bills[index].status.id=3;
-                        $scope.bills[index].status.value="Hủy";
-                    }else{
+                        $scope.bills[index].status.id = 3;
+                        $scope.bills[index].status.value = "Hủy";
+                        $scope.bills[index].status.color = "danger";
+                    } else {
                         Toast.fire({
                             icon: 'error',
                             title: response.data.data

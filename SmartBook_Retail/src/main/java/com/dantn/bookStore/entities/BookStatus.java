@@ -21,6 +21,7 @@ public class BookStatus implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "status")
 	private List<Book> books;
+	private String color;
 	public Integer getId() {
 		return id;
 	}
@@ -39,4 +40,11 @@ public class BookStatus implements Serializable{
 	public void setBooks(List<Book> books) {
 		this.books = books;
 	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
 }
