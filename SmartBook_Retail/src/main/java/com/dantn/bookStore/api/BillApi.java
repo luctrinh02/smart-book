@@ -118,6 +118,7 @@ public class BillApi {
 			BillDetail detail=new BillDetail();
 			detail.setBillDetailPK(detailPK);
 			detail.setAmount(cart.getAmount());
+			detail.setAvailable(cart.getAmount());
 			book.setAmount(book.getAmount()-cart.getAmount());
 			detail.setBill(bill);
 			detail.setBook(book);

@@ -19,6 +19,7 @@ public class BillStatus implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String value;
+	private String color;
 	@JsonIgnore
 	@OneToMany(mappedBy = "status")
 	private List<Bill> bills;
@@ -51,6 +52,18 @@ public class BillStatus implements Serializable{
 	}
 	public void setShipments(List<Shipment> shipments) {
 		this.shipments = shipments;
+	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+	public List<ReturnBill> getReturnBills() {
+		return returnBills;
+	}
+	public void setReturnBills(List<ReturnBill> returnBills) {
+		this.returnBills = returnBills;
 	}
 	
 }
