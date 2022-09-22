@@ -115,7 +115,9 @@ h6 {
   border: 0;
   box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
 }
-
+.page-link {
+	color: #444444;
+}
 .dropdown-menu .dropdown-header,
 .dropdown-menu .dropdown-footer {
   text-align: center;

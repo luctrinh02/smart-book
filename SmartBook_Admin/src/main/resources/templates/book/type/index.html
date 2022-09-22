@@ -1,0 +1,282 @@
+<div class="pagetitle">
+	<h1>Thể loại sách</h1>
+	<nav>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="index.html">Smart Book</a></li>
+			<li class="breadcrumb-item">Quản lý sách</li>
+			<li class="breadcrumb-item active">Thể loại sách</li>
+		</ol>
+	</nav>
+</div>
+<!-- End Page Title -->
+
+<section class="section">
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="card">
+				<div class="card-body m-0 p-0">
+					<div class="card">
+						<div class="card-body pb-0">
+							<h5 class="card-title pb-0">Tìm kiếm</h5>
+							<input type="text" name="query" placeholder="Từ khoá"
+								title="Enter search keyword" class="form-control">
+						</div>
+						<div class="card-body pb-0">
+							<h5 class="card-title pb-0">Số lượng đầu sách</h5>
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox"
+									id="flexSwitchCheckDefault"> <label
+									class="form-check-label" for="flexSwitchCheckDefault">Tất
+									cả</label>
+							</div>
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox"
+									id="flexSwitchCheckDefault"> <label
+									class="form-check-label" for="flexSwitchCheckDefault">0
+									đến 50</label>
+							</div>
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox"
+									id="flexSwitchCheckDefault"> <label
+									class="form-check-label" for="flexSwitchCheckDefault">51
+									đến 100</label>
+							</div>
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox"
+									id="flexSwitchCheckDefault"> <label
+									class="form-check-label" for="flexSwitchCheckDefault">
+									Lớn hơn 100</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg">
+			<div class="card">
+				<div class="card-body">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title fs-3">Danh sách thể loại sách</h5>
+
+							<!-- Pagination with icons -->
+							<div class="row d-flex">
+								<div class="col-4">
+									<button type="button" data-bs-toggle="modal"
+										data-bs-target="#verticalycentered"
+										class="btn btn-primary btn-sm rounded-pill ps-3 pe-3">
+										<i class="bi bi-plus-circle"></i>&ensp;Thêm mới
+									</button>
+									&ensp;
+									<button type="button"
+										class="btn btn-danger btn-sm rounded-pill ps-3 pe-3">
+										<i class="bi bi-dash-circle"></i>&ensp;Xoá thể loại đã chọn
+									</button>
+								</div>
+								<div class="col-4">
+									<ul class="pagination justify-content-center">
+										<li class="page-item "><a class="page-link" href="#"
+											aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+										</a></li>
+										<li class="page-item"><a class="page-link" href="#">1</a></li>
+										<li class="page-item"><a class="page-link" href="#">2</a></li>
+										<li class="page-item"><a class="page-link" href="#">3</a></li>
+										<li class="page-item"><a class="page-link" href="#">...</a></li>
+										<li class="page-item"><a class="page-link" href="#"
+											aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+										</a></li>
+									</ul>
+								</div>
+								<div class="col-4">
+									<div class="row">
+										<div class="col"></div>
+										<div class="col-7">
+											<select class="form-select" id="floatingSelect"
+												aria-label="Floating label select example">
+												<option selected>--- Sắp xếp theo ---</option>
+												<option value="1">Tên thể loại</option>
+												<option value="2">Số đầu sách</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Small tables -->
+							<table class="table table-sm mt-3" id="example">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Tên thể loại</th>
+										<th scope="col">Các đầu sách</th>
+										<th scope="col"></th>
+										<th scope="col"></th>
+										<th scope="col"><input class="form-check-input"
+											type="checkbox" id="chkAll" onchange="selectAll()"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">1</th>
+										<td>Brandon Jacob</td>
+
+										<td>28</td>
+										<td><i class="bi bi-pencil"></i></td>
+										<td><i class="bi bi-trash"></i></td>
+										<td><input class="form-check-input" type="checkbox"
+											name="chk"></td>
+									</tr>
+									<tr>
+										<th scope="row">2</th>
+										<td>Bridie Kessler</td>
+
+										<td>35</td>
+										<td><i class="bi bi-pencil"></i></td>
+										<td><i class="bi bi-trash"></i></td>
+										<td><input class="form-check-input" type="checkbox"
+											name="chk"></td>
+									</tr>
+									<tr>
+										<th scope="row">3</th>
+										<td>Ashleigh Langosh</td>
+
+										<td>45</td>
+										<td><i class="bi bi-pencil"></i></td>
+										<td><i class="bi bi-trash"></i></td>
+										<td><input class="form-check-input" type="checkbox"
+											name="chk"></td>
+									</tr>
+									<tr>
+										<th scope="row">4</th>
+										<td>Angus Grady</td>
+
+										<td>34</td>
+										<td><i class="bi bi-pencil"></i></td>
+										<td><i class="bi bi-trash"></i></td>
+										<td><input class="form-check-input" type="checkbox"
+											name="chk"></td>
+									</tr>
+									<tr>
+										<th scope="row">5</th>
+										<td>Raheem Lehner</td>
+
+										<td>47</td>
+										<td><i class="bi bi-pencil"></i></td>
+										<td><i class="bi bi-trash"></i></td>
+										<td><input class="form-check-input" type="checkbox"
+											name="chk"></td>
+									</tr>
+
+									<tr>
+										<th scope="row">6</th>
+										<td>Raheem Lehner</td>
+
+										<td>47</td>
+										<td><i class="bi bi-pencil"></i></td>
+										<td><i class="bi bi-trash"></i></td>
+										<td><input class="form-check-input" type="checkbox"
+											name="chk"></td>
+									</tr>
+
+									<tr>
+										<th scope="row">7</th>
+										<td>Raheem Lehner</td>
+
+										<td>47</td>
+										<td><i class="bi bi-pencil"></i></td>
+										<td><i class="bi bi-trash"></i></td>
+										<td><input class="form-check-input" type="checkbox"
+											name="chk"></td>
+									</tr>
+
+									<tr>
+										<th scope="row">8</th>
+										<td>Raheem Lehner</td>
+
+										<td>47</td>
+										<td><i class="bi bi-pencil"></i></td>
+										<td><i class="bi bi-trash"></i></td>
+										<td><input class="form-check-input" type="checkbox"
+											name="chk"></td>
+									</tr>
+
+									<tr>
+										<th scope="row">9</th>
+										<td>Raheem Lehner</td>
+
+										<td>47</td>
+										<td><i class="bi bi-pencil"></i></td>
+										<td><i class="bi bi-trash"></i></td>
+										<td><input class="form-check-input" type="checkbox"
+											name="chk"></td>
+									</tr>
+
+									<tr>
+										<th scope="row">10</th>
+										<td>Raheem Lehner</td>
+
+										<td>47</td>
+										<td><i class="bi bi-pencil"></i></td>
+										<td><i class="bi bi-trash"></i></td>
+										<td><input class="form-check-input" type="checkbox"
+											name="chk"></td>
+									</tr>
+								</tbody>
+							</table>
+							<!-- End small tables -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Create Modal  -->
+<div class="modal fade" id="verticalycentered" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a href="index.html" class="logo d-flex align-items-center"> <img
+					src="/index/img/logo.jpg" alt=""> <span
+					class="d-none d-lg-block">Smart Book</span>
+				</a>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="row mb-3">
+						<label for="inputEmail3" class="col-sm-3 col-form-label fw-bold">Tên
+							thể loại: </label>
+						<div class="col-sm">
+							<input type="text" class="form-control" id="inputText">
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Huỷ</button>
+				<button type="button" class="btn btn-primary">Thêm mới</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Create Modal-->
+<script type="text/javascript">
+	function selectAll() {
+		var chkAll = document.getElementById("chkAll");
+		var chk = document.getElementsByName("chk");
+		if (chkAll.checked == true) {
+			for (var i = 0; i < chk.length; i++) {
+				chk[i].checked = true;
+			}
+		} else {
+			for (var i = 0; i < chk.length; i++) {
+				chk[i].checked = false;
+			}
+		}
+		document.getElementsByClassName("chk")
+	}
+</script>
