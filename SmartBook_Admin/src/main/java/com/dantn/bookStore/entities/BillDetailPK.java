@@ -8,15 +8,16 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class BillDetailPK implements Serializable{
-	@Column(name = "user_id",insertable = false,updatable = false)
-	private Integer userId;
+	@Column(name = "book_id",insertable = false,updatable = false)
+	private Integer bookId;
 	@Column(name = "bill_id",insertable = false,updatable = false)
 	private Integer billId;
-	public Integer getUserId() {
-		return userId;
+	
+	public Integer getBookId() {
+		return bookId;
 	}
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setBookId(Integer bookId) {
+		this.bookId = bookId;
 	}
 	public Integer getBillId() {
 		return billId;
@@ -26,7 +27,7 @@ public class BillDetailPK implements Serializable{
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(billId, userId);
+		return Objects.hash(billId, bookId);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -37,7 +38,7 @@ public class BillDetailPK implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		BillDetailPK other = (BillDetailPK) obj;
-		return Objects.equals(billId, other.billId) && Objects.equals(userId, other.userId);
+		return Objects.equals(billId, other.billId) && Objects.equals(bookId, other.bookId);
 	}
 	
 }

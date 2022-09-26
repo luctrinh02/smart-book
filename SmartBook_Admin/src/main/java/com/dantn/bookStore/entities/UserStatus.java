@@ -22,6 +22,7 @@ public class UserStatus implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "status")
 	private List<User> users;
+	private String color;
 	public Integer getId() {
 		return id;
 	}
@@ -39,6 +40,12 @@ public class UserStatus implements Serializable{
 	}
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
 	}
 	
 }
