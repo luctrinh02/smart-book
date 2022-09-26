@@ -22,6 +22,7 @@ public class BillDetail implements Serializable{
 	private Book book;
 	private BigDecimal price;
 	private Long amount;
+	private Long available;
 	public BillDetailPK getBillDetailPK() {
 		return billDetailPK;
 	}
@@ -52,5 +53,12 @@ public class BillDetail implements Serializable{
 	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
+	public Long getAvailable() {
+		return available;
+	}
+	public void setAvailable(Long available) {
+		this.available = available;
+	}
+	
 	
 }
