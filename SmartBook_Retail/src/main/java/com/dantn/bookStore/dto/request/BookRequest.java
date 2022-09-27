@@ -162,7 +162,6 @@ public class BookRequest implements DtoToEntity<Book>{
 		b.setNumOfPage(numOfPage);
 		b.setPrice(price);
 		if(id==null) {
-			b.setBrokenAmount(0);
 			b.setEvaluate(0);
 			b.setPoint(0);
 			b.setSaleAmount((long)0);
