@@ -46,9 +46,6 @@ public class Bill implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "bill")
 	private List<BillDetail> details;
-	@JsonIgnore
-	@OneToMany(mappedBy = "bill")
-	private List<ReturnBill> returnBills;
 	public Integer getId() {
 		return id;
 	}
@@ -102,12 +99,6 @@ public class Bill implements Serializable{
 	}
 	public void setDetails(List<BillDetail> details) {
 		this.details = details;
-	}
-	public List<ReturnBill> getReturnBills() {
-		return returnBills;
-	}
-	public void setReturnBills(List<ReturnBill> returnBills) {
-		this.returnBills = returnBills;
 	}
 	public String getMessage() {
 		return message;

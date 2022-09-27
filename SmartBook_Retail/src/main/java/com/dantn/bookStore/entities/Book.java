@@ -42,7 +42,6 @@ public class Book implements Serializable{
 	@Column(name = "sale_amount")
 	private Long saleAmount;
 	@Column(name = "broken_amount")
-	private long brokenAmount;
 	private Integer point;
 	private Integer evaluate;
 	private String description;
@@ -73,9 +72,6 @@ public class Book implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "book")
 	private List<BillDetail> billDetails;
-	@JsonIgnore
-	@OneToMany(mappedBy = "book")
-	private List<ReturnBillDetail> returnBillDetails;
 	@JsonIgnore
 	@OneToMany(mappedBy = "book")
 	private List<Comment> comments;
@@ -144,12 +140,6 @@ public class Book implements Serializable{
 	}
 	public void setSaleAmount(Long saleAmount) {
 		this.saleAmount = saleAmount;
-	}
-	public long getBrokenAmount() {
-		return brokenAmount;
-	}
-	public void setBrokenAmount(long brokenAmount) {
-		this.brokenAmount = brokenAmount;
 	}
 	public Integer getPoint() {
 		return point;
@@ -234,12 +224,6 @@ public class Book implements Serializable{
 	}
 	public void setBillDetails(List<BillDetail> billDetails) {
 		this.billDetails = billDetails;
-	}
-	public List<ReturnBillDetail> getReturnBillDetails() {
-		return returnBillDetails;
-	}
-	public void setReturnBillDetails(List<ReturnBillDetail> returnBillDetails) {
-		this.returnBillDetails = returnBillDetails;
 	}
 	public List<Comment> getComments() {
 		return comments;
