@@ -9,6 +9,8 @@ import com.dantn.bookStore.adapter.DtoToEntity;
 import com.dantn.bookStore.entities.User;
 import com.dantn.bookStore.entities.UserRole;
 import com.dantn.bookStore.ultilities.ConfirmPassword;
+import com.dantn.bookStore.ultilities.PhoneNumerChecking;
+import com.dantn.bookStore.ultilities.UserRoleSingleton;
 @ConfirmPassword
 public class UserRequest implements DtoToEntity<User>{
 	private Integer id;
@@ -20,14 +22,10 @@ public class UserRequest implements DtoToEntity<User>{
 	private String confirm;
 	@NotBlank(message = "Không bỏ trống tên")
 	private String fullname;
-	@NotBlank(message = "Không bỏ trống tỉnh")
-	private String province;
-	@NotBlank(message = "Không bỏ trống quận/huyện")
-	private String district;
-	@NotBlank(message = "Không bỏ trống xã/phường")
-	private String comune;
 	@NotBlank(message = "Không bỏ trống địa chỉ")
 	private String address;
+	@PhoneNumerChecking
+	private String phoneNumber;
 	private Integer role;
 	public Integer getId() {
 		return id;
@@ -59,24 +57,6 @@ public class UserRequest implements DtoToEntity<User>{
 	public void setFullname(String fullname) {
 		this.fullname = fullname;
 	}
-	public String getProvince() {
-		return province;
-	}
-	public void setProvince(String province) {
-		this.province = province;
-	}
-	public String getDistrict() {
-		return district;
-	}
-	public void setDistrict(String district) {
-		this.district = district;
-	}
-	public String getComune() {
-		return comune;
-	}
-	public void setComune(String comune) {
-		this.comune = comune;
-	}
 	public String getAddress() {
 		return address;
 	}
@@ -89,17 +69,20 @@ public class UserRequest implements DtoToEntity<User>{
 	public void setRole(Integer role) {
 		this.role = role;
 	}
+	
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 	@Override
 	public User changeToEntity(User u) {
 		u.setAddress(address);
-		u.setComune(comune);
-		u.setDistrict(district);
 		u.setEmail(email);
 		u.setFullname(fullname);
-		u.setProvince(province);
-		u.setStatus(null);
-		u.setRole(role==null?null:new UserRole());
-		if(id==null) {
+		u.setPhoneNumber(phoneNumber);
+		if(u.getId()==null) {
 			u.setPassword(new BCryptPasswordEncoder().encode(password));
 		}
 		return u;
