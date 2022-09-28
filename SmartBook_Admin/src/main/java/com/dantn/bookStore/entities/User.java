@@ -24,9 +24,7 @@ public class User implements Serializable{
 	private String email;
 	private String password;
 	private String fullname;
-	private String province;
-	private String district;
-	private String comune;
+	private String phoneNumber;
 	private String address;
 	@ManyToOne
 	@JoinColumn(name = "role_id")
@@ -78,23 +76,12 @@ public class User implements Serializable{
 	public void setFullname(String fullname) {
 		this.fullname = fullname;
 	}
-	public String getProvince() {
-		return province;
+	
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
-	public void setProvince(String province) {
-		this.province = province;
-	}
-	public String getDistrict() {
-		return district;
-	}
-	public void setDistrict(String district) {
-		this.district = district;
-	}
-	public String getComune() {
-		return comune;
-	}
-	public void setComune(String comune) {
-		this.comune = comune;
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	public String getAddress() {
 		return address;

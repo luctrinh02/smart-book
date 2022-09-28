@@ -10,7 +10,11 @@ public class ConfirmPasswordProcess implements ConstraintValidator<ConfirmPasswo
 
 	@Override
 	public boolean isValid(UserRequest value, ConstraintValidatorContext context) {
-		return value.getConfirm().equals(value.getPassword());
+		if(value.getPassword()==null || "".equals(value.getPassword())) {
+			return true;
+		}else {
+			return value.getPassword().equals(value.getConfirm());
+		}
 	}
 
 }
