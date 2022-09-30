@@ -47,6 +47,7 @@
                     </div>
                     <div class="col-4">
                         <div class="input-group ">
+                            <button class="btn btn-outline-secondary" type="button" ng-click="reset()">Đặt lại</button>
                             <input type="text" class="form-control" placeholder="Nhập họ tên ..." id="fullname">
                             <button class="btn btn-outline-secondary" type="button" ng-click="search()">Tìm
                                 kiếm</button>
@@ -135,16 +136,16 @@
                         <tr>
                             <td colspan="6">
                                 <div class="d-flex justify-content-center mt-3">
-                                    <button class="btn btn-primary me-3" ng-click="getUser()" ng-disabled="page==0">
+                                    <button class="btn btn-primary me-3" ng-click="getUser(0)" ng-disabled="page==0">
                                         <span class="fas fa-backward"></span>
                                     </button>
-                                    <button class="btn btn-primary me-3" ng-click="getUser()"
+                                    <button class="btn btn-primary me-3" ng-click="getUser(page-1)"
                                         ng-disabled="page==0"><span class="fas fa-backward-step"></span></button>
                                     <h4>{{users.pageable.pageNumber+1}}/{{users.totalPages}}</h4>
-                                    <button class="btn btn-primary ms-3 me-3" ng-click="getUser()"
+                                    <button class="btn btn-primary ms-3 me-3" ng-click="getUser(page+1)"
                                         ng-disabled="page==users.totalPages-1"><span
                                             class="fas fa-forward-step"></span></button>
-                                    <button class="btn btn-primary" ng-click="getUser()"
+                                    <button class="btn btn-primary" ng-click="getUser(users.totalPages-1)"
                                         ng-disabled="page==users.totalPages-1">
                                         <span class="fas fa-forward"></span>
                                     </button>
