@@ -29,7 +29,7 @@ public class Book implements Serializable{
 	private String ISBN;
 	private String image;
 	@Column(name = "num_of_page")
-	private String numOfPage;
+	private Integer numOfPage;
 	@ManyToOne
 	@JoinColumn(name = "author_id")
 	private Author author;
@@ -41,7 +41,6 @@ public class Book implements Serializable{
 	private Long amount;
 	@Column(name = "sale_amount")
 	private Long saleAmount;
-	@Column(name = "broken_amount")
 	private Integer point;
 	private Integer evaluate;
 	private String description;
@@ -99,10 +98,10 @@ public class Book implements Serializable{
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public String getNumOfPage() {
+	public Integer getNumOfPage() {
 		return numOfPage;
 	}
-	public void setNumOfPage(String numOfPage) {
+	public void setNumOfPage(Integer numOfPage) {
 		this.numOfPage = numOfPage;
 	}
 	public Author getAuthor() {
