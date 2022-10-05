@@ -52,6 +52,9 @@ public class User implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Comment> comments;
+	@JsonIgnore
+	@OneToMany(mappedBy = "user")
+	private List<Shipment> shipments ;
 	public Integer getId() {
 		return id;
 	}
@@ -142,6 +145,12 @@ public class User implements Serializable{
 	}
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+	public List<Shipment> getShipments() {
+		return shipments;
+	}
+	public void setShipments(List<Shipment> shipments) {
+		this.shipments = shipments;
 	}
 	
 }
