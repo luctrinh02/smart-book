@@ -38,7 +38,7 @@
 
 <body ng-app="myApp">
     <div ng-controller="userController">
-        <a class="btn btn-primary mt-2 mb-2" href="/admin/smart-book/user/create">Thêm mới</a>
+        <a class="btn btn-primary mt-2 mb-2" href="/user/create.html">Thêm mới</a>
         <div class="cart">
             <div class="card-header">
                 <div class="row">
@@ -77,6 +77,7 @@
                     <thead>
                         <th>Email</th>
                         <th>Họ tên</th>
+                        <th>Số điện thoại</th>
                         <th>Địa chỉ</th>
                         <th>Trạng thái</th>
                         <th colspan="2"></th>
@@ -184,12 +185,13 @@
             $scope.search = function () {
                 $scope.page = 0;
                 $scope.fullname = document.getElementById("fullname").value;
-                $scope.getUser();
+                $scope.getUser(0);
             }
             $scope.reset = function () {
                 $scope.page = 0;
+                $scope.fullname = "";
                 document.getElementById("fullname").value = "";
-                $scope.getUser();
+                $scope.getUser(0);
             }
             $scope.disable = function (index, action) {
                 let id = $scope.users.content[index].id;
@@ -205,7 +207,7 @@
                             $scope.users.content[index].status.id = "2";
                         } else {
                             $scope.users.content[index].status.color = "primary";
-                            $scope.users.content[index].status.value = "Hoạt động";
+                            $scope.users.content[index].status.value = "Đang hoạt động";
                             $scope.users.content[index].status.id = "1";
                         }
                     } else {
