@@ -27,6 +27,9 @@ public class Shipment implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="status_id")
 	private BillStatus status;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 	public Integer getId() {
 		return id;
 	}
@@ -50,6 +53,12 @@ public class Shipment implements Serializable{
 	}
 	public void setStatus(BillStatus status) {
 		this.status = status;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 }

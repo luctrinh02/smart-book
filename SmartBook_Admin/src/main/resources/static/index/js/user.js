@@ -14,14 +14,20 @@ app.controller("userController", function ($scope, $http) {
             $scope.users = response.data.data
         })
     }
-    $scope.getUser = function () {
-        $http.get("/api/admin/user?page=0&role=" + $scope.user + "&fullname=" + $scope.fullname).then(function (response) {
+    $scope.getUser = function (index) {
+        $scope.page=index;
+        $http.get("/api/admin/user?page="+index+"&role=" + $scope.user + "&fullname=" + $scope.fullname).then(function (response) {
             $scope.users = response.data.data
         })
     }
     $scope.search = function () {
         $scope.page = 0;
         $scope.fullname = document.getElementById("fullname").value;
+        $scope.getUser();
+    }
+    $scope.reset = function () {
+        $scope.page = 0;
+        document.getElementById("fullname").value="";
         $scope.getUser();
     }
     $scope.disable = function (index, action) {

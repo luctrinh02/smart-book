@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.dantn.bookStore.entities.Bill;
@@ -40,5 +41,8 @@ public class BillService {
 	public Bill getById(Integer id) {
 		Optional<Bill> optional=this.repository.findById(id);
 		return optional.isPresent()?optional.get():null;
+	}
+	public Page<Bill> getByAcepted(BillStatus billStatus,Integer page){
+		return this.repository.findByStatus(billStatus, PageRequest.of(page, AppConstraint.PAGE_NUM,Sort.by("id").ascending()));
 	}
 }

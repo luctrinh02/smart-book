@@ -111,6 +111,91 @@
             </div>
         </div>
     </div>
+    <script>
+        const app = angular.module("myApp", []);
+        app.controller("userUpdateController", function ($scope, $http, $routeParams) {
+            $scope.userDefault = {
+                "email": "",
+                "fullname": "",
+                "phoneNumber": "",
+                "confirm": "",
+                "password": "",
+                "address": "",
+                "role": ""
+            }
+            $scope.user = angular.copy($scope.userDefault)
+            $scope.role = 1;
+            $http.get("/api/admin/user/" + $routeParams.id).then(function (response) {
+                $scope.userDefault = response.data.data;
+                $scope.user = response.data.data;
+            })
+            $scope.initError = function () {
+                document.getElementById('email').innerText = "";
+                document.getElementById('fullname').innerText = "";
+                document.getElementById('phoneNumber').innerText = "";
+                document.getElementById('address').innerText = "";
+            }
+            $scope.check = function () {
+                $scope.initError();
+                let email = document.getElementsByName("email")[0].value;
+                let fullname = document.getElementsByName("fullname")[0].value;
+                let phoneNumber = document.getElementsByName("phoneNumber")[0].value;
+                let address = document.getElementsByName("address")[0].value;
+                let formData = {
+                    "email": email,
+                    "fullname": fullname,
+                    "phoneNumber": phoneNumber,
+                    "confirm": $scope.user.confirm,
+                    "password": $scope.user.password,
+                    "address": address,
+                    "role": $scope.user.role
+                }
+                $http.post("/api/admin/user/validation", formData).then(function (response) {
+                    if (response.data.statusCode == "ok") {
+                        $("#exampleModal").modal("show");
+                    } else {
+                        let data = response.data.data;
+                        for (let i = 0; i < data.length; i++) {
+                            try {
+                                document.getElementById(data[i].field).innerText = data[i].defaultMessage;
+                            } catch (error) {
+                                document.getElementById(data[i].code).innerText = data[i].defaultMessage;
+                            }
+                        }
+                    }
+                })
+            }
+            $scope.update = function () {
+                let email = document.getElementsByName("email")[0].value;
+                let fullname = document.getElementsByName("fullname")[0].value;
+                let phoneNumber = document.getElementsByName("phoneNumber")[0].value;
+                let address = document.getElementsByName("address")[0].value;
+                let formData = {
+                    "email": email,
+                    "fullname": fullname,
+                    "phoneNumber": phoneNumber,
+                    "confirm": $scope.user.confirm,
+                    "password": $scope.user.password,
+                    "address": address,
+                    "role": $scope.user.role,
+                    "id": $scope.user.id
+                }
+                $http.put("/api/admin/user/" + $scope.user.id, formData).then(function (response) {
+                    if (response.data.statusCode == "ok") {
+                        Toast.fire({
+                            icon: 'success',
+                            title: response.data.data
+                        })
+                    } else {
+                        document.getElementById("email").innerText = response.data.data;
+                    }
+                })
+            }
+            $scope.reset = function () {
+                $scope.user = angular.copy($scope.userDefault)
+            }
+        });
+    </script>
 </body>
 
 </html>
