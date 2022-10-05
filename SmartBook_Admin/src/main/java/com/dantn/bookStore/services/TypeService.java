@@ -38,6 +38,10 @@ public class TypeService {
 		} else return null;
 	}
 	
+	public List<Type> findByValue(String value) {
+		return rep.findByValue(value);
+	}
+	
 	public List<Type> getAll() {
 		return rep.findAll();
 	}
@@ -50,11 +54,11 @@ public class TypeService {
 		} else
 			return null;
 	}
-	public Page<Type> getPageAZ(int pageIndex,int pageSize, Boolean sortType) {
+	public Page<Type> getPage(int pageIndex,int pageSize, String sortBy, Boolean sortType) {
 		if (sortType) {
-			return rep.findAll(PageRequest.of(pageIndex, pageSize, Sort.by("id").ascending()));
+			return rep.findAll(PageRequest.of(pageIndex, pageSize, Sort.by(sortBy).ascending()));
 		} else {
-			return rep.findAll(PageRequest.of(pageIndex, pageSize, Sort.by("id").descending()));
+			return rep.findAll(PageRequest.of(pageIndex, pageSize, Sort.by(sortBy).descending()));
 		}
 	}
 	

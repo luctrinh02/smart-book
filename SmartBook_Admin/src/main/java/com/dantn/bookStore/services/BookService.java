@@ -21,6 +21,10 @@ public class BookService {
 		Optional<Book> optional=this.repository.findById(id);
 		return optional.isPresent()?optional.get():null;
 	}
+	public List<Book> getAll(){
+		return this.repository.findAll();
+	}
+	
 	public List<Book> getByIds(List<Integer> ids){
 		return this.repository.findAllById(ids);
 	}

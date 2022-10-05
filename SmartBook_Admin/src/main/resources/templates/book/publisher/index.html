@@ -4,7 +4,7 @@
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="index.html">Smart Book</a></li>
 			<li class="breadcrumb-item">Quản lý sách</li>
-			<li class="breadcrumb-item active">Thể loại sách</li>
+			<li class="breadcrumb-item active">Nhà xuất bản</li>
 		</ol>
 	</nav>
 </div>
@@ -33,7 +33,7 @@
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
 									ng-model="getType" type="radio" id="f2" value="1"> <label
-									style="cursor: pointer;" class="form-check-label" for="f2">1
+									style="cursor: pointer;" class="form-check-label" for="f2">0
 									đến 50</label>
 							</div>
 							<div class="form-check form-switch" ng-click="getDataReset()">
@@ -58,7 +58,7 @@
 				<div class="card-body">
 					<div class="card">
 						<div class="card-body">
-							<h5 class="card-title fs-3">Danh sách thể loại sách</h5>
+							<h5 class="card-title fs-3">Danh sách nhà xuất bản</h5>
 
 							<!-- Pagination with icons -->
 							<div class="row d-flex">
@@ -70,8 +70,7 @@
 									</button>
 									&ensp;
 									<button type="button"
-										class="btn btn-danger btn-sm rounded-pill ps-3 pe-3 mt-1"
-										ng-click="showDeleteListModal()">
+										class="btn btn-danger btn-sm rounded-pill ps-3 pe-3 mt-1">
 										<i class="bi bi-dash-circle"></i>&ensp;Xoá bỏ
 									</button>
 								</div>
@@ -82,10 +81,9 @@
 												aria-hidden="true">&laquo;</span>
 										</a></li>
 
-										<li class="page-item"><i class="page-link"> <i
-												ng-show="maxPage>=0">Trang số:
-													{{pageIndex+1}}/{{maxPage+1}}</i> <i ng-show="maxPage<0">Trang
-													trống</i>
+										<li class="page-item"><i class="page-link">
+												<i ng-show="maxPage>=0">Trang số: {{pageIndex+1}}/{{maxPage+1}}</i> 
+												<i ng-show="maxPage<0">Trang trống</i>
 										</i></li>
 
 										<li class="page-item"><a class="page-link"
@@ -118,12 +116,12 @@
 								<thead>
 									<tr>
 										<th scope="col">#</th>
-										<th scope="col">Tên thể loại</th>
+										<th scope="col">Tên nhà xuất bản</th>
 										<th class="text-center" scope="col">Các đầu sách</th>
 										<th scope="col"></th>
 										<th scope="col"></th>
-										<th scope="col"><!-- <input class="form-check-input"
-											type="checkbox" id="chkAll" onchange="selectAll()"> --></th>
+										<th scope="col"><input class="form-check-input"
+											type="checkbox" id="chkAll" onchange="selectAll()"></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -141,13 +139,13 @@
 										<td><a ng-click="showDeleteModal($index)"><i
 												class="bi bi-trash text-danger"></i></a></td>
 										<td><input class="form-check-input" type="checkbox"
-											name="chk" value="{{type}}"></td>
+											name="chk"></td>
 									</tr>
 								</tbody>
 							</table>
 
 							<div class="mt-4" ng-show="listType.length <= 0">
-								<h5 class="card-title m-0 p-0 fs-1">Danh sách thể loại
+								<h5 class="card-title m-0 p-0 fs-1">Danh sách nhà xuất bản
 									trống!</h5>
 							</div>
 							<!-- End small tables -->
@@ -253,33 +251,6 @@
 	</div>
 </div>
 <!-- End Delete Modal-->
-<!-- Delete List Modal  -->
-<div class="modal fade" id="deleteListModal" tabindex="-1">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<a href="index.html" class="logo d-flex align-items-center"> <img
-					src="/index/img/logo.jpg" alt=""> <span
-					class="d-none d-lg-block">Smart Book</span>
-				</a>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"
-					aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<h5 class="card-title m-0 p-0 fs-6">
-					Bạn có chắc chắn muốn xoá những thể loại [<i ng-repeat="type in lstId">&ensp;"{{type.type.value}}"&ensp;</i>] vĩnh viễn?
-				</h5>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary"
-					data-bs-dismiss="modal">Huỷ</button>
-				<button type="button" class="btn btn-primary"
-					ng-click="deleteListType()">Xác nhận "XOÁ"</button>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- End Delete List Modal-->
 <!-- Data Modal  -->
 <div class="modal fade" ng-repeat="type in listType"
 	id="{{'modal'+type.type.id}}" tabindex="-1">
@@ -326,7 +297,7 @@
 </div>
 <!-- End Data Modal-->
 <script type="text/javascript">
-/* 	function selectAll() {
+	function selectAll() {
 		var chkAll = document.getElementById("chkAll");
 		var chk = document.getElementsByName("chk");
 		if (chkAll.checked == true) {
@@ -339,5 +310,5 @@
 			}
 		}
 		document.getElementsByClassName("chk")
-	} */
+	}
 </script>

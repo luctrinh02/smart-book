@@ -11,6 +11,9 @@
 :root {
   scroll-behavior: smooth;
 }
+i:hover, select:hover, li:hover{
+	cursor: pointer;
+}
 
 body {
   font-family: "Open Sans", sans-serif;
