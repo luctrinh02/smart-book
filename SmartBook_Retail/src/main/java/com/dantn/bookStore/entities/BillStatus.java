@@ -26,6 +26,9 @@ public class BillStatus implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "status")
 	private List<Shipment> shipments;
+	@JsonIgnore
+    @OneToMany(mappedBy = "status")
+    private List<ReturnBill> returnBills;
 	public Integer getId() {
 		return id;
 	}
@@ -56,5 +59,4 @@ public class BillStatus implements Serializable{
 	public void setColor(String color) {
 		this.color = color;
 	}
-	
 }
