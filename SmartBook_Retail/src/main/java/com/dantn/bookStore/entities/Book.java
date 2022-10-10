@@ -74,6 +74,9 @@ public class Book implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "book")
 	private List<Comment> comments;
+	@JsonIgnore
+    @OneToMany(mappedBy = "book")
+    private List<ReturnBillDetail> returnBillDetails;
 	public Integer getId() {
 		return id;
 	}
@@ -98,6 +101,7 @@ public class Book implements Serializable{
 	public void setImage(String image) {
 		this.image = image;
 	}
+
 	public Integer getNumOfPage() {
 		return numOfPage;
 	}
@@ -230,5 +234,11 @@ public class Book implements Serializable{
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
+    public List<ReturnBillDetail> getReturnBillDetails() {
+        return returnBillDetails;
+    }
+    public void setReturnBillDetails(List<ReturnBillDetail> returnBillDetails) {
+        this.returnBillDetails = returnBillDetails;
+    }
 	
 }
