@@ -1,10 +1,10 @@
 <div class="pagetitle">
-	<h1>Thể loại sách</h1>
+	<h1>Tác giả</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="index.html">Smart Book</a></li>
 			<li class="breadcrumb-item">Quản lý sách</li>
-			<li class="breadcrumb-item active">Thể loại sách</li>
+			<li class="breadcrumb-item active">Tác giả</li>
 		</ol>
 	</nav>
 </div>
@@ -26,25 +26,25 @@
 							<h5 class="card-title pb-0">Số lượng đầu sách</h5>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="getType" type="radio" id="f1" value="0"> <label
+									ng-model="getAuthor" type="radio" id="f1" value="0"> <label
 									style="cursor: pointer;" class="form-check-label" for="f1">Tất
 									cả</label>
 							</div>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="getType" type="radio" id="f2" value="1"> <label
+									ng-model="getAuthor" type="radio" id="f2" value="1"> <label
 									style="cursor: pointer;" class="form-check-label" for="f2">1
 									đến 50</label>
 							</div>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="getType" type="radio" id="f3" value="2"> <label
+									ng-model="getAuthor" type="radio" id="f3" value="2"> <label
 									style="cursor: pointer;" class="form-check-label" for="f3">51
 									đến 100</label>
 							</div>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="getType" type="radio" id="f4" value="3"> <label
+									ng-model="getAuthor" type="radio" id="f4" value="3"> <label
 									style="cursor: pointer;" class="form-check-label" for="f4">
 									Lớn hơn 100</label>
 							</div>
@@ -58,7 +58,7 @@
 				<div class="card-body">
 					<div class="card">
 						<div class="card-body">
-							<h5 class="card-title fs-3">Danh sách thể loại sách</h5>
+							<h5 class="card-title fs-3">Danh sách tác giả</h5>
 
 							<!-- Pagination with icons -->
 							<div class="row d-flex">
@@ -82,10 +82,9 @@
 												aria-hidden="true">&laquo;</span>
 										</a></li>
 
-										<li class="page-item"><i class="page-link"> <i
-												ng-show="maxPage>=0">Trang số:
-													{{pageIndex+1}}/{{maxPage+1}}</i> <i ng-show="maxPage<0">Trang
-													trống</i>
+										<li class="page-item"><i class="page-link"> 
+											<i ng-show="!pageAuthor.empty">Trang số: {{pageAuthor.number + 1}}/{{pageAuthor.totalPages}}</i> 
+											<i ng-show="pageAuthor.empty">Trang trống</i>
 										</i></li>
 
 										<li class="page-item"><a class="page-link"
@@ -98,12 +97,12 @@
 									<div class="row">
 										<div class="col"></div>
 										<div class="col-8">
-											<select class="form-select" ng-model="sortType"
+											<select class="form-select" ng-model="sortAuthor"
 												ng-change="getDataReset()">
 												<option value="0">Ngày thêm mới A - Z</option>
 												<option value="1">Ngày thêm mới Z - A</option>
-												<option value="2">Thể loại A - Z</option>
-												<option value="3">Thể loại Z - A</option>
+												<option value="2">Tác giả A - Z</option>
+												<option value="3">Tác giả Z - A</option>
 												<option value="4">Số đầu sách tăng dần</option>
 												<option value="5">Số đầu sách giảm dần</option>
 											</select>
@@ -113,41 +112,37 @@
 							</div>
 
 							<!-- Small tables -->
-							<table ng-show="listType.length > 0" class="table table-sm mt-3"
-								id="example">
+							<table ng-show="!pageAuthor.empty"
+								class="table table-sm mt-3" id="example">
 								<thead>
 									<tr>
 										<th scope="col">#</th>
-										<th scope="col">Thể loại</th>
+										<th scope="col">Tác giả</th>
 										<th class="text-center" scope="col">Các đầu sách</th>
 										<th scope="col"></th>
 										<th scope="col"></th>
-										<th scope="col"><!-- <input class="form-check-input"
-											type="checkbox" id="chkAll" onchange="selectAll()"> --></th>
+										<th scope="col"><!-- <input class="form-check-input" type="checkbox" id="chkAll" onchange="selectAll()"> --></th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="type in listType">
+									<tr ng-repeat="p in pageAuthor.content">
 										<th scope="row">{{pageIndex*10 + $index + 1}}</th>
-										<td>{{type.type.value}}</td>
-										<td class="text-center"><a
-											ng-show="type.listBook.length > 0" type="button"
-											data-bs-toggle="modal"
-											data-bs-target="{{'#modal' + type.type.id}}">{{type.listBook.length}}
-												đầu sách</a> <a ng-show="type.listBook.length <= 0"><i>---------------</i></a>
-										</td>
-										<td><a ng-click="showUpdateModal($index)"><i
+										<td>{{p.name}}</td>
+										<td class="text-center">
+											 <a ng-show="listBook[p.id].length > 0" type="button" data-bs-toggle="modal" data-bs-target="{{'#modal' + p.id}}">
+											{{listBook[p.id].length}} đầu sách</a> 
+											<a ng-show="listBook[p.id].length <= 0 || listBook[p.id] == null"><i>---------------</i></a></td> 
+										<td><a ng-click="showUpdateModal(p)"><i
 												class="bi bi-pencil text-warning"></i></a></td>
-										<td><a ng-click="showDeleteModal($index)"><i
+										<td><a ng-click="showDeleteModal(p)"><i
 												class="bi bi-trash text-danger"></i></a></td>
-										<td><input class="form-check-input" type="checkbox"
-											name="chk" value="{{type}}"></td>
+										<td><input class="form-check-input" type="checkbox" value="{{p}}" name="chk"></td>
 									</tr>
 								</tbody>
 							</table>
 
-							<div class="mt-4" ng-show="listType.length <= 0">
-								<h5 class="card-title m-0 p-0 fs-1">Danh sách thể loại
+							<div class="mt-4" ng-show="pageAuthor.empty">
+								<h5 class="card-title m-0 p-0 fs-1">Danh sách tác giả
 									trống!</h5>
 							</div>
 							<!-- End small tables -->
@@ -174,7 +169,7 @@
 			<div class="modal-body">
 				<form>
 					<div class="row mb-3">
-						<label for="inputEmail3" class="col-sm-3 col-form-label fw-bold">Thể loại: </label>
+						<label for="inputEmail3" class="col-sm-4 col-form-label fw-bold">Tác giả: </label>
 						<div class="col-sm">
 							<input type="text" class="form-control" id="createInput"
 								ng-model="createInput">
@@ -186,7 +181,7 @@
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">Huỷ</button>
 				<button type="button" class="btn btn-primary"
-					ng-click="createType()">Thêm mới</button>
+					ng-click="createAuthor()">Thêm mới</button>
 			</div>
 		</div>
 	</div>
@@ -207,7 +202,7 @@
 			<div class="modal-body">
 				<form>
 					<div class="row mb-3">
-						<label for="inputEmail3" class="col-sm-3 col-form-label fw-bold">Thể loại: </label>
+						<label for="inputEmail3" class="col-sm-4 col-form-label fw-bold">Tác giả: </label>
 						<div class="col-sm">
 							<input type="text" class="form-control" id="updateInput"
 								ng-model="updateInput">
@@ -219,7 +214,7 @@
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">Huỷ</button>
 				<button type="button" class="btn btn-primary"
-					ng-click="updateType()">Chỉnh sửa</button>
+					ng-click="updateAuthor()">Chỉnh sửa</button>
 			</div>
 		</div>
 	</div>
@@ -239,13 +234,13 @@
 			</div>
 			<div class="modal-body">
 				<h5 class="card-title m-0 p-0 fs-6">Bạn có chắc chắn muốn xoá
-					thể loại "{{deleteInput}}" vĩnh viễn?</h5>
+					tác giả "{{deleteInput}}" vĩnh viễn?</h5>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">Huỷ</button>
 				<button type="button" class="btn btn-primary"
-					ng-click="deleteType()">Xác nhận "XOÁ"</button>
+					ng-click="deleteAuthor()">Xác nhận "XOÁ"</button>
 			</div>
 		</div>
 	</div>
@@ -265,22 +260,22 @@
 			</div>
 			<div class="modal-body">
 				<h5 class="card-title m-0 p-0 fs-6">
-					Bạn có chắc chắn muốn xoá những thể loại [<i ng-repeat="type in lstId">&ensp;"{{type.type.value}}"&ensp;</i>] vĩnh viễn?
+					Bạn có chắc chắn muốn xoá những tác giả [<i ng-repeat="p in lstId">&ensp;"{{p.name}}"&ensp;</i>] vĩnh viễn?
 				</h5>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">Huỷ</button>
 				<button type="button" class="btn btn-primary"
-					ng-click="deleteListType()">Xác nhận "XOÁ"</button>
+					ng-click="deleteListAuthor()">Xác nhận "XOÁ"</button>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- End Delete List Modal-->
 <!-- Data Modal  -->
-<div class="modal fade" ng-repeat="type in listType"
-	id="{{'modal'+type.type.id}}" tabindex="-1">
+<div class="modal fade" ng-repeat="p in pageAuthor.content"
+	id="{{'modal'+ p.id}}" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -292,8 +287,8 @@
 					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<h5 class="card-title m-0 p-0 fs-5">Đầu sách thể loại:
-					{{type.type.value}}</h5>
+				<h5 class="card-title m-0 p-0 fs-5">Đầu sách của tác giả:
+					{{p.name}}</h5>
 				<!-- Small tables -->
 				<table class="table table-sm mt-3" id="example">
 					<thead>
@@ -304,7 +299,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="book in type.listBook">
+						<tr ng-repeat="book in listBook[p.id]">
 							<th scope="row">{{$index + 1}}</th>
 							<td>{{book.name}}</td>
 							<td class="text-center">{{book.price}}</td>
