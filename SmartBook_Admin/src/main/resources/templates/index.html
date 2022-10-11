@@ -295,7 +295,7 @@
 					<li><a href="#publisher"> <i
 							class="bi bi-circle"></i><span>Nhà xuất bản</span>
 					</a></li>
-					<li><a href="components-breadcrumbs.html"> <i
+					<li><a href="#author"> <i
 							class="bi bi-circle"></i><span>Tác giả</span>
 					</a></li>
 					<li><a href="components-buttons.html"> <i
@@ -481,9 +481,24 @@
 				templateUrl : 'smart-book/publisher',
 				controller : 'ctrlPublisher'
 			})
+			.when("/author", {
+				templateUrl : 'smart-book/author',
+				controller : 'ctrlAuthor'
+			})
+			.when("/charactor", {
+				templateUrl : 'smart-book/charactor',
+				controller : 'ctrlCharactor'
+			})
+			.when("/content", {
+				templateUrl : 'smart-book/content',
+				controller : 'ctrlContent'
+			})
 		});
 		app.controller("ctrlType", ctrlType);
 		app.controller("ctrlPublisher", ctrlPublisher);
+		app.controller("ctrlAuthor", ctrlAuthor);
+		app.controller("ctrlContent", ctrlContent);
+		app.controller("ctrlCharactor", ctrlCharactor);
 	</script>
 	
 </body>

@@ -1,5 +1,5 @@
 <div class="pagetitle">
-	<h1>Thể loại sách</h1>
+	<h1>Nhà xuất bản</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="index.html">Smart Book</a></li>
@@ -26,25 +26,25 @@
 							<h5 class="card-title pb-0">Số lượng đầu sách</h5>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="getType" type="radio" id="f1" value="0"> <label
+									ng-model="getPublisher" type="radio" id="f1" value="0"> <label
 									style="cursor: pointer;" class="form-check-label" for="f1">Tất
 									cả</label>
 							</div>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="getType" type="radio" id="f2" value="1"> <label
-									style="cursor: pointer;" class="form-check-label" for="f2">0
+									ng-model="getPublisher" type="radio" id="f2" value="1"> <label
+									style="cursor: pointer;" class="form-check-label" for="f2">1
 									đến 50</label>
 							</div>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="getType" type="radio" id="f3" value="2"> <label
+									ng-model="getPublisher" type="radio" id="f3" value="2"> <label
 									style="cursor: pointer;" class="form-check-label" for="f3">51
 									đến 100</label>
 							</div>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="getType" type="radio" id="f4" value="3"> <label
+									ng-model="getPublisher" type="radio" id="f4" value="3"> <label
 									style="cursor: pointer;" class="form-check-label" for="f4">
 									Lớn hơn 100</label>
 							</div>
@@ -70,7 +70,8 @@
 									</button>
 									&ensp;
 									<button type="button"
-										class="btn btn-danger btn-sm rounded-pill ps-3 pe-3 mt-1">
+										class="btn btn-danger btn-sm rounded-pill ps-3 pe-3 mt-1"
+										ng-click="showDeleteListModal()">
 										<i class="bi bi-dash-circle"></i>&ensp;Xoá bỏ
 									</button>
 								</div>
@@ -81,9 +82,9 @@
 												aria-hidden="true">&laquo;</span>
 										</a></li>
 
-										<li class="page-item"><i class="page-link">
-												<i ng-show="maxPage>=0">Trang số: {{pageIndex+1}}/{{maxPage+1}}</i> 
-												<i ng-show="maxPage<0">Trang trống</i>
+										<li class="page-item"><i class="page-link"> 
+											<i ng-show="!pagePublisher.empty">Trang số: {{pagePublisher.number + 1}}/{{pagePublisher.totalPages}}</i> 
+											<i ng-show="pagePublisher.empty">Trang trống</i>
 										</i></li>
 
 										<li class="page-item"><a class="page-link"
@@ -96,12 +97,12 @@
 									<div class="row">
 										<div class="col"></div>
 										<div class="col-8">
-											<select class="form-select" ng-model="sortType"
+											<select class="form-select" ng-model="sortPublisher"
 												ng-change="getDataReset()">
 												<option value="0">Ngày thêm mới A - Z</option>
 												<option value="1">Ngày thêm mới Z - A</option>
-												<option value="2">Tên thể loại A - Z</option>
-												<option value="3">Tên thể loại Z - A</option>
+												<option value="2">Nhà xuất bản A - Z</option>
+												<option value="3">Nhà xuất bản Z - A</option>
 												<option value="4">Số đầu sách tăng dần</option>
 												<option value="5">Số đầu sách giảm dần</option>
 											</select>
@@ -111,40 +112,36 @@
 							</div>
 
 							<!-- Small tables -->
-							<table ng-show="listType.length > 0" class="table table-sm mt-3"
-								id="example">
+							<table ng-show="!pagePublisher.empty"
+								class="table table-sm mt-3" id="example">
 								<thead>
 									<tr>
 										<th scope="col">#</th>
-										<th scope="col">Tên nhà xuất bản</th>
+										<th scope="col">Nhà xuất bản</th>
 										<th class="text-center" scope="col">Các đầu sách</th>
 										<th scope="col"></th>
 										<th scope="col"></th>
-										<th scope="col"><input class="form-check-input"
-											type="checkbox" id="chkAll" onchange="selectAll()"></th>
+										<th scope="col"><!-- <input class="form-check-input" type="checkbox" id="chkAll" onchange="selectAll()"> --></th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="type in listType">
+									<tr ng-repeat="p in pagePublisher.content">
 										<th scope="row">{{pageIndex*10 + $index + 1}}</th>
-										<td>{{type.type.value}}</td>
-										<td class="text-center"><a
-											ng-show="type.listBook.length > 0" type="button"
-											data-bs-toggle="modal"
-											data-bs-target="{{'#modal' + type.type.id}}">{{type.listBook.length}}
-												đầu sách</a> <a ng-show="type.listBook.length <= 0"><i>---------------</i></a>
-										</td>
-										<td><a ng-click="showUpdateModal($index)"><i
+										<td>{{p.name}}</td>
+										<td class="text-center">
+											 <a ng-show="listBook[p.id].length > 0" type="button" data-bs-toggle="modal" data-bs-target="{{'#modal' + p.id}}">
+											{{listBook[p.id].length}} đầu sách</a> 
+											<a ng-show="listBook[p.id].length <= 0 || listBook[p.id] == null"><i>---------------</i></a></td> 
+										<td><a ng-click="showUpdateModal(p)"><i
 												class="bi bi-pencil text-warning"></i></a></td>
-										<td><a ng-click="showDeleteModal($index)"><i
+										<td><a ng-click="showDeleteModal(p)"><i
 												class="bi bi-trash text-danger"></i></a></td>
-										<td><input class="form-check-input" type="checkbox"
-											name="chk"></td>
+										<td><input class="form-check-input" type="checkbox" value="{{p}}" name="chk"></td>
 									</tr>
 								</tbody>
 							</table>
 
-							<div class="mt-4" ng-show="listType.length <= 0">
+							<div class="mt-4" ng-show="pagePublisher.empty">
 								<h5 class="card-title m-0 p-0 fs-1">Danh sách nhà xuất bản
 									trống!</h5>
 							</div>
@@ -172,8 +169,7 @@
 			<div class="modal-body">
 				<form>
 					<div class="row mb-3">
-						<label for="inputEmail3" class="col-sm-3 col-form-label fw-bold">Tên
-							thể loại: </label>
+						<label for="inputEmail3" class="col-sm-4 col-form-label fw-bold">Nhà xuất bản: </label>
 						<div class="col-sm">
 							<input type="text" class="form-control" id="createInput"
 								ng-model="createInput">
@@ -185,7 +181,7 @@
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">Huỷ</button>
 				<button type="button" class="btn btn-primary"
-					ng-click="createType()">Thêm mới</button>
+					ng-click="createPublisher()">Thêm mới</button>
 			</div>
 		</div>
 	</div>
@@ -206,8 +202,7 @@
 			<div class="modal-body">
 				<form>
 					<div class="row mb-3">
-						<label for="inputEmail3" class="col-sm-3 col-form-label fw-bold">Tên
-							thể loại: </label>
+						<label for="inputEmail3" class="col-sm-4 col-form-label fw-bold">Nhà xuất bản: </label>
 						<div class="col-sm">
 							<input type="text" class="form-control" id="updateInput"
 								ng-model="updateInput">
@@ -219,7 +214,7 @@
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">Huỷ</button>
 				<button type="button" class="btn btn-primary"
-					ng-click="updateType()">Chỉnh sửa</button>
+					ng-click="updatePublisher()">Chỉnh sửa</button>
 			</div>
 		</div>
 	</div>
@@ -239,21 +234,20 @@
 			</div>
 			<div class="modal-body">
 				<h5 class="card-title m-0 p-0 fs-6">Bạn có chắc chắn muốn xoá
-					thể loại "{{deleteInput}}" vĩnh viễn?</h5>
+					nhà xuất bản "{{deleteInput}}" vĩnh viễn?</h5>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">Huỷ</button>
 				<button type="button" class="btn btn-primary"
-					ng-click="deleteType()">Xác nhận "XOÁ"</button>
+					ng-click="deletePublisher()">Xác nhận "XOÁ"</button>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- End Delete Modal-->
-<!-- Data Modal  -->
-<div class="modal fade" ng-repeat="type in listType"
-	id="{{'modal'+type.type.id}}" tabindex="-1">
+<!-- Delete List Modal  -->
+<div class="modal fade" id="deleteListModal" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -265,8 +259,36 @@
 					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<h5 class="card-title m-0 p-0 fs-5">Đầu sách thể loại:
-					{{type.type.value}}</h5>
+				<h5 class="card-title m-0 p-0 fs-6">
+					Bạn có chắc chắn muốn xoá những nhà xuất bản [<i ng-repeat="p in lstId">&ensp;"{{p.name}}"&ensp;</i>] vĩnh viễn?
+				</h5>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Huỷ</button>
+				<button type="button" class="btn btn-primary"
+					ng-click="deleteListPublisher()">Xác nhận "XOÁ"</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Delete List Modal-->
+<!-- Data Modal  -->
+<div class="modal fade" ng-repeat="p in pagePublisher.content"
+	id="{{'modal'+ p.id}}" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a href="index.html" class="logo d-flex align-items-center"> <img
+					src="/index/img/logo.jpg" alt=""> <span
+					class="d-none d-lg-block">Smart Book</span>
+				</a>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<h5 class="card-title m-0 p-0 fs-5">Đầu sách của nhà xuất bản:
+					{{p.name}}</h5>
 				<!-- Small tables -->
 				<table class="table table-sm mt-3" id="example">
 					<thead>
@@ -277,7 +299,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="book in type.listBook">
+						<tr ng-repeat="book in listBook[p.id]">
 							<th scope="row">{{$index + 1}}</th>
 							<td>{{book.name}}</td>
 							<td class="text-center">{{book.price}}</td>
@@ -296,19 +318,3 @@
 	</div>
 </div>
 <!-- End Data Modal-->
-<script type="text/javascript">
-	function selectAll() {
-		var chkAll = document.getElementById("chkAll");
-		var chk = document.getElementsByName("chk");
-		if (chkAll.checked == true) {
-			for (var i = 0; i < chk.length; i++) {
-				chk[i].checked = true;
-			}
-		} else {
-			for (var i = 0; i < chk.length; i++) {
-				chk[i].checked = false;
-			}
-		}
-		document.getElementsByClassName("chk")
-	}
-</script>

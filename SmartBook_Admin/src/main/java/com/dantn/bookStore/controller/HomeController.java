@@ -20,6 +20,20 @@ public class HomeController {
 	public String indexPublisher() {
 		return "book/publisher/index";
 	}
+	@GetMapping("/smart-book/author")
+	public String indexAuthor() {
+		return "book/author/index";
+	}
+	
+	@GetMapping("/smart-book/content")
+	public String indexContent() {
+		return "book/content/index";
+	}
+	
+	@GetMapping("/smart-book/charactor")
+	public String indexCharactor() {
+		return "book/charactor/index";
+	}
 	
 	
 }
