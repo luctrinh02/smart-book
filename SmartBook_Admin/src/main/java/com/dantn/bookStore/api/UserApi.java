@@ -64,24 +64,7 @@ public class UserApi {
 	}
 	@PatchMapping("/{id}")
 	public ResponseEntity<?> disable(@PathVariable("id") Integer id, @RequestBody String action, Principal principal) {
-		String email = principal.getName();
-		User u = userService.getById(id);
-		HashMap<String, Object> map;
-		if (email.equals(u.getEmail())) {
-			map = DataUltil.setData("error", "Không thể tự vô hiệu bản thân");
-		} else {
-			if ("D".equals(action)) {
-				u.setStatus(UserStatusSingleton.getInstance(userStatusService).get(1));
-				userService.save(u);
-				map = DataUltil.setData("ok", "Vô hiệu thành công");
-			} else if ("A".equals(action)) {
-				u.setStatus(UserStatusSingleton.getInstance(userStatusService).get(0));
-				userService.save(u);
-				map = DataUltil.setData("ok", "Tài khoản đã được hoạt động");
-			}else {
-				map = DataUltil.setData("error", "Hành động sai trái");
-			}
-		}
+		HashMap<String, Object> map=userService.disabled(id, action, principal, userStatusService);
 		return ResponseEntity.ok(map);
 	}
 	@PostMapping("/validation")
@@ -99,31 +82,12 @@ public class UserApi {
 	}
 	@PostMapping("")
 	public ResponseEntity<?> create(@RequestBody UserRequest request){
-		User u=request.changeToEntity(new User());
-		u.setStatus(UserStatusSingleton.getInstance(userStatusService).get(0));
-		u.setRole(UserRoleSingleton.getInstance(userRoleService).get(request.getRole()));
-		try {
-			userService.save(u);
-			HashMap<String, Object> map=DataUltil.setData("ok", "Thêm thành công");
-			return ResponseEntity.ok(map);
-		} catch (Exception e) {
-			HashMap<String, Object> map=DataUltil.setData("eError", "Email trùng lặp");
-			return ResponseEntity.ok(map);
-		}
+	    HashMap<String, Object> map=userService.create(request, userRoleService, userStatusService);
+        return ResponseEntity.ok(map);
 	}
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@PathVariable("id") Integer id,@RequestBody UserRequest request){
-		User user=userService.getById(request.getId());
-		User u=request.changeToEntity(user);
-		u.setStatus(UserStatusSingleton.getInstance(userStatusService).get(0));
-		u.setRole(UserRoleSingleton.getInstance(userRoleService).get(request.getRole()));
-		try {
-			userService.save(u);
-			HashMap<String, Object> map=DataUltil.setData("ok", "sửa thành công");
-			return ResponseEntity.ok(map);
-		} catch (Exception e) {
-			HashMap<String, Object> map=DataUltil.setData("eError", "Email trùng lặp");
-			return ResponseEntity.ok(map);
-		}
+	    HashMap<String, Object> map=userService.update(id, request, userRoleService, userStatusService);
+	    return ResponseEntity.ok(map);
 	}
 }

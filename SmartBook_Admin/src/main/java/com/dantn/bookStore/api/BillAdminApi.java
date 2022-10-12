@@ -39,26 +39,7 @@ public class BillAdminApi {
 	}
 	@PutMapping("")
 	public ResponseEntity<?> updateStatus(@RequestBody BillUpdateRequest request){
-		BillStatus billStatus=BillStatusSingleton.getInstance(billStatusService).get(request.getStatusIndex());
-		Bill bill=billService.getById(request.getId());
-		if(bill.getStatus().getId()!=1) {
-			HashMap<String, Object> map=DataUltil.setData("error", "Đơn đã bị hủy hoặc xác nhận");
-			return ResponseEntity.ok(map);
-		}else if(request.getStatusIndex()==2) {
-			if("".equals(request.getMessage().trim()) || request.getMessage()==null) {
-				HashMap<String, Object> map=DataUltil.setData("error", "Vui lòng nhập lý do hủy");
-				return ResponseEntity.ok(map);
-			}else {
-				bill.setStatus(billStatus);
-				billService.save(bill);
-				HashMap<String, Object> map=DataUltil.setData("ok", "Hủy thành công");
-				return ResponseEntity.ok(map);
-			}
-		}else {
-			bill.setStatus(billStatus);
-			billService.save(bill);
-			HashMap<String, Object> map=DataUltil.setData("ok", "Duyệt thành công");
-			return ResponseEntity.ok(map);
-		}
+		HashMap<String, Object> map=billService.update(request, billStatusService);
+		return ResponseEntity.ok(map);
 	}
 }

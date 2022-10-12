@@ -42,37 +42,13 @@ public class ContentApi {
 	}
 	@PostMapping("")
 	public ResponseEntity<?> add(@RequestBody Content content){
-		if("".equals(content.getValue().trim())||content.getValue()==null) {
-			HashMap<String, Object> map=DataUltil.setData("error", "Không bỏ trống từ khóa");
-			return ResponseEntity.ok(map);
-		}else {
-			content.setValue(content.getValue().trim());
-			try {
-				service.save(content);
-				HashMap<String, Object> map=DataUltil.setData("ok", "Thêm thành công");
-				return ResponseEntity.ok(map);
-			} catch (Exception e) {
-				HashMap<String, Object> map=DataUltil.setData("error", "Từ khóa đã tồn tại");
-				return ResponseEntity.ok(map);
-			}
-		}
+	    HashMap<String, Object> map=service.add(content);
+	    return ResponseEntity.ok(map);
 	}
 	@PutMapping("")
 	public ResponseEntity<?> update(@RequestBody Content content){
-		if("".equals(content.getValue().trim())||content.getValue()==null) {
-			HashMap<String, Object> map=DataUltil.setData("error", "Không bỏ trống từ khóa");
-			return ResponseEntity.ok(map);
-		}else {
-			content.setValue(content.getValue().trim());
-			try {
-				service.save(content);
-				HashMap<String, Object> map=DataUltil.setData("ok", "Sửa thành công");
-				return ResponseEntity.ok(map);
-			} catch (Exception e) {
-				HashMap<String, Object> map=DataUltil.setData("error", "Từ khóa đã tồn tại");
-				return ResponseEntity.ok(map);
-			}
-		}
+	    HashMap<String, Object> map=service.update(content);
+        return ResponseEntity.ok(map);
 	}
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Integer id){

@@ -30,10 +30,7 @@ public class AuthorApi {
 			@RequestParam(name = "sortAuthor", defaultValue = "0") Integer sortAuthor,
 			@RequestParam(name = "keyWord", defaultValue = "") String keyWord,
 			@RequestParam(name = "getAuthor", defaultValue = "0") Integer getAuthor) {
-		HashMap<String, Object> mapReturn = new HashMap<String, Object>();
-		Page<Author> data = getData(pageIndex, sortAuthor, keyWord, getAuthor);
-		mapReturn.put("data", data);
-		mapReturn.put("listBook", getListBook(data));
+		HashMap<String, Object> mapReturn = authorService.getPage(pageIndex, sortAuthor, keyWord, getAuthor);
 		return ResponseEntity.ok(mapReturn);
 	}
 
@@ -43,33 +40,7 @@ public class AuthorApi {
 			@RequestParam(name = "keyWord", defaultValue = "") String keyWord,
 			@RequestParam(name = "getAuthor", defaultValue = "0") Integer getAuthor,
 			@RequestParam(name = "value") String value) {
-		HashMap<String, Object> mapReturn = new HashMap<String, Object>();
-
-		try {
-			if (value.trim() == "") {
-				mapReturn = DataUltil.setData("blank", null);
-				return ResponseEntity.ok(mapReturn);
-			}
-			Author author = authorService.findByName(value.trim());
-
-			if (author != null) {
-				mapReturn = DataUltil.setData("invalid", null);
-				return ResponseEntity.ok(mapReturn);
-			}
-
-			Author Author = new Author();
-			Author.setName(value.trim());
-			authorService.create(Author);
-			
-			Page<Author> data = getData(pageIndex, sortAuthor, keyWord, getAuthor);
-			mapReturn.put("statusCode", "ok");
-			mapReturn.put("data", data);
-			mapReturn.put("listBook", getListBook(data));
-
-		} catch (Exception e) {
-			mapReturn = DataUltil.setData("error", null);
-		}
-
+		HashMap<String, Object> mapReturn = authorService.create(pageIndex, sortAuthor, keyWord, getAuthor, value);
 		return ResponseEntity.ok(mapReturn);
 	}
 
@@ -79,33 +50,7 @@ public class AuthorApi {
 			@RequestParam(name = "keyWord", defaultValue = "") String keyWord,
 			@RequestParam(name = "getAuthor", defaultValue = "0") Integer getAuthor,
 			@RequestParam(name = "value") String value, @RequestParam(name = "element") Integer element) {
-		HashMap<String, Object> mapReturn = new HashMap<String, Object>();
-		try {
-			if (value.trim() == "") {
-				mapReturn = DataUltil.setData("blank", null);
-				return ResponseEntity.ok(mapReturn);
-			}
-
-			Author author = authorService.findByName(value.trim());
-
-			if (author != null) {
-				mapReturn = DataUltil.setData("invalid", null);
-				return ResponseEntity.ok(mapReturn);
-			}
-			
-			Author pUpdate = authorService.findById(element);
-			pUpdate.setName(value.trim());
-			authorService.update(pUpdate);
-			
-			Page<Author> data = getData(pageIndex, sortAuthor, keyWord, getAuthor);
-			mapReturn.put("statusCode", "ok");
-			mapReturn.put("data", data);
-			mapReturn.put("listBook", getListBook(data));
-
-		} catch (Exception e) {
-			mapReturn = DataUltil.setData("error", null);
-		}
-
+		HashMap<String, Object> mapReturn = authorService.update(pageIndex, sortAuthor, keyWord, getAuthor, value, element);
 		return ResponseEntity.ok(mapReturn);
 	}
 
@@ -115,24 +60,7 @@ public class AuthorApi {
 			@RequestParam(name = "keyWord", defaultValue = "") String keyWord,
 			@RequestParam(name = "getAuthor", defaultValue = "0") Integer getAuthor,
 			@RequestParam(name = "element") Integer element) {
-		HashMap<String, Object> mapReturn = new HashMap<String, Object>();
-
-		try {
-			authorService.delete(element);
-			mapReturn.put("statusCode", "ok");
-			Page<Author> data = getData(pageIndex, sortAuthor, keyWord, getAuthor);
-			
-			if(pageIndex > 0 && data.isEmpty()) {
-				data = getData(pageIndex - 1, sortAuthor, keyWord, getAuthor);
-			}
-			
-			mapReturn.put("statusCode", "ok");
-			mapReturn.put("listBook", getListBook(data));
-			mapReturn.put("data", data);
-		} catch (Exception e) {
-			mapReturn = DataUltil.setData("error", null);
-		}
-
+		HashMap<String, Object> mapReturn = authorService.delete(pageIndex, sortAuthor, keyWord, getAuthor, keyWord, element);
 		return ResponseEntity.ok(mapReturn);
 	}
 
@@ -143,90 +71,7 @@ public class AuthorApi {
 			@RequestParam(name = "keyWord", defaultValue = "") String keyWord,
 			@RequestParam(name = "getAuthor", defaultValue = "0") Integer getAuthor,
 			@RequestParam(name = "listId") Integer[] listId) {
-		HashMap<String, Object> mapReturn = new HashMap<String, Object>();
-		try {
-			authorService.delete(Arrays.asList(listId));
-			mapReturn.put("statusCode", "ok");
-			Page<Author> data = getData(pageIndex, sortAuthor, keyWord, getAuthor);
-			
-			if(pageIndex > 0 && data.isEmpty()) {
-				data = getData(pageIndex - 1, sortAuthor, keyWord, getAuthor);
-			}
-			mapReturn.put("listBook", getListBook(data));
-			mapReturn.put("data", data);
-		} catch (Exception e) {
-			mapReturn = DataUltil.setData("error", null);
-		}
-
+		HashMap<String, Object> mapReturn = authorService.delete(pageIndex, sortAuthor, keyWord, getAuthor, keyWord, listId);
 		return ResponseEntity.ok(mapReturn);
 	}
-
-	private Page<Author> getData(Integer pageIndex, Integer sortAuthor, String keyWord, Integer getAuthor) {
-		Page<Author> pageReturn;
-		// Get Type
-		switch (sortAuthor) {
-		case 0:
-			pageReturn = authorService.getPage(pageIndex, 10, "id", false, getToSize(getAuthor),
-					getFromSize(getAuthor), "%" + keyWord + "%");
-			break;
-		case 1:
-			pageReturn = authorService.getPage(pageIndex, 10, "id", true, getToSize(getAuthor),
-					getFromSize(getAuthor), "%" + keyWord + "%");
-			break;
-		case 2:
-			pageReturn = authorService.getPage(pageIndex, 10, "name", true, getToSize(getAuthor),
-					getFromSize(getAuthor), "%" + keyWord + "%");
-			break;
-		case 3:
-			pageReturn = authorService.getPage(pageIndex, 10, "name", false, getToSize(getAuthor),
-					getFromSize(getAuthor), "%" + keyWord + "%");
-			break;
-		case 4:
-			pageReturn = authorService.getPage(pageIndex, 10, "books.size", false, getToSize(getAuthor),
-					getFromSize(getAuthor), "%" + keyWord + "%");
-			break;
-		default:
-			pageReturn = authorService.getPage(pageIndex, 10, "books.size", true, getToSize(getAuthor),
-					getFromSize(getAuthor), "%" + keyWord + "%");
-			break;
-		}
-
-		// Return View
-		return pageReturn;
-	}
-
-	private Integer getToSize(Integer getAuthor) {
-		switch (getAuthor) {
-		case 0:
-			return Integer.MIN_VALUE;
-		case 1:
-			return 1;
-		case 2:
-			return 51;
-		default:
-			return 101;
-		}
-	}
-
-	private HashMap<String, Object> getListBook(Page<Author> page) {
-		HashMap<String, Object> mapReturn = new HashMap<String, Object>();
-		for (Author author : page) {
-			mapReturn.put(author.getId() + "", author.getBooks());
-		}
-		return mapReturn;
-	}
-
-	private Integer getFromSize(Integer getAuthor) {
-		switch (getAuthor) {
-		case 0:
-			return Integer.MAX_VALUE;
-		case 1:
-			return 50;
-		case 2:
-			return 100;
-		default:
-			return Integer.MAX_VALUE;
-		}
-	}
-
 }
