@@ -5,13 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.xml.crypto.Data;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,19 +18,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dantn.bookStore.dto.request.UserRequest;
 import com.dantn.bookStore.entities.User;
 import com.dantn.bookStore.entities.UserRole;
-import com.dantn.bookStore.entities.UserStatus;
 import com.dantn.bookStore.services.UserRoleService;
 import com.dantn.bookStore.services.UserService;
 import com.dantn.bookStore.services.UserStatusService;
 import com.dantn.bookStore.ultilities.DataUltil;
 import com.dantn.bookStore.ultilities.UserRoleSingleton;
-import com.dantn.bookStore.ultilities.UserStatusSingleton;
 
 @RestController
 @RequestMapping("/api/admin/user")
@@ -52,6 +47,7 @@ public class UserApi {
 	public ResponseEntity<?> getUserByRole(@RequestParam("role") Integer role, @RequestParam("page") Integer num,
 			@RequestParam(name = "fullname", defaultValue = "") String fullname) {
 		UserRole urole = UserRoleSingleton.getInstance(userRoleService).get(role);
+		
 		Page<User> page = userService.getUserByRole(urole, num, fullname);
 		HashMap<String, Object> map = DataUltil.setData("ok", page);
 		return ResponseEntity.ok(map);

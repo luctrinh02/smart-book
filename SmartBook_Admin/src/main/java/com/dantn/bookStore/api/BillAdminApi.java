@@ -21,7 +21,6 @@ import com.dantn.bookStore.services.BillDetailService;
 import com.dantn.bookStore.services.BillService;
 import com.dantn.bookStore.services.BillStatusService;
 import com.dantn.bookStore.ultilities.BillStatusSingleton;
-import com.dantn.bookStore.ultilities.DataUltil;
 
 @RestController
 @RequestMapping("/api/admin/bill")

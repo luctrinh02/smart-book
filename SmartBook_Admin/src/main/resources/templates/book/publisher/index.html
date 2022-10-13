@@ -56,12 +56,11 @@
 		<div class="col-lg">
 			<div class="card">
 				<div class="card-body">
-					<div class="card">
-						<div class="card-body">
-							<h5 class="card-title fs-3">Danh sách nhà xuất bản</h5>
+					<div class="card mt-4">
+						<div class="card-body fix">
 
 							<!-- Pagination with icons -->
-							<div class="row d-flex">
+							<div class="row d-flex mt-3">
 								<div class="col-4">
 									<button type="button" data-bs-toggle="modal"
 										data-bs-target="#createModal"
@@ -126,17 +125,17 @@
 								</thead>
 								<tbody>
 									<tr ng-repeat="p in pagePublisher.content">
-										<th scope="row">{{pageIndex*10 + $index + 1}}</th>
-										<td>{{p.name}}</td>
-										<td class="text-center">
+										<th class="col-1" scope="row">{{pageIndex*10 + $index + 1}}</th>
+										<td class="col">{{p.name}}</td>
+										<td class="text-center col-4">
 											 <a ng-show="listBook[p.id].length > 0" type="button" data-bs-toggle="modal" data-bs-target="{{'#modal' + p.id}}">
 											{{listBook[p.id].length}} đầu sách</a> 
 											<a ng-show="listBook[p.id].length <= 0 || listBook[p.id] == null"><i>---------------</i></a></td> 
-										<td><a ng-click="showUpdateModal(p)"><i
+										<td class="text-center col-1"><a ng-click="showUpdateModal(p)"><i
 												class="bi bi-pencil text-warning"></i></a></td>
-										<td><a ng-click="showDeleteModal(p)"><i
+										<td class="text-center col-1"><a ng-click="showDeleteModal(p)"><i
 												class="bi bi-trash text-danger"></i></a></td>
-										<td><input class="form-check-input" type="checkbox" value="{{p}}" name="chk"></td>
+										<td class="text-center col-1"><input class="form-check-input" type="checkbox" value="{{p}}" name="chk"></td>
 									</tr>
 								</tbody>
 							</table>
