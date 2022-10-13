@@ -42,38 +42,13 @@ public class CharactorApi {
 	}
 	@PostMapping("")
 	public ResponseEntity<?> add(@RequestBody String value){
-		if("".equals(value.trim()) || value==null) {
-			HashMap<String, Object> map=DataUltil.setData("error", "Vui lòng nhập tên nhân vật!");
-			return ResponseEntity.ok(map);
-		}else {
-			Charactor c=new Charactor();
-			c.setValue(value.trim().toLowerCase()	);
-			try {
-				charactorService.save(c);
-				HashMap<String, Object> map=DataUltil.setData("ok", "Thêm thành công");
-				return ResponseEntity.ok(map);
-			} catch (Exception e) {
-				HashMap<String, Object> map=DataUltil.setData("error", "Tên nhân vật không trùng lặp");
-				return ResponseEntity.ok(map);
-			}
-		}
+		HashMap<String, Object> map=charactorService.add(value);
+		return ResponseEntity.ok(map);
 	}
 	@PutMapping("")
 	public ResponseEntity<?> update(@RequestBody Charactor charactor){
-		if(charactor.getValue()==null || "".equals(charactor.getValue().trim())) {
-			HashMap<String, Object> map=DataUltil.setData("error", "Vui lòng nhập tên nhân vật!");
-			return ResponseEntity.ok(map);
-		}else {
-			try {
-				charactor.setValue(charactor.getValue().trim());
-				charactorService.save(charactor);
-				HashMap<String, Object> map=DataUltil.setData("ok", "Sửa thành công");
-				return ResponseEntity.ok(map);
-			} catch (Exception e) {
-				HashMap<String, Object> map=DataUltil.setData("error", "Tên nhân vật không trùng lặp");
-				return ResponseEntity.ok(map);
-			}
-		}
+	    HashMap<String, Object> map=charactorService.update(charactor);
+        return ResponseEntity.ok(map);
 	}
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Integer id){
