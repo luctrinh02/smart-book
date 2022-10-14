@@ -56,12 +56,11 @@
 		<div class="col-lg">
 			<div class="card">
 				<div class="card-body">
-					<div class="card">
-						<div class="card-body">
-							<h5 class="card-title fs-3">Danh sách thể loại sách</h5>
+					<div class="card mt-4">
+						<div class="card-body fix">
 
 							<!-- Pagination with icons -->
-							<div class="row d-flex">
+							<div class="row d-flex mt-3">
 								<div class="col-4">
 									<button type="button" data-bs-toggle="modal"
 										data-bs-target="#createModal"
@@ -128,19 +127,19 @@
 								</thead>
 								<tbody>
 									<tr ng-repeat="type in listType">
-										<th scope="row">{{pageIndex*10 + $index + 1}}</th>
-										<td>{{type.type.value}}</td>
-										<td class="text-center"><a
+										<th class="col-1" scope="row">{{pageIndex*10 + $index + 1}}</th>
+										<td class="col">{{type.type.value}}</td>
+										<td class="text-center col-4"><a
 											ng-show="type.listBook.length > 0" type="button"
 											data-bs-toggle="modal"
 											data-bs-target="{{'#modal' + type.type.id}}">{{type.listBook.length}}
 												đầu sách</a> <a ng-show="type.listBook.length <= 0"><i>---------------</i></a>
 										</td>
-										<td><a ng-click="showUpdateModal($index)"><i
+										<td class="text-center col-1"><a ng-click="showUpdateModal($index)"><i
 												class="bi bi-pencil text-warning"></i></a></td>
-										<td><a ng-click="showDeleteModal($index)"><i
+										<td class="text-center col-1"><a ng-click="showDeleteModal($index)"><i
 												class="bi bi-trash text-danger"></i></a></td>
-										<td><input class="form-check-input" type="checkbox"
+										<td class="text-center col-1"><input class="form-check-input" type="checkbox"
 											name="chk" value="{{type}}"></td>
 									</tr>
 								</tbody>

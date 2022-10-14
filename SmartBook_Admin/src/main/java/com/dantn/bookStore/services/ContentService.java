@@ -1,69 +1,64 @@
 package com.dantn.bookStore.services;
 
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.dantn.bookStore.entities.Content;
 import com.dantn.bookStore.repositories.IContentRepository;
-import com.dantn.bookStore.ultilities.AppConstraint;
-import com.dantn.bookStore.ultilities.DataUltil;
+
+
 @Service
 public class ContentService {
-	private IContentRepository repository;
 
-	public ContentService(IContentRepository repository) {
-		super();
-		this.repository = repository;
+	@Autowired
+	private IContentRepository rep;
+	
+	public Content create(Content obj) {
+		obj.setId(null);
+		return rep.save(obj);
 	}
-	public Page<Content> getContent(Integer page,String value){
-		return this.repository.findByValue("%"+value+"%",PageRequest.of(0, AppConstraint.PAGE_NUM,Sort.by("id").ascending()));
+
+	public Content update(Content obj) {
+		return rep.save(obj);
 	}
-	public Content getById(Integer id) {
-		Optional<Content> optional=this.repository.findById(id);
-		return optional.isPresent()?optional.get():null;
+
+	public Integer delete(Integer id) {
+		 rep.deleteById(id);
+		return id;
 	}
-	public Content save(Content content) {
-		return this.repository.save(content);
+	
+	public Content findById(Integer id) {
+		if(rep.findById(id).isPresent()) {
+			return rep.findById(id).get();
+		} else return null;
 	}
-	public void delete(Integer id) {
-		this.repository.deleteById(id);
+	
+	public List<Content> findByValue(String value) {
+		return rep.findByValue(value);
 	}
-	public HashMap<String, Object> add(Content content){
-	    if("".equals(content.getValue().trim())||content.getValue()==null) {
-            HashMap<String, Object> map=DataUltil.setData("error", "Không bỏ trống từ khóa");
-            return map;
-        }else {
-            content.setValue(content.getValue().trim());
-            try {
-                this.save(content);
-                HashMap<String, Object> map=DataUltil.setData("ok", "Thêm thành công");
-                return map;
-            } catch (Exception e) {
-                HashMap<String, Object> map=DataUltil.setData("error", "Từ khóa đã tồn tại");
-                return map;
-            }
-        }
+	
+	public List<Content> getAll() {
+		return rep.findAll();
 	}
-	public HashMap<String, Object> update(Content content){
-        if("".equals(content.getValue().trim())||content.getValue()==null) {
-            HashMap<String, Object> map=DataUltil.setData("error", "Không bỏ trống từ khóa");
-            return map;
-        }else {
-            content.setValue(content.getValue().trim());
-            try {
-                this.save(content);
-                HashMap<String, Object> map=DataUltil.setData("ok", "Sửa thành công");
-                return map;
-            } catch (Exception e) {
-                HashMap<String, Object> map=DataUltil.setData("error", "Từ khóa đã tồn tại");
-                return map;
-            }
-        }
-    }
+	
+	public List<Integer> delete(List<Integer> listId) {
+		if (listId != null) {
+			List<Content> listDelete = rep.findAllById(listId);
+			rep.deleteAll(listDelete);
+			return listId;
+		} else
+			return null;
+	}
+	public Page<Content> getPage(int pageIndex,int pageSize, String sortBy, Boolean sortContent) {
+		if (sortContent) {
+			return rep.findAll(PageRequest.of(pageIndex, pageSize, Sort.by(sortBy).ascending()));
+		} else {
+			return rep.findAll(PageRequest.of(pageIndex, pageSize, Sort.by(sortBy).descending()));
+		}
+	}
 }

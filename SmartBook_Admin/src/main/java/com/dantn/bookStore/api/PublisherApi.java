@@ -1,10 +1,9 @@
 package com.dantn.bookStore.api;
 
-import java.util.Arrays;
+
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dantn.bookStore.entities.Publisher;
 import com.dantn.bookStore.services.PublisherService;
-import com.dantn.bookStore.ultilities.DataUltil;
 
 @RestController
 @RequestMapping("/api/publisher")

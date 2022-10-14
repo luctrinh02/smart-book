@@ -26,6 +26,7 @@ public class User implements Serializable{
 	private String fullname;
 	private String phoneNumber;
 	private String address;
+	private String img;
 	@ManyToOne
 	@JoinColumn(name = "role_id")
 	private UserRole role;
@@ -151,6 +152,12 @@ public class User implements Serializable{
 	}
 	public void setShipments(List<Shipment> shipments) {
 		this.shipments = shipments;
+	}
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
 	}
 	
 }

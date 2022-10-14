@@ -10,7 +10,8 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 @Retention(RUNTIME)
-@Target({ FIELD, TYPE})
+
+@Target({FIELD, TYPE})
 @Constraint(validatedBy = ConfirmPasswordProcess.class)
 public @interface ConfirmPassword {
 	String message() default "Xác nhận mật khẩu không trùng khớp";

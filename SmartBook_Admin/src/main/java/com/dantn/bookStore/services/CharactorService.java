@@ -1,71 +1,64 @@
 package com.dantn.bookStore.services;
 
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.dantn.bookStore.entities.Charactor;
 import com.dantn.bookStore.repositories.ICharactorRepository;
-import com.dantn.bookStore.ultilities.AppConstraint;
-import com.dantn.bookStore.ultilities.DataUltil;
+
 
 @Service
 public class CharactorService {
-	private ICharactorRepository repository;
 
-	public CharactorService(ICharactorRepository repository) {
-		super();
-		this.repository = repository;
+	@Autowired
+	private ICharactorRepository rep;
+	
+	public Charactor create(Charactor obj) {
+		obj.setId(null);
+		return rep.save(obj);
 	}
-	public Charactor save(Charactor charactor) {
-		return this.repository.save(charactor);
+
+	public Charactor update(Charactor obj) {
+		return rep.save(obj);
 	}
-	public void delete(Integer id) {
-		this.repository.deleteById(id);
+
+	public Integer delete(Integer id) {
+		 rep.deleteById(id);
+		return id;
 	}
-	public Page<Charactor> getByKeyWord(String key, Integer page){
-		return this.repository.findByValue("%"+key+"%", PageRequest. of(page, AppConstraint.PAGE_NUM,Sort.by("id").ascending()));
+	
+	public Charactor findById(Integer id) {
+		if(rep.findById(id).isPresent()) {
+			return rep.findById(id).get();
+		} else return null;
 	}
-	public Charactor getById(Integer id) {
-		Optional<Charactor> optional= this.repository.findById(id);
-		return optional.isPresent()?optional.get():null;
+	
+	public List<Charactor> findByValue(String value) {
+		return rep.findByValue(value);
 	}
-	public HashMap<String, Object> add(String value){
-	    if("".equals(value.trim()) || value==null) {
-            HashMap<String, Object> map=DataUltil.setData("error", "Vui lòng nhập tên nhân vật!");
-            return map;
-        }else {
-            Charactor c=new Charactor();
-            c.setValue(value.trim());
-            try {
-                this.save(c);
-                HashMap<String, Object> map=DataUltil.setData("ok", "Thêm thành công");
-                return map;
-            } catch (Exception e) {
-                HashMap<String, Object> map=DataUltil.setData("error", "Tên nhân vật không trùng lặp");
-                return map;
-            }
-        }
+	
+	public List<Charactor> getAll() {
+		return rep.findAll();
 	}
-	public HashMap<String, Object> update(Charactor charactor) {
-	    if(charactor.getValue()==null || "".equals(charactor.getValue().trim())) {
-            HashMap<String, Object> map=DataUltil.setData("error", "Vui lòng nhập tên nhân vật!");
-            return map;
-        }else {
-            try {
-                charactor.setValue(charactor.getValue().trim());
-                this.save(charactor);
-                HashMap<String, Object> map=DataUltil.setData("ok", "Sửa thành công");
-                return map;
-            } catch (Exception e) {
-                HashMap<String, Object> map=DataUltil.setData("error", "Tên nhân vật không trùng lặp");
-                return map;
-            }
-        }
+	
+	public List<Integer> delete(List<Integer> listId) {
+		if (listId != null) {
+			List<Charactor> listDelete = rep.findAllById(listId);
+			rep.deleteAll(listDelete);
+			return listId;
+		} else
+			return null;
+	}
+	public Page<Charactor> getPage(int pageIndex,int pageSize, String sortBy, Boolean sortCharactor) {
+		if (sortCharactor) {
+			return rep.findAll(PageRequest.of(pageIndex, pageSize, Sort.by(sortBy).ascending()));
+		} else {
+			return rep.findAll(PageRequest.of(pageIndex, pageSize, Sort.by(sortBy).descending()));
+		}
 	}
 }
