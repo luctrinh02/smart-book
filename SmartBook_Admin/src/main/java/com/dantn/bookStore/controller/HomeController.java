@@ -34,6 +34,9 @@ public class HomeController {
 	public String indexCharactor() {
 		return "book/charactor/index";
 	}
-	
+	@GetMapping("/smart-book/book")
+	public String indexBook() {
+		return "book/book/index";
+	}
 	
 }

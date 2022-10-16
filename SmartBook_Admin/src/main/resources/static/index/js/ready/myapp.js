@@ -16,6 +16,9 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when("/content", {
 		templateUrl: '/admin/smart-book/content',
 		controller: 'ctrlContent'
+	}).when("/book", {
+		templateUrl: '/admin/smart-book/book',
+		controller: 'ctrlBook'
 	})
 });
 app.controller("ctrlType", ctrlType);
@@ -24,3 +27,4 @@ app.controller("ctrlAuthor", ctrlAuthor);
 app.controller("ctrlContent", ctrlContent);
 app.controller("ctrlCharactor", ctrlCharactor);
 app.controller("ctrlModule", ctrlModule);
+app.controller("ctrlBook", ctrBook);
