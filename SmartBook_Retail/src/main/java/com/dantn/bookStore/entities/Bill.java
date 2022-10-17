@@ -30,13 +30,18 @@ public class Bill implements Serializable{
 	private BigDecimal totalMoney;
 	@Column(name = "transport_fee")
 	private BigDecimal transportFee;
+	@Column(name = "book_money")
+    private BigDecimal bookMoney;
 	private String message;
-	@ManyToOne
+	@ManyToOne 
 	@JoinColumn(name = "user_id")
 	private User user;
 	@ManyToOne
 	@JoinColumn(name = "status_id")
 	private BillStatus status;
+	@ManyToOne
+    @JoinColumn(name = "coupon_id")
+	private Coupon coupon;
 	@Temporal(TemporalType.DATE)
 	@Column(name = "created_time")
 	private Date createdTime;
@@ -46,6 +51,9 @@ public class Bill implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "bill")
 	private List<BillDetail> details;
+	@JsonIgnore
+    @OneToMany(mappedBy = "bill")
+    private List<ReturnBill> returnBills;
 	public Integer getId() {
 		return id;
 	}
@@ -106,5 +114,23 @@ public class Bill implements Serializable{
 	public void setMessage(String message) {
 		this.message = message;
 	}
+    public BigDecimal getBookMoney() {
+        return bookMoney;
+    }
+    public void setBookMoney(BigDecimal bookMoney) {
+        this.bookMoney = bookMoney;
+    }
+    public Coupon getCoupon() {
+        return coupon;
+    }
+    public void setCoupon(Coupon coupon) {
+        this.coupon = coupon;
+    }
+    public List<ReturnBill> getReturnBills() {
+        return returnBills;
+    }
+    public void setReturnBills(List<ReturnBill> returnBills) {
+        this.returnBills = returnBills;
+    }
 	
 }
