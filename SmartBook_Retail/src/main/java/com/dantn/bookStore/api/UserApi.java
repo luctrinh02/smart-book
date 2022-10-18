@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -60,7 +61,7 @@ public class UserApi {
 	}
 
 	@PutMapping("")
-	public ResponseEntity<?> profile(@RequestBody @Valid UserUpdateRequest request, BindingResult result,
+	public ResponseEntity<?> profile(@ModelAttribute @Valid UserUpdateRequest request, BindingResult result,
 			Principal principal) throws IllegalStateException, IOException {
 		if (result.hasErrors()) {
 			List<ObjectError> errors = result.getAllErrors();
