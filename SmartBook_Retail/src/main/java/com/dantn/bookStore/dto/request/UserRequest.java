@@ -9,23 +9,21 @@ import com.dantn.bookStore.adapter.DtoToEntity;
 import com.dantn.bookStore.entities.User;
 import com.dantn.bookStore.entities.UserRole;
 import com.dantn.bookStore.ultilities.ConfirmPassword;
+import com.dantn.bookStore.ultilities.PhoneNumerChecking;
 @ConfirmPassword
 public class UserRequest implements DtoToEntity<User>{
 	private Integer id;
 	@NotBlank(message = "Không bỏ trống email")
 	@Email(message = "Email không đúng định dạng")
 	private String email;
+	@NotBlank(message = "Không bỏ trống số điện thoại")
+	@PhoneNumerChecking
+	private String phoneNumber;
 	@NotBlank(message = "Không bỏ trống mật khẩu")
 	private String password;
 	private String confirm;
 	@NotBlank(message = "Không bỏ trống tên")
 	private String fullname;
-	@NotBlank(message = "Không bỏ trống tỉnh")
-	private String province;
-	@NotBlank(message = "Không bỏ trống quận/huyện")
-	private String district;
-	@NotBlank(message = "Không bỏ trống xã/phường")
-	private String comune;
 	@NotBlank(message = "Không bỏ trống địa chỉ")
 	private String address;
 	private Integer role;
@@ -59,24 +57,6 @@ public class UserRequest implements DtoToEntity<User>{
 	public void setFullname(String fullname) {
 		this.fullname = fullname;
 	}
-	public String getProvince() {
-		return province;
-	}
-	public void setProvince(String province) {
-		this.province = province;
-	}
-	public String getDistrict() {
-		return district;
-	}
-	public void setDistrict(String district) {
-		this.district = district;
-	}
-	public String getComune() {
-		return comune;
-	}
-	public void setComune(String comune) {
-		this.comune = comune;
-	}
 	public String getAddress() {
 		return address;
 	}
@@ -92,17 +72,20 @@ public class UserRequest implements DtoToEntity<User>{
 	@Override
 	public User changeToEntity(User u) {
 		u.setAddress(address);
-		u.setComune(comune);
-		u.setDistrict(district);
 		u.setEmail(email);
 		u.setFullname(fullname);
-		u.setProvince(province);
-		u.setStatus(null);
-		u.setRole(role==null?null:new UserRole());
+		u.setPhoneNumber(phoneNumber);
 		if(id==null) {
 			u.setPassword(new BCryptPasswordEncoder().encode(password));
 		}
 		return u;
 	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	
 	
 }

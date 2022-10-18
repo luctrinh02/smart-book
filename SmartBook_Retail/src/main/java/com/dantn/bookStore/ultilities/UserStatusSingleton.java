@@ -9,7 +9,7 @@ import com.dantn.bookStore.services.UserStatusService;
 public class UserStatusSingleton {
 	private static List<UserStatus> singleton;
 	private UserStatusSingleton() {}
-	public List<UserStatus> getInstance(UserStatusService service) {
+	public static List<UserStatus> getInstance(UserStatusService service) {
 		if(singleton==null) {
 			singleton=service.getAll();
 		}
