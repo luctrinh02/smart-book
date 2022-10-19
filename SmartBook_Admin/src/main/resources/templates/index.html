@@ -16,6 +16,9 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
 	rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <!-- Vendor CSS Files -->
 <link href="/index/vendor/bootstrap/css/bootstrap.min.css"
@@ -40,7 +43,7 @@
 	<header id="header" class="header fixed-top d-flex align-items-center">
 
 		<div class="d-flex align-items-center justify-content-between">
-			<a href="index.html" class="logo d-flex align-items-center"> <img
+			<a href="#" class="logo d-flex align-items-center"> <img
 				src="/index/img/logo.jpg" alt=""> <span
 				class="d-none d-lg-block">Smart Book</span>
 			</a> <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -68,9 +71,10 @@
 				</a> <!-- End Notification Icon -->
 					<ul
 						class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-						<li class="dropdown-header">Bạn có 1 thông báo mới<a
-							href="#">
-							<span class="badge rounded-pill bg-primary p-2 ms-2">Xem tất cả</span></a>
+						<li class="dropdown-header">Bạn có 1 thông báo mới<a href="#">
+								<span class="badge rounded-pill bg-primary p-2 ms-2">Xem
+									tất cả</span>
+						</a>
 						</li>
 						<li>
 							<hr class="dropdown-divider">
@@ -86,7 +90,8 @@
 						<li>
 							<hr class="dropdown-divider">
 						</li>
-						<li class="dropdown-footer"><a href="#">Xem tất cả thông báo</a></li>
+						<li class="dropdown-footer"><a href="#">Xem tất cả thông
+								báo</a></li>
 
 					</ul> <!-- End Notification Dropdown Items --></li>
 				<!-- End Notification Nav -->
@@ -99,15 +104,16 @@
 
 					<ul
 						class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-						<li class="dropdown-header">Bạn có 1 tin nhắn mới <a
-							href="#">
-							<span class="badge rounded-pill bg-primary p-2 ms-2">Xem tất cả</span></a>
+						<li class="dropdown-header">Bạn có 1 tin nhắn mới <a href="#">
+								<span class="badge rounded-pill bg-primary p-2 ms-2">Xem
+									tất cả</span>
+						</a>
 						</li>
 						<li>
 							<hr class="dropdown-divider">
 						</li>
 						<li class="message-item"><a href="#"> <img
-								src="/index/img/messages-3.jpg" alt="" class="rounded-circle">
+								src="/index/img/xuxai.jpg" alt="" class="rounded-circle">
 								<div>
 									<h4>Lực Xì Trum</h4>
 									<p>Quần xì lọt khe bên shop có màu hường không zậy.</p>
@@ -118,17 +124,18 @@
 							<hr class="dropdown-divider">
 						</li>
 
-						<li class="dropdown-footer"><a href="#">Xem tất cả tin nhắn</a>
-						</li>
+						<li class="dropdown-footer"><a href="#">Xem tất cả tin
+								nhắn</a></li>
 
 					</ul> <!-- End Messages Dropdown Items --></li>
 				<!-- End Messages Nav -->
 
-				<li class="nav-item dropdown pe-3"><a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown"> <img
-						src="/index/img/xuxai.jpg" alt="Profile"
-						class="rounded-circle">
+				<li class="nav-item dropdown pe-3"><a
+					class="nav-link nav-profile d-flex align-items-center pe-0"
+					href="#" data-bs-toggle="dropdown"> <img
+						src="/index/img/xuxai.jpg" alt="Profile" class="rounded-circle">
 						<span class="d-none d-md-block dropdown-toggle ps-2">&ensp;Yasuo&ensp;</span>
-				</a> 
+				</a>
 
 					<ul
 						class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -140,14 +147,16 @@
 						</li>
 
 						<li><a class="dropdown-item d-flex align-items-center"
-							href="users-profile.html"> <i class="bi bi-person"></i> <span>Thông tin cá nhân</span>
+							href="users-profile.html"> <i class="bi bi-person"></i> <span>Thông
+									tin cá nhân</span>
 						</a></li>
 						<li>
 							<hr class="dropdown-divider">
 						</li>
 
 						<li><a class="dropdown-item d-flex align-items-center"
-							href="users-profile.html"> <i class="bi bi-gear"></i> <span>Cài đặt tài khoản</span>
+							href="users-profile.html"> <i class="bi bi-gear"></i> <span>Cài
+									đặt tài khoản</span>
 						</a></li>
 						<li>
 							<hr class="dropdown-divider">
@@ -162,7 +171,8 @@
 						</li>
 
 						<li><a class="dropdown-item d-flex align-items-center"
-							href="#"> <i class="bi bi-box-arrow-right"></i> <span>Đăng xuất</span>
+							href="#"> <i class="bi bi-box-arrow-right"></i> <span>Đăng
+									xuất</span>
 						</a></li>
 
 					</ul> <!-- End Profile Dropdown Items --></li>
@@ -177,20 +187,22 @@
 	<aside id="sidebar" class="sidebar" ng-controller="ctrlModule">
 		<ul class="sidebar-nav" id="sidebar-nav">
 			<li class="{{m.classB}}" ng-repeat="m in listModule">
-				<!-- Dropdown Nav --> <a ng-show="m.url=='#'"
-				class="nav-link collapsed" data-bs-target="#{{'nav' + m.id}}"
-				data-bs-toggle="collapse" href="#"> <i class="{{m.icon}}"></i> <span>{{m.display}}</span><i
-					class="bi bi-chevron-down ms-auto"></i>
-			</a>
-				<ul ng-show="m.url=='#'" id="{{'nav' + m.id}}"
+				
+				<a ng-show="m.url==null && m.classB != 'nav-heading'" class="nav-link collapsed" data-bs-target="#{{'nav' + m.id}}" data-bs-toggle="collapse" href="#">
+						<i class="{{m.icon}}"></i> <span>{{m.display}}</span><i class="bi bi-chevron-down ms-auto"></i>
+				</a>
+				<ul ng-show="m.url==null" id="{{'nav' + m.id}}"
 					class="nav-content collapse" data-bs-parent="#sidebar-nav">
 					<li ng-repeat="s in listSubModule[m.id]"><a
 						href="{{'#' + s.url}}"> <i class="bi bi-circle"></i><span>{{s.display}}</span></a>
 					</li>
-				</ul> <b ng-show="m.url=='null'">{{m.display}}</b> <!-- Link Nav --> <a
-				ng-show="m.url!='null' && m.url!='#'" class="nav-link collapsed"
-				href="{{'#' + m.url}}"> <i class="{{m.icon}}"></i> <span>{{m.display}}</span>
-			</a>
+				</ul>
+				
+				<b ng-show="m.classB == 'nav-heading' ">{{m.display}}</b>
+				 
+				<a ng-show="m.url!=null && m.classB != 'nav-heading'" class="nav-link collapsed" href="{{m.url}}"> 
+				 	<i class="{{m.icon}}"></i> <span>{{m.display}}</span>
+				</a>
 			</li>
 		</ul>
 	</aside>
@@ -225,12 +237,15 @@
 
 	<!-- Template Main JS File -->
 	<script src="/index/js/main.js"></script>
-	
+
 	<!-- AngularJs -->
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 
 	<!-- Controller JS File -->
 	<script src="/index/js/book/type/type.js"></script>
@@ -239,6 +254,12 @@
 	<script src="/index/js/book/charactor/charactor.js"></script>
 	<script src="/index/js/book/content/content.js"></script>
 	<script src="/index/js/book/publisher/publisher.js"></script>
+	<script src="/index/js/book/publisher/publisher.js"></script>
+	<script src="/index/js/control/login/login.js"></script>
+	<script src="/index/js/user/user.js"></script>
+
+	
+	
 	<!-- Ready Controller JS File -->
 	<script src="/index/js/ready/module.js"></script>
 	<!-- MyApp JS File -->

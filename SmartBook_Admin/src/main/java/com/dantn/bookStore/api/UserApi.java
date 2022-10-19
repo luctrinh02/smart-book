@@ -64,9 +64,7 @@ public class UserApi {
 		return ResponseEntity.ok(map);
 	}
 	@PostMapping("/validation")
-	public ResponseEntity<?> validation(
-			@RequestBody @Valid UserRequest request,BindingResult result
-			){
+	public ResponseEntity<?> validation( @RequestBody @Valid UserRequest request,BindingResult result ){
 		if(result.hasErrors()) {
 			List<ObjectError> list=result.getAllErrors();
 			HashMap<String, Object> map=DataUltil.setData("error", list);

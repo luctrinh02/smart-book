@@ -1,0 +1,147 @@
+<div class="pagetitle">
+	<h1>Khách hàng</h1>
+	<nav>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="index.html">Smart Book</a></li>
+			<li class="breadcrumb-item">Quản lý người dùng</li>
+			<li class="breadcrumb-item active">Khách hàng</li>
+		</ol>
+	</nav>
+</div>
+<!-- End Page Title -->
+
+<section class="section">
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="card">
+				<div class="card-body m-0 p-0">
+					<div class="card">
+						<div class="card-body pb-0">
+							<h5 class="card-title pb-0">Tìm kiếm</h5>
+							<input type="text" placeholder="Nhập họ tên..."
+								id="fullname" title="Enter search keyword"
+								class="form-control">
+							<div>
+								  <button class="btn btn-outline-secondary rounded-pill mt-3 ps-4 pe-4 me-2 btn-sm" type="button" ng-click="reset()">Đặt lại</button>
+								  <button class="btn btn-outline-primary rounded-pill mt-3 ps-4 pe-4 me-2 btn-sm" type="button" ng-click="search()">Tìm kiếm</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg">
+			<div class="card">
+				<div class="card-body">
+					<div class="card mt-4">
+						<div class="card-body fix">
+
+							<!-- Pagination with icons -->
+							<div class="row d-flex  mt-3">
+								<div class="col-4">
+									<a type="button" href="#admin/create/0"
+										class="btn btn-primary btn-sm rounded-pill ps-3 pe-3 mt-1">
+										<i class="bi bi-plus-circle"></i>&ensp;Thêm mới
+									</a> &ensp;
+								</div>
+								<div class="col-4">
+									<ul class="pagination justify-content-center">
+										<li class="page-item "><a class="page-link"
+											aria-label="Previous" ng-click="getUser(page-1)"> <span
+												aria-hidden="true">&laquo;</span>
+										</a></li>
+
+										<li class="page-item"><i class="page-link"> <i
+												ng-show="!users.empty">Trang số:
+													{{users.pageable.pageNumber+1}}/{{users.totalPages}}</i> <i
+												ng-show="users.empty">Trang trống</i>
+										</i></li>
+
+										<li class="page-item"><a class="page-link"
+											aria-label="Next" ng-click="getUser(page+1)"> <span
+												aria-hidden="true">&raquo;</span>
+										</a></li>
+									</ul>
+								</div>
+							</div>
+
+							<!-- Small tables -->
+							<table ng-show="!users.empty"
+								class="table table-sm mt-3 table-hover" id="example">
+								<thead>
+									<th>#</th>
+									<th>Email</th>
+									<th>Họ tên</th>
+									<th>Số điện thoại</th>
+									<th>Địa chỉ</th>
+									<th>Trạng thái</th>
+									<th colspan="2"></th>
+								</thead>
+								<tbody>
+									<tr ng-repeat="user in users.content">
+										<th style="width: 5%;">{{page*10 + $index + 1}}</th>
+										<td style="width: 15%;">{{user.email}}</td>
+										<td style="width: 15%;">{{user.fullname}}</td>
+										<td style="width: 15%;" class="text-truncate">
+											{{user.phoneNumber}}</td>
+										<td style="width: 20%;" class="text-truncate">
+											{{user.address}}</td>
+										<td style="width: 19%"><span
+											class="text-{{user.status.color}} small">{{user.status.value}}</span></td>
+										<td style="width: 7%">
+											<a href="#admin/profile/{{user.id}}"><i class="fa-solid fa-pen-to-square text-warning"></i></a>
+										</td>
+										<td style="width: 7%">
+											<a data-bs-toggle="modal" ng-show="user.status.id==1" data-bs-target="{{'#modal'+user.id}}" type="button"><i class="fa-solid fa-user-slash text-danger"></i></a>	
+											<a data-bs-toggle="modal" ng-show="user.status.id==2" data-bs-target="{{'#modal'+user.id}}" type="button"><i class="fa-solid fa-user-check text-success"></i></a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+							<div class="mt-4" ng-show="users.empty">
+								<h5 class="card-title m-0 p-0 fs-1">Danh sách khách hàng
+									trống!</h5>
+							</div>
+							<!-- End small tables -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="modal fade" id="{{'modal'+user.id}}" tabindex="-1"
+	aria-labelledby="exampleModalLabel" aria-hidden="true" ng-repeat="user in users.content">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a href="index.html" class="logo d-flex align-items-center"> <img
+					src="/index/img/logo.jpg" alt=""> <span
+					class="d-none d-lg-block">Smart Book</span>
+				</a>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+					<h5 ng-hide="user.status.id==2" class="card-title m-0 p-0 fs-6">
+						Bạn có chắc chắn muốn vô hiệu tài khoản này?
+					</h5>
+					<h5 ng-hide="user.status.id==1" class="card-title m-0 p-0 fs-6">
+						Bạn có chắc chắn muốn vô khôi phục tài khoản này?
+					</h5>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Huỷ</button>
+				<button ng-hide="user.status.id==2" type="button"
+					class="btn btn-danger" data-bs-dismiss="modal"
+					ng-click="disable($index,'D')">Xác nhận</button>
+				<button ng-hide="user.status.id==1" type="button"
+					class="btn btn-primary" data-bs-dismiss="modal"
+					ng-click="disable($index,'A')">Xác nhận</button>
+			</div>
+		</div>
+	</div>
+</div>

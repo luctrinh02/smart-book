@@ -1,0 +1,4 @@
+function ctrlBook($scope, $http) {
+	
+	
+}
