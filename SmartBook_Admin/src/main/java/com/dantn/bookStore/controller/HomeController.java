@@ -39,4 +39,35 @@ public class HomeController {
 		return "book/book/index";
 	}
 	
+	@GetMapping("/smart-book/login")
+	public String indexLogin() {
+		return "control/login/index";
+	}
+	
+	
+	@GetMapping("/smart-book/user/admin")
+	public String indexAdmin() {
+		return "user/admin/index";
+	}
+	
+	@GetMapping("/smart-book/user/guest")
+	public String indexGuest() {
+		return "user/guest/index";
+	}
+	
+	@GetMapping("/smart-book/user/shipper")
+	public String indexShipper() {
+		return "user/shipper/index";
+	}
+	
+	@GetMapping("/smart-book/createUser")
+	public String createUser() {
+		return "user/create";
+	}
+	
+	@GetMapping("/smart-book/profileUser")
+	public String profileUser() {
+		return "user/profile";
+	}
+	
 }

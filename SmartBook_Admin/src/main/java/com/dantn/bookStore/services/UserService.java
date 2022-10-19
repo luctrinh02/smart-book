@@ -91,7 +91,7 @@ public class UserService {
         u.setRole(UserRoleSingleton.getInstance(userRoleService).get(request.getRole()));
         try {
             this.save(u);
-            HashMap<String, Object> map=DataUltil.setData("ok", "sửa thành công");
+            HashMap<String, Object> map=DataUltil.setData("ok", "Chỉnh sửa thành công");
             return map;
         } catch (Exception e) {
             HashMap<String, Object> map=DataUltil.setData("eError", "Email trùng lặp");

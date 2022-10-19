@@ -19,6 +19,29 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when("/book", {
 		templateUrl: '/admin/smart-book/book',
 		controller: 'ctrlBook'
+	}).when("/login", {
+		templateUrl: '/admin/smart-book/login',
+		controller: 'ctrlLogin'
+	})
+	.when("/admin", {
+		templateUrl: '/admin/smart-book/user/admin',
+		controller: 'adminController'
+	})
+	.when("/guest", {
+		templateUrl: '/admin/smart-book/user/guest',
+		controller: 'guestController'
+	})
+	.when("/shipper", {
+		templateUrl: '/admin/smart-book/user/shipper',
+		controller: 'shipperController'
+	})
+	.when("/admin/create/:role", {
+		templateUrl: '/admin/smart-book/createUser',
+		controller: 'userCreateController'
+	})
+	.when("/admin/profile/:id", {
+		templateUrl: '/admin/smart-book/profileUser',
+		controller: 'userUpdateController'
 	})
 });
 app.controller("ctrlType", ctrlType);
@@ -27,4 +50,11 @@ app.controller("ctrlAuthor", ctrlAuthor);
 app.controller("ctrlContent", ctrlContent);
 app.controller("ctrlCharactor", ctrlCharactor);
 app.controller("ctrlModule", ctrlModule);
-app.controller("ctrlBook", ctrBook);
+app.controller("ctrlBook", ctrlBook);
+app.controller("ctrlLogin", ctrlLogin);
+app.controller("adminController", adminController);
+app.controller("guestController", guestController);
+app.controller("shipperController", shipperController);
+app.controller("userCreateController", userCreateController);
+app.controller("userUpdateController", userUpdateController);
+
