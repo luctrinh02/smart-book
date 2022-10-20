@@ -16,6 +16,7 @@ public class SubModule {
 	private String display;
 	private String url;
 	private Byte[] template;
+	private Integer indexSubModule;
 	
 	@ManyToOne
 	@JoinColumn(name = "module_id")
@@ -59,6 +60,14 @@ public class SubModule {
 
 	public void setModule(Module module) {
 		this.module = module;
+	}
+
+	public Integer getIndexSubModule() {
+		return indexSubModule;
+	}
+
+	public void setIndexSubModule(Integer indexSubModule) {
+		this.indexSubModule = indexSubModule;
 	}
 	
 }

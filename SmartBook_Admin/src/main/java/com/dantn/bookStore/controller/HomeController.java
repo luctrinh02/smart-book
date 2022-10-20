@@ -10,36 +10,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/smart-book")
 public class HomeController {
-	@GetMapping("/smart-book")
+
+	@GetMapping("")
 	public String index() {
 		return "index";
 	}
-	@GetMapping("/smart-book/type")
+	@GetMapping("/type")
 	public String indexType() {
 		return "book/type/index";
 	}
 	
-	@GetMapping("/smart-book/publisher")
+	@GetMapping("/publisher")
 	public String indexPublisher() {
 		return "book/publisher/index";
 	}
-	@GetMapping("/smart-book/author")
+	@GetMapping("/author")
 	public String indexAuthor() {
 		return "book/author/index";
 	}
 	
-	@GetMapping("/smart-book/content")
+	@GetMapping("/content")
 	public String indexContent() {
 		return "book/content/index";
 	}
 	
-	@GetMapping("/smart-book/charactor")
+	@GetMapping("/charactor")
 	public String indexCharactor() {
 		return "book/charactor/index";
 	}
-	@GetMapping("/smart-book/book")
+	@GetMapping("/book")
 	public String indexBook() {
 		return "book/book/index";
 	}
@@ -49,24 +50,40 @@ public class HomeController {
 		return "user/admin/index";
 	}
 	
-	@GetMapping("/smart-book/user/guest")
+	@GetMapping("/user/guest")
 	public String indexGuest() {
 		return "user/guest/index";
 	}
 	
-	@GetMapping("/smart-book/user/shipper")
+	@GetMapping("/user/shipper")
 	public String indexShipper() {
 		return "user/shipper/index";
 	}
 	
-	@GetMapping("/smart-book/createUser")
+	@GetMapping("/createUser")
 	public String createUser() {
 		return "user/create";
 	}
 	
-	@GetMapping("/smart-book/profileUser")
+	@GetMapping("/profileUser")
 	public String profileUser() {
 		return "user/profile";
+	}
+
+	
+	@GetMapping("/home")
+	public String home() {
+		return "control/home/index";
+	}
+	
+	@GetMapping("/book/create")
+	public String createBook() {
+		return "book/book/create";
+	}
+	
+	@GetMapping("/book/update")
+	public String updateBook() {
+		return "book/book/update";
 	}
 	@GetMapping("/smart-book/login")
     public String login(@RequestParam(name="error",required = false,defaultValue = "false") Boolean error) {

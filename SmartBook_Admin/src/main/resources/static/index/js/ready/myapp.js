@@ -19,7 +19,15 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when("/book", {
 		templateUrl: '/admin/smart-book/book',
 		controller: 'ctrlBook'
-	}).when("/login", {
+	}).when("/book/create", {
+		templateUrl: '/admin/smart-book/book/create',
+		controller: 'ctrlCreateBook'
+	})
+	.when("/book/update/:id", {
+		templateUrl: '/admin/smart-book/book/update',
+		controller: 'ctrlUpdateBook'
+	})
+	.when("/login", {
 		templateUrl: '/admin/smart-book/login',
 		controller: 'ctrlLogin'
 	})
@@ -43,6 +51,10 @@ app.config(function($routeProvider, $locationProvider) {
 		templateUrl: '/admin/smart-book/profileUser',
 		controller: 'userUpdateController'
 	})
+	.when("/home", {
+		templateUrl: '/admin/smart-book/home',
+		controller: 'ctrlHome'
+	})
 });
 app.controller("ctrlType", ctrlType);
 app.controller("ctrlPublisher", ctrlPublisher);
@@ -51,10 +63,14 @@ app.controller("ctrlContent", ctrlContent);
 app.controller("ctrlCharactor", ctrlCharactor);
 app.controller("ctrlModule", ctrlModule);
 app.controller("ctrlBook", ctrlBook);
+app.controller("ctrlCreateBook", ctrlCreateBook);
+app.controller("ctrlUpdateBook", ctrlUpdateBook);
 app.controller("ctrlLogin", ctrlLogin);
 app.controller("adminController", adminController);
 app.controller("guestController", guestController);
 app.controller("shipperController", shipperController);
 app.controller("userCreateController", userCreateController);
 app.controller("userUpdateController", userUpdateController);
+app.controller("ctrlHome", ctrlHome);
+
 

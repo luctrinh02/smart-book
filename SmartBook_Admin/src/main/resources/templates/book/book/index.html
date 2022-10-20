@@ -2,7 +2,7 @@
 	<h1>Các đầu sách</h1>
 	<nav>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="index.html">Smart Book</a></li>
+			<li class="breadcrumb-item"><a href="#home">Smart Book</a></li>
 			<li class="breadcrumb-item">Quản lý sách</li>
 			<li class="breadcrumb-item active">Các đầu sách</li>
 		</ol>
@@ -29,24 +29,7 @@
 									class="form-check-label" for="flexSwitchCheckDefault">Tất
 									cả</label>
 							</div>
-							<div class="form-check form-switch">
-								<input class="form-check-input" type="checkbox"
-									id="flexSwitchCheckDefault"> <label
-									class="form-check-label" for="flexSwitchCheckDefault">Thể
-									loại 1</label>
-							</div>
-							<div class="form-check form-switch">
-								<input class="form-check-input" type="checkbox"
-									id="flexSwitchCheckDefault"> <label
-									class="form-check-label" for="flexSwitchCheckDefault">Thể
-									loại 2 </label>
-							</div>
-							<div class="form-check form-switch">
-								<input class="form-check-input" type="checkbox"
-									id="flexSwitchCheckDefault"> <label
-									class="form-check-label" for="flexSwitchCheckDefault">
-									Thể loại 3</label>
-							</div>
+						
 						</div>
 						<div class="card-body pb-0">
 							<h5 class="card-title pb-0">Đánh giá</h5>
@@ -84,11 +67,9 @@
 							<!-- Pagination with icons -->
 							<div class="row d-flex">
 								<div class="col-4">
-									<button type="button" data-bs-toggle="modal"
-										data-bs-target="#verticalycentered"
-										class="btn btn-primary btn-sm rounded-pill ps-3 pe-3">
+									<a href="#book/create" class="btn btn-primary btn-sm rounded-pill ps-3 pe-3">
 										<i class="bi bi-plus-circle"></i>&ensp;Thêm mới
-									</button>
+									</a>
 									&ensp;
 									<button type="button"
 										class="btn btn-danger btn-sm rounded-pill ps-3 pe-3">
@@ -125,7 +106,7 @@
 							</div>
 
 							<!-- Small tables -->
-							<table class="table table-sm mt-3" id="example">
+							<table class="table table-hover table-sm mt-3" id="example">
 								<thead>
 									<tr>
 										<th scope="col">#</th>
@@ -259,7 +240,7 @@
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
-				<a href="index.html" class="logo d-flex align-items-center"> <img
+				<a href="#home" class="logo d-flex align-items-center"> <img
 					src="/index/img/logo.jpg" alt=""> <span
 					class="d-none d-lg-block">Smart Book</span>
 				</a>
