@@ -31,6 +31,9 @@ public class UserService {
 	public List<User> getUserByRole(UserRole role){
 		return this.repository.findByRole(role);
 	}
+	public User getUserByNotRoleAndEmail(UserRole role,String email) {
+	    return this.repository.findByNotRoleAndEmail(role, email);
+	}
 	public User getUserByRoleAndEmail(UserRole role,String email) {
 		return this.repository.findByRoleAndEmail(role, email);
 	}

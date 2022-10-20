@@ -1,8 +1,13 @@
 package com.dantn.bookStore.controller;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/admin/smart-book")
@@ -40,13 +45,7 @@ public class HomeController {
 		return "book/book/index";
 	}
 	
-	@GetMapping("/login")
-	public String indexLogin() {
-		return "control/login/index";
-	}
-	
-	
-	@GetMapping("/user/admin")
+	@GetMapping("/smart-book/user/admin")
 	public String indexAdmin() {
 		return "user/admin/index";
 	}
@@ -70,6 +69,7 @@ public class HomeController {
 	public String profileUser() {
 		return "user/profile";
 	}
+
 	
 	@GetMapping("/home")
 	public String home() {
@@ -85,5 +85,13 @@ public class HomeController {
 	public String updateBook() {
 		return "book/book/update";
 	}
-	
+	@GetMapping("/smart-book/login")
+    public String login(@RequestParam(name="error",required = false,defaultValue = "false") Boolean error) {
+        Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+	    if(authentication==null || authentication instanceof AnonymousAuthenticationToken) {
+	        return "control/login/index";
+	    }else {
+	        return "redirect:/admin/smart-book#/home";
+	    }
+    }
 }
