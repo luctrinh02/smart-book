@@ -1,3 +1,6 @@
+function sleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
 const Toast = Swal.mixin({
 	toast: true,
 	position: 'top-end',

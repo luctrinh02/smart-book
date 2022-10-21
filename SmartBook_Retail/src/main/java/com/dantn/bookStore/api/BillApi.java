@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dantn.bookStore.dto.request.BillCreateRequest;
 import com.dantn.bookStore.entities.Bill;
 import com.dantn.bookStore.entities.BillDetail;
 import com.dantn.bookStore.entities.BillDetailPK;
@@ -86,8 +87,9 @@ public class BillApi {
 	}
 	@PostMapping("/api/bill")
 	public ResponseEntity<?> add(
-			@RequestBody List<CartPK> cartPKs
+			@RequestBody BillCreateRequest request
 			,Principal principal){
+		List<CartPK> cartPKs=request.getCartPKs();
 		User user=userService.getByEmail(principal.getName());
 //		List<CartPK> pks=Arrays.asList(cartPKs);
 		List<Cart> carts=cartService.getByIds(cartPKs);
@@ -109,7 +111,7 @@ public class BillApi {
 		bill.setUser(user);
 		bill.setStatus(BillStatusSingleton.getInstance(statusService).get(0));
 		bill=billService.save(bill);
-		BigDecimal total=BigDecimal.ZERO;
+		BigDecimal bookMoney=BigDecimal.ZERO;
 		for(Cart cart:carts) {
 			Book book=cart.getBook();
 			BillDetailPK detailPK=new BillDetailPK();
@@ -127,8 +129,14 @@ public class BillApi {
 			book.setSaleAmount(cart.getAmount()+book.getSaleAmount());
 			bookService.save(book);
 			cartService.delete(cart.getCartPK());
-			total=total.add(detail.getPrice().multiply(new BigDecimal(cart.getAmount())));
+			bookMoney=bookMoney.add(detail.getPrice().multiply(new BigDecimal(cart.getAmount())));
 		}
+		bill.setBookMoney(bookMoney);
+		bill.setTransportFee(request.getTransportFee());
+		//xử lý mã khuyến mãi ở đây
+		
+		//
+		BigDecimal total=bookMoney.add(request.getTransportFee());
 		bill.setTotalMoney(total);
 		billService.save(bill);
 		HashMap<String, Object> map=DataUltil.setData("ok", "Đặt hàng thành công");

@@ -1,16 +1,23 @@
 package com.dantn.bookStore.services;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.dantn.bookStore.dto.request.ProfileRequest;
+import com.dantn.bookStore.dto.request.UserPasswordRequest;
 import com.dantn.bookStore.dto.request.UserRequest;
 import com.dantn.bookStore.entities.User;
 import com.dantn.bookStore.entities.UserRole;
@@ -22,13 +29,22 @@ import com.dantn.bookStore.ultilities.UserStatusSingleton;
 
 @Service
 public class UserService {
+    @Autowired
 	private IUserRepository repository;
-
-	public UserService(IUserRepository repository) {
-		super();
-		this.repository = repository;
-	}
-	public List<User> getUserByRole(UserRole role){
+	private BCryptPasswordEncoder  encoder=new BCryptPasswordEncoder();
+    public IUserRepository getRepository() {
+        return repository;
+    }
+    public void setRepository(IUserRepository repository) {
+        this.repository = repository;
+    }
+    public BCryptPasswordEncoder getEncoder() {
+        return encoder;
+    }
+    public void setEncoder(BCryptPasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
+    public List<User> getUserByRole(UserRole role){
 		return this.repository.findByRole(role);
 	}
 	public User getUserByNotRoleAndEmail(UserRole role,String email) {
@@ -76,6 +92,7 @@ public class UserService {
 	}
 	public HashMap<String, Object> create(UserRequest request,UserRoleService userRoleService,UserStatusService userStatusService){
 	    User u=request.changeToEntity(new User());
+	    u.setPassword(encoder.encode(u.getPassword()));
         u.setStatus(UserStatusSingleton.getInstance(userStatusService).get(0));
         u.setRole(UserRoleSingleton.getInstance(userRoleService).get(request.getRole()));
         try {
@@ -101,4 +118,56 @@ public class UserService {
             return map;
         }
 	}
+	public HashMap<String, Object> changePass(UserPasswordRequest request,Principal principal){
+	    User user=this.getByEmail(principal.getName());
+	    if("".equals(request.getOldPass())||request.getOldPass()==null){
+	        HashMap<String, Object> map=DataUltil.setData("error", "Lỗi dữ liệu");
+            map.put("oldPass", "Vui lòng nhập mật khẩu cũ");
+            map.put("newPass", "");
+            map.put("confirm", "");
+            return map;
+	    } else if(!encoder.matches(request.getOldPass(), user.getPassword())) {
+	        System.out.println(encoder.matches(request.getOldPass(), user.getPassword()));
+            HashMap<String, Object> map=DataUltil.setData("error", "Lỗi dữ liệu");
+            map.put("oldPass", "Mật khẩu cũ không chính xác");
+            map.put("newPass", "");
+            map.put("confirm", "");
+            return map;
+        }else if("".equals(request.getNewPass())||request.getNewPass()==null) {
+            HashMap<String, Object> map=DataUltil.setData("error", "Lỗi dữ liệu");
+            map.put("newPass", "Vui lòng nhập mật khẩu mới");
+            map.put("oldPass", "");
+            map.put("confirm", "");
+            return map;
+        }else if(!request.getNewPass().equals(request.getConfirm())) {
+            HashMap<String, Object> map=DataUltil.setData("error", "Lỗi dữ liệu");
+            map.put("confirm", "Xác nhận mật khảy không trùng khớp");
+            map.put("oldPass", "");
+            map.put("newPass", "");
+            return map;
+        }else {
+            user.setPassword(encoder.encode(request.getNewPass()));
+            this.save(user);
+            HashMap<String, Object> map=DataUltil.setData("ok", "Đổi mật khẩu thành công");
+            return map;
+        }
+	}
+//	public HashMap<String, Object> update(ProfileRequest request,Principal principal) throws IllegalStateException, IOException{
+//	    User user=this.getByEmail(principal.getName());
+//	    user.setFullname(request.getFullname());
+//	    user.setPhoneNumber(request.getPhoneNumber());
+//	    user.setAddress(request.getAddress());
+//	    user.setEmail(request.getEmail());
+//	    if (!request.getFile().isEmpty()) {
+//            String fileName = new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date());
+//            java.io.File file  = new java.io.File(
+//                    new java.io.File("src\\main\\resources\\static\\imgUpload").getAbsolutePath() + "/" + fileName);
+//            if (!file.exists()) {
+//                file.mkdirs();
+//            }
+//            request.getFile().transferTo(file);
+//            user.setImg(fileName);
+//        }
+//        this.repository.save(user);
+//	}
 }
