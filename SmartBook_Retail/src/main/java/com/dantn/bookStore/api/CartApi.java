@@ -40,42 +40,8 @@ public class CartApi {
 	public ResponseEntity<?> addToCart(@PathVariable("id") Integer id,
 			@RequestParam(name = "amount") Long amount
 			,Principal principal) {
-		Book book=this.bookService.getById(id);
-		if(amount>book.getAmount()) {
-			HashMap<String, Object> map=DataUltil.setData("error", "Số lượng sách không đủ");
-			map.put("max", book.getAmount());
-			return ResponseEntity.ok(map);
-		}else{
-			User user=userService.getByEmail(principal.getName());
-			CartPK pk=new CartPK();
-			pk.setBookId(book.getId());
-			pk.setUserId(user.getId());
-			Cart c=cartService.getById(pk);
-			if(c==null) {
-				Cart cart=new Cart();
-				cart.setUser(user);
-				cart.setAmount(amount);
-				cart.setBook(book);
-				cart.setCartPK(pk);
-				cart=cartService.save(cart);
-				HashMap<String, Object> map=DataUltil.setData("ok", "Thêm vào giỏ thành công");
-				return ResponseEntity.ok(map);
-			}else {
-				if(amount+c.getAmount()>book.getAmount()) {
-					HashMap<String, Object> map=DataUltil.setData("error", "Số lượng sách không đủ");
-					return ResponseEntity.ok(map);
-				}else {
-					Cart cart=c;
-					cart.setUser(user);
-					cart.setAmount(amount+cart.getAmount());
-					cart.setBook(book);
-					cart.setCartPK(pk);
-					cart=cartService.save(cart);
-					HashMap<String, Object> map=DataUltil.setData("ok", "Thêm vào giỏ thành công");
-					return ResponseEntity.ok(map);
-				}
-			}
-		}
+		HashMap<String, Object> map=cartService.addToCart(id, amount, principal, userService, bookService);
+		return ResponseEntity.ok(map);
 	}
 	@PostMapping("/api/cart")
 	public ResponseEntity<?> delete(@RequestBody CartPK id,Principal principal){
@@ -96,15 +62,7 @@ public class CartApi {
 	}
 	@PutMapping("/api/cart")
 	public ResponseEntity<?> update(@RequestBody CartPK cartPK,@RequestParam("amount") Long amount){
-		Cart cart=cartService.getById(cartPK);
-		if(amount>cart.getBook().getAmount()) {
-			HashMap<String, Object> map=DataUltil.setData("error", "Số lượng sản phẩm không đủ");
-			map.put("max", cart.getAmount());
-			return ResponseEntity.ok(map);
-		}else {
-			cart.setAmount((long)amount);
-			cartService.save(cart);
-			return ResponseEntity.ok("");
-		}
+		HashMap<String, Object> map=cartService.update(cartPK, amount);
+		return ResponseEntity.ok(map);
 	}
 }
