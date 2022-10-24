@@ -124,6 +124,7 @@ public class BillApi {
 			book.setAmount(book.getAmount()-cart.getAmount());
 			detail.setBill(bill);
 			detail.setBook(book);
+			detail.setAvailable(cart.getAmount());
 			detail.setPrice(book.getPrice().multiply(new BigDecimal(100-book.getDiscount())).divide(new BigDecimal(100)));
 			detailService.save(detail);
 			book.setSaleAmount(cart.getAmount()+book.getSaleAmount());
@@ -142,7 +143,6 @@ public class BillApi {
 		HashMap<String, Object> map=DataUltil.setData("ok", "Đặt hàng thành công");
 		return ResponseEntity.ok(map);
 	}
-	
 	@PutMapping("/api/bill/{id}")
 	public ResponseEntity<?> cancel(@PathVariable("id") Integer id,@RequestBody String mesage){
 		if(mesage==null || mesage.length()==0) {
