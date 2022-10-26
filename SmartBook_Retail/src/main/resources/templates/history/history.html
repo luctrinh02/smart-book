@@ -21,6 +21,9 @@
         integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="text/javascript">
         const Toast = Swal.mixin({
             toast: true,
@@ -50,7 +53,7 @@
                         <th>Ngày mua</th>
                         <th>Tổng tiền</th>
                         <th>Trạng thái</th>
-                        <th colspan="3"  style="width: 5%;"></th>
+                        <th colspan="3" style="width: 5%;"></th>
                     </thead>
                     <tbody>
                         <tr ng-repeat="bill in bills">
@@ -64,7 +67,7 @@
                                 <button ng-click="getDetail(bill.id)" class="btn" data-bs-toggle="modal"
                                     data-bs-target="#detailmodal"><i class="fa-solid fa-eye"></i></button>
                             </td>
-                            <td ng-show="{{bill.status.id==1}}">
+                            <td ng-show="bill.status.id==1">
                                 <button class="btn" data-bs-toggle="modal" data-bs-target="{{'#modal'+bill.id}}"><i
                                         class="fa-solid fa-xmark"></i></button>
                                 <div class="modal fade" id="{{'modal'+bill.id}}" tabindex="-1"
@@ -89,8 +92,9 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>
-                                <button class="btn" data-bs-toggle="modal" data-bs-target="#returnBillModal" ng-click="getDetail(bill.id)">
+                            <td ng-hide="checkDate($index)>432000000 || bill.status.id!=5">
+                                <button class="btn" data-bs-toggle="modal" data-bs-target="#returnBillModal"
+                                    ng-click="getDetail(bill.id)">
                                     <i class="fa-solid fa-right-left"></i>
                                 </button>
                             </td>
@@ -123,7 +127,9 @@
                                 </tr>
                             </tbody>
                             <tfoot>
-                                <th colspan="4">Trạng thái: <span class="{{'text-'+details[0].bill.status.color}}">{{details[0].bill.status.value}}</span></th>
+                                <th colspan="4">Trạng thái: <span
+                                        class="{{'text-'+details[0].bill.status.color}}">{{details[0].bill.status.value}}</span>
+                                </th>
                             </tfoot>
                         </table>
                     </div>
@@ -154,7 +160,8 @@
                                     <td align="center">{{detail.amount}}</td>
                                     <td align="center">{{detail.available}}</td>
                                     <td>
-                                        <input type="text" id="returnAmount" class="form-control">
+                                        <input type="number" id="returnAmount{{$index}}" min="0" max="detail.available"
+                                            class="form-control" value="0">
                                     </td>
                                 </tr>
                             </tbody>
@@ -162,8 +169,25 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                            ng-click="cancel($index)">Đổi hàng</button>
+                        <button type="button" class="btn btn-danger" ng-click="beforeReturn()">Đổi hàng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Chọn sản phẩm đổi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có chắn muốn đổi sách?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" ng-click="return()">Chắc
+                            chắn</button>
                     </div>
                 </div>
             </div>
@@ -172,6 +196,12 @@
     <script>
         const myApp = angular.module("myApp", []);
         myApp.controller('HistoryController', function ($scope, $http) {
+            $scope.checkDate = function (index) {
+                let today = new Date().setHours(7, 0, 0, 0);
+                let chek = new Date($scope.bills[index].createdTime).setHours(7, 0, 0, 0);
+                return today - chek;
+            }
+            $scope.returnRequest = [];
             $scope.bills = [];
             $scope.details = [];
             $scope.formatDate = function (date) {
@@ -195,11 +225,54 @@
                             title: response.data.data
                         });
                         $scope.bills[index].status.id = 3;
-                        $scope.bills[index].status.value = "Hủy";
+                        $scope.bills[index].status.value = "Đã hủy";
                         $scope.bills[index].status.color = "danger";
                     } else {
                         Toast.fire({
                             icon: 'error',
+                            title: response.data.data
+                        });
+                    }
+                })
+            }
+            $scope.beforeReturn = function () {
+                let size = $scope.details.length;
+                if (size > 0) {
+                    $scope.returnRequest.splice(0, size);
+                }
+                for (let i = 0; i < size; i++) {
+                    let detail = $scope.details[i];
+                    let Request = {
+                        pk: {
+                            bookId: detail.book.id,
+                            billId: $scope.details[0].bill.id
+                        },
+                        amount: document.getElementById("returnAmount" + i).value
+                    };
+                    $scope.returnRequest.push(Request);
+                }
+                $http.post("/api/return/before", $scope.returnRequest).then(function (response) {
+                    if (response.data.statusCode == "error") {
+                        Toast.fire({
+                            icon: 'error',
+                            title: response.data.data
+                        });
+                    } else {
+                        $("#returnBillModal").modal("hide");
+                        $("#confirmModal").modal("show");
+                    }
+                })
+            }
+            $scope.return = function () {
+                $http.post("/api/return", $scope.returnRequest).then(function (response) {
+                    if (response.data.statusCode == "error") {
+                        Toast.fire({
+                            icon: 'error',
+                            title: response.data.data
+                        });
+                    } else {
+                        Toast.fire({
+                            icon: 'success',
                             title: response.data.data
                         });
                     }
