@@ -17,4 +17,8 @@ public class HomeController {
 	public String history() {
 		return "history/history";
 	}
+	@GetMapping("/smart-book/return")
+	public String returnBill() {
+		return "returnBill/history";
+	}
 }

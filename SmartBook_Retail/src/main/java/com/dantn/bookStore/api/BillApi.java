@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dantn.bookStore.dto.request.BillCreateRequest;
 import com.dantn.bookStore.entities.Bill;
 import com.dantn.bookStore.entities.BillDetail;
 import com.dantn.bookStore.entities.BillDetailPK;
@@ -61,12 +62,12 @@ public class BillApi {
 	public ResponseEntity<?> history(@RequestParam(name = "page",defaultValue = "0") Integer pageNum
 			,@RequestParam(name="transn",required = false) String transn,Principal principal){
 		User user=userService.getByEmail(principal.getName());
-		if(transn==null) {
+		if(transn==null || "".equals(transn)) {
 			Page<Bill> page=billService.getByUser(user, pageNum);
 			HashMap<String, Object> map=DataUltil.setData("ok", page);
 			return ResponseEntity.ok(map);
 		}else {
-			Bill bill=billService.getByTranSn(transn,user);
+			Page<Bill> bill=billService.getByTranSn(user,transn,pageNum);
 			HashMap<String, Object> map=DataUltil.setData("ok", bill);
 			return ResponseEntity.ok(map);
 		}
@@ -86,8 +87,9 @@ public class BillApi {
 	}
 	@PostMapping("/api/bill")
 	public ResponseEntity<?> add(
-			@RequestBody List<CartPK> cartPKs
+			@RequestBody BillCreateRequest request
 			,Principal principal){
+		List<CartPK> cartPKs=request.getCartPKs();
 		User user=userService.getByEmail(principal.getName());
 //		List<CartPK> pks=Arrays.asList(cartPKs);
 		List<Cart> carts=cartService.getByIds(cartPKs);
@@ -109,7 +111,7 @@ public class BillApi {
 		bill.setUser(user);
 		bill.setStatus(BillStatusSingleton.getInstance(statusService).get(0));
 		bill=billService.save(bill);
-		BigDecimal total=BigDecimal.ZERO;
+		BigDecimal bookMoney=BigDecimal.ZERO;
 		for(Cart cart:carts) {
 			Book book=cart.getBook();
 			BillDetailPK detailPK=new BillDetailPK();
@@ -122,19 +124,25 @@ public class BillApi {
 			book.setAmount(book.getAmount()-cart.getAmount());
 			detail.setBill(bill);
 			detail.setBook(book);
+			detail.setAvailable(cart.getAmount());
 			detail.setPrice(book.getPrice().multiply(new BigDecimal(100-book.getDiscount())).divide(new BigDecimal(100)));
 			detailService.save(detail);
 			book.setSaleAmount(cart.getAmount()+book.getSaleAmount());
 			bookService.save(book);
 			cartService.delete(cart.getCartPK());
-			total=total.add(detail.getPrice().multiply(new BigDecimal(cart.getAmount())));
+			bookMoney=bookMoney.add(detail.getPrice().multiply(new BigDecimal(cart.getAmount())));
 		}
+		bill.setBookMoney(bookMoney);
+		bill.setTransportFee(request.getTransportFee());
+		//xử lý mã khuyến mãi ở đây
+		
+		//
+		BigDecimal total=bookMoney.add(request.getTransportFee());
 		bill.setTotalMoney(total);
 		billService.save(bill);
 		HashMap<String, Object> map=DataUltil.setData("ok", "Đặt hàng thành công");
 		return ResponseEntity.ok(map);
 	}
-	
 	@PutMapping("/api/bill/{id}")
 	public ResponseEntity<?> cancel(@PathVariable("id") Integer id,@RequestBody String mesage){
 		if(mesage==null || mesage.length()==0) {

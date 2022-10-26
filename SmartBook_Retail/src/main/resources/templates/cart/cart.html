@@ -1,210 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart</title>
-    <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-   <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="/cart/style.css">
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script type="text/javascript">
-  const Toast = Swal.mixin({
-	  toast: true,
-	  position: 'top-end',
-	  showConfirmButton: false,
-	  timer: 1500,
-	  timerProgressBar: true,
-	  didOpen: (toast) => {
-	    toast.addEventListener('mouseenter', Swal.stopTimer)
-	    toast.addEventListener('mouseleave', Swal.resumeTimer)
-	  }
-	})
 
-	</script>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"
+    integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="/cart/style.css">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript">
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+
+  </script>
 </head>
+
 <body ng-app="myApp">
-    <section class="h-100 h-custom" style="background-color: #d2c9ff;">
-        <div class="container py-5 h-100" ng-controller="CartController">
-          <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12">
-              <div class="card card-registration card-registration-2" style="border-radius: 15px;">
-                <div class="card-body p-0">
-                  <div class="row g-0">
-                    <div class="col-lg-8">
-                      <div class="p-5">
-                        <div class="d-flex justify-content-between align-items-center mb-5">
-                          <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
-                          <h6 class="mb-0 text-muted">{{carts.length}} sách</h6>
+  <section class="h-100 h-custom" style="background-color: #d2c9ff;">
+    <div class="container py-5 h-100" ng-controller="CartController">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12">
+          <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+            <div class="card-body p-0">
+              <div class="row g-0">
+                <div class="col-lg-8">
+                  <div class="p-5">
+                    <div class="d-flex justify-content-between align-items-center mb-5">
+                      <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                      <h6 class="mb-0 text-muted">{{carts.length}} sách</h6>
+                    </div>
+                    <hr class="my-4">
+
+                    <div ng-repeat="cart in carts track by $index">
+                      <div class="row mb-4 d-flex justify-content-between align-items-center">
+                        <div class="col-md-1 col-lg-1 col-xl-1">
+                          <input ng-change="selectInput()" type="checkbox" ng-model="selectBook" name="book"
+                            ng-value={{$index}}>
                         </div>
-                        <hr class="my-4">
-      
-                        <div ng-repeat="cart in carts track by $index">
-                        	<div class="row mb-4 d-flex justify-content-between align-items-center">
-                          <div class="col-md-1 col-lg-1 col-xl-1" >
-                            	<input ng-change="selectInput()" type="checkbox" ng-model="selectBook" name="book" ng-value={{$index}}>
-                          </div>
-                          <div class="col-md-2 col-lg-2 col-xl-2" >
-                            <img
-                              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
-                              class="img-fluid rounded-3" alt="Cotton T-shirt">
-                          </div>
-                          <div class="col-md-3 col-lg-3 col-xl-2">
-                            <h6 class="text-muted">{{cart.book.author.name}}</h6>
-                            <h6 class="text-black mb-0">{{cart.book.name}}</h6>
-                          </div>
-                          <div class="col-md-4 col-lg-4 col-xl-2 d-flex">
-                            <input id="form1" min="0" name="quantity" ng-blur="changeAmount($index)" ng-model="amount" ng-value="cart.amount" type="number"
-                              class="form-control form-control-sm" ng-attr-id={{$index}}/> 
-                          </div>
-                          <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                            <h6 class="mb-0">{{(cart.book.price*(100-cart.book.discount)/100).toFixed()}} vnđ</h6>
-                          </div>
-                          <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                            <button ng-click="deleteCart($index)"  class="btn btn-out-line-dark text-muted"><i class="fas fa-times"></i></button>
-                          </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                          <img
+                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
+                            class="img-fluid rounded-3" alt="Cotton T-shirt">
                         </div>
-      
-                        <hr class="my-4">
+                        <div class="col-md-3 col-lg-3 col-xl-2">
+                          <h6 class="text-muted">{{cart.book.author.name}}</h6>
+                          <h6 class="text-black mb-0">{{cart.book.name}}</h6>
                         </div>
-      
-      
-                        <div class="pt-5">
-                          <h6 class="mb-0"><a href="#!" class="text-body"><i
-                                class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
+                        <div class="col-md-4 col-lg-4 col-xl-2 d-flex">
+                          <input id="{{'input'+$index}}" min="0" name="quantity" ng-keyup="changeAmount($index)" ng-model="amount"
+                            ng-value="cart.amount" type="text" class="form-control form-control-sm"
+                             />
+                        </div>
+                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                          <h6 class="mb-0">{{(cart.book.price*(100-cart.book.discount)/100).toFixed()}} vnđ</h6>
+                        </div>
+                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                          <button ng-click="deleteCart($index)" class="btn btn-out-line-dark text-muted"><i
+                              class="fas fa-times"></i></button>
                         </div>
                       </div>
+
+                      <hr class="my-4">
                     </div>
-                    <div class="col-lg-4 bg-grey">
-                      <div class="p-5">
-                        <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
-                        <hr class="my-4">
-      
-                        <div class="d-flex justify-content-between mb-4">
-                          <h5 class="text-uppercase">{{items +' sách'  }}</h5>
-                          <h5>€ {{total}}</h5>
-                        </div>
-      
-                        <h5 class="text-uppercase mb-3">Shipping</h5>
-      
-                        <div class="mb-4 pb-2">
-                          <select class="select">
-                            <option value="1">Standard-Delivery- €5000</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                            <option value="4">Four</option>
-                          </select>
-                        </div>
-                        <hr class="my-4">
-      
-                        <div class="d-flex justify-content-between mb-5">
-                          <h5 class="text-uppercase">Total price</h5>
-                          <h5>€ {{total +5000}}</h5>
-                        </div>
-      
-                        <button type="button" class="btn btn-dark btn-block btn-lg"
-                          data-mdb-ripple-color="dark" ng-click="pay()">Register</button>
-      
-                      </div>
+
+
+                    <div class="pt-5">
+                      <h6 class="mb-0"><a href="#!" class="text-body"><i
+                            class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
                     </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 bg-grey">
+                  <div class="p-5">
+                    <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-between mb-4">
+                      <h5 class="text-uppercase">{{items +' sách' }}</h5>
+                      <h5>€ {{total}}</h5>
+                    </div>
+
+                    <h5 class="text-uppercase mb-3">Shipping</h5>
+
+                    <div class="mb-4 pb-2">
+                      <select class="select">
+                        <option value="1">Standard-Delivery- €5000</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                        <option value="4">Four</option>
+                      </select>
+                    </div>
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-between mb-5">
+                      <h5 class="text-uppercase">Total price</h5>
+                      <h5>€ {{total +5000}}</h5>
+                    </div>
+
+                    <button type="button" class="btn btn-dark btn-block btn-lg" data-mdb-ripple-color="dark" ng-click="beforePay()"
+                     >Register</button>
+
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-      <script type="text/javascript">
-	const app=angular.module('myApp', [])
-    .controller('CartController', function($scope,$http) {
+      </div>
+      <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Xác nhận thanh toán</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Bạn có chắn muốn mua các sách đã chọn?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" ng-click="pay()">Chắc
+                chắn</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script type="text/javascript">
+    const app = angular.module('myApp', [])
+      .controller('CartController', function ($scope, $http) {
         $scope.carts = [];
-        $http.get("/api/cart").then( function(response) {
-            $scope.carts = response.data;
-         });
-       let cartId=[];
-       $scope.select=[]
-       $scope.total=0;
-       $scope.items=0;
-       $scope.selectInput=function(){
-    	   $scope.total=0;
-        	cartId=[]
-        	let select=document.getElementsByName("book");
-        	for(let i=0;i<select.length;i++){
-        		if(select[i].checked==true){
-        			cartId.push($scope.carts[select[i].value].cartPK)
-        			$scope.select.push(select[i].value)
-        			let c=$scope.carts[select[i].value];
-        			$scope.total+=(c.amount*c.book.price*(100-c.book.discount)/100);
-        		}
-        	}
-        	$scope.total.toFixed()
-        	$scope.items=cartId.length
+        $http.get("/api/cart").then(function (response) {
+          $scope.carts = response.data;
+        });
+        let cartId = [];
+        $scope.select = []
+        $scope.total = 0;
+        $scope.items = 0;
+        $scope.selectInput = function () {
+          $scope.total = 0;
+          cartId = []
+          let select = document.getElementsByName("book");
+          for (let i = 0; i < select.length; i++) {
+            if (select[i].checked == true) {
+              cartId.push($scope.carts[select[i].value].cartPK)
+              $scope.select.push(select[i].value)
+              let c = $scope.carts[select[i].value];
+              $scope.total += (c.amount * c.book.price * (100 - c.book.discount) / 100);
+            }
+          }
+          $scope.total.toFixed()
+          $scope.items = cartId.length
 
         }
-       $scope.changeAmount=function(index){
-    	   let cartPK=$scope.carts[index].cartPK
-    	   let input=document.getElementById(index+"/");
-    	   let amount=input.value
-			if(amount!="" && amount !=0){
-				$http.put("/api/cart?amount="+amount,cartPK).then(function(response){
-					if(response.data.statusCode=="error"){
-						Toast.fire({
-	             		  icon: 'error',
-	             		  title: response.data.data
-	             		})
-						$scope.carts[index].amount=response.data.max;
-						input.value=$scope.carts[index].amount;
-					}else{
-						$scope.carts[index].amount=amount;
-						$scope.selectInput();
-					}
-				});
-			}else{
-				input.value=$scope.carts[index].amount
-			}
-		}
-       $scope.deleteCart=function(index){
-    	   let cartPK=$scope.carts[index].cartPK
-    	   $http.post("/api/cart",cartPK).then(function(response){
-					Toast.fire({
-	            		  icon: 'success',
-	            		  title: response.data.data
-	            	});
-	            	$scope.carts.splice(index,1)
-				
-			});
-       }
-       $scope.pay=function(){
-    	   if(cartId.length==0){
-    		   Toast.fire({
-         		  icon: 'error',
-         		  title: "Vui lòng chọn sản phẩm"
-         	});
-    	   }else{
-    		   $http.post("/api/bill",cartId).then(function(response){
-        		   if(response.data.statusCode=="error"){
-        			   Toast.fire({
-    	            		  icon: 'error',
-    	            		  title: response.data.data
-    	            	});
-        		   }else{
-        			   Toast.fire({
-    	            		  icon: 'success',
-    	            		  title: response.data.data
-    	            	});
-        			   for(let i=0;i<$scope.select.length;i++){
-        				   $scope.carts.splice($scope.select[i].value,1)
-        			   }
-        		   }
-        	   });
-    	   }
-       }
-    });
-	</script>
+        $scope.changeAmount = function (index) {
+          let cartPK = $scope.carts[index].cartPK
+          let input = document.getElementById("input"+index);
+          let amount = input.value
+          if (amount != "" && amount != 0 && !isNaN(amount)) {
+            $http.put("/api/cart?amount=" + amount, cartPK).then(function (response) {
+              if (response.status == 200) {
+                if (response.data.statusCode == "error") {
+                  Toast.fire({
+                    icon: 'error',
+                    title: response.data.data
+                  })
+                  $scope.carts[index].amount = response.data.max;
+                  input.value = $scope.carts[index].amount;
+                } else {
+                  $scope.carts[index].amount = amount;
+                  $scope.selectInput();
+                }
+              } else {
+                Toast.fire({
+                  icon: 'error',
+                  title: "Lỗi dữ liệu"
+                })
+              }
+            });
+          } else {
+            input.value = $scope.carts[index].amount
+          }
+        }
+        $scope.deleteCart = function (index) {
+          let cartPK = $scope.carts[index].cartPK
+          $http.post("/api/cart", cartPK).then(function (response) {
+            Toast.fire({
+              icon: 'success',
+              title: response.data.data
+            });
+            $scope.carts.splice(index, 1)
+
+          });
+        }
+        $scope.pay = function () {
+
+          let data = {
+            cartPKs: cartId,
+            transportFee: "5000"
+          }
+          $http.post("/api/bill", data).then(function (response) {
+            if (response.data.statusCode == "error") {
+              Toast.fire({
+                icon: 'error',
+                title: response.data.data
+              });
+            } else {
+              Toast.fire({
+                icon: 'success',
+                title: response.data.data
+              });
+              for (let i = 0; i < $scope.select.length; i++) {
+                $scope.carts.splice($scope.select[i].value, 1)
+              }
+            }
+          });
+        }
+        $scope.beforePay = function () {
+          if (cartId.length == 0) {
+            Toast.fire({
+              icon: 'error',
+              title: "Vui lòng chọn sản phẩm"
+            });
+          }else{
+            $("#confirmModal").modal("show");
+          }}
+      });
+  </script>
 </body>
+
 </html>
