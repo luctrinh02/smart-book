@@ -136,7 +136,7 @@ public class ReturnBillService {
 				pk.setBillId(x.getReturnBill().getBill().getId());
 				pk.setBookId(x.getBook().getId());
 				BillDetail billDetail=billDetailService.getById(pk);
-				billDetail.setAvailable(billDetail.getAmount()+x.getAmount());
+				billDetail.setAvailable(billDetail.getAvailable()+x.getAmount());
 				billDetailService.save(billDetail);
 			}
 			this.save(returnBill);
