@@ -254,7 +254,7 @@ public class TypeApi {
 		for (Book book : lstBookAll) {
 			List<String> types = Arrays.asList(book.getType().split(","));
 			types.stream().forEach(t -> {
-				if (t.trim().equals(type.getValue().trim())) {
+				if (t.trim().equals(type.getId().toString())) {
 					bookInType.add(book);
 				}
 			});

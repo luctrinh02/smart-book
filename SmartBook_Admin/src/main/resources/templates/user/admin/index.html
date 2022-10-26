@@ -12,10 +12,10 @@
 
 <section class="section">
 	<div class="row">
-		<div class="col-lg-3">
+		<div class="col-md-3">
 			<div class="card">
 				<div class="card-body m-0 p-0">
-					<div class="card">
+					<div class="card pb-4 m-0">
 						<div class="card-body pb-0">
 							<h5 class="card-title pb-0">Tìm kiếm</h5>
 							<input type="text" placeholder="Nhập họ tên..."
@@ -30,7 +30,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-lg">
+		<div class="col-md-9">
 			<div class="card">
 				<div class="card-body">
 					<div class="card mt-4">
@@ -66,8 +66,9 @@
 							</div>
 
 							<!-- Small tables -->
-							<table ng-show="!users.empty"
-								class="table table-sm mt-3 table-hover" id="example">
+								<div class="table-wrapper overflow-auto" ng-show="!users.empty" style="width: 100%; height: 97%">
+								<table class="table table-hover table-sm mt-3" id="example"
+									style="min-width: 150%;">
 								<thead>
 									<th>#</th>
 									<th>Email</th>
@@ -86,10 +87,8 @@
 											{{user.phoneNumber}}</td>
 										<td style="width: 20%;" class="text-truncate">
 											{{user.address}}</td>
-										<td style="width: 19%"><span
-											class="text-{{user.status.color}} small">{{user.status.value}}</span></td>
-										<td style="width: 7%">
-											<a href="#admin/profile/{{user.id}}"><i class="fa-solid fa-pen-to-square text-warning"></i></a>
+										<td style="width: 19%"><span class="text-{{user.status.color}} small">{{user.status.value}}</span></td>
+										<td style="width: 7%"> <a href="#admin/profile/{{user.id}}"><i class="fa-solid fa-pen-to-square text-warning"></i></a>
 										</td>
 										<td style="width: 7%">
 											<a data-bs-toggle="modal" ng-show="user.status.id==1" data-bs-target="{{'#modal'+user.id}}" type="button"><i class="fa-solid fa-user-slash text-danger"></i></a>	
@@ -98,6 +97,7 @@
 									</tr>
 								</tbody>
 							</table>
+							</div>
 
 							<div class="mt-4" ng-show="users.empty">
 								<h5 class="card-title m-0 p-0 fs-1">Danh sách quản trị viên

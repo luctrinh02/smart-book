@@ -254,7 +254,7 @@ public class ContentApi {
 		for (Book book : lstBookAll) {
 			List<String> types = Arrays.asList(book.getContent().split(","));
 			types.stream().forEach(t -> {
-				if (t.trim().equals(type.getValue().trim())) {
+				if (t.trim().equals(type.getId().toString().trim())) {
 					bookInContent.add(book);
 				}
 			});
