@@ -56,6 +56,9 @@ public class User implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Shipment> shipments ;
+	@JsonIgnore
+	@OneToMany(mappedBy = "user")
+	private List<ReturnBill> returnBills ;
 	public Integer getId() {
 		return id;
 	}
@@ -158,6 +161,12 @@ public class User implements Serializable{
 	}
 	public void setImg(String img) {
 		this.img = img;
+	}
+	public List<ReturnBill> getReturnBills() {
+		return returnBills;
+	}
+	public void setReturnBills(List<ReturnBill> returnBills) {
+		this.returnBills = returnBills;
 	}
 	
 }

@@ -27,6 +27,9 @@ public class ReturnBill implements Serializable{
     @JoinColumn(name = "bill_id")
     private Bill bill;
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @ManyToOne
     @JoinColumn(name = "status_id")
     private BillStatus status;
     @Column(name = "created_date")
@@ -81,5 +84,11 @@ public class ReturnBill implements Serializable{
     public void setBillDetails(List<ReturnBillDetail> billDetails) {
         this.billDetails = billDetails;
     }
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
     
 }
