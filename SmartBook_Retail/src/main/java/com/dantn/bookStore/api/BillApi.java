@@ -62,12 +62,12 @@ public class BillApi {
 	public ResponseEntity<?> history(@RequestParam(name = "page",defaultValue = "0") Integer pageNum
 			,@RequestParam(name="transn",required = false) String transn,Principal principal){
 		User user=userService.getByEmail(principal.getName());
-		if(transn==null) {
+		if(transn==null || "".equals(transn)) {
 			Page<Bill> page=billService.getByUser(user, pageNum);
 			HashMap<String, Object> map=DataUltil.setData("ok", page);
 			return ResponseEntity.ok(map);
 		}else {
-			Bill bill=billService.getByTranSn(transn,user);
+			Page<Bill> bill=billService.getByTranSn(user,transn,pageNum);
 			HashMap<String, Object> map=DataUltil.setData("ok", bill);
 			return ResponseEntity.ok(map);
 		}

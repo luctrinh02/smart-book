@@ -68,9 +68,9 @@
                           <h6 class="text-black mb-0">{{cart.book.name}}</h6>
                         </div>
                         <div class="col-md-4 col-lg-4 col-xl-2 d-flex">
-                          <input id="form1" min="0" name="quantity" ng-keyup="changeAmount($index)" ng-model="amount"
+                          <input id="{{'input'+$index}}" min="0" name="quantity" ng-keyup="changeAmount($index)" ng-model="amount"
                             ng-value="cart.amount" type="text" class="form-control form-control-sm"
-                            ng-attr-id={{$index}} />
+                             />
                         </div>
                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                           <h6 class="mb-0">{{(cart.book.price*(100-cart.book.discount)/100).toFixed()}} vnđ</h6>
@@ -177,7 +177,7 @@
         }
         $scope.changeAmount = function (index) {
           let cartPK = $scope.carts[index].cartPK
-          let input = document.getElementById(index + "/");
+          let input = document.getElementById("input"+index);
           let amount = input.value
           if (amount != "" && amount != 0 && !isNaN(amount)) {
             $http.put("/api/cart?amount=" + amount, cartPK).then(function (response) {

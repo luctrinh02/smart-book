@@ -1,21 +1,30 @@
 package com.dantn.bookStore.services;
 
+import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.dantn.bookStore.dto.request.ReturnRequest;
 import com.dantn.bookStore.entities.Bill;
 import com.dantn.bookStore.entities.BillDetail;
+import com.dantn.bookStore.entities.BillDetailPK;
 import com.dantn.bookStore.entities.BillStatus;
 import com.dantn.bookStore.entities.ReturnBill;
 import com.dantn.bookStore.entities.ReturnBillDetail;
 import com.dantn.bookStore.entities.ReturnBillDetailPK;
+import com.dantn.bookStore.entities.User;
 import com.dantn.bookStore.repositories.IReturnBillRepository;
+import com.dantn.bookStore.ultilities.AppConstraint;
 import com.dantn.bookStore.ultilities.BillStatusSingleton;
 import com.dantn.bookStore.ultilities.DataUltil;
 
@@ -26,15 +35,19 @@ public class ReturnBillService {
 	private BillDetailService billDetailService;
 	private BillService billService;
 	private BillStatusService billStatusService;
+	private UserService userService;
+	
 
 	public ReturnBillService(IReturnBillRepository repository, ReturnBillDetailService detailService,
-			BillDetailService billDetailService, BillService billService, BillStatusService billStatusService) {
+			BillDetailService billDetailService, BillService billService, BillStatusService billStatusService,
+			UserService userService) {
 		super();
 		this.repository = repository;
 		this.detailService = detailService;
 		this.billDetailService = billDetailService;
 		this.billService = billService;
 		this.billStatusService = billStatusService;
+		this.userService = userService;
 	}
 
 	public ReturnBill save(ReturnBill bill) {
@@ -96,5 +109,43 @@ public class ReturnBillService {
 			HashMap<String, Object> map=DataUltil.setData("error", "Lỗi dữ liệu");
 			return map;
 		}
+	}
+	public Page<ReturnBill> getByUser(Principal principal,Integer pn){
+		User user=userService.getByEmail(principal.getName());
+		Page<ReturnBill> page=repository.findByUser(user,PageRequest.of(pn, AppConstraint.PAGE_NUM,Sort.by("id").descending()));
+		return page;
+	}
+	public Page<ReturnBill> getByBill(String transn,Integer pn){
+		Bill bill=billService.getByTranSn(transn);
+		Page<ReturnBill> page=repository.findByBill(bill, PageRequest.of(pn, AppConstraint.PAGE_NUM,Sort.by("id").descending()));
+		return page;
+	}
+	public ReturnBill getById(Integer id) {
+		Optional<ReturnBill> optional=repository.findById(id);
+		return optional.isPresent()?optional.get():null;
+	}
+	public Boolean cancel(Integer id){
+		ReturnBill returnBill=this.getById(id);
+		if(returnBill.getStatus().getId()!=1) {
+			return false;
+		}else {
+			returnBill.setStatus(BillStatusSingleton.getInstance(billStatusService).get(2));
+			List<ReturnBillDetail> list=detailService.getByReturn(returnBill);
+			for(ReturnBillDetail x:list) {
+				BillDetailPK pk=new BillDetailPK();
+				pk.setBillId(x.getReturnBill().getBill().getId());
+				pk.setBookId(x.getBook().getId());
+				BillDetail billDetail=billDetailService.getById(pk);
+				billDetail.setAvailable(billDetail.getAvailable()+x.getAmount());
+				billDetailService.save(billDetail);
+			}
+			this.save(returnBill);
+			return true;
+		}
+	}
+	public List<ReturnBillDetail> getDetail(Integer id){
+		ReturnBill returnBill=this.getById(id);
+		List<ReturnBillDetail> details=detailService.getByReturn(returnBill);
+		return details;
 	}
 }

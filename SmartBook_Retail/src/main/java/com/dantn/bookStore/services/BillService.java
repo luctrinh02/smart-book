@@ -41,4 +41,10 @@ public class BillService {
 		Optional<Bill> optional=this.repository.findById(id);
 		return optional.isPresent()?optional.get():null;
 	}
+	public Page<Bill> getByTranSn(User user,String transn,Integer page){
+		return this.repository.findByTranSnAndUser(transn,user,PageRequest.of(page, AppConstraint.PAGE_NUM,Sort.by("id").descending()));
+	}
+	public Bill getByTranSn(String tranSn) {
+		return this.repository.findByTranSn(tranSn);
+	}
 }

@@ -1,7 +1,10 @@
 package com.dantn.bookStore.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.dantn.bookStore.entities.ReturnBill;
 import com.dantn.bookStore.entities.ReturnBillDetail;
 import com.dantn.bookStore.repositories.IReturnBillDetailRepository;
 
@@ -15,5 +18,8 @@ public class ReturnBillDetailService {
 	}
 	public ReturnBillDetail save(ReturnBillDetail detail) {
 		return this.repository.save(detail);
+	}
+	public List<ReturnBillDetail> getByReturn(ReturnBill bill){
+		return this.repository.findByReturnBill(bill);
 	}
 }

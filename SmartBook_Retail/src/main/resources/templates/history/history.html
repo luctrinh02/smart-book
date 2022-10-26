@@ -43,9 +43,21 @@
 <body ng-app="myApp">
     <div class="container" ng-controller="HistoryController">
         <div class="card">
-            <h5 class="card-header">
-                Lịch sử mua hàng
-            </h5>
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-4">
+                        <span class="fs-5">Lịch sử mua hàng</span>
+                    </div>
+                    <div class="col-4">
+                        <div class="input-group ">
+                            <button class="btn btn-outline-secondary" type="button" ng-click="reset()">Đặt lại</button>
+                            <input type="text" class="form-control" placeholder="Nhập mã giao dịch ..." id="tranSn">
+                            <button class="btn btn-outline-secondary" type="button" ng-click="search()">Tìm
+                                kiếm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card-body">
                 <table class="table table-hover">
                     <thead>
@@ -57,13 +69,13 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="bill in bills">
-                            <td>{{bill.tranSn}}</td>
-                            <td>{{formatDate(bill.createdTime)}}</td>
-                            <td>{{bill.totalMoney+' vnđ'}}</td>
-                            <td class="{{'text-'+bill.status.color}}">
-                                {{bill.status.value}}
+                            <td class="align-middle">{{bill.tranSn}}</td>
+                            <td class="align-middle">{{formatDate(bill.createdTime)}}</td>
+                            <td class="align-middle">{{bill.totalMoney+' vnđ'}}</td>
+                            <td class="align-middle">
+                                <span class="{{'text-'+bill.status.color}}">{{bill.status.value}}</span>
                             </td>
-                            <td>
+                            <td >
                                 <button ng-click="getDetail(bill.id)" class="btn" data-bs-toggle="modal"
                                     data-bs-target="#detailmodal"><i class="fa-solid fa-eye"></i></button>
                             </td>
@@ -100,6 +112,27 @@
                             </td>
                         </tr>
                     </tbody>
+                    <tfoot ng-show="users.totalPages!=0">
+                        <tr>
+                            <td colspan="6">
+                                <div class="d-flex justify-content-center mt-3">
+                                    <button class="btn btn-primary me-3" ng-click="getData(0)" ng-disabled="page==0">
+                                        <span class="fas fa-backward"></span>
+                                    </button>
+                                    <button class="btn btn-primary me-3" ng-click="getData(page-1)"
+                                        ng-disabled="page==0"><span class="fas fa-backward-step"></span></button>
+                                    <h4>{{users.pageable.pageNumber+1}}/{{users.totalPages}}</h4>
+                                    <button class="btn btn-primary ms-3 me-3" ng-click="getData(page+1)"
+                                        ng-disabled="page==users.totalPages-1"><span
+                                            class="fas fa-forward-step"></span></button>
+                                    <button class="btn btn-primary" ng-click="getData(users.totalPages-1)"
+                                        ng-disabled="page==users.totalPages-1">
+                                        <span class="fas fa-forward"></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -204,12 +237,16 @@
             $scope.returnRequest = [];
             $scope.bills = [];
             $scope.details = [];
+            $scope.users={}
+            $scope.page=0;
+            $scope.tranSn="";
             $scope.formatDate = function (date) {
                 let s = date.split("-");
                 return s[2] + "/" + s[1] + "/" + s[0];
             }
             $http.get("/api/bill?page=0").then(function (response) {
                 $scope.bills = response.data.data.content;
+                $scope.users=response.data.data;
             })
             $scope.getDetail = function (id) {
                 $http.get("/api/bill/" + id).then(function (response) {
@@ -277,6 +314,23 @@
                         });
                     }
                 })
+            }
+            $scope.tranSn=""
+            $scope.getData=function(index){
+                $scope.page=index;
+                $http.get("/api/bill?page=" + index + "&transn="+$scope.tranSn).then(function (response) {
+                    $scope.bills = response.data.data.content;
+                    $scope.users=response.data.data;
+                })
+            }
+            $scope.search=function(){
+                $scope.tranSn=document.getElementById("tranSn").value;
+                $scope.getData(0);
+            }
+            $scope.reset=function(){
+                document.getElementById("tranSn").value="",
+                $scope.tranSn=""
+                $scope.getData(0)
             }
         });
     </script>

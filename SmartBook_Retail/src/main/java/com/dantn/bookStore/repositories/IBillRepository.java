@@ -14,4 +14,6 @@ import com.dantn.bookStore.entities.User;
 public interface IBillRepository extends JpaRepository<Bill, Integer>{
 	Page<Bill> findByUser(User user,Pageable page);
 	Bill findByTranSnAndUser(String tranSn,User user);
+	Page<Bill> findByTranSnAndUser(String tranSn,User user,Pageable pageable);
+	Bill findByTranSn(String tranSn);
 }
