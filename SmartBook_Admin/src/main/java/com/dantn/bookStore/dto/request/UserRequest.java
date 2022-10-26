@@ -8,10 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.dantn.bookStore.adapter.DtoToEntity;
 import com.dantn.bookStore.entities.User;
-import com.dantn.bookStore.entities.UserRole;
 import com.dantn.bookStore.ultilities.ConfirmPassword;
 import com.dantn.bookStore.ultilities.PhoneNumerChecking;
-import com.dantn.bookStore.ultilities.UserRoleSingleton;
 @ConfirmPassword
 public class UserRequest implements DtoToEntity<User>{
 	private Integer id;

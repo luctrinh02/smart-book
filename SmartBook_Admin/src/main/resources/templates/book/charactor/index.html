@@ -12,10 +12,10 @@
 
 <section class="section">
 	<div class="row">
-		<div class="col-lg-3">
+		<div class="col-md-3">
 			<div class="card">
 				<div class="card-body m-0 p-0">
-					<div class="card">
+					<div class="card pb-4 m-0">
 						<div class="card-body pb-0">
 							<h5 class="card-title pb-0">Tìm kiếm</h5>
 							<input type="text" ng-model="keyWord" ng-change="getDataReset()"
@@ -26,34 +26,34 @@
 							<h5 class="card-title pb-0">Số lượng đầu sách</h5>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="getCharactor" type="radio" id="f1" value="0"> <label
-									style="cursor: pointer;" class="form-check-label" for="f1">Tất
-									cả</label>
+									ng-model="getCharactor" type="radio" id="f1" value="0">
+								<label style="cursor: pointer;" class="form-check-label"
+									for="f1">Tất cả</label>
 							</div>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="getCharactor" type="radio" id="f2" value="1"> <label
-									style="cursor: pointer;" class="form-check-label" for="f2">1
-									đến 50</label>
+									ng-model="getCharactor" type="radio" id="f2" value="1">
+								<label style="cursor: pointer;" class="form-check-label"
+									for="f2">1 đến 50</label>
 							</div>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="getCharactor" type="radio" id="f3" value="2"> <label
-									style="cursor: pointer;" class="form-check-label" for="f3">51
-									đến 100</label>
+									ng-model="getCharactor" type="radio" id="f3" value="2">
+								<label style="cursor: pointer;" class="form-check-label"
+									for="f3">51 đến 100</label>
 							</div>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="getCharactor" type="radio" id="f4" value="3"> <label
-									style="cursor: pointer;" class="form-check-label" for="f4">
-									Lớn hơn 100</label>
+									ng-model="getCharactor" type="radio" id="f4" value="3">
+								<label style="cursor: pointer;" class="form-check-label"
+									for="f4"> Lớn hơn 100</label>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-lg">
+		<div class="col-md-9">
 			<div class="card">
 				<div class="card-body">
 					<div class="card mt-4">
@@ -112,39 +112,47 @@
 							</div>
 
 							<!-- Small tables -->
-							<table ng-show="listCharactor.length > 0" class="table table-hover table-sm mt-3"
-								id="example">
-								<thead>
-									<tr>
-										<th scope="col">#</th>
-										<th scope="col">Nhân vật</th>
-										<th class="text-center" scope="col">Các đầu sách</th>
-										<th scope="col"></th>
-										<th scope="col"></th>
-										<th scope="col"><!-- <input class="form-check-input"
-											type="checkbox" id="chkAll" onchange="selectAll()"> --></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="charactor in listCharactor">
-										<th class="col-1" scope="row">{{pageIndex*10 + $index + 1}}</th>
-										<td class="col">{{charactor.charactor.value}}</td>
-										<td class="text-center col-4"><a
-											ng-show="charactor.listBook.length > 0" type="button"
-											data-bs-toggle="modal"
-											data-bs-target="{{'#modal' + charactor.charactor.id}}">{{charactor.listBook.length}}
-												đầu sách</a> <a ng-show="charactor.listBook.length <= 0"><i>---------------</i></a>
-										</td>
-										<td class="text-center col-1"><a ng-click="showUpdateModal($index)"><i
-												class="bi bi-pencil text-warning"></i></a></td>
-										<td class="text-center col-1"><a ng-click="showDeleteModal($index)"><i
-												class="bi bi-trash text-danger"></i></a></td>
-										<td class="text-center col-1"><input class="form-check-input" type="checkbox"
-											name="chk" value="{{charactor}}"></td>
-									</tr>
-								</tbody>
-							</table>
-
+							<div class="table-wrapper overflow-auto"  ng-show="listCharactor.length > 0"
+								style="width: 100%; height: 97%">
+								<table class="table table-hover table-sm mt-3" id="example"
+									style="min-width: 120%;">
+									<thead>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">Nhân vật</th>
+											<th class="text-center" scope="col">Các đầu sách</th>
+											<th scope="col"></th>
+											<th scope="col"></th>
+											<th scope="col">
+												<!-- <input class="form-check-input"
+											type="checkbox" id="chkAll" onchange="selectAll()"> -->
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="charactor in listCharactor">
+											<th class="col-1" scope="row">{{pageIndex*10 + $index +
+												1}}</th>
+											<td class="col">{{charactor.charactor.value}}</td>
+											<td class="text-center col-4"><a
+												ng-show="charactor.listBook.length > 0" type="button"
+												data-bs-toggle="modal"
+												data-bs-target="{{'#modal' + charactor.charactor.id}}">{{charactor.listBook.length}}
+													đầu sách</a> <a ng-show="charactor.listBook.length <= 0"><i>---------------</i></a>
+											</td>
+											<td class="text-center col-1"><a
+												ng-click="showUpdateModal($index)"><i
+													class="bi bi-pencil text-warning"></i></a></td>
+											<td class="text-center col-1"><a
+												ng-click="showDeleteModal($index)"><i
+													class="bi bi-trash text-danger"></i></a></td>
+											<td class="text-center col-1"><input
+												class="form-check-input" type="checkbox" name="chk"
+												value="{{charactor}}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 							<div class="mt-4" ng-show="listCharactor.length <= 0">
 								<h5 class="card-title m-0 p-0 fs-1">Danh sách nhân vật
 									trống!</h5>
@@ -173,7 +181,8 @@
 			<div class="modal-body">
 				<form>
 					<div class="row mb-3">
-						<label for="inputEmail3" class="col-sm-3 col-form-label fw-bold">Nhân vật: </label>
+						<label for="inputEmail3" class="col-sm-3 col-form-label fw-bold">Nhân
+							vật: </label>
 						<div class="col-sm">
 							<input type="text" class="form-control" id="createInput"
 								ng-model="createInput">
@@ -206,7 +215,8 @@
 			<div class="modal-body">
 				<form>
 					<div class="row mb-3">
-						<label for="inputEmail3" class="col-sm-3 col-form-label fw-bold">Nhân vật: </label>
+						<label for="inputEmail3" class="col-sm-3 col-form-label fw-bold">Nhân
+							vật: </label>
 						<div class="col-sm">
 							<input type="text" class="form-control" id="updateInput"
 								ng-model="updateInput">
@@ -264,7 +274,9 @@
 			</div>
 			<div class="modal-body">
 				<h5 class="card-title m-0 p-0 fs-6">
-					Bạn có chắc chắn muốn xoá những có nhân vật [<i ng-repeat="charactor in lstId">&ensp;"{{charactor.charactor.value}}"&ensp;</i>] vĩnh viễn?
+					Bạn có chắc chắn muốn xoá những có nhân vật [<i
+						ng-repeat="charactor in lstId">&ensp;"{{charactor.charactor.value}}"&ensp;</i>]
+					vĩnh viễn?
 				</h5>
 			</div>
 			<div class="modal-footer">

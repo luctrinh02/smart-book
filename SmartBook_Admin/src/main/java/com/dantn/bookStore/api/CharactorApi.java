@@ -254,7 +254,7 @@ public class CharactorApi {
 		for (Book book : lstBookAll) {
 			List<String> types = Arrays.asList(book.getCharactor().split(","));
 			types.stream().forEach(t -> {
-				if (t.trim().equals(type.getValue().trim())) {
+				if (t.trim().equals(type.getId().toString().trim())) {
 					bookInCharactor.add(book);
 				}
 			});
