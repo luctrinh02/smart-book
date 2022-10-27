@@ -54,4 +54,9 @@ public class BillAdminApi {
 	    List<BillDetail> details=billDetailService.getByBill(b);
         return ResponseEntity.ok(details);
 	}
+	@GetMapping("/status")
+	public ResponseEntity<?> getStatus(){
+	    List<BillStatus> list=BillStatusSingleton.getInstance(billStatusService);
+	    return ResponseEntity.ok(list);
+	}
 }

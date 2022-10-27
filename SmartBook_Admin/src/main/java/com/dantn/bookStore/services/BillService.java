@@ -1,5 +1,6 @@
 package com.dantn.bookStore.services;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -52,23 +53,23 @@ public class BillService {
 	public HashMap<String, Object> update(BillUpdateRequest request,BillStatusService billStatusService){
 	    BillStatus billStatus=BillStatusSingleton.getInstance(billStatusService).get(request.getStatusIndex());
         Bill bill=this.getById(request.getId());
-        if(bill.getStatus().getId()!=1) {
-            HashMap<String, Object> map=DataUltil.setData("error", "Đơn đã bị hủy hoặc xác nhận");
-            return map;
-        }else if(request.getStatusIndex()==2) {
+        if(request.getStatusIndex()==2) {
             if("".equals(request.getMessage().trim()) || request.getMessage()==null) {
-                HashMap<String, Object> map=DataUltil.setData("error", "Vui lòng nhập lý do hủy");
+                HashMap<String, Object> map=DataUltil.setData("blank", "");
                 return map;
             }else {
                 bill.setStatus(billStatus);
+                bill.setUpdatedTime(new Date());
+                bill.setMessage(request.getMessage());
                 this.save(bill);
-                HashMap<String, Object> map=DataUltil.setData("ok", "Hủy thành công");
+                HashMap<String, Object> map=DataUltil.setData("ok", "");
                 return map;
             }
         }else {
+            bill.setUpdatedTime(new Date());
             bill.setStatus(billStatus);
             this.save(bill);
-            HashMap<String, Object> map=DataUltil.setData("ok", "Duyệt thành công");
+            HashMap<String, Object> map=DataUltil.setData("ok", "");
             return map;
         }
 	}
