@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"
+        integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript">
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+    </script>
+</head>
+
+<body ng-app="myApp">
+    <div class="container" ng-controller="BillController">
+        <div class="form-check form-check-inline" ng-repeat="s in status">
+            <input class="form-check-input" type="radio" name="status" id="status{{$index}}" value="{{$index}}"
+                ng-model="sta.s" ng-checked="0==$index" ng-change="getData(0)">
+            <label class="form-check-label text-{{s.color}}" for="status{{$index}}">{{s.value}}</label>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-4">
+                        <span class="fs-5">Danh sách hóa đơn</span>
+                    </div>
+                    <!-- <div class="col-4">
+                        <div class="input-group ">
+                            <button class="btn btn-outline-secondary" type="button" ng-click="reset()">Đặt lại</button>
+                            <input type="text" class="form-control" placeholder="Nhập mã giao dịch ..." id="tranSn">
+                            <button class="btn btn-outline-secondary" type="button" ng-click="search()">Tìm
+                                kiếm</button>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <th>Mã giao dịch</th>
+                        <th>Ngày mua</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th ng-show="sta.s==2">Lý do</th>
+                        <th colspan="2" style="width: 5%;" ng-hide="sta.s==2||sta.s==4 || hide()==true"></th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="bill in bills">
+                            <td class="align-middle">{{bill.tranSn}}</td>
+                            <td class="align-middle" ng-click="getDetail(bill.id)">{{formatDate(bill.createdTime)}}</td>
+                            <td class="align-middle" ng-click="getDetail(bill.id)">{{bill.totalMoney+' vnđ'}}</td>
+                            <td class="align-middle" ng-click="getDetail(bill.id)">
+                                <span class="{{'text-'+bill.status.color}}">{{bill.status.value}}</span>
+                            </td>
+                            <td ng-show="sta.s==2" class="align-middle" ng-click="getDetail(bill.id)">{{bill.message}}
+                            </td>
+                            <td ng-hide="bill.status.id==3 || bill.status.id==5">
+                                <button class="btn" data-bs-toggle="modal" data-bs-target="{{'#modal'+$index}}"><i
+                                        class="fa-solid fa-xmark"></i></button>
+                                <div class="modal fade" id="{{'modal'+$index}}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Nhận lý do</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <label for="message">Lý do:</label>
+                                                    </div>
+                                                    <div class="col-10">
+                                                        <textarea name="message" id="message{{$index}}"
+                                                            class="form-control" rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Không</button>
+                                                <button type="button" class="btn btn-danger"
+                                                    ng-click="showModal($index)">Hủy đơn</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="{{'cancel'+$index}}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Xác nhận hủy đơn</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Bạn có chắc muốn hủy đơn hàng này?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    ng-click="hideModal($index)">Không</button>
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                                                    ng-click="cancel($index)">Chắc chắn</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td ng-hide="bill.status.id==5 || bill.status.id==3">
+                                <button class="btn" data-bs-toggle="modal" data-bs-target="{{'#conf'+bill.id}}"><i
+                                        class="fa-solid fa-check"></i></button>
+                                <div class="modal fade" id="conf{{bill.id}}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Xác nhận</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Bạn có chắn thực hiện đơn?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Không</button>
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                                                    ng-click="submit($index)">Chắc
+                                                    chắn</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot ng-show="users.totalPages!=0">
+                        <tr>
+                            <td colspan="6">
+                                <div class="d-flex justify-content-center mt-3">
+                                    <button class="btn btn-primary me-3" ng-click="getData(0)" ng-disabled="page==0">
+                                        <span class="fas fa-backward"></span>
+                                    </button>
+                                    <button class="btn btn-primary me-3" ng-click="getData(page-1)"
+                                        ng-disabled="page==0"><span class="fas fa-backward-step"></span></button>
+                                    <h4>{{users.pageable.pageNumber+1}}/{{users.totalPages}}</h4>
+                                    <button class="btn btn-primary ms-3 me-3" ng-click="getData(page+1)"
+                                        ng-disabled="page==users.totalPages-1"><span
+                                            class="fas fa-forward-step"></span></button>
+                                    <button class="btn btn-primary" ng-click="getData(users.totalPages-1)"
+                                        ng-disabled="page==users.totalPages-1">
+                                        <span class="fas fa-forward"></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="modal fade" id="detailmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Mã hóa đơn: {{details[0].bill.tranSn}}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <th>Tên sách</th>
+                                <th>Hình ảnh</th>
+                                <th>Số lượng</th>
+                                <th>Đơn giá</th>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="detail in details">
+                                    <td>{{detail.book.name}}</td>
+                                    <td>{{detail.book.img}}</td>
+                                    <td align="center">{{detail.amount}}</td>
+                                    <td>{{detail.price}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <th colspan="4">Trạng thái: <span
+                                        class="{{'text-'+details[0].bill.status.color}}">{{details[0].bill.status.value}}</span>
+                                </th>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const myApp = angular.module("myApp", []);
+        myApp.controller('BillController', function ($scope, $http) {
+            $scope.checkDate = function (index) {
+                let today = new Date().setHours(7, 0, 0, 0);
+                let chek = new Date($scope.bills[index].createdTime).setHours(7, 0, 0, 0);
+                return today - chek;
+            }
+            $scope.sta = { s: 0 };
+            $scope.returnRequest = [];
+            $scope.bills = [];
+            $scope.details = [];
+            $scope.status = [];
+            $scope.users = {}
+            $scope.page = 0;
+            $scope.tranSn = "";
+            $scope.formatDate = function (date) {
+                let s = date.split("-");
+                return s[2] + "/" + s[1] + "/" + s[0];
+            }
+            $http.get("/api/admin/bill/status").then(function (response) {
+                $scope.status = response.data;
+            })
+            $http.get("/api/admin/bill?page=0&status=0").then(function (response) {
+                $scope.bills = response.data.content;
+                $scope.users = response.data;
+            })
+            $scope.getDetail = function (id) {
+                $http.get("/api/admin/bill/" + id).then(function (response) {
+                    $scope.details = response.data;
+                })
+                $("#detailmodal").modal("show");
+            }
+            $scope.submit = function (index) {
+                let data = {
+                    id: $scope.bills[index].id,
+                    message: "",
+                    statusIndex: $scope.sta.s == 1 ? +Number($scope.sta.s) + 2 : Number($scope.sta.s) + 1
+                }
+                $http.put("/api/admin/bill", data).then(function (response) {
+                    if (response.data.statusCode == "ok") {
+                        Toast.fire({
+                            icon: 'success',
+                            title: "Thành công"
+                        });
+                        $scope.getData(0)
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: "Thất bại"
+                        });
+                    }
+                })
+            }
+            $scope.cancel = function (index) {
+                let data = {
+                    id: $scope.bills[index].id,
+                    message: document.getElementById("message" + index).value,
+                    statusIndex: 2
+                }
+                $http.put("/api/admin/bill", data).then(function (response) {
+                    if (response.data.statusCode == "ok") {
+                        Toast.fire({
+                            icon: 'success',
+                            title: "Thành công"
+                        });
+                        $scope.getData(0)
+                    } else if (response.data.statusCode == "blank") {
+                        Toast.fire({
+                            icon: 'error',
+                            title: "Không bỏ trống thông báo"
+                        });
+                        $("#modal" + index).modal("show");
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: "Thất bại"
+                        });
+                    }
+                })
+            }
+            $scope.tranSn = ""
+            $scope.getData = function (index) {
+                $scope.page = index;
+                $http.get("/api/admin/bill?page=" + index + "&transn=" + $scope.tranSn + "&status=" + $scope.sta.s).then(function (response) {
+                    $scope.bills = response.data.content;
+                    $scope.users = response.data;
+                })
+            }
+            $scope.search = function () {
+                $scope.tranSn = document.getElementById("tranSn").value;
+                $scope.getData(0);
+            }
+            $scope.reset = function () {
+                document.getElementById("tranSn").value = "",
+                    $scope.tranSn = ""
+                $scope.getData(0)
+            }
+            $scope.showModal = function (index) {
+                $("#modal0").modal("hide");
+                $("#cancel0").modal("show");
+            }
+            $scope.hideModal = function (index) {
+                $("#cancel" + index).modal("hide");
+                $("#modal" + index).modal("show");
+            }
+        });
+    </script>
+</body>
+
+</html>

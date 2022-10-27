@@ -139,6 +139,7 @@ public class ReturnBillService {
 				billDetail.setAvailable(billDetail.getAvailable()+x.getAmount());
 				billDetailService.save(billDetail);
 			}
+			returnBill.setUpdatedTime(new Date());
 			this.save(returnBill);
 			return true;
 		}
