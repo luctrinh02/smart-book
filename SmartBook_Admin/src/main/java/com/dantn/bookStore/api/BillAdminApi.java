@@ -1,5 +1,6 @@
 package com.dantn.bookStore.api;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,8 +45,8 @@ public class BillAdminApi {
 		return ResponseEntity.ok(page);
 	}
 	@PutMapping("")
-	public ResponseEntity<?> updateStatus(@RequestBody BillUpdateRequest request){
-		HashMap<String, Object> map=billService.update(request, billStatusService);
+	public ResponseEntity<?> updateStatus(@RequestBody BillUpdateRequest request,Principal principal){
+		HashMap<String, Object> map=billService.update(request, billStatusService,principal);
 		return ResponseEntity.ok(map);
 	}
 	@GetMapping("/{id}")

@@ -24,9 +24,6 @@ public class BillStatus implements Serializable{
 	@OneToMany(mappedBy = "status")
 	private List<Bill> bills;
 	@JsonIgnore
-	@OneToMany(mappedBy = "status")
-	private List<Shipment> shipments;
-	@JsonIgnore
     @OneToMany(mappedBy = "status")
     private List<ReturnBill> returnBills;
 	public Integer getId() {
@@ -46,12 +43,6 @@ public class BillStatus implements Serializable{
 	}
 	public void setBills(List<Bill> bills) {
 		this.bills = bills;
-	}
-	public List<Shipment> getShipments() {
-		return shipments;
-	}
-	public void setShipments(List<Shipment> shipments) {
-		this.shipments = shipments;
 	}
 	public String getColor() {
 		return color;
