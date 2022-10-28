@@ -1,5 +1,6 @@
 package com.dantn.bookStore.services;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,8 +14,10 @@ import org.springframework.stereotype.Service;
 import com.dantn.bookStore.dto.request.BillUpdateRequest;
 import com.dantn.bookStore.entities.Bill;
 import com.dantn.bookStore.entities.BillStatus;
+import com.dantn.bookStore.entities.Shipment;
 import com.dantn.bookStore.entities.User;
 import com.dantn.bookStore.repositories.IBillRepository;
+import com.dantn.bookStore.repositories.IShipmentRepository;
 import com.dantn.bookStore.ultilities.AppConstraint;
 import com.dantn.bookStore.ultilities.BillStatusSingleton;
 import com.dantn.bookStore.ultilities.DataUltil;
@@ -22,12 +25,17 @@ import com.dantn.bookStore.ultilities.DataUltil;
 @Service
 public class BillService {
 	private IBillRepository repository;
-
-	public BillService(IBillRepository repository) {
-		super();
-		this.repository = repository;
-	}
-	public List<Bill> getByUser(User user){
+	private IShipmentRepository shipmentRepository;
+	private UserService service;
+	
+    
+    public BillService(IBillRepository repository, IShipmentRepository shipmentRepository, UserService service) {
+        super();
+        this.repository = repository;
+        this.shipmentRepository = shipmentRepository;
+        this.service = service;
+    }
+    public List<Bill> getByUser(User user){
 		return this.repository.findByUser(user);
 	}
 	public Bill getByTranSn(String transn) {
@@ -50,9 +58,10 @@ public class BillService {
 	public Page<Bill> getByAcepted(BillStatus billStatus,Integer page){
 		return this.repository.findByStatus(billStatus, PageRequest.of(page, AppConstraint.PAGE_NUM,Sort.by("id").ascending()));
 	}
-	public HashMap<String, Object> update(BillUpdateRequest request,BillStatusService billStatusService){
+	public HashMap<String, Object> update(BillUpdateRequest request,BillStatusService billStatusService,Principal principal){
 	    BillStatus billStatus=BillStatusSingleton.getInstance(billStatusService).get(request.getStatusIndex());
         Bill bill=this.getById(request.getId());
+        
         if(request.getStatusIndex()==2) {
             if("".equals(request.getMessage().trim()) || request.getMessage()==null) {
                 HashMap<String, Object> map=DataUltil.setData("blank", "");
@@ -65,6 +74,20 @@ public class BillService {
                 HashMap<String, Object> map=DataUltil.setData("ok", "");
                 return map;
             }
+        }else if(request.getStatusIndex()==3){
+            User user=service.getByEmail(principal.getName());
+            Shipment s=new Shipment();
+            s.setBill(true);
+            s.setStatus(billStatus);
+            s.setBillId(bill.getId());
+            s.setCreatedTime(new Date());
+            s.setUser(user);
+            this.shipmentRepository.save(s);
+            bill.setUpdatedTime(new Date());
+            bill.setStatus(billStatus);
+            this.save(bill);
+            HashMap<String, Object> map=DataUltil.setData("ok", "");
+            return map;
         }else {
             bill.setUpdatedTime(new Date());
             bill.setStatus(billStatus);

@@ -17,7 +17,10 @@ import javax.persistence.TemporalType;
 @Table
 public class Shipment implements Serializable{
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	private Integer billId;
+	private Boolean bill;
 	@Temporal(TemporalType.DATE)
 	@Column(name = "created_time")
 	private Date createdTime;
@@ -60,5 +63,18 @@ public class Shipment implements Serializable{
 	public void setUser(User user) {
 		this.user = user;
 	}
+    public Integer getBillId() {
+        return billId;
+    }
+    public void setBillId(Integer billId) {
+        this.billId = billId;
+    }
+    public Boolean getBill() {
+        return bill;
+    }
+    public void setBill(Boolean bill) {
+        this.bill = bill;
+    }
+    
 	
 }
