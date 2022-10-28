@@ -107,12 +107,13 @@ public class ShipmentService {
                         newBill.setTotalMoney(bill.getTotalMoney());
                         newBill.setTransportFee(bill.getTransportFee());
                         newBill.setTranSn(TranSnUltil.getTranSn());
+                        newBill.setUser(bill.getUser());
                         newBill.setStatus(BillStatusSingleton.getInstance(billStatusService).get(0));
                         newBill = billService.save(newBill);
-                        BillDetailPK pk = new BillDetailPK();
-                        pk.setBillId(newBill.getId());
                         List<BillDetail> details2=new ArrayList<>();
                         for (BillDetail x : details) {
+                        	BillDetailPK pk = new BillDetailPK();
+                            pk.setBillId(newBill.getId());
                             BillDetail newDetail = new BillDetail();
                             pk.setBookId(x.getBook().getId());
                             newDetail.setBillDetailPK(pk);
@@ -141,19 +142,23 @@ public class ShipmentService {
                                 return DataUltil.setData("amount", "Không đủ sách để tạo đơn");
                             }
                         }
-                        bill.setCreatedTime(new Date());
-                        bill.setUpdatedTime(null);
-                        bill.setId(null);
-                        bill.setStatus(BillStatusSingleton.getInstance(billStatusService).get(0));
-                        bill = returnBillService.save(bill);
-                        ReturnBillDetailPK pk = details.get(0).getPK();
-                        pk.setReturnBillId(bill.getId());
+                        ReturnBill newBill=new ReturnBill();
+                        newBill.setCreatedTime(new Date());
+                        newBill.setUpdatedTime(null);
+                        newBill.setStatus(BillStatusSingleton.getInstance(billStatusService).get(0));
+                        newBill.setBill(bill.getBill());
+                        newBill.setCreatedTime(new Date());
+                        newBill = returnBillService.save(newBill);
                         List<ReturnBillDetail> details2=new ArrayList<>();
                         for (ReturnBillDetail x : details) {
-                            ReturnBillDetail newDetail = x;
+                        	ReturnBillDetailPK pk = new ReturnBillDetailPK();
+                            pk.setReturnBillId(bill.getId());
+                            ReturnBillDetail newDetail = new ReturnBillDetail();
                             pk.setBookId(x.getBook().getId());
                             newDetail.setPK(pk);
                             newDetail.setReturnBill(bill);
+                            newDetail.setBook(x.getBook());
+                            newDetail.setAmount(x.getAmount());
                             returnBillDetail.save(newDetail);
                             details2.add(newDetail);
                             Book book=x.getBook();

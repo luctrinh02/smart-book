@@ -138,7 +138,29 @@
                                 </div>
                             </td>
                             <td>
-                                <button class="btn"><i class="fa-solid fa-user-xmark"></i></button>
+                                <button class="btn"><i class="fa-solid fa-user-xmark" data-bs-target="#userconf{{bill.id}}" data-bs-toggle="modal"></i></button>
+                                <div class="modal fade" id="userconf{{bill.id}}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Xác nhận</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Khách không nhận thật sao?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Không</button>
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                                                    ng-click="userCancel($index)">Chắc
+                                                    chắn</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 <button class="btn" data-bs-toggle="modal" data-bs-target="{{'#conf'+bill.id}}"><i
