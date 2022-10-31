@@ -39,7 +39,7 @@
 
 </head>
 
-<body ng-app="myApp">
+<body ng-app="myApp" ng-controller="ctrlModule">
 	<header id="header" class="header fixed-top d-flex align-items-center">
 
 		<div class="d-flex align-items-center justify-content-between">
@@ -134,13 +134,13 @@
 					class="nav-link nav-profile d-flex align-items-center pe-0"
 					href="#" data-bs-toggle="dropdown"> <img
 						src="/index/img/xuxai.jpg" alt="Profile" class="rounded-circle">
-						<span class="d-none d-md-block dropdown-toggle ps-2">&ensp;Yasuo&ensp;</span>
+						<span class="d-none d-md-block dropdown-toggle ps-2">&ensp;{{authen.fullname}}&ensp;</span>
 				</a>
 
 					<ul
 						class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 						<li class="dropdown-header">
-							<h6>Yasuo</h6> <span>Quản trị viên</span>
+							<h6>{{authen.fullname}}</h6> <span>{{authen.role.value}}</span>
 						</li>
 						<li>
 							<hr class="dropdown-divider">
@@ -184,7 +184,7 @@
 
 	</header>
 
-	<aside id="sidebar" class="sidebar" ng-controller="ctrlModule">
+	<aside id="sidebar" class="sidebar">
 		<ul class="sidebar-nav" id="sidebar-nav">
 			<li class="{{m.classB}}" ng-repeat="m in listModule">
 				

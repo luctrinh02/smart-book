@@ -20,25 +20,36 @@
 				<div class="card-body m-0 p-0">
 					<div class="card">
 						<div class="card-body pb-0">
-							<h5 class="card-title pb-0">Vai trò trong hệ thống</h5>
-
-							<div class="form-check form-switch mt-3">
-								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="role" type="radio" id="f1" value="0"
-									ng-checked="role==0"> <label style="cursor: pointer;"
-									class="form-check-label" for="f1">Khách hàng</label>
+							<h5 class="card-title pb-0">Thể loại</h5>
+							<div class="content ">
+								<li ng-repeat="t in showType">{{t.value}}<i class="fa-sharp fa-solid fa-xmark ms-2" ng-click="remove($index, showType,'newType')"></i></li>
+								<div class="autocomplete">
+									<input type="text" ng-model="newType" id="newType" class="form-control m-0 mt-2" placeholder="Thêm mới...">
+								</div>
+								<button class="btn btn-danger mt-2  btn-sm" ng-click="removeAll(showType, 'newType')">Xoá hết</button>
+								<button class="btn btn-primary mt-2 ms-2  btn-sm" style="background-color: #012970" ng-click="checkAddList('newType', showType, listType, 'Thể loại')">Thêm mới</button>
 							</div>
-							<div class="form-check form-switch">
-								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="role" type="radio" id="f2" value="1"
-									ng-checked="role==1"> <label style="cursor: pointer;"
-									class="form-check-label" for="f2">Quản trị viên</label>
+						</div>
+						<div class="card-body pb-0">
+							<h5 class="card-title pb-0">Nội dung</h5>
+							<div class="content ">
+								<li ng-repeat="t in showContent">{{t.value}}<i class="fa-sharp fa-solid fa-xmark ms-2" ng-click="remove($index, showContent,'newContent')"></i></li>
+								<div class="autocomplete">
+									<input type="text" ng-model="newContent" id="newContent" class="form-control m-0 mt-2" placeholder="Thêm mới...">
+								</div>
+								<button class="btn btn-danger mt-2  btn-sm" ng-click="removeAll(showContent, 'newContent')">Xoá hết</button>
+								<button class="btn btn-primary mt-2 ms-2  btn-sm" style="background-color: #012970" ng-click="checkAddList('newContent', showContent, listContent, 'Nội dung')">Thêm mới</button>
 							</div>
-							<div class="form-check form-switch">
-								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="role" type="radio" id="f3" value="2"
-									ng-checked="role==2"> <label style="cursor: pointer;"
-									class="form-check-label" for="f3">Giao hàng</label>
+						</div>
+						<div class="card-body pb-0">
+							<h5 class="card-title pb-0">Nhân vật</h5>
+							<div class="content ">
+								<li ng-repeat="t in showCharactor">{{t.value}}<i class="fa-sharp fa-solid fa-xmark ms-2" ng-click="remove($index, showCharactor,'newCharactor')"></i></li>
+								<div class="autocomplete">
+									<input type="text" ng-model="newCharactor" id="newCharactor" class="form-control m-0 mt-2" placeholder="Thêm mới...">
+								</div>
+								<button class="btn btn-danger mt-2  btn-sm" ng-click="removeAll(showCharactor, 'newCharactor')">Xoá hết</button>
+								<button class="btn btn-primary mt-2 ms-2  btn-sm" style="background-color: #012970" ng-click="checkAddList('newCharactor', showCharactor, listCharactor, 'Nhân vật')">Thêm mới</button>
 							</div>
 						</div>
 					</div>
@@ -53,72 +64,95 @@
 
 							<div class="pt-4 pb-2">
 								<div class="d-flex justify-content-center py-3">
-									<a href="#home"
-										class="logo d-flex align-items-center w-auto"> <img
-										src="/index/img/logo.jpg" alt=""> <span
+									<a href="#home" class="logo d-flex align-items-center w-auto">
+										<img src="/index/img/logo.jpg" alt=""> <span
 										class="d-none d-lg-block">Smart Book</span>
 									</a>
 								</div>
-
 								<p class="text-center small">Vui lòng nhập đầy đủ thông tin
-									dưới đây để thêm mới người dùng</p>
+									dưới đây để thêm mới đầu sách</p>
 							</div>
 
-							<form action="return false" method="post" name="userCreate"
-								id="userCreate">
+							<form action="return false" method="post" name="bookCreate"
+								id="bookCreate">
+								<div class="row">
+									<div class="col-4 mt-3 form-floating">
+										<input type="text" ng-model="book.name" class="form-control" name="name" placeholder="smartbook">
+										<label for="name" class="text-center">Tên sách</label> 
+										<small class="text-danger" id="name"></small>
+									</div>
+									<div class="col-4 mt-3 form-floating">
+										<input type="text" ng-model="book.ISBN" class="form-control" name="isbn" placeholder="smartbook"> 
+										<label for="isbn" class="text-center">ISBN</label> 
+										<small class="text-danger" id="isbn"></small>
+									</div>
+									<div class="col-4 mt-3 form-floating">
+										<input type="text" ng-model="book.numOfPage" class="form-control" name="numOfPage" placeholder="smartbook"> 
+										<label for="numOfPage" class="text-center">Số trang</label> 
+										<small class="text-danger" id="numOfPage"></small>
+									</div>
+								</div>
+								
 								<div class="row">
 									<div class="col-6 mt-3 form-floating">
-										<input type="text" class="form-control" name="fullname"
-											placeholder="smartbook"> <label for="fullname"
-											class="text-center">Họ và tên</label> <small
-											class="text-danger" id="fullname"></small>
+										<input type="text" ng-model="book.price" class="form-control" name="price" placeholder="smartbook"> 
+										<label for="price" class="text-center">Giá bán</label> 
+										<small class="text-danger" id="price"></small>
 									</div>
 									<div class="col-6 mt-3 form-floating">
-										<input type="text" class="form-control" name="address"
-											placeholder="smartbook"> <label for="address"
-											class="text-center">Địa chỉ</label> <small
-											class="text-danger" id="address"></small>
+										<input type="text" ng-model="book.amount" class="form-control" name="amount" placeholder="smartbook"> 
+										<label for="amount" class="text-center">Số lượng</label> 
+										<small class="text-danger" id="amount"></small>
 									</div>
 								</div>
+								
 								<div class="row mt-3">
-									<div class="col-6 mt-3 form-floating">
-										<input type="text" class="form-control" name="phoneNumber"
-											placeholder="smartbook"> <label for="phoneNumber"
-											class="text-center">Số điện thoại</label> <small
-											class="text-danger" id="phoneNumber"></small>
+									<div class="col-4 mt-3 form-floating">
+										<select class="form-select" ng-model="book.status">
+											<option value="">Chưa chọn</option>
+											<option class="text-{{o.color}}" ng-repeat="o in listBookStatus" value="{{o}}">{{o.value}}</option>
+										</select> 
+										<label class="text-center" for="status">Trạng thái</label>
 									</div>
-									<div class="col-6 mt-3 form-floating">
-										<input type="email" class="form-control" name="email"
-											placeholder="smartbook"> <label for="email"
-											class="text-center">Email</label> <small class="text-danger"
-											id="email"></small>
+									
+									<div class="col-4 mt-3 form-floating">
+										<select class="form-select" ng-model="book.author">
+											<option value="">Chưa chọn</option>
+											<option ng-repeat="o in listAuthor" value="{{o}}">{{o.name}}</option>
+										</select>
+										<label class="text-center" for="type">Tác giả</label>
+									</div>
+									
+									<div class="col-4 mt-3 form-floating">
+										<select class="form-select" ng-model="book.publisher">
+											<option value="">Chưa chọn</option>
+											<option ng-repeat="o in listPublisher" value="{{o}}">{{o.name}}</option>
+										</select> 
+										<label class="text-center" for="publisher">Nhà xuất bản</label>
 									</div>
 								</div>
 
 								<div class="row mt-3">
 									<div class="col-6 mt-3 form-floating">
-										<input type="password" class="form-control" name="password"
-											placeholder="smartbook"> <label for="password"
-											class="text-center">Mật khẩu</label> <small
-											class="text-danger" id="password"></small>
+										<input type="file" accept=".jpg,.jpeg,.png" ng-model="book.image" class="form-control" name="image" placeholder="smartbook"> 
+										<label for="image" class="text-center">Hình ảnh</label> 
+										<small class="text-danger" id="image"></small>
 									</div>
 									<div class="col-6 mt-3 form-floating">
-										<input type="password" class="form-control" name="confirm"
-											placeholder="smartbook"> <label for="confirm"
-											class="text-center">Xác nhận mật khẩu</label> <small
-											class="text-danger" id="ConfirmPassword"></small>
+										<input type="text" ng-model="book.description" class="form-control" name="description" placeholder="smartbook"> 
+										<label for="description" class="text-center">Mô tả</label> 
+										<small class="text-danger" id="description"></small>
 									</div>
 								</div>
-
+							
 								<div class="row mt-5">
 									<div class="col-6 text-end">
 										<button type="reset" class="btn btn-secondary">Đặt
 											lại</button>
-
 									</div>
 									<div class="col-6 text-start">
 										<button type="button" class="btn btn-primary"
-											ng-click="check()">Thêm mới</button>
+											ng-click="showBook()">Thêm mới</button>
 									</div>
 								</div>
 							</form>
@@ -130,9 +164,7 @@
 	</div>
 </section>
 
-
-<div class="modal fade" id="exampleModal" tabindex="-1"
-	aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalConfirm" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -144,14 +176,16 @@
 					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<h5 class="card-title m-0 p-0 fs-6">Bạn có chắc muốn thêm người
-					dùng này?</h5>
+				<h5 class="card-title m-0 p-0 fs-6">{{titleInfo}} sách chưa tồn
+					tại, bạn có muốn thêm mới không?</h5>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">Huỷ</button>
 				<button type="button" class="btn btn-primary"
-					data-bs-dismiss="modal" ng-click="create()">Chắc chắn</button>
+					data-bs-dismiss="modal" ng-click="createElementType('create')">Xác
+					nhận</button>
+
 			</div>
 		</div>
 	</div>
