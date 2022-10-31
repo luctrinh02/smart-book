@@ -43,7 +43,7 @@ public class CharactorService {
 	}
 	
 	public List<Charactor> getAll() {
-		return rep.findAll();
+		return rep.findAll(Sort.by(Sort.Direction.ASC, "id"));
 	}
 	
 	public List<Integer> delete(List<Integer> listId) {

@@ -43,8 +43,9 @@ public class TypeService {
 	}
 	
 	public List<Type> getAll() {
-		return rep.findAll();
+		return rep.findAll(Sort.by(Sort.Direction.ASC, "id"));
 	}
+
 	
 	public List<Integer> delete(List<Integer> listId) {
 		if (listId != null) {

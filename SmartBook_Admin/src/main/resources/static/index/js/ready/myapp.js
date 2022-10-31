@@ -37,11 +37,11 @@ app.config(function($routeProvider, $locationProvider) {
 		controller: 'ctrlBook'
 	}).when("/book/create", {
 		templateUrl: '/admin/smart-book/book/create',
-		controller: 'ctrlCreateBook'
+		controller: 'ctrlBook'
 	})
 	.when("/book/update/:id", {
 		templateUrl: '/admin/smart-book/book/update',
-		controller: 'ctrlUpdateBook'
+		controller: 'ctrlBook'
 	})
 	.when("/login", {
 		templateUrl: '/admin/smart-book/login',
@@ -79,8 +79,6 @@ app.controller("ctrlContent", ctrlContent);
 app.controller("ctrlCharactor", ctrlCharactor);
 app.controller("ctrlModule", ctrlModule);
 app.controller("ctrlBook", ctrlBook);
-app.controller("ctrlCreateBook", ctrlCreateBook);
-app.controller("ctrlUpdateBook", ctrlUpdateBook);
 app.controller("ctrlLogin", ctrlLogin);
 app.controller("adminController", adminController);
 app.controller("guestController", guestController);

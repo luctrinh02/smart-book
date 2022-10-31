@@ -10,6 +10,12 @@ public class BookParamsRequest {
 	private String status;
 	private String author;
 	private Integer evaluate;
+	@Override
+	public String toString() {
+		return "BookParamsRequest [page=" + page + ", sortBy=" + sortBy + ", keyWord=" + keyWord + ", type=" + type
+				+ ", publisher=" + publisher + ", status=" + status + ", author=" + author + ", evaluate=" + evaluate
+				+ "]";
+	}
 	public Integer getPage() {
 		return page;
 	}
