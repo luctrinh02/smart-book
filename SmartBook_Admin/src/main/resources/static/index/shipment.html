@@ -282,12 +282,13 @@
             }
             $scope.getDetail = function (index) {
                 if ($scope.bills[index].bill == true) {
-                    $http.get("/api/admin/bill/" + $scope.bills[index].id).then(function (response) {
+                    $http.get("/api/admin/bill/" + $scope.bills[index].billId).then(function (response) {
                         $scope.details = response.data;
+                        console.log($scope.details)
                     })
                     $("#detailmodalBill").modal("show");
                 } else {
-                    $http.get("/api/admin/return/" + $scope.bills[index].id).then(function (response) {
+                    $http.get("/api/admin/return/" + $scope.bills[index].billId).then(function (response) {
                         $scope.details = response.data;
                     })
                     $("#detailmodal").modal("show");

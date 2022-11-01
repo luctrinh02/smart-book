@@ -82,7 +82,7 @@
 										<small class="text-danger" id="name"></small>
 									</div>
 									<div class="col-4 mt-3 form-floating">
-										<input type="text" ng-model="book.ISBN" class="form-control" name="isbn" placeholder="smartbook"> 
+										<input type="text" ng-model="book.isbn" class="form-control" name="isbn" placeholder="smartbook"> 
 										<label for="isbn" class="text-center">ISBN</label> 
 										<small class="text-danger" id="isbn"></small>
 									</div>
@@ -118,17 +118,19 @@
 									<div class="col-4 mt-3 form-floating">
 										<select class="form-select" ng-model="book.author">
 											<option value="">Chưa chọn</option>
-											<option ng-repeat="o in listAuthor" value="{{o}}">{{o.name}}</option>
+											<option ng-repeat="o in listAuthor" value="{{o.id}}">{{o.name}}</option>
 										</select>
 										<label class="text-center" for="type">Tác giả</label>
+										<small class="text-danger" id="author"></small>
 									</div>
 									
 									<div class="col-4 mt-3 form-floating">
 										<select class="form-select" ng-model="book.publisher">
 											<option value="">Chưa chọn</option>
-											<option ng-repeat="o in listPublisher" value="{{o}}">{{o.name}}</option>
+											<option ng-repeat="o in listPublisher" value="{{o.id}}">{{o.name}}</option>
 										</select> 
 										<label class="text-center" for="publisher">Nhà xuất bản</label>
+										<small class="text-danger" id="publisher"></small>
 									</div>
 								</div>
 

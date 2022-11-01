@@ -1,5 +1,6 @@
 package com.dantn.bookStore.services;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.dantn.bookStore.dto.request.BookParamsRequest;
+import com.dantn.bookStore.dto.request.BookRequest;
 import com.dantn.bookStore.entities.Author;
 import com.dantn.bookStore.entities.Book;
 import com.dantn.bookStore.entities.BookStatus;
@@ -34,10 +36,11 @@ public class BookService {
 	private PublisherService publisherService;
 	private CharactorService charactorService;
 	private ContentService contentService;
+	private UserService  userService;
 
 	public BookService(IBookRepository repository, EBookService eBookService, BookStatusService bookStatusService,
 			TypeService typeService, AuthorService authorService, PublisherService publisherService,
-			CharactorService charactorService, ContentService contentService) {
+			CharactorService charactorService, ContentService contentService, UserService userService) {
 		super();
 		this.repository = repository;
 		this.eBookService = eBookService;
@@ -47,6 +50,7 @@ public class BookService {
 		this.publisherService = publisherService;
 		this.charactorService = charactorService;
 		this.contentService = contentService;
+		this.userService = userService;
 	}
 
 	public List<Book> getAll() {
@@ -208,6 +212,14 @@ public class BookService {
 		return mapReturn;
 	}
 	
-	
+	public Book create(BookRequest  request,Principal principal){
+		Book b=new Book();
+		b=request.changeToEntity(b);
+		b.setAuthor(authorService.findById(Integer.parseInt(request.getAuthor())));
+		b.setPublisher(publisherService.findById(Integer.parseInt(request.getPublisher())));
+		b.setCreatedBy(userService.getByEmail(principal.getName()));
+		b.setStatus(BookStatusSingleton.getInstance(bookStatusService).get(0));
+		return repository.save(b);
+	}
 
 }

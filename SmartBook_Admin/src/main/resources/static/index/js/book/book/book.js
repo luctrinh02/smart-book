@@ -44,6 +44,7 @@ function ctrlBook($scope, $http, $rootScope) {
 		autocomplete(document.getElementById("newType"), $scope.listType);
 		autocomplete(document.getElementById("newContent"), $scope.listContent);
 		autocomplete(document.getElementById("newCharactor"), $scope.listCharactor);
+		console.log($scope.pageBook)
 	});
 	$scope.getData = function(index) {
 		if (index < 0 || index > $scope.pageBook.totalPages - 1 && index != 0) {
@@ -304,7 +305,7 @@ function ctrlBook($scope, $http, $rootScope) {
 	/*	Create book	 */
 	$scope.book = {
 		"id": 0,
-		"ISBN": "",
+		"isbn": "",
 		"amount": "",
 		"charactor": $scope.getIds($scope.showCharactor),
 		"content": $scope.getIds($scope.showContent),
@@ -325,12 +326,36 @@ function ctrlBook($scope, $http, $rootScope) {
 		"publisher": "",
 		"status": "",
 	};
+	$scope.init=function(){
+		document.getElementById("name").innerText = "";
+		document.getElementById("isbn").innerText = "";
+		document.getElementById("numOfPage").innerText = "";
+		document.getElementById("author").innerText = "";
+		document.getElementById("publisher").innerText = "";
+		document.getElementById("price").innerText = "";
+		document.getElementById("amount").innerText = "";
+	}
 	$scope.showBook = function(){
+		$scope.init();
 		$scope.book.type = $scope.getIds($scope.showType);
 		$scope.book.content = $scope.getIds($scope.showContent);
 		$scope.book.charactor = $scope.getIds($scope.showCharactor);
 		$scope.book.createdTime = new Date();
-		console.log($scope.book);
+		console.log($scope.book)
+		$http.post("/api/book",$scope.book).then(function(response){
+			if (response.data.statusCode == "ok") {
+				Toast.fire({
+					icon: 'success',
+					title: response.data.data
+				})
+				window.location.href="/admin/smart-book#book";
+			} else {
+				let data = response.data.data;
+				for (let i = 0; i < data.length; i++) {
+					document.getElementById(data[i].field).innerText = data[i].defaultMessage;
+				}
+			}
+		})
 	}
 	
 }

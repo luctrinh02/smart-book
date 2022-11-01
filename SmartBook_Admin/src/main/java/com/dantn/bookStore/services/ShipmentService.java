@@ -172,17 +172,14 @@ public class ShipmentService {
                     }
                 }
             case 5:// khách không nhận
-                if (request.getMessage() == null || "".equals(request.getMessage().trim())) {
-                    return DataUltil.setData("blank", "");
-                } else {
                     // đưa shipment về trạng thái hủy
                     shipment.setUpdatedTime(new Date());
-                    shipment.setStatus(BillStatusSingleton.getInstance(billStatusService).get(2));
+                    shipment.setStatus(BillStatusSingleton.getInstance(billStatusService).get(5));
                     this.save(shipment);
                     if (shipment.getBill()) {
                         // nếu là bill thì hủy cũ
                         Bill bill = (Bill) this.getBillOptional(shipment);
-                        bill.setStatus(BillStatusSingleton.getInstance(billStatusService).get(2));
+                        bill.setStatus(BillStatusSingleton.getInstance(billStatusService).get(5));
                         bill.setUpdatedTime(new Date());
                         bill.setMessage("Khách không nhận đơn");
                         bill = billService.save(bill);
@@ -197,7 +194,7 @@ public class ShipmentService {
                         // nếu là return bill thì đưa về trạng thái hủy
                         ReturnBill bill=(ReturnBill) getBillOptional(shipment);
                         bill.setMessage(request.getMessage());
-                        bill.setStatus(BillStatusSingleton.getInstance(billStatusService).get(2));
+                        bill.setStatus(BillStatusSingleton.getInstance(billStatusService).get(5));
                         bill.setUpdatedTime(new Date());
                         bill=returnBillService.save(bill);
                         List<ReturnBillDetail> details=bill.getBillDetails();
@@ -208,7 +205,6 @@ public class ShipmentService {
                         }
                         return DataUltil.setData("ok", "Thành công");
                     }
-                }
             default:
                 return DataUltil.setData("error", "");
         }

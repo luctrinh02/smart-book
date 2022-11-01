@@ -15,161 +15,190 @@ import com.dantn.bookStore.entities.Book;
 import com.dantn.bookStore.entities.BookStatus;
 import com.dantn.bookStore.entities.Publisher;
 
-public class BookRequest implements DtoToEntity<Book>{
+public class BookRequest implements DtoToEntity<Book> {
 	private Integer id;
 	@NotBlank(message = "Không bỏ trống tên sách")
 	private String name;
 	@NotBlank(message = "Không bỏ trống ISBN")
-	private String ISBN;
+	private String isbn;
 	@NotBlank(message = "Không bỏ trống số trang")
 	@Positive(message = "Số trang là số nguyên lớn hơn 0")
-	@Size(max = 4,message = "Số trang quá lớn")
+	@Size(max = 4, message = "Số trang quá lớn")
 	private String numOfPage;
-	private Integer author;
-	private Integer publisher;
+	@NotBlank(message = "Vui lòng chọn tác giả")
+	private String author;
+	@NotBlank(message = "Vui lòng chọn nhà xuất bản")
+	private String publisher;
 	@NotBlank(message = "Không bỏ trống số tiền")
 	@Positive(message = "Số tiền là số nguyên lớn hơn 0")
-	@Size(max = 10,message = "Số tiền quá lớn")
-	private BigDecimal price;
+	@Size(max = 10, message = "Số tiền quá lớn")
+	private String price;
 	@PositiveOrZero(message = "Giảm giá là số nguyên lớn hơn hoặc bằng 0")
-	@Max(value = 100,message = "Tối đa giảm 100%")
-	private Integer discount;
+	@Max(value = 100, message = "Tối đa giảm 100%")
+	private String discount;
 	@Positive(message = "Số lượng là số nguyên lớn hơn 0")
-	@Size(max = 5,message = "Số lượng quá lớn")
-	private Long amount;
+	@Size(max = 5, message = "Số lượng quá lớn")
+	private String amount;
 	private String description;
 	private String type;
 	private String charactor;
 	private String content;
-	
+
+
 	public Integer getId() {
 		return id;
 	}
+
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+
 	public String getName() {
 		return name;
 	}
+
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getISBN() {
-		return ISBN;
+
+	
+
+
+	public String getIsbn() {
+		return isbn;
 	}
 
-	public void setISBN(String iSBN) {
-		ISBN = iSBN;
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
 	}
+
 
 	public String getNumOfPage() {
 		return numOfPage;
 	}
 
+
 	public void setNumOfPage(String numOfPage) {
 		this.numOfPage = numOfPage;
 	}
 
-	public Integer getAuthor() {
+
+	public String getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(Integer author) {
+
+	public void setAuthor(String author) {
 		this.author = author;
 	}
 
-	public Integer getPublisher() {
+
+	public String getPublisher() {
 		return publisher;
 	}
 
-	public void setPublisher(Integer publisher) {
+
+	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
 
-	public BigDecimal getPrice() {
+
+	public String getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
-	public Integer getDiscount() {
+
+	public String getDiscount() {
 		return discount;
 	}
 
-	public void setDiscount(Integer discount) {
+
+	public void setDiscount(String discount) {
 		this.discount = discount;
 	}
 
-	public Long getAmount() {
+
+	public String getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Long amount) {
+
+	public void setAmount(String amount) {
 		this.amount = amount;
 	}
+
 
 	public String getDescription() {
 		return description;
 	}
 
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 
 	public String getType() {
 		return type;
 	}
 
+
 	public void setType(String type) {
 		this.type = type;
 	}
+
 
 	public String getCharactor() {
 		return charactor;
 	}
 
+
 	public void setCharactor(String charactor) {
 		this.charactor = charactor;
 	}
+
 
 	public String getContent() {
 		return content;
 	}
 
+
 	public void setContent(String content) {
 		this.content = content;
 	}
 
+
 	@Override
 	public Book changeToEntity(Book b) {
-		b.setAmount(amount);
-		b.setAuthor(new Author());
+		b.setAmount(Long.parseLong(amount));
 		b.setCharactor(charactor);
 		b.setContent(content);
 		b.setCreatedTime(new Date());
-		b.setDiscount(discount);
+		b.setDiscount(Integer.parseInt(discount));
 		b.setDescription(description);
-		b.setISBN(ISBN);
+		b.setISBN(isbn);
 		b.setType(type);
-		b.setPublisher(new Publisher());
 		b.setName(name);
 		b.setNumOfPage(Integer.parseInt(numOfPage));
-		b.setPrice(price);
-		if(id==null) {
+		b.setPrice(new BigDecimal(price));
+		if (id == null) {
 			b.setEvaluate(0);
 			b.setPoint(0);
-			b.setSaleAmount((long)0);
-			b.setStatus(new BookStatus());
-		}else {
+			b.setSaleAmount((long) 0);
+		} else {
 			b.setUpdatedTime(new Date());
 		}
 		return b;
 	}
-	
+
 }

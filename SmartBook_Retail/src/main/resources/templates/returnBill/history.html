@@ -229,6 +229,7 @@
                 $http.get("/api/return?page=" + index + "&transn="+$scope.tranSn).then(function (response) {
                     $scope.bills = response.data.content;
                     $scope.users=response.data;
+   					console.log(response)
                 })
             }
             $scope.search=function(){
