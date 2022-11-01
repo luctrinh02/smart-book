@@ -83,7 +83,7 @@
                             </td>
                             <td ng-show="sta.s==2 || sta.s==0" class="align-middle" ng-click="getDetail(bill.id)">{{bill.message}}
                             </td>
-                            <td ng-hide="bill.status.id==3 || bill.status.id==5 || bill.status==6">
+                            <td ng-hide="bill.status.id==3 || bill.status.id==5 || bill.status.id==6">
                                 <button class="btn" data-bs-toggle="modal" data-bs-target="{{'#modal'+$index}}"><i
                                         class="fa-solid fa-xmark"></i></button>
                                 <div class="modal fade" id="{{'modal'+$index}}" tabindex="-1"
@@ -137,7 +137,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td ng-hide="bill.status.id==5 || bill.status.id==3 ||bill.status==6">
+                            <td ng-hide="bill.status.id==5 || bill.status.id==3 ||bill.status.id==6">
                                 <button class="btn" data-bs-toggle="modal" data-bs-target="{{'#conf'+bill.id}}"><i
                                         class="fa-solid fa-check"></i></button>
                                 <div class="modal fade" id="conf{{bill.id}}" tabindex="-1"
