@@ -1,11 +1,16 @@
 package com.dantn.bookStore.services;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,198 +33,233 @@ import com.dantn.bookStore.ultilities.BookStatusSingleton;
 
 @Service
 public class BookService {
-	private IBookRepository repository;
-	private EBookService eBookService;
-	private BookStatusService bookStatusService;
-	private TypeService typeService;
-	private AuthorService authorService;
-	private PublisherService publisherService;
-	private CharactorService charactorService;
-	private ContentService contentService;
-	private UserService  userService;
+    private IBookRepository repository;
+    private BookStatusService bookStatusService;
+    private TypeService typeService;
+    private AuthorService authorService;
+    private PublisherService publisherService;
+    private CharactorService charactorService;
+    private ContentService contentService;
+    private UserService userService;
 
-	public BookService(IBookRepository repository, EBookService eBookService, BookStatusService bookStatusService,
-			TypeService typeService, AuthorService authorService, PublisherService publisherService,
-			CharactorService charactorService, ContentService contentService, UserService userService) {
-		super();
-		this.repository = repository;
-		this.eBookService = eBookService;
-		this.bookStatusService = bookStatusService;
-		this.typeService = typeService;
-		this.authorService = authorService;
-		this.publisherService = publisherService;
-		this.charactorService = charactorService;
-		this.contentService = contentService;
-		this.userService = userService;
-	}
+    public BookService(IBookRepository repository, BookStatusService bookStatusService, TypeService typeService,
+            AuthorService authorService, PublisherService publisherService, CharactorService charactorService,
+            ContentService contentService, UserService userService) {
+        super();
+        this.repository = repository;
+        this.bookStatusService = bookStatusService;
+        this.typeService = typeService;
+        this.authorService = authorService;
+        this.publisherService = publisherService;
+        this.charactorService = charactorService;
+        this.contentService = contentService;
+        this.userService = userService;
+    }
 
-	public List<Book> getAll() {
-		return this.repository.findAll();
-	}
+    public List<Book> getAll() {
+        return this.repository.findAll();
+    }
 
-	private List<Type> listType;
-	private List<Content> listContent;
-	private List<Charactor> listCharactor;
-	private List<Author> listAuthor;
-	private List<Publisher> listPublisher;
-	private List<BookStatus> listBookStatus;
-	private BookParamsRequest paramsRequest;
-	
-	public HashMap<String, Object> update(Book book) {
-		HashMap<String, Object> mapReturn = new HashMap<String, Object>();
-		try {
-			repository.save(book);
-			mapReturn.put("statusCode", "ok");
-			Page<Book> pageBook = getBookData();
-			mapReturn.put("pageBook", pageBook);
-			mapReturn.put("typeInBook", getType(pageBook.getContent()));
-			mapReturn.put("contentInBook", getContent(pageBook.getContent()));
-			mapReturn.put("charactorInBook", getCharactor(pageBook.getContent()));
-		} catch (Exception e) {
-			mapReturn.put("statusCode", "error");
-		}
-		return mapReturn;
-	}
+    private List<Type> listType;
+    private List<Content> listContent;
+    private List<Charactor> listCharactor;
+    private List<Author> listAuthor;
+    private List<Publisher> listPublisher;
+    private List<BookStatus> listBookStatus;
+    private BookParamsRequest paramsRequest;
 
-	public Page<Book> getBookData() {
-		Pageable page = PageRequest.of(paramsRequest.getPage(), AppConstraint.PAGE_NUM,
-				Sort.by(paramsRequest.getSortBy()).descending());
-		return repository.getBooks("%" + paramsRequest.getKeyWord() + "%",
-				paramsRequest.getPublisher() != "" ? listPublisher.get(Integer.parseInt(paramsRequest.getPublisher()))
-						: null,
-				paramsRequest.getAuthor() != "" ? listAuthor.get(Integer.parseInt(paramsRequest.getAuthor())) : null,
-				paramsRequest.getStatus() != "" ? listBookStatus.get(Integer.parseInt(paramsRequest.getStatus()))
-						: null,
-				"%" + paramsRequest.getType() + ",%", page);
-	}
+    public HashMap<String, Object> update(Book book) {
+        HashMap<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            repository.save(book);
+            mapReturn.put("statusCode", "ok");
+            Page<Book> pageBook = getBookData();
+            mapReturn.put("pageBook", pageBook);
+            mapReturn.put("typeInBook", getType(pageBook.getContent()));
+            mapReturn.put("contentInBook", getContent(pageBook.getContent()));
+            mapReturn.put("charactorInBook", getCharactor(pageBook.getContent()));
+        } catch (Exception e) {
+            mapReturn.put("statusCode", "error");
+        }
+        return mapReturn;
+    }
 
-	public HashMap<String, Object> getBooks(BookParamsRequest params) {
-		HashMap<String, Object> mapReturn = new HashMap<String, Object>();
-		listType = typeService.getAll();
-		listContent = contentService.getAll();
-		listCharactor = charactorService.getAll();
-		listAuthor = authorService.getAll();
-		listPublisher = publisherService.getAll();
-		listBookStatus = BookStatusSingleton.getInstance(bookStatusService);
-		paramsRequest = params;
-		mapReturn.put("listType", listType);
-		mapReturn.put("listContent", listContent);
-		mapReturn.put("listCharactor", listCharactor);
-		mapReturn.put("listAuthor", listAuthor);
-		mapReturn.put("listPublisher", listPublisher);
-		mapReturn.put("listBookStatus", listBookStatus);
-		Page<Book> pageBook = getBookData();
-		mapReturn.put("pageBook", pageBook);
-		mapReturn.put("typeInBook", getType(pageBook.getContent()));
-		mapReturn.put("contentInBook", getContent(pageBook.getContent()));
-		mapReturn.put("charactorInBook", getCharactor(pageBook.getContent()));
-		return mapReturn;
-	}
+    public Page<Book> getBookData() {
+        Pageable page = PageRequest.of(paramsRequest.getPage(), AppConstraint.PAGE_NUM,
+                Sort.by(paramsRequest.getSortBy()).descending());
+        return repository.getBooks("%" + paramsRequest.getKeyWord() + "%",
+                paramsRequest.getPublisher() != "" ? listPublisher.get(Integer.parseInt(paramsRequest.getPublisher()))
+                        : null,
+                paramsRequest.getAuthor() != "" ? listAuthor.get(Integer.parseInt(paramsRequest.getAuthor())) : null,
+                paramsRequest.getStatus() != "" ? listBookStatus.get(Integer.parseInt(paramsRequest.getStatus()))
+                        : null,
+                "%" + paramsRequest.getType() + ",%", page);
+    }
 
-	public Map<String, Object> getType(List<Book> lstBookAll) {
-		Map<String, Object> mapReturn = new HashMap<String, Object>();
-		for (Book book : lstBookAll) {
-			List<Type> typeInBook = new ArrayList<>();
-			List<String> types = Arrays.asList(book.getType().split(","));
-			for (Type t : listType) {
-				for (String ts : types) {
-					if (ts.equals(t.getId().toString())) {
-						typeInBook.add(t);
-					}
-				}
-			}
-			mapReturn.put(book.getId().toString(), typeInBook);
-		}
-		return mapReturn;
-	}
-	
-	public Map<String, Object> getCharactor(List<Book> lstBookAll) {
-		Map<String, Object> mapReturn = new HashMap<String, Object>();
-		for (Book book : lstBookAll) {
-			List<Charactor> typeInBook = new ArrayList<>();
-			List<String> chars = Arrays.asList(book.getCharactor().split(","));
-			for (Charactor c : listCharactor) {
-				for (String cs : chars) {
-					if (cs.equals(c.getId().toString())) {
-						typeInBook.add(c);
-					}
-				}
-			}
-			mapReturn.put(book.getId().toString(), typeInBook);
-		}
-		return mapReturn;
-	}
-	
-	public Map<String, Object> getContent(List<Book> lstBookAll) {
-		Map<String, Object> mapReturn = new HashMap<String, Object>();
-		for (Book book : lstBookAll) {
-			List<Content> typeInBook = new ArrayList<>();
-			List<String> cons = Arrays.asList(book.getContent().split(","));
-			for (Content c : listContent) {
-				for (String cs : cons) {
-					if (cs.equals(c.getId().toString())) {
-						typeInBook.add(c);
-					}
-				}
-			}
-			mapReturn.put(book.getId().toString(), typeInBook);
-		}
-		return mapReturn;
-	}
-	
-	public Map<String, Object> createType(String newType) {
-		Map<String, Object> mapReturn = new HashMap<String, Object>();
-		try {
-			Type t = new Type();
-			t.setValue(newType);
-			typeService.create(t);
-			listType = typeService.getAll();
-			mapReturn.put("listType", listType);
-			mapReturn.put("statusCode", "ok");
-		} catch (Exception e) {
-			mapReturn.put("statusCode", "error");
-		}
-		return mapReturn;
-	}
-	
-	public Map<String, Object> createContent(String newContent) {
-		Map<String, Object> mapReturn = new HashMap<String, Object>();
-		try {
-			Content t = new Content();
-			t.setValue(newContent);
-			contentService.create(t);
-			listContent = contentService.getAll();
-			mapReturn.put("listContent", listContent);
-			mapReturn.put("statusCode", "ok");
-		} catch (Exception e) {
-			mapReturn.put("statusCode", "error");
-		}
-		return mapReturn;
-	}
-	
-	public Map<String, Object> createCharactor(String newCharactor) {
-		Map<String, Object> mapReturn = new HashMap<String, Object>();
-		try {
-			Charactor t = new Charactor();
-			t.setValue(newCharactor);
-			charactorService.create(t);
-			listCharactor = charactorService.getAll();
-			mapReturn.put("listCharactor", listCharactor);
-			mapReturn.put("statusCode", "ok");
-		} catch (Exception e) {
-			mapReturn.put("statusCode", "error");
-		}
-		return mapReturn;
-	}
-	
-	public Book create(BookRequest  request,Principal principal){
-		Book b=new Book();
-		b=request.changeToEntity(b);
-		b.setAuthor(authorService.findById(Integer.parseInt(request.getAuthor())));
-		b.setPublisher(publisherService.findById(Integer.parseInt(request.getPublisher())));
-		b.setCreatedBy(userService.getByEmail(principal.getName()));
-		b.setStatus(BookStatusSingleton.getInstance(bookStatusService).get(0));
-		return repository.save(b);
-	}
+    public HashMap<String, Object> getBooks(BookParamsRequest params) {
+        HashMap<String, Object> mapReturn = new HashMap<String, Object>();
+        listType = typeService.getAll();
+        listContent = contentService.getAll();
+        listCharactor = charactorService.getAll();
+        listAuthor = authorService.getAll();
+        listPublisher = publisherService.getAll();
+        listBookStatus = BookStatusSingleton.getInstance(bookStatusService);
+        paramsRequest = params;
+        mapReturn.put("listType", listType);
+        mapReturn.put("listContent", listContent);
+        mapReturn.put("listCharactor", listCharactor);
+        mapReturn.put("listAuthor", listAuthor);
+        mapReturn.put("listPublisher", listPublisher);
+        mapReturn.put("listBookStatus", listBookStatus);
+        Page<Book> pageBook = getBookData();
+        mapReturn.put("pageBook", pageBook);
+        mapReturn.put("typeInBook", getType(pageBook.getContent()));
+        mapReturn.put("contentInBook", getContent(pageBook.getContent()));
+        mapReturn.put("charactorInBook", getCharactor(pageBook.getContent()));
+        return mapReturn;
+    }
+
+    public Map<String, Object> getType(List<Book> lstBookAll) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        for (Book book : lstBookAll) {
+            List<Type> typeInBook = new ArrayList<>();
+            List<String> types = Arrays.asList(book.getType().split(","));
+            for (Type t : listType) {
+                for (String ts : types) {
+                    if (ts.equals(t.getId().toString())) {
+                        typeInBook.add(t);
+                    }
+                }
+            }
+            mapReturn.put(book.getId().toString(), typeInBook);
+        }
+        return mapReturn;
+    }
+
+    public Map<String, Object> getCharactor(List<Book> lstBookAll) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        for (Book book : lstBookAll) {
+            List<Charactor> typeInBook = new ArrayList<>();
+            List<String> chars = Arrays.asList(book.getCharactor().split(","));
+            for (Charactor c : listCharactor) {
+                for (String cs : chars) {
+                    if (cs.equals(c.getId().toString())) {
+                        typeInBook.add(c);
+                    }
+                }
+            }
+            mapReturn.put(book.getId().toString(), typeInBook);
+        }
+        return mapReturn;
+    }
+
+    public Map<String, Object> getContent(List<Book> lstBookAll) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        for (Book book : lstBookAll) {
+            List<Content> typeInBook = new ArrayList<>();
+            List<String> cons = Arrays.asList(book.getContent().split(","));
+            for (Content c : listContent) {
+                for (String cs : cons) {
+                    if (cs.equals(c.getId().toString())) {
+                        typeInBook.add(c);
+                    }
+                }
+            }
+            mapReturn.put(book.getId().toString(), typeInBook);
+        }
+        return mapReturn;
+    }
+
+    public Map<String, Object> createType(String newType) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            Type t = new Type();
+            t.setValue(newType);
+            typeService.create(t);
+            listType = typeService.getAll();
+            mapReturn.put("listType", listType);
+            mapReturn.put("statusCode", "ok");
+        } catch (Exception e) {
+            mapReturn.put("statusCode", "error");
+        }
+        return mapReturn;
+    }
+
+    public Map<String, Object> createContent(String newContent) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            Content t = new Content();
+            t.setValue(newContent);
+            contentService.create(t);
+            listContent = contentService.getAll();
+            mapReturn.put("listContent", listContent);
+            mapReturn.put("statusCode", "ok");
+        } catch (Exception e) {
+            mapReturn.put("statusCode", "error");
+        }
+        return mapReturn;
+    }
+
+    public Map<String, Object> createCharactor(String newCharactor) {
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+        try {
+            Charactor t = new Charactor();
+            t.setValue(newCharactor);
+            charactorService.create(t);
+            listCharactor = charactorService.getAll();
+            mapReturn.put("listCharactor", listCharactor);
+            mapReturn.put("statusCode", "ok");
+        } catch (Exception e) {
+            mapReturn.put("statusCode", "error");
+        }
+        return mapReturn;
+    }
+
+    public Book create(BookRequest request, Principal principal) throws IllegalStateException, IOException {
+        Book b = new Book();
+        b = request.changeToEntity(b);
+        b.setAuthor(authorService.findById(Integer.parseInt(request.getAuthor())));
+        b.setPublisher(publisherService.findById(Integer.parseInt(request.getPublisher())));
+        b.setCreatedBy(userService.getByEmail(principal.getName()));
+        b.setStatus(BookStatusSingleton.getInstance(bookStatusService).get(0));
+        if (request.getFile() != null) {
+            if (!request.getFile().isEmpty()) {
+                String fileName = new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date());
+                File file = new File(
+                        new File("src\\main\\resources\\static\\imgUpload").getAbsolutePath() + "/" + fileName);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+                request.getFile().transferTo(file);
+                b.setImage(file.getAbsolutePath());
+            }
+        }
+        return repository.save(b);
+    }
+
+    public Book update(BookRequest request) throws IllegalStateException, IOException {
+        Book b = this.getById(request.getId());
+        b = request.changeToEntity(b);
+        b.setAuthor(authorService.findById(Integer.parseInt(request.getAuthor())));
+        b.setPublisher(publisherService.findById(Integer.parseInt(request.getPublisher())));
+        if (request.getFile() != null) {
+            if (!request.getFile().isEmpty()) {
+                String fileName = new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date());
+                File file = new File(
+                        new File("src\\main\\resources\\static\\imgUpload").getAbsolutePath() + "/" + fileName);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+                request.getFile().transferTo(file);
+                b.setImage(file.getAbsolutePath());
+            }
+        }
+        return repository.save(b);
+    }
+
+    public Book getById(Integer id) {
+        Optional<Book> optional = this.repository.findById(id);
+        return optional.isPresent() ? optional.get() : null;
+    }
 
 }

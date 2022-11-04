@@ -313,7 +313,7 @@ function ctrlBook($scope, $http, $rootScope) {
 		"description": "",
 		"discount": 0,
 		"evaluate": 0,
-		"image": "",
+		"image": {},
 		"name": "",
 		"numOfPage": "",
 		"point": 0,
@@ -334,26 +334,62 @@ function ctrlBook($scope, $http, $rootScope) {
 		document.getElementById("publisher").innerText = "";
 		document.getElementById("price").innerText = "";
 		document.getElementById("amount").innerText = "";
+		document.getElementById("type").innerText = "";
 	}
-	$scope.showBook = function(){
+	$scope.check=function(){
 		$scope.init();
 		$scope.book.type = $scope.getIds($scope.showType);
 		$scope.book.content = $scope.getIds($scope.showContent);
 		$scope.book.charactor = $scope.getIds($scope.showCharactor);
 		$scope.book.createdTime = new Date();
-		console.log($scope.book)
-		$http.post("/api/book",$scope.book).then(function(response){
+		$http.post("/api/book/before",$scope.book).then(function(response){
 			if (response.data.statusCode == "ok") {
-				Toast.fire({
-					icon: 'success',
-					title: response.data.data
-				})
-				window.location.href="/admin/smart-book#book";
+				$("#addConf").modal("show");
 			} else {
-				let data = response.data.data;
+				let data = response.data.data;console.log(response.data.data)
 				for (let i = 0; i < data.length; i++) {
 					document.getElementById(data[i].field).innerText = data[i].defaultMessage;
 				}
+			}
+		})
+	}
+	$scope.showBook = function(){
+		let myForm=new FormData();
+		var config = {
+			"transformRequest": angular.identity,
+			"transformResponse": angular.identity,
+			"headers": {
+				'Content-Type': undefined
+			}
+		}
+		myForm.append("isbn",$scope.book.isbn)
+		myForm.append("amount",$scope.book.amount)
+		myForm.append("charactor",$scope.book.charactor)
+		myForm.append("content",$scope.book.content)
+		myForm.append("description",$scope.book.description)
+		myForm.append("discount",$scope.book.discount)
+		if($("#image").val()!=""){
+			myForm.append("file",$scope.book.image)
+		}
+		myForm.append("name",$scope.book.name)
+		myForm.append("numOfPage",$scope.book.numOfPage)
+		myForm.append("price",$scope.book.price)
+		myForm.append("type",$scope.book.type)
+		myForm.append("author",$scope.book.author)
+		myForm.append("publisher",$scope.book.publisher)
+		console.log(myForm)
+		$http.post("/api/book",myForm,config).then(function(response){console.log(response)
+			if (response.status == 200) {
+				Toast.fire({
+					icon: 'success',
+					title: "Thêm thành công"
+				})
+				window.location.href="/admin/smart-book#book";
+			} else {
+				Toast.fire({
+					icon: 'error',
+					title:"Lỗi dữ liệu"
+				})
 			}
 		})
 	}

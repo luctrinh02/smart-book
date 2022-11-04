@@ -79,11 +79,11 @@ public class ReturnBillService {
             case 3:
                 ReturnBill bill = getById(request.getId());
                 Shipment s=new Shipment();
-                s.setBill(true);
                 s.setStatus(BillStatusSingleton.getInstance(billStatusService).get(request.getStatusIndex()));
                 s.setBillId(bill.getId());
                 s.setCreatedTime(new Date());
                 s.setUser(user);
+                s.setBill(false);
                 this.shipmentRepository.save(s);
                 bill.setUpdatedTime(new Date());
                 bill.setStatus(

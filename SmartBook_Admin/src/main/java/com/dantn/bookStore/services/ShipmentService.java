@@ -118,6 +118,10 @@ public class ShipmentService {
                             pk.setBookId(x.getBook().getId());
                             newDetail.setBillDetailPK(pk);
                             newDetail.setBill(newBill);
+                            newDetail.setBook(x.getBook());
+                            newDetail.setAmount(x.getAmount());
+                            newDetail.setPrice(x.getPrice());
+                            newDetail.setAvailable(x.getAvailable());
                             billDetailService.save(newDetail);
                             details2.add(newDetail);
                             Book book=x.getBook();
@@ -206,7 +210,24 @@ public class ShipmentService {
                         return DataUltil.setData("ok", "Thành công");
                     }
             default:
-                return DataUltil.setData("error", "");
+                shipment.setUpdatedTime(new Date());
+                shipment.setStatus(BillStatusSingleton.getInstance(billStatusService).get(5));
+                this.save(shipment);
+                if (shipment.getBill()) {
+                    // nếu là bill thì done
+                    Bill bill = (Bill) this.getBillOptional(shipment);
+                    bill.setStatus(BillStatusSingleton.getInstance(billStatusService).get(request.getStatus()));
+                    bill.setUpdatedTime(new Date());
+                    bill = billService.save(bill);
+                    return DataUltil.setData("ok", "Thành công");
+                } else {
+                    // nếu là return bill thì đưa về trạng thái mơi
+                    ReturnBill bill=(ReturnBill) getBillOptional(shipment);
+                    bill.setStatus(BillStatusSingleton.getInstance(billStatusService).get(request.getStatus()));
+                    bill.setUpdatedTime(new Date());
+                    bill=returnBillService.save(bill);
+                    return DataUltil.setData("ok", "Thành công");
+                }
         }
     }
 }

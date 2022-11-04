@@ -25,6 +25,7 @@
 								<li ng-repeat="t in showType">{{t.value}}<i class="fa-sharp fa-solid fa-xmark ms-2" ng-click="remove($index, showType,'newType')"></i></li>
 								<div class="autocomplete">
 									<input type="text" ng-model="newType" id="newType" class="form-control m-0 mt-2" placeholder="Thêm mới...">
+									<small class="text-danger" id="type"></small>
 								</div>
 								<button class="btn btn-danger mt-2  btn-sm" ng-click="removeAll(showType, 'newType')">Xoá hết</button>
 								<button class="btn btn-primary mt-2 ms-2  btn-sm" style="background-color: #012970" ng-click="checkAddList('newType', showType, listType, 'Thể loại')">Thêm mới</button>
@@ -136,7 +137,7 @@
 
 								<div class="row mt-3">
 									<div class="col-6 mt-3 form-floating">
-										<input type="file" accept=".jpg,.jpeg,.png" ng-model="book.image" class="form-control" name="image" placeholder="smartbook"> 
+										<input type="file" accept=".jpg,.jpeg,.png" file-model="book.image" class="form-control" name="image" placeholder="smartbook"> 
 										<label for="image" class="text-center">Hình ảnh</label> 
 										<small class="text-danger" id="image"></small>
 									</div>
@@ -154,7 +155,7 @@
 									</div>
 									<div class="col-6 text-start">
 										<button type="button" class="btn btn-primary"
-											ng-click="showBook()">Thêm mới</button>
+											ng-click="check()">Thêm mới</button>
 									</div>
 								</div>
 							</form>
@@ -186,6 +187,31 @@
 					data-bs-dismiss="modal">Huỷ</button>
 				<button type="button" class="btn btn-primary"
 					data-bs-dismiss="modal" ng-click="createElementType('create')">Xác
+					nhận</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="addConf" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a href="#home" class="logo d-flex align-items-center"> <img
+					src="/index/img/logo.jpg" alt=""> <span
+					class="d-none d-lg-block">Smart Book</span>
+				</a>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<h5 class="card-title m-0 p-0 fs-6">Bạn có chắc muốn thêm?</h5>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Huỷ</button>
+				<button type="button" class="btn btn-primary"
+					data-bs-dismiss="modal" ng-click="showBook()">Xác
 					nhận</button>
 
 			</div>

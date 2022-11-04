@@ -24,8 +24,8 @@ public class ReturnBillApi {
 	private ReturnBillService service;
 
 	@PostMapping("/api/return")
-	public ResponseEntity<?> create(@RequestBody List<ReturnRequest> requests) {
-		HashMap<String, Object> map = service.create(requests);
+	public ResponseEntity<?> create(@RequestBody List<ReturnRequest> requests,Principal principal) {
+		HashMap<String, Object> map = service.create(requests,principal);
 		return ResponseEntity.ok(map);
 	}
 

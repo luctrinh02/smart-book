@@ -141,7 +141,7 @@ public class UserService {
             return map;
         }else if(!request.getNewPass().equals(request.getConfirm())) {
             HashMap<String, Object> map=DataUltil.setData("error", "Lỗi dữ liệu");
-            map.put("confirm", "Xác nhận mật khảy không trùng khớp");
+            map.put("confirm", "Xác nhận mật khẩu không trùng khớp");
             map.put("oldPass", "");
             map.put("newPass", "");
             return map;
@@ -152,22 +152,31 @@ public class UserService {
             return map;
         }
 	}
-//	public HashMap<String, Object> update(ProfileRequest request,Principal principal) throws IllegalStateException, IOException{
-//	    User user=this.getByEmail(principal.getName());
-//	    user.setFullname(request.getFullname());
-//	    user.setPhoneNumber(request.getPhoneNumber());
-//	    user.setAddress(request.getAddress());
-//	    user.setEmail(request.getEmail());
-//	    if (!request.getFile().isEmpty()) {
-//            String fileName = new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date());
-//            java.io.File file  = new java.io.File(
-//                    new java.io.File("src\\main\\resources\\static\\imgUpload").getAbsolutePath() + "/" + fileName);
-//            if (!file.exists()) {
-//                file.mkdirs();
-//            }
-//            request.getFile().transferTo(file);
-//            user.setImg(fileName);
-//        }
-//        this.repository.save(user);
-//	}
+	public HashMap<String, Object> update(ProfileRequest request,Principal principal) throws IllegalStateException, IOException{
+	    User user=this.getByEmail(principal.getName());
+	    user.setFullname(request.getFullname());
+	    user.setPhoneNumber(request.getPhoneNumber());
+	    user.setAddress(request.getAddress());
+	    user.setEmail(request.getEmail());
+	    if(request.getFile()!=null) {
+	        if (!request.getFile().isEmpty()) {
+	            String fileName = new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date());
+	            java.io.File file  = new java.io.File(
+	                    new java.io.File("src\\main\\resources\\static\\imgUpload").getAbsolutePath() + "/" + fileName);
+	            if (!file.exists()) {
+	                file.mkdirs();
+	            }
+	            request.getFile().transferTo(file);
+	            user.setImg(file.getAbsolutePath());
+	        }
+	    }
+        try {
+            this.save(user);
+            HashMap<String, Object> map=DataUltil.setData("ok", "Chỉnh sửa thành công");
+            return map;
+        } catch (Exception e) {
+            HashMap<String, Object> map=DataUltil.setData("error", "Email trùng lặp");
+            return map;
+        }
+	}
 }

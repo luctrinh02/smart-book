@@ -81,12 +81,13 @@ public class ReturnBillService {
 	}
 
 	@Transactional(rollbackOn = Exception.class)
-	public HashMap<String, Object> create(List<ReturnRequest> requests){
+	public HashMap<String, Object> create(List<ReturnRequest> requests,Principal principal){
 		try {
 			ReturnBill rBill=new ReturnBill();
 			Bill b=billService.getById(requests.get(0).getPk().getBillId());
 			rBill.setBill(b);
 			rBill.setCreatedTime(new Date());
+			rBill.setUser(userService.getByEmail(principal.getName()));
 			rBill.setStatus(BillStatusSingleton.getInstance(billStatusService).get(0));
 			rBill=this.save(rBill);
 			for(ReturnRequest x:requests) {

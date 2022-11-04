@@ -1,6 +1,7 @@
 package com.dantn.bookStore.api;
 
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,7 +62,7 @@ public class BookApi {
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<?> create(@RequestBody @Valid BookRequest request,BindingResult result,Principal principal){
+	public ResponseEntity<?> create(@ModelAttribute @Valid BookRequest request,BindingResult result,Principal principal) throws IllegalStateException, IOException{
 		if(result.hasErrors()) {
 			List<ObjectError> list=result.getAllErrors();
 			HashMap<String, Object> map=DataUltil.setData("error", list);
@@ -72,7 +74,30 @@ public class BookApi {
 		}
 	}
 	
+	@PutMapping("")
+	public ResponseEntity<?> update(@ModelAttribute @Valid BookRequest request,BindingResult result) throws IllegalStateException, IOException{
+	    if(result.hasErrors()) {
+            List<ObjectError> list=result.getAllErrors();
+            HashMap<String, Object> map=DataUltil.setData("error", list);
+            return ResponseEntity.ok(map);
+        }else {
+            bookService.update(request);
+            HashMap<String, Object> map=DataUltil.setData("ok", "Thêm thành công");
+            return ResponseEntity.ok(map);
+        }
+	}
 	
+	@PostMapping("/before")
+    public ResponseEntity<?> check(@RequestBody @Valid BookRequest request,BindingResult result,Principal principal) throws IllegalStateException, IOException{
+        if(result.hasErrors()) {
+            List<ObjectError> list=result.getAllErrors();
+            HashMap<String, Object> map=DataUltil.setData("error", list);
+            return ResponseEntity.ok(map);
+        }else {
+            HashMap<String, Object> map=DataUltil.setData("ok", "");
+            return ResponseEntity.ok(map);
+        }
+    }
 	
 	
 	
