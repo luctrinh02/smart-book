@@ -1,5 +1,6 @@
 package com.dantn.bookStore.services;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.dantn.bookStore.entities.Charactor;
+import com.dantn.bookStore.entities.Content;
 import com.dantn.bookStore.repositories.ICharactorRepository;
 
 
@@ -61,4 +63,17 @@ public class CharactorService {
 			return rep.findAll(PageRequest.of(pageIndex, pageSize, Sort.by(sortBy).descending()));
 		}
 	}
+	public String getEvalue(String s) {
+        if(s==null || "".equals(s)) {
+            return "";
+        }else {
+            StringBuilder builder=new StringBuilder();
+            List<String> list =Arrays.asList(s.split(","));
+            for(String x:list) {
+                Charactor content=this.findById(Integer.parseInt(x));
+                builder.append(content.getValue().trim()+" ");
+            }
+            return builder.toString().trim();
+        }
+    }
 }

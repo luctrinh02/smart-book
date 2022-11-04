@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dantn.bookStore.dto.request.BillUpdateRequest;
 import com.dantn.bookStore.entities.ReturnBill;
+import com.dantn.bookStore.services.ReturnBillDetailService;
 import com.dantn.bookStore.services.ReturnBillService;
 
 @RestController
 public class ReturnBillApi {
     @Autowired
     private ReturnBillService returnBillService;
+    @Autowired
+    private ReturnBillDetailService returnBillDetailService ;
     @GetMapping("/api/admin/return")
     public ResponseEntity<?> get(@RequestParam(name = "page",defaultValue = "0") Integer page
             ,@RequestParam(name = "status",defaultValue = "0") Integer statusIndex){
@@ -28,7 +31,7 @@ public class ReturnBillApi {
     }
     @GetMapping("/api/admin/return/{id}")
     public ResponseEntity<?> get(@PathVariable("id") Integer id){
-        return ResponseEntity.ok(returnBillService.getById(id));
+        return ResponseEntity.ok(returnBillDetailService.details(returnBillService.getById(id)));
     }
     @PutMapping("/api/admin/return")
     public ResponseEntity<?> change(@RequestBody BillUpdateRequest request,Principal principal){

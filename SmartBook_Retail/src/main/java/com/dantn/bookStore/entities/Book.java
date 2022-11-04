@@ -28,6 +28,10 @@ public class Book implements Serializable{
 	private String name;
 	private String ISBN;
 	private String image;
+	private Integer height;
+	private Integer length;
+	private Integer weight;
+	private Integer year;
 	@Column(name = "num_of_page")
 	private Integer numOfPage;
 	@ManyToOne
@@ -239,6 +243,30 @@ public class Book implements Serializable{
     }
     public void setReturnBillDetails(List<ReturnBillDetail> returnBillDetails) {
         this.returnBillDetails = returnBillDetails;
+    }
+    public Integer getHeight() {
+        return height;
+    }
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+    public Integer getLength() {
+        return length;
+    }
+    public void setLength(Integer length) {
+        this.length = length;
+    }
+    public Integer getWeight() {
+        return weight;
+    }
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+    public Integer getYear() {
+        return year;
+    }
+    public void setYear(Integer year) {
+        this.year = year;
     }
 	
 }
