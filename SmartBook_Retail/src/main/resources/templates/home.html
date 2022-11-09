@@ -1,0 +1,133 @@
+<!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+        	<div id="sileshow1" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval="false">
+			  <div class="carousel-inner">
+			    <div class="carousel-item active" data-bs-interval="2000" data-bs-pause="hover">
+			      <img src="/index/img/ban1.jpg" class="d-block w-100" height="300px" alt="...">
+			      <div class="carousel-caption d-none d-md-block">
+			      </div>
+			    </div>
+			    <div class="carousel-item" data-bs-interval="2000" data-bs-pause="hover">
+			      <img src="/index/img/ban2.jpg" class="d-block w-100" height="300px" alt="...">
+			      <div class="carousel-caption d-none d-md-block">
+			      </div>
+			    </div>
+			    <div class="carousel-item" data-bs-interval="2000" data-bs-pause="hover">
+			      <img src="/index/img/ban3.jpg" class="d-block w-100" height="300px" alt="...">
+			      <div class="carousel-caption d-none d-md-block">
+			      </div>
+			    </div>
+			  </div>
+			  <button class="carousel-control-prev" type="button" data-bs-target="#sileshow1" data-bs-slide="prev">
+			    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			    <span class="visually-hidden">Previous</span>
+			  </button>
+			  <button class="carousel-control-next" type="button" data-bs-target="#sileshow1" data-bs-slide="next">
+			    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			    <span class="visually-hidden">Next</span>
+			  </button>
+			</div>
+        </div>
+		<div class="col-lg-4 p-0">
+			<div id="sileshow2" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval="false">
+			  <div class="carousel-inner">
+			    <div class="carousel-item active" data-bs-interval="2000" data-bs-pause="hover">
+			      <img src="/index/img/ban5.jpg" class="d-block w-100" height="150px" alt="...">
+			      <div class="carousel-caption d-none d-md-block">
+			      </div>
+			    </div>
+			    <div class="carousel-item" data-bs-interval="2000" data-bs-pause="hover">
+			      <img src="/index/img/ban6.jpg" class="d-block w-100" height="150px" alt="...">
+			      <div class="carousel-caption d-none d-md-block">
+			      </div>
+			    </div>
+			    <div class="carousel-item" data-bs-interval="2000" data-bs-pause="hover">
+			      <img src="/index/img/ban7.jpg" class="d-block w-100" height="150px" alt="...">
+			      <div class="carousel-caption d-none d-md-block">
+			      </div>
+			    </div>
+			  </div>
+			  <button class="carousel-control-prev" type="button" data-bs-target="#sileshow2" data-bs-slide="prev">
+			    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			    <span class="visually-hidden">Previous</span>
+			  </button>
+			  <button class="carousel-control-next" type="button" data-bs-target="#sileshow2" data-bs-slide="next">
+			    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			    <span class="visually-hidden">Next</span>
+			  </button>
+			</div>
+			<div>
+        		<img src="/index/img/ban4.jpg" class="d-block w-100" height="150px" alt="...">
+       		 </div>
+        </div>
+	</div>
+  </div>
+
+  </section><!-- End Hero Section -->
+
+<!-- ======= Menu Section ======= -->
+    <section id="menu" class="menu pt-4">
+      <div class="container" data-aos="fade-up">
+        <div class="section-header pb-2">
+          <h2 class="fs-4">Danh mục các đầu sách</h2>
+        </div>
+        <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="200">
+          <li class="nav-item">
+            <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-starters">
+              <h4>Gợi ý cho bạn</h4>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#">
+              <h4>Xu hướng mua sắm</h4>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#">
+              <h4>Sách HOT - Giảm sốc</h4>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#">
+              <h4>Sản phẩm mới</h4>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#">
+              <h4>Sắp ra mắt</h4>
+            </a>
+          </li>
+        </ul>
+        
+        <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+          <div class="tab-pane fade active show chefs" id="menu-starters">
+            <div class="row gy-5 mt-2">
+             <div class="col-lg-2 col-md-3 d-flex align-items-stretch" ng-repeat="b in books" data-aos="fade-up" data-aos-delay="100">
+		            <div class="chef-member">
+		              <div class="member-img">
+		                <img src="/index/img/chefs/chefs-2.jpg" class="img-fluid" alt="">
+		                <div class="social">
+		                  <a ng-click="addToCart(b.id)"><i class="bi bi-cart-plus-fill text-dark"></i></a>
+		                </div>
+		              </div>
+		              <div class="member-info text-start mt-1">
+		                <h6>{{b.name}}</h6>
+		                <h5 class="mt-1 mb-0 pb-0 price fw-bold">{{convertText(b.price - b.price*b.discount/100)}}đ</h5>
+		                <del class="small mt-0">{{convertText(b.price)}}đ</del>
+		                <span>Đã bán: {{convertText(b.saleAmount)}} cuốn</span>
+		              </div>
+		            </div>
+          	</div>
+              <a href="/smart-book/cart" class="btn btn-primary">Giỏ</a>
+              <a href="/smart-book/history" class="btn btn-primary">Hóa đơn</a>
+              <a href="/smart-book/return" class="btn btn-primary">Đổi trả</a>
+            </div>
+          </div><!-- End Starter Menu Content -->
+        </div>
+        
+      </div>
+    </section><!-- End Menu Section -->
+   

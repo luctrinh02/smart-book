@@ -1,25 +1,19 @@
-/**
-* Template Name: Yummy - v1.1.0
-* Template URL: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
-/*--------------------------------------------------------------
-# Set main reusable colors and fonts using CSS variables
-# Learn more about CSS variables at https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties
---------------------------------------------------------------*/
-/* Fonts */
+.color-root {
+	color: #012970;
+}
 :root {
   --font-default: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-primary: "Amatic SC", sans-serif;
   --font-secondary: "Inter", sans-serif;
 }
+.carousel-item:hover, img:hover{
+	cursor: pointer;
+}
 
 /* Colors */
 :root {
   --color-default: #212529;
-  --color-primary: #ce1212;
+  --color-primary: #000080;
   --color-secondary: #37373f;
 }
 
@@ -41,7 +35,7 @@ a {
   text-decoration: none;
 }
 
-a:hover {
+a:hover{
   color: #ec2727;
   text-decoration: none;
 }
@@ -423,6 +417,9 @@ section {
 
   .navbar .dropdown ul a i {
     font-size: 12px;
+  }
+  a:hover, .chef-member:hover{
+  	cursor: pointer;
   }
 
   .navbar .dropdown ul a:hover,
@@ -886,7 +883,7 @@ section {
 }
 
 .menu .nav-link h4 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   margin: 0;
   font-family: var(--font-secondary);
@@ -1049,15 +1046,10 @@ section {
 .events .event-item {
   background-size: cover;
   background-position: cente;
-  min-height: 600px;
+  min-height: 100px;
   padding: 30px;
 }
 
-@media (max-width: 575px) {
-  .events .event-item {
-    min-height: 500px;
-  }
-}
 
 .events .event-item:before {
   content: "";
@@ -1089,13 +1081,6 @@ section {
   position: relative;
 }
 
-@media (min-width: 1200px) {
-  .events .swiper-slide-active+.swiper-slide {
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    border-right: 1px solid rgba(255, 255, 255, 0.5);
-    z-index: 1;
-  }
-}
 
 .events .swiper-pagination {
   margin-top: 20px;
@@ -1135,8 +1120,9 @@ section {
   content: "";
   left: 0;
   bottom: 0;
+  margin: 0 0 -5px -5px;
   height: 100%;
-  width: 100%;
+  width: 130%;
   background: url(../img/team-shape.svg) no-repeat center bottom;
   background-size: contain;
   z-index: 1;
@@ -1147,10 +1133,10 @@ section {
   right: -100%;
   top: 30px;
   opacity: 0;
-  border-radius: 4px;
+  border-radius: 7px;
   transition: 0.5s;
-  background: rgba(255, 255, 255, 0.3);
-  z-index: 2;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 99;
 }
 
 .chefs .chef-member .social a {
@@ -1174,11 +1160,8 @@ section {
   padding: 10px 15px 20px 15px;
 }
 
-.chefs .chef-member .member-info h4 {
-  font-weight: 700;
-  margin-bottom: 5px;
-  font-size: 20px;
-  color: var(--color-secondary);
+.chefs .chef-member .member-info .price {
+    color: var(--color-primary);
 }
 
 .chefs .chef-member .member-info span {
@@ -1538,14 +1521,13 @@ section {
   width: 100%;
   background-size: cover;
   position: relative;
-  min-height: 60vh;
-  padding: 160px 0 60px 0;
+  min-height: 45vh;
+  padding: 100px 0 0 0;
 }
 
 .hero h2 {
-  font-size: 64px;
+  font-size: 25px;
   font-weight: 700;
-  margin-bottom: 20px;
   color: var(--color-secondary);
   font-family: var(--font-primary);
 }
@@ -1558,59 +1540,6 @@ section {
   color: #4f4f5a;
   font-weight: 400;
   margin-bottom: 30px;
-}
-
-.hero .btn-book-a-table {
-  font-weight: 500;
-  font-size: 14px;
-  letter-spacing: 1px;
-  display: inline-block;
-  padding: 12px 36px;
-  border-radius: 50px;
-  transition: 0.5s;
-  color: #fff;
-  background: var(--color-primary);
-  box-shadow: 0 8px 28px rgba(206, 18, 18, 0.2);
-}
-
-.hero .btn-book-a-table:hover {
-  background: rgba(206, 18, 18, 0.8);
-  box-shadow: 0 8px 28px rgba(206, 18, 18, 0.45);
-}
-
-.hero .btn-watch-video {
-  font-size: 16px;
-  transition: 0.5s;
-  margin-left: 25px;
-  color: var(--font-secondary);
-  font-weight: 600;
-}
-
-.hero .btn-watch-video i {
-  color: var(--color-primary);
-  font-size: 32px;
-  transition: 0.3s;
-  line-height: 0;
-  margin-right: 8px;
-}
-
-.hero .btn-watch-video:hover {
-  color: var(--color-primary);
-}
-
-.hero .btn-watch-video:hover i {
-  color: rgba(206, 18, 18, 0.8);
-}
-
-@media (max-width: 640px) {
-  .hero h2 {
-    font-size: 36px;
-  }
-
-  .hero .btn-get-started,
-  .hero .btn-watch-video {
-    font-size: 14px;
-  }
 }
 
 /*--------------------------------------------------------------
