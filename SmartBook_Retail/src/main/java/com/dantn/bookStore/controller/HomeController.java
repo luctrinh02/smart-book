@@ -9,6 +9,10 @@ public class HomeController {
 	public String index() {
 		return "index";
 	}
+	@GetMapping("/smart-book/home")
+	public String home() {
+		return "home";
+	}
 	@GetMapping("/smart-book/cart")
 	public String cart() {
 		return "cart/cart";
