@@ -120,8 +120,8 @@ public class HomeController {
 		return rds;
 	}
 	@PostMapping("/forgot_password")
-	public String forgotPost(ModelMap map, HttpServletRequest request, String email) {
-		String newPass = userService.getEncoder().encode(getRandomPassword());
+	public String forgotPost(ModelMap map, HttpServletRequest request, String email,String password) {
+		String newPass = userService.getEncoder().encode(password);
 		User u = userService.getByEmail(email);
 		if (u == null) {
 			request.getAttribute("error");
@@ -133,7 +133,7 @@ public class HomeController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			mail.sendEmail("huynvph18383@fpt.edu.vn", "Mật khẩu mới là: " + newPass,
+			mail.sendEmail(u.getEmail(), "Mật khẩu mới là: " + newPass,
 					"Hãy bảo mật mail này hoặc đổi mật khẩu ngay sau khi đăng nhập");
 			request.getSession().setAttribute("message", "Mật khẩu mới đã được gửi tới email!");
 			return "redirect:/admin/smart-book/logout";
