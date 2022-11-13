@@ -71,6 +71,19 @@ app.config(function($routeProvider, $locationProvider) {
 		templateUrl: '/admin/smart-book/home',
 		controller: 'ctrlHome'
 	})
+	.when("/bill", {
+		templateUrl: '/admin/smart-book/bill',
+		controller: 'ctrlBill'
+	})
+	.when("/returnBill", {
+		templateUrl: '/admin/smart-book/returnBill',
+		controller: 'ctrlreturn'
+	})
+	.when("/shipment", {
+		templateUrl: '/admin/smart-book/shipment',
+		controller: 'ctrlShipment'
+	})
+	.otherwise({redirectTo: '/home'});
 });
 app.controller("ctrlType", ctrlType);
 app.controller("ctrlPublisher", ctrlPublisher);
@@ -86,5 +99,6 @@ app.controller("shipperController", shipperController);
 app.controller("userCreateController", userCreateController);
 app.controller("userUpdateController", userUpdateController);
 app.controller("ctrlHome", ctrlHome);
-
-
+app.controller("ctrlBill", ctrlBill);
+app.controller("ctrlreturn", returnBillCtrl);
+app.controller("ctrlShipment", ctrlShipment);

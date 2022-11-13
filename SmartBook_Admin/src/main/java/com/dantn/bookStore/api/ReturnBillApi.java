@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dantn.bookStore.dto.request.BillUpdateRequest;
 import com.dantn.bookStore.entities.ReturnBill;
+import com.dantn.bookStore.entities.User;
 import com.dantn.bookStore.services.ReturnBillDetailService;
 import com.dantn.bookStore.services.ReturnBillService;
+import com.dantn.bookStore.services.UserService;
 
 @RestController
 public class ReturnBillApi {
@@ -23,9 +25,15 @@ public class ReturnBillApi {
     private ReturnBillService returnBillService;
     @Autowired
     private ReturnBillDetailService returnBillDetailService ;
+    @Autowired
+    private UserService service ;
     @GetMapping("/api/admin/return")
     public ResponseEntity<?> get(@RequestParam(name = "page",defaultValue = "0") Integer page
-            ,@RequestParam(name = "status",defaultValue = "0") Integer statusIndex){
+            ,@RequestParam(name = "status",defaultValue = "0") Integer statusIndex,Principal principal){
+    	User user=service.getByEmail(principal.getName());
+    	if(user.getRole().getId()==3) {
+    		statusIndex=1;
+    	}
         Page<ReturnBill> page2=returnBillService.getReturnBills(page, statusIndex);
         return ResponseEntity.ok(page2);
     }

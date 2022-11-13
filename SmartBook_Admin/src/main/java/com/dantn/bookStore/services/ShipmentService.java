@@ -60,9 +60,9 @@ public class ShipmentService {
         return optional.isPresent() ? optional.get() : null;
     }
 
-    public List<Shipment> getByUser(Principal principal) {
+    public List<Shipment> getByUser(Principal principal,Integer status) {
         User user = userService.getByEmail(principal.getName());
-        return this.repository.findByUserAndStatus(user, BillStatusSingleton.getInstance(billStatusService).get(3));
+        return this.repository.findByUserAndStatus(user, BillStatusSingleton.getInstance(billStatusService).get(status));
     }
 
     public Object getBillOptional(Shipment shipment) {

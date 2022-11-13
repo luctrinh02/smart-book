@@ -186,14 +186,14 @@
 
 	<aside id="sidebar" class="sidebar">
 		<ul class="sidebar-nav" id="sidebar-nav">
-			<li class="{{m.classB}}" ng-repeat="m in listModule">
+			<li class="{{m.classB}}" ng-repeat="m in listModule" ng-show="authen.role.value=='ADMIN'?true:m.isAll">
 				
 				<a ng-show="m.url==null && m.classB != 'nav-heading'" class="nav-link collapsed" data-bs-target="#{{'nav' + m.id}}" data-bs-toggle="collapse" href="#">
 						<i class="{{m.icon}}"></i> <span>{{m.display}}</span><i class="bi bi-chevron-down ms-auto"></i>
 				</a>
 				<ul ng-show="m.url==null" id="{{'nav' + m.id}}"
 					class="nav-content collapse" data-bs-parent="#sidebar-nav">
-					<li ng-repeat="s in listSubModule[m.id]"><a
+					<li ng-repeat="s in listSubModule[m.id]" ng-show="getInstance(isAll)"><a
 						href="{{'#' + s.url}}"> <i class="bi bi-circle"></i><span>{{s.display}}</span></a>
 					</li>
 				</ul>
@@ -258,8 +258,9 @@
 	<script src="/index/js/control/login/login.js"></script>
 	<script src="/index/js/user/user.js"></script>
 	<script src="/index/js/control/home/home.js"></script>
-
-	
+	<script src="/index/js/bill/bill.js"></script>
+	<script src="/index/js/returnBill/returnBill.js"></script>
+	<script src="/index/js/shipment/shipment.js"></script>
 	
 	<!-- Ready Controller JS File -->
 	<script src="/index/js/ready/module.js"></script>

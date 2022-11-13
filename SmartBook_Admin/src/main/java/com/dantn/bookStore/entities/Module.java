@@ -22,7 +22,7 @@ public class Module {
 	private String url;
 	private String classB;
 	private Integer indexModule;
-	
+	private Boolean isAll;
 	@JsonIgnore
 	@OneToMany(mappedBy = "module")
 	private List<SubModule> subs;
@@ -80,6 +80,14 @@ public class Module {
 
 	public void setIndexModule(Integer indexModule) {
 		this.indexModule = indexModule;
+	}
+
+	public Boolean getIsAll() {
+		return isAll;
+	}
+
+	public void setIsAll(Boolean isAll) {
+		this.isAll = isAll;
 	}
 	
 	
