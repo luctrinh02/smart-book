@@ -65,7 +65,16 @@ public class UserService {
 	public User getById(Integer id) {
 		Optional<User> optional=this.repository.findById(id);
 		return optional.isPresent()?optional.get():null;
-	}	
+	}
+    public User update(User user) throws Exception{
+       int id = user.getId();
+         if(repository.findById(id).isPresent()){
+             return repository.save(user);
+         }
+         else {
+             throw new Exception("User not found");
+         }
+    }
 	public List<User> getall(){
 		return repository.findAll();
 	}
@@ -179,4 +188,5 @@ public class UserService {
             return map;
         }
 	}
+
 }
