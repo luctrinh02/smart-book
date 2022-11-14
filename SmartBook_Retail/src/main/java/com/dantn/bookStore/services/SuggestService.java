@@ -22,14 +22,20 @@ public class SuggestService {
     private ContentService contentService;
     private TypeService typeService;
     private CharactorService charactorService;
+	
 	public SuggestService(UserClickService clickService, UserSearchService searchService, UserBuyService buyService,
-			BookService bookService) {
+			BookService bookService, ContentService contentService, TypeService typeService,
+			CharactorService charactorService) {
 		super();
 		this.clickService = clickService;
 		this.searchService = searchService;
 		this.buyService = buyService;
 		this.bookService = bookService;
+		this.contentService = contentService;
+		this.typeService = typeService;
+		this.charactorService = charactorService;
 	}
+
 	public List<Book> getSuggest(EBookService service) throws IOException{
 		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
 	    if(authentication==null || authentication instanceof AnonymousAuthenticationToken) {

@@ -1,8 +1,14 @@
 function MyController($scope, $http) {
 	$scope.books = [];
-	$http.get("/api/book").then(function(response) {
+	$http.get("/api/book/suggest").then(function(response) {
 		$scope.books = response.data;
 	});
+	$scope.search=function(){
+		let search=document.getElementById("searchText").value;
+		$http.get("/api/book/search?key="+search).then(function(response) {
+			$scope.books = response.data;
+		});
+	}
 	$scope.addToCart = function(id) {
 		$http.post("/api/book/" + id + "?amount=1").then(function(response) {
 			if (response.data.statusCode == "error") {

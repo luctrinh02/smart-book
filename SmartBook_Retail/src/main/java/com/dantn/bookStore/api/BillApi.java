@@ -34,6 +34,7 @@ import com.dantn.bookStore.services.BillService;
 import com.dantn.bookStore.services.BillStatusService;
 import com.dantn.bookStore.services.BookService;
 import com.dantn.bookStore.services.CartService;
+import com.dantn.bookStore.services.UserBuyService;
 import com.dantn.bookStore.services.UserService;
 import com.dantn.bookStore.ultilities.BillStatusSingleton;
 import com.dantn.bookStore.ultilities.DataUltil;
@@ -47,9 +48,12 @@ public class BillApi {
 	private BookService bookService;
 	private CartService cartService;
 	private BillStatusService statusService;
+	private UserBuyService buyService;
+	
 
 	public BillApi(BillService billService, BillDetailService detailService, UserService userService,
-			BookService bookService, CartService cartService, BillStatusService statusService) {
+			BookService bookService, CartService cartService, BillStatusService statusService,
+			UserBuyService buyService) {
 		super();
 		this.billService = billService;
 		this.detailService = detailService;
@@ -57,6 +61,7 @@ public class BillApi {
 		this.bookService = bookService;
 		this.cartService = cartService;
 		this.statusService = statusService;
+		this.buyService = buyService;
 	}
 
 	@GetMapping("/api/bill")
@@ -132,6 +137,7 @@ public class BillApi {
 			bookService.save(book);
 			cartService.delete(cart.getCartPK());
 			bookMoney = bookMoney.add(detail.getPrice().multiply(new BigDecimal(cart.getAmount())));
+			buyService.save(book);
 		}
 		bill.setBookMoney(bookMoney);
 		bill.setTransportFee(request.getTransportFee());
