@@ -377,6 +377,11 @@ function ctrlBook($scope, $http, $rootScope) {
 		myForm.append("type",$scope.book.type)
 		myForm.append("author",$scope.book.author)
 		myForm.append("publisher",$scope.book.publisher)
+		myForm.append("height",100)
+		myForm.append("weight",100)
+		myForm.append("year",2000)
+		myForm.append("length",100)
+		myForm.append("publisher",$scope.book.publisher)
 		console.log(myForm)
 		$http.post("/api/book",myForm,config).then(function(response){console.log(response)
 			if (response.status == 200) {

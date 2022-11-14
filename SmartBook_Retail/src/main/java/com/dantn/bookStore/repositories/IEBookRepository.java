@@ -70,7 +70,7 @@ public class IEBookRepository {
 		return eBooks;
 	}
 
-	public List<EBook> getByKey(String key,Integer fromRecord) throws IOException{
+	public List<EBook> getByKey(String key) throws IOException{
 		SearchResponse<EBook> response=elasticsearchClient.search(
 				s->s.index(indexName).query(q->q.bool(b->b
 						.should(createQuery("name", key))
@@ -79,7 +79,7 @@ public class IEBookRepository {
 						.should(createQuery("type", key))
 						.should(createQuery("charactor", key))
 						.should(createQuery("content", key))
-						)).from(fromRecord).size(AppConstraint.PAGE_NUM)
+						))
 				, EBook.class);
 		List<Hit<EBook>> hits = response.hits().hits();
 		List<EBook> eBooks=new ArrayList<>();

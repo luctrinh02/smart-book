@@ -6,9 +6,9 @@ import com.dantn.bookStore.entities.BookStatus;
 import com.dantn.bookStore.services.BookStatusService;
 
 public class BookStatusSingleton {
-	private List<BookStatus> singleton;
+	private static List<BookStatus> singleton;
 	private BookStatusSingleton () {}
-	public List<BookStatus> getInstance(BookStatusService service){
+	public static List<BookStatus> getInstance(BookStatusService service){
 		if(singleton==null) {
 			singleton=service.getAll();
 		}
