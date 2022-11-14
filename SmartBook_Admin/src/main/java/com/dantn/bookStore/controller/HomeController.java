@@ -120,7 +120,10 @@ public class HomeController {
 		return rds;
 	}
 	@PostMapping("/forgot_password")
-	public String forgotPost(ModelMap map, HttpServletRequest request, String email,String password) {
+	public String forgotPost(ModelMap map, HttpServletRequest request, String email,String password,String Cpassword) {
+		if(password != Cpassword){
+			request.getSession().setAttribute("error", "Mật khẩu không khớp");
+		}else {
 		String newPass = userService.getEncoder().encode(password);
 		User u = userService.getByEmail(email);
 		if (u == null) {
@@ -138,5 +141,7 @@ public class HomeController {
 			request.getSession().setAttribute("message", "Mật khẩu mới đã được gửi tới email!");
 			return "redirect:/admin/smart-book/logout";
 		}
+	}
+		return "control/login/forgot_password";
 	}
 }
