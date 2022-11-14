@@ -27,7 +27,7 @@ function autocomplete(inp, arr) {
 	inp.addEventListener("keydown", function(e) {
 		var x = document.getElementById(this.id + "autocomplete-list");
 		if (x) x = x.getElementsByTagName("div");
-		if (e.keyCode == 40) {	
+		if (e.keyCode == 40) {
 			currentFocus++;
 			addActive(x);
 		} else if (e.keyCode == 38) {
@@ -66,9 +66,9 @@ function autocomplete(inp, arr) {
 }
 
 
-function sleep (time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
+function sleep(time) {
+	return new Promise((resolve) => setTimeout(resolve, time));
+}
 const Toast = Swal.mixin({
 	toast: true,
 	position: 'top-end',
@@ -80,7 +80,6 @@ const Toast = Swal.mixin({
 		toast.addEventListener('mouseleave', Swal.resumeTimer)
 	}
 });
-
 
 function selectAll() {
 	var chkAll = document.getElementById("chkAll");

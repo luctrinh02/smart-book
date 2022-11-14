@@ -39,68 +39,76 @@
 <body ng-app="myApp">
 	<!-- ======= Header ======= -->
 	<header id="header" class="header fixed-top d-flex align-items-center">
-		<div
-			class="container d-flex align-items-center justify-content-between">
-
-			<a href="#home"
-				class="logo d-flex align-items-center me-auto me-lg-0">
+		<div class="container d-flex align-items-center justify-content-between p-0">
+	
+			<a href="#home" class="logo d-flex me-auto me-lg-0 mt-2 col-3">
 				<h3 class="fw-bold">
-					<img src="/index/img/s.png" class="m-0 mb-2" alt=""> <span
-						class="me-2">mart</span> <img src="/index/img/b.png" width="20px"
-						class="m-0 mb-2 p-0" alt=""> <span style="margin-left: -5px">ook</span>
+					<img src="/index/img/s.png" class="m-0 mb-2" alt=""> 
+					<span class="me-2">mart</span> 
+					<img src="/index/img/b.png" width="20px" class="m-0 mb-2 p-0" alt="">
+					<span style="margin-left: -5px">ook</span>
 				</h3>
 			</a>
-
+			
 			<nav id="navbar" class="navbar">
 				<ul>
-					<li><a id="m7" onclick="activeModule('m7')" class="module" href="#home">Trang chủ</a></li>
-					<li><a id="m8" onclick="activeModule('m8')" class="module" href="#events">Sự kiện khuyến mãi</a></li>
-					<li><a id="m1" onclick="activeModule('m1')" class="module" href="#menu">Menu</a></li>
-					<li><a id="m2" onclick="activeModule('m2')" class="module" href="#events">Events</a></li>
-					<li><a id="m3" onclick="activeModule('m3')" class="module" href="#chefs">Chefs</a></li>
-					<li><a id="m4" onclick="activeModule('m4')" class="module" href="#gallery">Gallery</a></li>
-					<li id="m5" onclick="activeModule('m5')" class="module dropdown" ><a href="#"><span>Drop Down</span> <i
-							class="bi bi-chevron-down dropdown-indicator"></i></a>
-						<ul>
-							<li><a href="#">Drop Down 1</a></li>
-							<li class="dropdown"><a href="#"><span>Deep Drop
-										Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-								<ul>
-									<li><a href="#">Deep Drop Down 1</a></li>
-									<li><a href="#">Deep Drop Down 2</a></li>
-									<li><a href="#">Deep Drop Down 3</a></li>
-									<li><a href="#">Deep Drop Down 4</a></li>
-									<li><a href="#">Deep Drop Down 5</a></li>
-								</ul></li>
-							<li><a href="#">Drop Down 2</a></li>
-							<li><a href="#">Drop Down 3</a></li>
-							<li><a href="#">Drop Down 4</a></li>
-						</ul></li>
-					<li><a id="m6" onclick="activeModule('m6')" class="module" href="#contact">Contact</a></li>
+					<li class="dropdown mt-1 me-1"><a href="#"><span></span><img src="/index/img/menus.png" width="28px" class="m-0 mb-2" alt=""><i class="bi bi-chevron-down dropdown-indicator"></i></a>
+			            <ul class="row mt-2">
+			              <li><a href="#">Drop Down 1</a></li>
+			              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+			                <ul>
+			                  <li><a href="#">Deep Drop Down 1</a></li>
+			                  <li><a href="#">Deep Drop Down 2</a></li>
+			                  <li><a href="#">Deep Drop Down 3</a></li>
+			                  <li><a href="#">Deep Drop Down 4</a></li>
+			                  <li><a href="#">Deep Drop Down 5</a></li>
+			                </ul>
+			              </li>
+			              <li><a href="#">Drop Down 2</a></li>
+			              <li><a href="#">Drop Down 3</a></li>
+			              <li><a href="#">Drop Down 4</a></li>
+			            </ul>
+			         </li>
 				</ul>
 			</nav>
-			<!-- navbar -->
-
-			<div class="row">
-				<div class="col-4">
-					<a class="text-center" href="#noti"> <img src="/index/img/noti.png"
-						width="25px" class="m-0 p-0" alt="">
-					</a>
-				</div>
-				<div class="col-4">
-					<a class="text-center" href="#cart"> <img src="/index/img/cart.png"
-						width="27px" class="m-0 p-0" alt="">
-					</a>
-				</div>
-				<div class="col-4">
-					<a class="text-center" href="#user"> <img src="/index/img/user.png"
-						width="25px" class="m-0 p-0" alt="">
-					</a>
+			<div class="col-6">
+				<div class="input-group">
+				  <input type="text" class="form-control ps-3" style=" border-radius: 50px 0px 0px 50px; border: solid 1px #000080;" placeholder="Tìm kiếm sản phẩm mong muốn..." aria-describedby="button-addon2">
+				  <button class="btn btn-outline-dark ps-3 pe-3" style="border-radius: 0px 50px 50px 0px; border: solid 1px #000080;" type="button" id="button-addon2"><i class="bi bi-search"></i></button>
 				</div>
 			</div>
-			<i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i> <i
-				class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
-
+			
+			<div class="row text-end col-2 ">
+				<div class="col-xl-3 col-md-0">
+				
+				</div>
+				<div class="col-xl-3 col-md-4">
+					<a class="text-center" href="#noti"> <img src="/index/img/noti.png"
+						width="28px" class="m-0 p-0" alt="">
+					</a>
+				</div>
+				<div class="col-xl-3 col-md-4">
+					<a class="text-center" href="#cart"> <img src="/index/img/cart.png"
+						width="30px" class="m-0 p-0" alt="">
+					</a>
+				</div>
+				<div class="col-xl-3 col-md-4 dropdown">
+					<a class="text-center  dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <img src="/index/img/user.png"
+						width="24px" class="m-0 p-0" alt="">
+					</a>
+					<ul class="dropdown-menu mt-2">
+					    <li><a class="dropdown-item" href="#profile">Thông tin cá nhân</a></li>
+ 						<li><a class="dropdown-item" href="#history">Theo dõi đơn hàng</a></li>
+					    <li><a class="dropdown-item" href="#">Mã khuyến mãi</a></li>
+					    <li><a class="dropdown-item" href="#">Điểm tích luỹ</a></li>
+					    <li><a class="dropdown-item" href="/login">Đăng nhập</a></li>
+					    <li><a class="dropdown-item" href="#">Đăng ký</a></li>
+					    
+					 </ul>
+				</div>
+			</div>
+			<i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+    		<i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
 		</div>
 	</header>
 	<!-- End Header -->
@@ -165,7 +173,7 @@
 
     <div class="container">
       <div class="copyright">
-        &copy; Copyright <strong><span>Book Smart</span></strong>. All Rights Reserved
+        &copy; Copyright <strong><span>Smart Book</span></strong>. All Rights Reserved
       </div>
       <div class="credits">
         Designed by <a href="https://www.facebook.com/phuthai02">Đoàn Phú Thái</a>
@@ -198,6 +206,7 @@
 	<!-- Controller files -->
 	<script src="/index/js/home.js"></script>
 	<script src="/index/js/cart.js"></script>
+	<script src="/index/js/history.js"></script>
 	<!-- Template Main JS File -->
 	<script src="/index/js/main.js"></script>
 	<script src="/index/js/app.js"></script>

@@ -8,8 +8,12 @@ app.config(function($routeProvider, $locationProvider) {
 		templateUrl: '/smart-book/cart',
 		controller: 'CartController'
 	})
+	.when("/history", {
+		templateUrl: '/smart-book/history',
+		controller: 'HistoryController'
+	})
 });
 app.controller("MyController", MyController);
 app.controller("CartController", CartController);
-
+app.controller("HistoryController", HistoryController);
 

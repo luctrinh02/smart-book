@@ -47,7 +47,7 @@ public class BillApi {
 	private BookService bookService;
 	private CartService cartService;
 	private BillStatusService statusService;
-	
+
 	public BillApi(BillService billService, BillDetailService detailService, UserService userService,
 			BookService bookService, CartService cartService, BillStatusService statusService) {
 		super();
@@ -58,108 +58,111 @@ public class BillApi {
 		this.cartService = cartService;
 		this.statusService = statusService;
 	}
+
 	@GetMapping("/api/bill")
-	public ResponseEntity<?> history(@RequestParam(name = "page",defaultValue = "0") Integer pageNum
-			,@RequestParam(name="transn",required = false) String transn,Principal principal){
-		User user=userService.getByEmail(principal.getName());
-		if(transn==null || "".equals(transn)) {
-			Page<Bill> page=billService.getByUser(user, pageNum);
-			HashMap<String, Object> map=DataUltil.setData("ok", page);
+	public ResponseEntity<?> history(@RequestParam(name = "page", defaultValue = "0") Integer pageNum,
+			@RequestParam(name = "transn", required = false) String transn, Principal principal) {
+		User user = userService.getByEmail(principal.getName());
+		if (transn == null || "".equals(transn)) {
+			Page<Bill> page = billService.getByUser(user, pageNum);
+			HashMap<String, Object> map = DataUltil.setData("ok", page);
 			return ResponseEntity.ok(map);
-		}else {
-			Page<Bill> bill=billService.getByTranSn(user,transn,pageNum);
-			HashMap<String, Object> map=DataUltil.setData("ok", bill);
+		} else {
+			Page<Bill> bill = billService.getByTranSn(user, transn, pageNum);
+			HashMap<String, Object> map = DataUltil.setData("ok", bill);
 			return ResponseEntity.ok(map);
 		}
 	}
+
 	@GetMapping("/api/bill/{id}")
-	public ResponseEntity<?> detail(@PathVariable(name = "id") Integer id,Principal principal
-			){
-		Bill bill=billService.getById(id);
-		if(bill.getUser().getEmail().equals(principal.getName())) {
-			List<BillDetail> list=detailService.getByBill(bill);
-			HashMap<String, Object> map=DataUltil.setData("ok", list);
+	public ResponseEntity<?> detail(@PathVariable(name = "id") Integer id, Principal principal) {
+		Bill bill = billService.getById(id);
+		if (bill.getUser().getEmail().equals(principal.getName())) {
+			List<BillDetail> list = detailService.getByBill(bill);
+			HashMap<String, Object> map = DataUltil.setData("ok", list);
 			return ResponseEntity.ok(map);
-		}else {
-			HashMap<String, Object> map=DataUltil.setData("error", "Bạn không có quyền xem hóa đơn này");
+		} else {
+			HashMap<String, Object> map = DataUltil.setData("error", "Bạn không có quyền xem hóa đơn này");
 			return ResponseEntity.ok(map);
 		}
 	}
+
 	@PostMapping("/api/bill")
-	public ResponseEntity<?> add(
-			@RequestBody BillCreateRequest request
-			,Principal principal){
-		List<CartPK> cartPKs=request.getCartPKs();
-		User user=userService.getByEmail(principal.getName());
+	public ResponseEntity<?> add(@RequestBody BillCreateRequest request, Principal principal) {
+		List<CartPK> cartPKs = request.getCartPKs();
+		User user = userService.getByEmail(principal.getName());
 //		List<CartPK> pks=Arrays.asList(cartPKs);
-		List<Cart> carts=cartService.getByIds(cartPKs);
-		for(Cart cart:carts) {
-			if(cart.getAmount()>cart.getBook().getAmount()) {
+		List<Cart> carts = cartService.getByIds(cartPKs);
+		for (Cart cart : carts) {
+			if (cart.getAmount() > cart.getBook().getAmount()) {
 				// @formatter:off
 				StringBuilder builder=new StringBuilder().append("Sách ")
 						.append(cart.getBook().getName()).append(" chỉ còn ")
 						.append(cart.getBook().getAmount());
 				// @formatter:on
-				HashMap<String, Object> map=DataUltil.setData("error", builder.toString());
+				HashMap<String, Object> map = DataUltil.setData("error", builder.toString());
 				return ResponseEntity.ok(map);
 			}
 		}
-		Bill bill=new Bill();
+		Bill bill = new Bill();
 		bill.setCreatedTime(new Date());
 		bill.setMessage("");
 		bill.setTranSn(TranSnUltil.getTranSn());
 		bill.setUser(user);
 		bill.setStatus(BillStatusSingleton.getInstance(statusService).get(0));
-		bill=billService.save(bill);
-		BigDecimal bookMoney=BigDecimal.ZERO;
-		for(Cart cart:carts) {
-			Book book=cart.getBook();
-			BillDetailPK detailPK=new BillDetailPK();
+		bill = billService.save(bill);
+		BigDecimal bookMoney = BigDecimal.ZERO;
+		for (Cart cart : carts) {
+			Book book = cart.getBook();
+			BillDetailPK detailPK = new BillDetailPK();
 			detailPK.setBillId(bill.getId());
 			detailPK.setBookId(book.getId());
-			BillDetail detail=new BillDetail();
+			BillDetail detail = new BillDetail();
 			detail.setBillDetailPK(detailPK);
 			detail.setAmount(cart.getAmount());
 			detail.setAvailable(cart.getAmount());
-			book.setAmount(book.getAmount()-cart.getAmount());
+			book.setAmount(book.getAmount() - cart.getAmount());
 			detail.setBill(bill);
 			detail.setBook(book);
 			detail.setAvailable(cart.getAmount());
-			detail.setPrice(book.getPrice().multiply(new BigDecimal(100-book.getDiscount())).divide(new BigDecimal(100)));
+			detail.setPrice(
+					book.getPrice().multiply(new BigDecimal(100 - book.getDiscount())).divide(new BigDecimal(100)));
 			detailService.save(detail);
-			book.setSaleAmount(cart.getAmount()+book.getSaleAmount());
+			book.setSaleAmount(cart.getAmount() + book.getSaleAmount());
 			bookService.save(book);
 			cartService.delete(cart.getCartPK());
-			bookMoney=bookMoney.add(detail.getPrice().multiply(new BigDecimal(cart.getAmount())));
+			bookMoney = bookMoney.add(detail.getPrice().multiply(new BigDecimal(cart.getAmount())));
 		}
 		bill.setBookMoney(bookMoney);
 		bill.setTransportFee(request.getTransportFee());
-		//xử lý mã khuyến mãi ở đây
-		
+		// xử lý mã khuyến mãi ở đây
+
 		//
-		BigDecimal total=bookMoney.add(request.getTransportFee());
+		BigDecimal total = bookMoney.add(request.getTransportFee());
 		bill.setTotalMoney(total);
 		billService.save(bill);
-		HashMap<String, Object> map=DataUltil.setData("ok", "Đặt hàng thành công");
+		HashMap<String, Object> map = DataUltil.setData("ok", "Đặt hàng thành công");
 		return ResponseEntity.ok(map);
 	}
+
 	@PutMapping("/api/bill/{id}")
-	public ResponseEntity<?> cancel(@PathVariable("id") Integer id,@RequestBody String mesage){
-		if(mesage==null || mesage.length()==0) {
-			HashMap<String, Object> map=DataUltil.setData("error", "Vui lòng nhập message");
+	public ResponseEntity<?> cancel(@PathVariable("id") Integer id, @RequestBody String mesage) {
+		if (mesage == null || mesage.length() == 0) {
+			HashMap<String, Object> map = DataUltil.setData("error", "Vui lòng nhập message");
 			return ResponseEntity.ok(map);
-		}else {
-			BillStatus status=BillStatusSingleton.getInstance(statusService).get(2);
-			Bill b=billService.getById(id);
-			if(b.getStatus().getId()==1) {
+		} else {
+			BillStatus status = BillStatusSingleton.getInstance(statusService).get(2);
+			Bill b = billService.getById(id);
+			if (b.getStatus().getId() == 1) {
 				b.setMessage(mesage);
 				b.setStatus(status);
 				b.setUpdatedTime(new Date());
 				billService.save(b);
-				HashMap<String, Object> map=DataUltil.setData("ok", "Hủy đơn thành công");
+				HashMap<String, Object> map = DataUltil.setData("ok", "Hủy đơn thành công");
 				return ResponseEntity.ok(map);
-			}else {
-				HashMap<String, Object> map=DataUltil.setData("error", "Bạn không thể hủy đơn do đơn đã được hủy hoặc chấp nhận");
+			} else {
+				HashMap<String, Object> map = DataUltil.setData("error",
+						"Bạn không thể hủy đơn do đơn đã được hủy hoặc chấp nhận");
 				return ResponseEntity.ok(map);
 			}
 		}
