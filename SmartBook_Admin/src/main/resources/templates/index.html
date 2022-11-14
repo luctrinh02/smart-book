@@ -193,7 +193,7 @@
 				</a>
 				<ul ng-show="m.url==null" id="{{'nav' + m.id}}"
 					class="nav-content collapse" data-bs-parent="#sidebar-nav">
-					<li ng-repeat="s in listSubModule[m.id]" ng-show="getInstance(isAll)"><a
+					<li ng-repeat="s in listSubModule[m.id]" ng-show="getInstance(s.isAll)"><a
 						href="{{'#' + s.url}}"> <i class="bi bi-circle"></i><span>{{s.display}}</span></a>
 					</li>
 				</ul>

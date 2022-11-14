@@ -48,6 +48,7 @@ public class Book implements Serializable{
 	private Integer point;
 	private Integer evaluate;
 	private String description;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "created_by")
 	private User createdBy;
