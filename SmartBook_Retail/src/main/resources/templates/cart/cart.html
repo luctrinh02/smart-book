@@ -1,114 +1,134 @@
-<section class="h-100 h-custom pb-0" style="color: var(--color-primary)">
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12">
-          <div class="card card-registration card-registration-2" style="border-radius: 15px;">
-            <div class="card-body p-0">
-              <div class="row g-0">
-                <div class="col-lg-8">
-                  <div class="p-5">
-                    <div class="d-flex justify-content-between align-items-center mb-5">
-                      <h1 class="fw-bold mb-0"><img src="/index/img/cart.png"
-						width="50px" class="m-0 mb-2 p-0" alt=""> GIỎ HÀNG</h1>
-                      <h6 class="mb-0 text-muted">{{carts.length}} sách</h6>
-                    </div>
-                    <hr class="my-4">
+<section class="h-100 h-custom pb-0 mb-3" style="color: var(--color-primary)">
+	<div class="container py-3 pb-0 h-100">
+		<div class="row d-flex justify-content-center align-items-center h-100">
+			<div class="col-12">
+				<div class="card card-registration card-registration-2">
+					<div class="card-body p-0">
+						<div class="row g-0">
+							<div class="col-lg-9" style="height: 700px">
+								<div class="p-3">
+									<div class="d-flex align-items-center">
+										<h3 class="fw-bold m-0 fs-3">
+											<img src="/index/img/cart.png" width="35px"
+												class="m-0 p-0 mb-2" alt=""> GIỎ HÀNG
+										</h3>
+										&ensp;
+										<h6 class="mb-0 text-muted">({{carts.length}} sản phẩm)</h6>
+									</div>
+									<hr class="mt-2 mb-2">
+									<div class="header-cart fw-bold">
+										<div class="row">
+											<div class="col-6">
+												<input class="form-check-input" type="checkbox" 
+													id="chkAll">&ensp;Chọn tất cả <span class="small">({{carts.length}}
+												sản phẩm)</span>
+											</div>
+											<div class="col-2">Số lượng</div>
+											<div class="col-3 text-center">Thành tiền</div>
+											<div class="col-1"></div>
+										</div>
+									</div>
+									<hr class="mt-2 mb-2">
+									<div ng-repeat="cart in carts track by $index">
+										<div
+											class="row d-flex justify-content-between align-items-center">
+											<div class="col-1">
+												<input ng-change="selectInput()" class="form-check-input"
+													type="checkbox" ng-model="selectBook" name="book"
+													ng-value={{$index}}>
+											</div>
+											<div class="col-1">
+												<img
+													src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
+													class="img-fluid rounded-3" alt="Cotton T-shirt">
+											</div>
+											<div class="col-4">
+												<h6 class="text-black mb-0">{{cart.book.name}}</h6>
+											</div>
+											<div class="col-2 d-flex">
+												<input id="{{'input'+$index}}" min="0" name="quantity"
+													ng-keyup="changeAmount($index)" ng-model="amount"
+													ng-value="cart.amount" type="text"
+													class="form-control form-control-sm" />
+											</div>
+											<div class="col-3 text-center">
+												<h6 class="mb-0">{{convertText((cart.book.price*(100-cart.book.discount)/100)*cart.amount)}}đ</h6>
+											</div>
+											<div class="col-1 text-end">
+												<button ng-click="deleteCart($index)"
+													class="btn btn-out-line-dark text-muted">
+													<i class="fas fa-times"></i>
+												</button>
+											</div>
+										</div>
+										<hr class="mt-2 mb-2">
+									</div>
 
-                    <div ng-repeat="cart in carts track by $index">
-                      <div class="row mb-4 d-flex justify-content-between align-items-center">
-                        <div class="col-md-1 col-lg-1 col-xl-1">
-                          <input ng-change="selectInput()" type="checkbox" ng-model="selectBook" name="book"
-                            ng-value={{$index}}>
-                        </div>
-                        <div class="col-md-2 col-lg-2 col-xl-2">
-                          <img
-                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
-                            class="img-fluid rounded-3" alt="Cotton T-shirt">
-                        </div>
-                        <div class="col-md-3 col-lg-3 col-xl-2">
-                          <h6 class="text-muted">{{cart.book.author.name}}</h6>
-                          <h6 class="text-black mb-0">{{cart.book.name}}</h6>
-                        </div>
-                        <div class="col-md-4 col-lg-4 col-xl-2 d-flex">
-                          <input id="{{'input'+$index}}" min="0" name="quantity" ng-keyup="changeAmount($index)" ng-model="amount"
-                            ng-value="cart.amount" type="text" class="form-control form-control-sm"
-                             />
-                        </div>
-                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                          <h6 class="mb-0">{{(cart.book.price*(100-cart.book.discount)/100).toFixed()}} vnđ</h6>
-                        </div>
-                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                          <button ng-click="deleteCart($index)" class="btn btn-out-line-dark text-muted"><i
-                              class="fas fa-times"></i></button>
-                        </div>
-                      </div>
+								</div>
+							</div>
+							<div class="col-lg-3 bg-grey">
+								<div class="p-3">
+									<h3 class="fw-bold m-0 fs-5">
+										<i class="fa-sharp fa-solid fa-ticket"></i> Mã khuyến mãi
+									</h3>
+									<hr class="mt-2 mb-2">
+									<div style="min-height: 400px">
+										
+									</div>
+									<hr class="my-2">
+									<div class="d-flex justify-content-between">
+										<h6>Tổng sản phẩm</h6>
+										<h6>{{items +' sách' }}</h6>
+									</div>
+									<div class="d-flex justify-content-between">
+										<h6>Tổng tiền sản phẩm</h6>
+										<h6>{{convertText(total)}}đ</h6>
+									</div>
+									<div class="d-flex justify-content-between">
+										<h6>Phí vận chuyển</h6>
+										<h6 ng-show="total>0">30.000đ</h6>
+										<h6 ng-show="total==0">0đ</h6>
+									</div>
+									<div class="d-flex justify-content-between">
+										<h6>Giảm giá</h6>
+										<h6>0đ</h6>
+									</div>
+									<div class="d-flex justify-content-between mb-5">
+										<h5 class="text-uppercase">Tổng số tiền</h5>
+										<h5 ng-show="total>0">{{convertText(total+30000)}}đ</h5>
+										<h5 ng-show="total==0">0đ</h5>
+									</div>
+									
+									<button type="button" class="btn btn-dark btn-block btn-lg"
+										data-mdb-ripple-color="dark" ng-click="beforePay()">Thanh toán</button>
 
-                      <hr class="my-4">
-                    </div>
-
-
-                    <div class="pt-5">
-                      <h6 class="mb-0"><a href="#home" class="text-body"><i
-                            class="fas fa-long-arrow-alt-left me-2"></i>Quay lại</a></h6>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 bg-grey">
-                  <div class="p-5">
-                    <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
-                    <hr class="my-4">
-
-                    <div class="d-flex justify-content-between mb-4">
-                      <h5 class="text-uppercase">{{items +' sách' }}</h5>
-                      <h5>€ {{total}}</h5>
-                    </div>
-
-                    <h5 class="text-uppercase mb-3">Shipping</h5>
-
-                    <div class="mb-4 pb-2">
-                      <select class="select">
-                        <option value="1">Standard-Delivery- €5000</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                        <option value="4">Four</option>
-                      </select>
-                    </div>
-                    <hr class="my-4">
-
-                    <div class="d-flex justify-content-between mb-5">
-                      <h5 class="text-uppercase">Total price</h5>
-                      <h5>€ {{total +5000}}</h5>
-                    </div>
-
-                    <button type="button" class="btn btn-dark btn-block btn-lg" data-mdb-ripple-color="dark" ng-click="beforePay()"
-                     >Register</button>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Xác nhận thanh toán</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              Bạn có chắn muốn mua các sách đã chọn?
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" ng-click="pay()">Chắc
-                chắn</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-<
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="confirmModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Xác nhận thanh
+							toán</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">Bạn có chắn muốn mua các sách đã
+						chọn?</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Không</button>
+						<button type="button" class="btn btn-primary"
+							data-bs-dismiss="modal" ng-click="pay()">Chắc chắn</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
