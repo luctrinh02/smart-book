@@ -42,6 +42,7 @@ public class User implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<UserClick> userClicks;
+	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<UserBuy> userBuys;
 	@JsonIgnore

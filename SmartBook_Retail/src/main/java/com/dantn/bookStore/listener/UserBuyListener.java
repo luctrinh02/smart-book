@@ -15,6 +15,6 @@ public class UserBuyListener {
 	private ObjectFactory<UserClickService> factory;
 	@PostPersist
 	public void create(UserBuy buy) {
-		factory.getObject().deleteByBook(buy.getBook());
+//		factory.getObject().deleteByBook(buy.getBook());
 	}
 }

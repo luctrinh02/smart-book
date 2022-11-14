@@ -28,11 +28,6 @@ public class BillListener {
 				factory.getObject().deleteByBook(detail.getBook());
 			}
 			break;
-		case 1:
-			for (BillDetail detail : list) {
-				factory2.getObject().save(detail.getBook());
-			}
-			break;
 		default:
 			break;
 		}

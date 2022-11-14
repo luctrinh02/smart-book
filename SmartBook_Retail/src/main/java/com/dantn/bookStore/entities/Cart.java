@@ -8,11 +8,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table
 public class Cart implements Serializable{
 	@EmbeddedId
 	private CartPK cartPK;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "user_id",insertable = false,updatable = false)
 	private User user;
