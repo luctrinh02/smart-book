@@ -1,4 +1,6 @@
-
+label:hover{
+	cursor: pointer;
+}
 .autocomplete {
   position: relative;
   display: inline-block;

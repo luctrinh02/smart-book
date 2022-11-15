@@ -72,7 +72,7 @@
 											<label for="yourUsername" class="form-label">Email</label>
 											<div class="input-group has-validation">
 												<span class="input-group-text" id="inputGroupPrepend">@</span>
-												<input type="text" name="username" class="form-control"
+												<input type="text" name="username" class="form-control" placeholder="Email"
 													id="yourUsername" required>
 												<div class="invalid-feedback">Vui lòng nhập email</div>
 											</div>
@@ -80,24 +80,14 @@
 
 										<div class="col-12">
 											<label for="yourPassword" class="form-label">Mật khẩu</label>
-											<input type="password" name="password" class="form-control"
+											<input type="password" name="password" class="form-control" placeholder="Mật khẩu"
 												id="yourPassword" required>
 											<div class="invalid-feedback">Vui lòng nhập mật khẩu</div>
 										</div>
-
+										<a class="mt-2" href="/admin/smart-book/forgot_password"><span class="small">Quên mật khẩu?</span></a>
 										<div class="col-12">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox"
-													name="remember-me" value="true" id="rememberMe"> <label
-													class="form-check-label" for="rememberMe">Nhớ mật
-													khẩu</label>
-											</div>
+											<button class="btn btn-primary w-100" type="submit">Đăng nhập</button>
 										</div>
-										<div class="col-12">
-											<button class="btn btn-primary w-100" type="submit">Đăng
-												nhập</button>
-										</div>
-										<a th:href="@{/admin/smart-book/forgot_password}">Forgot your password?</a>
 									</form>
 
 								</div>

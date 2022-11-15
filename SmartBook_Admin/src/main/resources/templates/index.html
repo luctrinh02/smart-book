@@ -130,13 +130,11 @@
 					</ul> <!-- End Messages Dropdown Items --></li>
 				<!-- End Messages Nav -->
 
-				<li class="nav-item dropdown pe-3"><a
-					class="nav-link nav-profile d-flex align-items-center pe-0"
-					href="#" data-bs-toggle="dropdown"> <img
-						src="/index/img/xuxai.jpg" alt="Profile" class="rounded-circle">
-						<span class="d-none d-md-block dropdown-toggle ps-2">&ensp;{{authen.fullname}}&ensp;</span>
+				<li class="nav-item dropdown pe-3">
+				<a class="nav-link nav-profile d-flex align-items-center pe-0" data-bs-toggle="dropdown"> 
+					<img src="/index/img/xuxai.jpg" alt="Profile" class="rounded-circle">
+					<span class="d-none d-md-block dropdown-toggle ps-2">&ensp;{{authen.fullname}}&ensp;</span>
 				</a>
-
 					<ul
 						class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 						<li class="dropdown-header">
@@ -146,33 +144,30 @@
 							<hr class="dropdown-divider">
 						</li>
 
-						<li><a class="dropdown-item d-flex align-items-center"
-							href="users-profile.html"> <i class="bi bi-person"></i> <span>Thông
-									tin cá nhân</span>
+						<li><a class="dropdown-item d-flex align-items-center" href="#profile"> 
+							<i class="bi bi-person"></i> <span>Thông tin cá nhân</span>
 						</a></li>
 						<li>
 							<hr class="dropdown-divider">
 						</li>
 
 						<li><a class="dropdown-item d-flex align-items-center"
-							href="users-profile.html"> <i class="bi bi-gear"></i> <span>Cài
-									đặt tài khoản</span>
+							href="#profile"> <i class="bi bi-gear"></i> <span>Cài đặt tài khoản</span>
 						</a></li>
 						<li>
 							<hr class="dropdown-divider">
 						</li>
 
 						<li><a class="dropdown-item d-flex align-items-center"
-							href="pages-faq.html"> <i class="bi bi-question-circle"></i>
+							href=""> <i class="bi bi-question-circle"></i>
 								<span>Cần hỗ trợ?</span>
 						</a></li>
 						<li>
 							<hr class="dropdown-divider">
 						</li>
 
-						<li><a class="dropdown-item d-flex align-items-center"
-							href="#"> <i class="bi bi-box-arrow-right"></i> <span>Đăng
-									xuất</span>
+						<li ng-click="logout()"><a class="dropdown-item d-flex align-items-center"> <i class="bi bi-box-arrow-right"></i> 
+							<span>Đăng xuất</span>
 						</a></li>
 
 					</ul> <!-- End Profile Dropdown Items --></li>
@@ -261,6 +256,8 @@
 	<script src="/index/js/bill/bill.js"></script>
 	<script src="/index/js/returnBill/returnBill.js"></script>
 	<script src="/index/js/shipment/shipment.js"></script>
+	<script src="/index/js/user/profile.js"></script>
+	
 	
 	<!-- Ready Controller JS File -->
 	<script src="/index/js/ready/module.js"></script>
