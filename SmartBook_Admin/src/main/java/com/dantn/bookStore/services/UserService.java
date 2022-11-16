@@ -24,6 +24,7 @@ import com.dantn.bookStore.entities.UserRole;
 import com.dantn.bookStore.repositories.IUserRepository;
 import com.dantn.bookStore.ultilities.AppConstraint;
 import com.dantn.bookStore.ultilities.DataUltil;
+import com.dantn.bookStore.ultilities.FileUtil;
 import com.dantn.bookStore.ultilities.UserRoleSingleton;
 import com.dantn.bookStore.ultilities.UserStatusSingleton;
 
@@ -169,14 +170,8 @@ public class UserService {
 	    user.setEmail(request.getEmail());
 	    if(request.getFile()!=null) {
 	        if (!request.getFile().isEmpty()) {
-	            String fileName = new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date());
-	            java.io.File file  = new java.io.File(
-	                    new java.io.File("src\\main\\resources\\static\\imgUpload").getAbsolutePath() + "/" + fileName);
-	            if (!file.exists()) {
-	                file.mkdirs();
-	            }
-	            request.getFile().transferTo(file);
-	            user.setImg(file.getAbsolutePath());
+	            String encode=FileUtil.fileToBase64(request.getFile());
+	            user.setImg(encode);
 	        }
 	    }
         try {
