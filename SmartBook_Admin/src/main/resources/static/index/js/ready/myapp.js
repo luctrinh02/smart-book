@@ -51,6 +51,10 @@ app.config(function($routeProvider, $locationProvider) {
 		templateUrl: '/admin/smart-book/user/admin',
 		controller: 'adminController'
 	})
+	.when("/profile", {
+		templateUrl: '/admin/smart-book/profile',
+		controller: 'profileController'
+	})
 	.when("/guest", {
 		templateUrl: '/admin/smart-book/user/guest',
 		controller: 'guestController'
@@ -102,3 +106,5 @@ app.controller("ctrlHome", ctrlHome);
 app.controller("ctrlBill", ctrlBill);
 app.controller("ctrlreturn", returnBillCtrl);
 app.controller("ctrlShipment", ctrlShipment);
+app.controller("profileController", profileController);
+

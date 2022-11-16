@@ -79,6 +79,10 @@ public class HomeController {
 	
 	@GetMapping("/profileUser")
 	public String profileUser() {
+		return "user/update";
+	}
+	@GetMapping("/profile")
+	public String profile() {
 		return "user/profile";
 	}
 	
