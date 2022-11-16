@@ -368,7 +368,7 @@ function ctrlBook($scope, $http, $rootScope) {
 		myForm.append("content",$scope.book.content)
 		myForm.append("description",$scope.book.description)
 		myForm.append("discount",$scope.book.discount)
-		if($("#image").val()!=""){
+		if($("#abc").val()!=""){
 			myForm.append("file",$scope.book.image)
 		}
 		myForm.append("name",$scope.book.name)

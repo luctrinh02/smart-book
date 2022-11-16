@@ -30,6 +30,7 @@ import com.dantn.bookStore.entities.Type;
 import com.dantn.bookStore.repositories.IBookRepository;
 import com.dantn.bookStore.ultilities.AppConstraint;
 import com.dantn.bookStore.ultilities.BookStatusSingleton;
+import com.dantn.bookStore.ultilities.FileUtil;
 
 @Service
 public class BookService {
@@ -224,14 +225,8 @@ public class BookService {
         b.setStatus(BookStatusSingleton.getInstance(bookStatusService).get(0));
         if (request.getFile() != null) {
             if (!request.getFile().isEmpty()) {
-                String fileName = new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date());
-                File file = new File(
-                        new File("src\\main\\resources\\static\\imgUpload").getAbsolutePath() + "/" + fileName);
-                if (!file.exists()) {
-                    file.mkdirs();
-                }
-                request.getFile().transferTo(file);
-                b.setImage(file.getAbsolutePath());
+            	String encode=FileUtil.fileToBase64(request.getFile());
+                b.setImage(encode);
             }
         }
         return repository.save(b);
@@ -244,14 +239,8 @@ public class BookService {
         b.setPublisher(publisherService.findById(Integer.parseInt(request.getPublisher())));
         if (request.getFile() != null) {
             if (!request.getFile().isEmpty()) {
-                String fileName = new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date());
-                File file = new File(
-                        new File("src\\main\\resources\\static\\imgUpload").getAbsolutePath() + "/" + fileName);
-                if (!file.exists()) {
-                    file.mkdirs();
-                }
-                request.getFile().transferTo(file);
-                b.setImage(file.getAbsolutePath());
+                String encode=FileUtil.fileToBase64(request.getFile());
+                b.setImage(encode);
             }
         }
         return repository.save(b);
