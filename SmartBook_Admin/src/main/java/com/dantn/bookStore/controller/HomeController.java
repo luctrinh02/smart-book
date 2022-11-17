@@ -91,6 +91,11 @@ public class HomeController {
 	public String createBook() {
 		return "book/book/create";
 	}
+
+	@GetMapping("/coupon")
+	public String indexCoupon() {
+		return "coupon/index";
+	}
 	
 	@GetMapping("/book/update")
 	public String updateBook() {
@@ -121,9 +126,9 @@ public class HomeController {
 	}
 	@PostMapping("/forgot_password")
 	public String forgotPost(ModelMap map, HttpServletRequest request, String email,String password,String Cpassword) {
-		if(password != Cpassword){
-			request.getSession().setAttribute("error", "Mật khẩu không khớp");
-		}else {
+//		if(password != Cpassword){
+//			request.getSession().setAttribute("error", "Mật khẩu không khớp");
+//		}else {
 		String newPass = userService.getEncoder().encode(password);
 		User u = userService.getByEmail(email);
 		if (u == null) {
@@ -136,12 +141,12 @@ public class HomeController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			mail.sendEmail(u.getEmail(), "Mật khẩu mới là: " + newPass,
+			mail.sendEmail(u.getEmail(), "Mật khẩu mới là: " + password,
 					"Hãy bảo mật mail này hoặc đổi mật khẩu ngay sau khi đăng nhập");
 			request.getSession().setAttribute("message", "Mật khẩu mới đã được gửi tới email!");
 			return "redirect:/admin/smart-book/logout";
 		}
 	}
-		return "control/login/forgot_password";
-	}
+//		return "control/login/forgot_password";
+//	}
 }

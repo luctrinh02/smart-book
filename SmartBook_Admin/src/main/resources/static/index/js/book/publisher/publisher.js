@@ -74,6 +74,7 @@ function ctrlPublisher($scope, $http) {
 				$scope.keyWord = "";
 				$scope.getPublisher = "0";
 				$scope.maxPage = response.data.maxPage;
+				console.log(response.data.data);
 				$('#createModal').modal('hide');
 				Toast.fire({
 					icon: 'success',

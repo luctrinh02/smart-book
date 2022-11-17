@@ -41,7 +41,7 @@ public class SpringSecurityConfig implements UserDetailsService{
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		// @formatter:off
-		http.authorizeHttpRequests(authz -> authz.antMatchers("/admin/smart-book/login","/index/**","/images/**","/login").permitAll()
+		http.authorizeHttpRequests(authz -> authz.antMatchers("/admin/smart-book/login","/admin/smart-book/forgot_password","/index/**","/images/**","/login").permitAll()
 				.antMatchers("/api/admin/bill","/admin/smart-book#/bill","/api/admin/returnBill","/admin/smart-book#/returnBill","/api/admin/change","/api/admin/pricipal").hasAnyRole("ADMIN","SHIPPER")
 				.anyRequest().hasRole("ADMIN")
 				).rememberMe().key("uniqueAndSecret").tokenValiditySeconds(1296000).and()
