@@ -1,3 +1,4 @@
+
 function ctrlBook($scope, $http, $rootScope) {
 	$scope.listType = [];
 	$scope.listContent = [];
