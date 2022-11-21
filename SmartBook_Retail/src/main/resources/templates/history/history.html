@@ -1,52 +1,198 @@
-<!DOCTYPE html>
-<html lang="en">
+<section class="h-100 h-custom pb-0 mb-3" style="color: var(--color-primary)">
+	<div class="container py-3 pb-0 h-100">
+		<div class="row d-flex justify-content-center align-items-center h-100">
+			<div class="col-12">
+				<div class="card card-registration card-registration-2">
+					<div class="card-body p-0">
+						<div class="row g-0">
+							<div class="col-12" id="list" style="height: 700px">
+								<div class="p-3">
+									<div class="d-flex align-items-center">
+										<h3 class="fw-bold m-0 fs-3">
+											<img src="/index/img/bill.png" width="35px" class="m-0 p-0 mb-2" alt=""> ĐƠN HÀNG
+										</h3>
+									</div>
+									<hr class="mt-2 mb-2 row">
+									<div class="header-cart">
+										<div class="row">
+											 <div class="input-group ">
+					                            <button class="btn btn-outline-secondary" type="button" ng-click="reset()">Đặt lại</button>
+					                            <input type="text" class="form-control" style="border: solid 1px black" placeholder="Nhập mã giao dịch ..." id="tranSn">
+					                            <button class="btn btn-outline-secondary" type="button" ng-click="search()">Tìm
+					                                kiếm</button>
+					                        </div>
+										</div>
+									</div>
+									<hr class="mt-2 mb-2 row">
+									<div class="row fw-bold">
+											<div class="col-4">Mã giao dịch</div>
+											<div class="col-2">Ngày mua</div>
+											<div class="col-2">Tổng tiền</div>
+											<div class="col-2">Trạng thái</div>
+										 	<hr class="mt-2 mb-2">
+									</div>
+									<div class="row" ng-repeat="bill in bills" ng-click="getDetail(bill.id)" style="cursor: pointer;">
+											<div class="col-4">{{bill.tranSn}}</div>
+											<div class="col-2">{{formatDate(bill.createdTime)}}</div>
+											<div class="col-2">{{convertText(bill.totalMoney)}}đ</div>
+											<div class="col-2 {{'text-'+bill.status.color}}">{{bill.status.value}}</div>
+											<div class="col-2 text-end">
+												<button class="btn" data-bs-toggle="modal" data-bs-target="{{'#modal'+bill.id}}"><i class="fa-solid fa-xmark"></i></button>
+				                                <div class="modal fade" id="{{'modal'+bill.id}}" tabindex="-1"
+				                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+				                                    <div class="modal-dialog">
+				                                        <div class="modal-content">
+				                                            <div class="modal-header">
+				                                                <h5 class="modal-title" id="exampleModalLabel">Xác nhận hủy đơn</h5>
+				                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+				                                                    aria-label="Close"></button>
+				                                            </div>
+				                                            <div class="modal-body">
+				                                                Bạn có chắc muốn hủy đơn hàng này?
+				                                            </div>
+				                                            <div class="modal-footer">
+				                                                <button type="button" class="btn btn-secondary"
+				                                                    data-bs-dismiss="modal">Không</button>
+				                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+				                                                    ng-click="cancel($index)">Chắc chắn</button>
+				                                            </div>
+				                                        </div>
+				                                    </div>
+                                				</div>
+											</div>
+											<!-- <div class="col-1">
+												 <button class="btn" data-bs-toggle="modal" data-bs-target="#returnBillModal"  ng-click="getDetail(bill.id)">
+                                   					 <i class="fa-solid fa-right-left"></i>
+                             					 </button>
+											</div> -->
+										 	<hr class="mt-2 mb-2">
+									</div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"
-        integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
-        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script type="text/javascript">
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
+								</div>
+							</div>
+							<div class="col-4 bg-grey" id="detail" ng-show="details.length>0">
+								<div class="p-3">
+									<h3 class="fw-bold m-0 fs-5">
+										<i class="fa-solid fa-circle-info"></i> Chi tiết đơn hàng<span class="small">: {{details[0].bill.tranSn}}</span>
+									</h3>
+									<hr class="mt-2 mb-2">
+									<div style="min-height: 400px">
+										<div class="row fw-bold">
+											<div class="col-4 small">Tên sản phẩm</div>
+											<div class="col-4 small">Số lượng</div>
+											<div class="col-4 small">Đơn giá</div>
+									</div>
+									<hr class="mt-2 mb-2">
+									<div ng-repeat="detail in details">
+										<div class="row">
+											<div class="col-4 small">{{detail.book.name}}</div>
+											<div class="col-4 small">{{detail.amount}}</div>
+											<div class="col-4 small">{{convertText(detail.price)}}đ</div>
+										</div>
+									</div>
+									<hr class="my-2">
+									<div class="d-flex justify-content-between">
+										<h6>Tổng sản phẩm</h6>
+										<h6>Chưa tính</h6>
+									</div>
+									<div class="d-flex justify-content-between">
+										<h6>Tổng tiền sản phẩm</h6>
+										<h6>{{convertText(details[0].bill.bookMoney)}}đ</h6>
+									</div>
+									<div class="d-flex justify-content-between">
+										<h6>Phí vận chuyển</h6>
+										<h6 ng-show="details[0].bill.transportFee>0">{{convertText(details[0].bill.transportFee)}}đ</h6>
+										<h6 ng-show="details[0].bill.transportFee==0">0đ</h6>
+									</div>
+									<div class="d-flex justify-content-between">
+										<h6>Giảm giá</h6>
+										<h6>0đ</h6>
+									</div>
+									<div class="d-flex justify-content-between mb-5">
+										<h5 class="text-uppercase">Tổng số tiền</h5>
+										<h5>{{convertText(details[0].bill.totalMoney)}}đ</h5>
+										</div>
 
-    </script>
-</head>
+									<button type="button" class="btn btn-dark btn-block btn-lg"
+										data-mdb-ripple-color="dark" data-bs-toggle="modal" data-bs-target="#returnBillModal" >Đổi trả</button>
 
-<body ng-app="myApp">
-    <div class="container" ng-controller="HistoryController">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="returnBillModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Chọn sản phẩm đổi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <th>Tên sách</th>
+                                <th>Hình ảnh</th>
+                                <th>Số lượng mua</th>
+                                <th>Số lượng hợp pháp</th>
+                                <th>Số lượng đổi</th>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="detail in details">
+                                    <td>{{detail.book.name}}</td>
+                                    <td>{{detail.book.img}}</td>
+                                    <td align="center">{{detail.amount}}</td>
+                                    <td align="center">{{detail.available}}</td>
+                                    <td>
+                                        <input type="number" id="returnAmount{{$index}}" min="0" max="detail.available"
+                                            class="form-control" value="0">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+                        <button type="button" class="btn btn-danger" ng-click="beforeReturn()">Đổi hàng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Chọn sản phẩm đổi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có chắn muốn đổi sách?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" ng-click="return()">Chắc
+                            chắn</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</section>
+
+
+<!-- <section class="h-100 h-custom pb-0 mb-3" style="color: var(--color-primary)">
+	<div class="container py-3 pb-0 h-100">
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-4">
-                        <span class="fs-5">Lịch sử mua hàng</span>
+                    <div class="col-4 mt-2 mb-2">
+                        <h3 class="fw-bold m-0 fs-3">
+							<img src="/index/img/cart.png" width="35px"
+								class="m-0 p-0 mb-2" alt=""> GIỎ HÀNG
+						</h3>
                     </div>
                     <div class="col-4">
                         <div class="input-group ">
@@ -73,13 +219,13 @@
                             <td class="align-middle">{{formatDate(bill.createdTime)}}</td>
                             <td class="align-middle">{{bill.totalMoney+' vnđ'}}</td>
                             <td class="align-middle">
-                                <span class="{{'text-'+bill.status.color}}">{{bill.status.value}}</span>
+                                <span class="">{{bill.status.value}}</span>
                             </td>
                             <td >
                                 <button ng-click="getDetail(bill.id)" class="btn" data-bs-toggle="modal"
                                     data-bs-target="#detailmodal"><i class="fa-solid fa-eye"></i></button>
                             </td>
-                            <td ng-show="bill.status.id==1">
+                            <td >
                                 <button class="btn" data-bs-toggle="modal" data-bs-target="{{'#modal'+bill.id}}"><i
                                         class="fa-solid fa-xmark"></i></button>
                                 <div class="modal fade" id="{{'modal'+bill.id}}" tabindex="-1"
@@ -226,114 +372,4 @@
             </div>
         </div>
     </div>
-    <script>
-        const myApp = angular.module("myApp", []);
-        myApp.controller('HistoryController', function ($scope, $http) {
-            $scope.checkDate = function (index) {
-                let today = new Date().setHours(7, 0, 0, 0);
-                let chek = new Date($scope.bills[index].createdTime).setHours(7, 0, 0, 0);
-                return today - chek;
-            }
-            $scope.returnRequest = [];
-            $scope.bills = [];
-            $scope.details = [];
-            $scope.users={}
-            $scope.page=0;
-            $scope.tranSn="";
-            $scope.formatDate = function (date) {
-                let s = date.split("-");
-                return s[2] + "/" + s[1] + "/" + s[0];
-            }
-            $http.get("/api/bill?page=0").then(function (response) {
-                $scope.bills = response.data.data.content;
-                $scope.users=response.data.data;
-            })
-            $scope.getDetail = function (id) {
-                $http.get("/api/bill/" + id).then(function (response) {
-                    $scope.details = response.data.data;
-                })
-            }
-            $scope.cancel = function (index) {
-                $scope.message = " "
-                $http.put("/api/bill/" + $scope.bills[index].id, $scope.message).then(function (response) {
-                    if (response.data.statusCode == "ok") {
-                        Toast.fire({
-                            icon: 'success',
-                            title: response.data.data
-                        });
-                        $scope.bills[index].status.id = 3;
-                        $scope.bills[index].status.value = "Đã hủy";
-                        $scope.bills[index].status.color = "danger";
-                    } else {
-                        Toast.fire({
-                            icon: 'error',
-                            title: response.data.data
-                        });
-                    }
-                })
-            }
-            $scope.beforeReturn = function () {
-                let size = $scope.details.length;
-                if (size > 0) {
-                    $scope.returnRequest.splice(0, size);
-                }
-                for (let i = 0; i < size; i++) {
-                    let detail = $scope.details[i];
-                    let Request = {
-                        pk: {
-                            bookId: detail.book.id,
-                            billId: $scope.details[0].bill.id
-                        },
-                        amount: document.getElementById("returnAmount" + i).value
-                    };
-                    $scope.returnRequest.push(Request);
-                }
-                $http.post("/api/return/before", $scope.returnRequest).then(function (response) {
-                    if (response.data.statusCode == "error") {
-                        Toast.fire({
-                            icon: 'error',
-                            title: response.data.data
-                        });
-                    } else {
-                        $("#returnBillModal").modal("hide");
-                        $("#confirmModal").modal("show");
-                    }
-                })
-            }
-            $scope.return = function () {
-                $http.post("/api/return", $scope.returnRequest).then(function (response) {
-                    if (response.data.statusCode == "error") {
-                        Toast.fire({
-                            icon: 'error',
-                            title: response.data.data
-                        });
-                    } else {
-                        Toast.fire({
-                            icon: 'success',
-                            title: response.data.data
-                        });
-                    }
-                })
-            }
-            $scope.tranSn=""
-            $scope.getData=function(index){
-                $scope.page=index;
-                $http.get("/api/bill?page=" + index + "&transn="+$scope.tranSn).then(function (response) {
-                    $scope.bills = response.data.data.content;
-                    $scope.users=response.data.data;
-                })
-            }
-            $scope.search=function(){
-                $scope.tranSn=document.getElementById("tranSn").value;
-                $scope.getData(0);
-            }
-            $scope.reset=function(){
-                document.getElementById("tranSn").value="",
-                $scope.tranSn=""
-                $scope.getData(0)
-            }
-        });
-    </script>
-</body>
-
-</html>
+</section> -->

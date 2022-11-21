@@ -9,4 +9,19 @@ function ctrlModule($scope, $http ,$rootScope) {
 	$http.get("/api/admin/pricipal").then(function(response){
 		$rootScope.authen=response.data;
 	})
+	$rootScope.getInstance = function(isAll){
+		let role=$rootScope.authen.role.id;
+		if(role==2 && isAll==null){
+			return false;
+		}
+		if(role==3 && isAll==null){
+			return true;
+		}else{
+			return role==2?true:isAll;
+		}
+	}
+	$rootScope.logout = function(){
+		window.location.href = "/logout";
+		$rootScope.authen = [];
+	}
 }

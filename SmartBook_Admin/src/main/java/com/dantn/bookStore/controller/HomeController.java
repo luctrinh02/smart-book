@@ -79,6 +79,10 @@ public class HomeController {
 	
 	@GetMapping("/profileUser")
 	public String profileUser() {
+		return "user/update";
+	}
+	@GetMapping("/profile")
+	public String profile() {
 		return "user/profile";
 	}
 	
@@ -101,6 +105,20 @@ public class HomeController {
 	public String updateBook() {
 		return "book/book/update";
 	}
+	
+	@GetMapping("/bill")
+	public String bill() {
+		return "bill/bill";
+	}
+	@GetMapping("/returnBill")
+	public String returnBill() {
+		return "returnBill/returnBill";
+	}
+	@GetMapping("/shipment")
+	public String shipment() {
+		return "shipment/shipment";
+	}
+	
 	@GetMapping("/login")
     public String login(@RequestParam(name="error",required = false,defaultValue = "false") Boolean error) {
         Authentication authentication=SecurityContextHolder.getContext().getAuthentication();

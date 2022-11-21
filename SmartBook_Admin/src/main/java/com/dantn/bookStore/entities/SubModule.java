@@ -17,7 +17,7 @@ public class SubModule {
 	private String url;
 	private Byte[] template;
 	private Integer indexSubModule;
-	
+	private Boolean isAll;
 	@ManyToOne
 	@JoinColumn(name = "module_id")
 	private Module module;
@@ -68,6 +68,14 @@ public class SubModule {
 
 	public void setIndexSubModule(Integer indexSubModule) {
 		this.indexSubModule = indexSubModule;
+	}
+
+	public Boolean getIsAll() {
+		return isAll;
+	}
+
+	public void setIsAll(Boolean isAll) {
+		this.isAll = isAll;
 	}
 	
 }

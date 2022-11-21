@@ -1,109 +1,209 @@
+
 <div class="pagetitle">
-	<h1>{{title}}</h1>
+	<h1>Thông tin cá nhân</h1>
 	<nav>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="#home">Smart Book</a></li>
-			<li class="breadcrumb-item">Quản lý người dùng</li>
-			<li class="breadcrumb-item active">Chỉnh sửa: {{name}}</li>
+			<li class="breadcrumb-item">Người dùng</li>
+			<li class="breadcrumb-item active">Thông tin cá nhân</li>
 		</ol>
 	</nav>
 </div>
+<!-- End Page Title -->
 
-<section class="section">
+<section class="section profile">
 	<div class="row">
-		<div class="col-lg-3">
-			<div class="card">
-				<div class="card-body m-0 p-0">
-					<div class="card">
-						<div class="card-body pb-0">
-							<h5 class="card-title pb-0">Vai trò trong hệ thống</h5>
+		<div class="col-xl-4">
 
-							<div class="form-check form-switch mt-3">
-								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="role" type="radio" id="f1" value="0"
-									ng-checked="role==0"> <label style="cursor: pointer;"
-									class="form-check-label" for="f1">Khách hàng</label>
-							</div>
-							<div class="form-check form-switch">
-								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="role" type="radio" id="f2" value="1"
-									ng-checked="role==1"> <label style="cursor: pointer;"
-									class="form-check-label" for="f2">Quản trị viên</label>
-							</div>
-							<div class="form-check form-switch">
-								<input style="cursor: pointer;" class="form-check-input"
-									ng-model="role" type="radio" id="f3" value="2"
-									ng-checked="role==2"> <label style="cursor: pointer;"
-									class="form-check-label" for="f3">Giao hàng</label>
-							</div>
-						</div>
-					</div>
+			<div class="card">
+				<div
+					class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+					<img src="/index/img/xuxai.jpg" alt="Profile"
+						class="rounded-circle">
+					<h2>{{authen.fullname}}</h2>
+					<h3>{{authen.role.value}}</h3>
 				</div>
 			</div>
+
 		</div>
-		<div class="col-lg">
+
+		<div class="col-xl-8">
+
 			<div class="card">
-				<div class="card-body">
-					<div class="card mt-4">
-						<div class="card-body fix">
+				<div class="card-body pt-3">
+					<!-- Bordered Tabs -->
+					<ul class="nav nav-tabs nav-tabs-bordered">
 
-							<div class="pt-4 pb-2">
-								<div class="d-flex justify-content-center py-3">
-									<a href="#home"
-										class="logo d-flex align-items-center w-auto"> <img
-										src="/index/img/logo.jpg" alt=""> <span
-										class="d-none d-lg-block">Smart Book</span>
-									</a>
+						<li class="nav-item">
+							<button class="nav-link active" data-bs-toggle="tab"
+								data-bs-target="#profile-overview">Tổng quan</button>
+						</li>
+
+						<li class="nav-item">
+							<button class="nav-link" data-bs-toggle="tab"
+								data-bs-target="#profile-edit">Chỉnh sửa hồ sơ</button>
+						</li>
+
+						<li class="nav-item">
+							<button class="nav-link" data-bs-toggle="tab"
+								data-bs-target="#profile-change-password">Đổi mật khẩu</button>
+						</li>
+
+					</ul>
+					<div class="tab-content pt-2">
+						<div class="tab-pane fade show active profile-overview"
+							id="profile-overview">
+							<h5 class="card-title">Chi tiết hồ sơ</h5>
+								<div class="row">
+									<label for="imgae"
+										class="col-md-4 col-lg-3 col-form-label">Hình ảnh</label>
+									<div class="col-md-8 col-lg-9">
+										<img src="/index/img/xuxai.jpg" width="150px" height="150px">
+									</div>
 								</div>
-
-								<p class="text-center small">Vui lòng nhập đầy đủ thông tin
-									dưới đây để chỉnh sửa người dùng</p>
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label ">Họ và tên</div>
+								<div class="col-lg-9 col-md-8">{{authen.fullname}}</div>
 							</div>
 
-							<form action="return false" method="post" name="userCreate"
-								id="userCreate">
-								<div class="row">
-									<div class="col-6 mt-3 form-floating">
-										<input type="text" class="form-control" name="fullname"
-											ng-model="user.fullname" placeholder="smartbook"> <label
-											for="fullname" class="text-center">Họ và tên</label> <small
-											class="text-danger" id="fullname"></small>
-									</div>
-									<div class="col-6 mt-3 form-floating">
-										<input type="text" class="form-control" name="address"
-											ng-model="user.address" placeholder="smartbook"> <label
-											for="address" class="text-center">Địa chỉ</label> <small
-											class="text-danger" id="address"></small>
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label">Địa chỉ</div>
+								<div class="col-lg-9 col-md-8">{{authen.address}}</div>
+							</div>
+
+
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label">Email</div>
+								<div class="col-lg-9 col-md-8">{{authen.email}}</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label">Số điện thoại</div>
+								<div class="col-lg-9 col-md-8">{{authen.phoneNumber}}</div>
+							</div>
+
+
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label">Vai trò</div>
+								<div class="col-lg-9 col-md-8">{{authen.role.value}}</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label">Trạng thái</div>
+								<div class="col-lg-9 col-md-8 text-{{authen.status.color}}">{{authen.status.value}}</div>
+							</div>
+
+
+						</div>
+
+						<div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
+							<!-- Profile Edit Form -->
+							<form>
+								<div class="row mb-3">
+									<label for="imgae"
+										class="col-md-4 col-lg-3 col-form-label">Hình ảnh</label>
+									<div class="col-md-8 col-lg-9">
+										<img src="/index/img/xuxai.jpg" width="100px" height="100px">
+										<input type="file" name="" id="imgae" class=" mt-2 form-control" accept=".jpg,.png,.jpeg" file-model="curentUser.image">
 									</div>
 								</div>
-								<div class="row mt-3">
-									<div class="col-6 mt-3 form-floating">
-										<input type="text" class="form-control" name="phoneNumber"
-											ng-model="user.phoneNumber" placeholder="smartbook">
-										<label for="phoneNumber" class="text-center">Số điện
-											thoại</label> <small class="text-danger" id="phoneNumber"></small>
-									</div>
-									<div class="col-6 mt-3 form-floating">
-										<input type="email" class="form-control" name="email"
-											ng-model="user.email" placeholder="smartbook"> <label
-											for="email" class="text-center">Email</label> <small
-											class="text-danger" id="email"></small>
+
+								<div class="row mb-3">
+									<label for="name" class="col-md-4 col-lg-3 col-form-label">Họ
+										và tên</label>
+									<div class="col-md-8 col-lg-9">
+										<input type="text" name="" id="name" class="form-control"
+											autocomplete="off" ng-model="curentUser.fullname"> <small
+											class="text-danger" id="fullnameId"></small>
 									</div>
 								</div>
 
 
-								<div class="row mt-5">
-									<div class="col-6 text-end">
-										<button type="reset" class="btn btn-secondary">Đặt
-											lại</button>
+								<div class="row mb-3">
+									<label for="address" class="col-md-4 col-lg-3 col-form-label">Địa
+										chỉ</label>
+									<div class="col-md-8 col-lg-9">
+										<input type="text" name="" id="address" class="form-control"
+											autocomplete="off" ng-model="curentUser.address"> <small
+											class="text-danger" id="addressId"></small>
+									</div>
+								</div>
 
+								<div class="row mb-3">
+									<label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+									<div class="col-md-8 col-lg-9">
+										<input type="email" name="" id="email" class="form-control"
+											autocomplete="off" ng-model="curentUser.email"> <small
+											class="text-danger" id="emailId"></small>
 									</div>
-									<div class="col-6 text-start">
-										<button type="button" class="btn btn-primary"
-											ng-click="check()">Chỉnh sửa</button>
+								</div>
+
+								<div class="row mb-3">
+									<label for="sdt" class="col-md-4 col-lg-3 col-form-label">Số
+										điện thoại</label>
+									<div class="col-md-8 col-lg-9">
+										<input type="text" name="" id="sdt" class="form-control"
+											autocomplete="off" ng-model="curentUser.phoneNumber">
+										<small class="text-danger" id="phoneNumberId"></small>
 									</div>
+								</div>
+
+								<div class="text-center">
+									<button class="btn btn-secondary" ng-click="reset()">Đặt
+										lại</button>
+									<button type="submit" class="ms-2 btn btn-primary"
+										ng-click="check()">Lưu thay đổi</button>
 								</div>
 							</form>
+							<!-- End Profile Edit Form -->
+
+						</div>
+
+
+						<div class="tab-pane fade pt-3" id="profile-change-password">
+							<!-- Change Password Form -->
+							<form>
+
+								<div class="row mb-3">
+									<label for="oldPassId"
+										class="col-md-4 col-lg-3 col-form-label">Mật khẩu hiện
+										tại</label>
+									<div class="col-md-8 col-lg-9">
+										<input type="password" ng-model="req.oldPass" class="form-control"
+												id="oldPassId" required>
+											<small id="oldPass" class="text-danger"></small>
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label for="newPassId"
+										class="col-md-4 col-lg-3 col-form-label">Mật khẩu mới</label>
+									<div class="col-md-8 col-lg-9">
+										<input type="password" ng-model="req.newPass" class="form-control"
+												id="newPassId" required>
+											<small id="newPass" class="text-danger"></small>
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label for="confirmId"
+										class="col-md-4 col-lg-3 col-form-label">Xác nhận mật
+										khẩu</label>
+									<div class="col-md-8 col-lg-9">
+										<input type="password" ng-model="req.confirm" class="form-control"
+												id="confirmId" required>
+											<small id="confirm" class="text-danger"></small>
+									</div>
+								</div>
+
+								<div class="text-center">
+									<button type="submit" class="btn btn-primary" ng-click="change()">Đổi mật
+										khẩu</button>
+								</div>
+							</form>
+							<!-- End Change Password Form -->
+
 						</div>
 					</div>
 				</div>
@@ -112,8 +212,8 @@
 	</div>
 </section>
 
-<div class="modal fade" id="exampleModal" tabindex="-1"
-	aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="saveModal" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -125,17 +225,12 @@
 					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<h5 class="card-title m-0 p-0 fs-6">Bạn có chắc muốn chửa sửa
-					người dùng này?</h5>
+				<h5 class="card-title m-0 p-0 fs-6">Bạn chắc chắn muốn thay đổi thông tin?
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary"
-					data-bs-dismiss="modal">Huỷ</button>
-				<button type="button" class="btn btn-primary"
-					data-bs-dismiss="modal" ng-click="update()">Chắc chắn</button>
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" ng-click="save()">Chắc chắn</button>
 			</div>
 		</div>
 	</div>
 </div>
-
-

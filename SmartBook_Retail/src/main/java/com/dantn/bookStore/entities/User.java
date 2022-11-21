@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -26,6 +27,7 @@ public class User implements Serializable{
 	private String fullname;
 	private String phoneNumber;
 	private String address;
+	@Lob
 	private String img;
 	@ManyToOne
 	@JoinColumn(name = "role_id")
@@ -42,6 +44,7 @@ public class User implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<UserClick> userClicks;
+	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<UserBuy> userBuys;
 	@JsonIgnore

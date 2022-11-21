@@ -12,6 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.dantn.bookStore.entities.User;
 import com.dantn.bookStore.services.UserRoleService;
 import com.dantn.bookStore.services.UserService;
+import com.dantn.bookStore.ultilities.AppConstraint;
 import com.dantn.bookStore.ultilities.UserRoleSingleton;
 
 
@@ -49,6 +50,7 @@ public class SpringSecurityConfig implements UserDetailsService{
 			UserDetails user =  org.springframework.security.core.userdetails.User.builder()
 					.username(u.getEmail()).password(u.getPassword()).roles(u.getRole().getValue())
 					.disabled(u.getStatus().getId() ==1? false : true).build();
+			AppConstraint.USER=u;
 			return user;
 		}
 	}

@@ -18,9 +18,11 @@ import com.dantn.bookStore.dto.request.BillUpdateRequest;
 import com.dantn.bookStore.entities.Bill;
 import com.dantn.bookStore.entities.BillDetail;
 import com.dantn.bookStore.entities.BillStatus;
+import com.dantn.bookStore.entities.User;
 import com.dantn.bookStore.services.BillDetailService;
 import com.dantn.bookStore.services.BillService;
 import com.dantn.bookStore.services.BillStatusService;
+import com.dantn.bookStore.services.UserService;
 import com.dantn.bookStore.ultilities.BillStatusSingleton;
 
 @RestController
@@ -29,18 +31,24 @@ public class BillAdminApi {
 	private BillService billService;
 	private BillStatusService billStatusService;
 	private BillDetailService billDetailService;
+	private UserService service;
 	
-	public BillAdminApi(BillService billService, BillStatusService billStatusService,
-            BillDetailService billDetailService) {
-        super();
-        this.billService = billService;
-        this.billStatusService = billStatusService;
-        this.billDetailService = billDetailService;
-    }
-    @GetMapping("")
+    public BillAdminApi(BillService billService, BillStatusService billStatusService,
+			BillDetailService billDetailService, UserService service) {
+		super();
+		this.billService = billService;
+		this.billStatusService = billStatusService;
+		this.billDetailService = billDetailService;
+		this.service = service;
+	}
+	@GetMapping("")
 	public ResponseEntity<?> getByStatus(@RequestParam("status") Integer statusIndex
-			,@RequestParam("page")Integer pageNum){
-		BillStatus billStatus=BillStatusSingleton.getInstance(billStatusService).get(statusIndex);
+			,@RequestParam("page")Integer pageNum,Principal principal){
+    	User user=service.getByEmail(principal.getName());
+    	if(user.getRole().getId()==3) {
+    		statusIndex=1;
+    	}
+    	BillStatus billStatus=BillStatusSingleton.getInstance(billStatusService).get(statusIndex);
 		Page<Bill> page=billService.getByAcepted(billStatus, pageNum);
 		return ResponseEntity.ok(page);
 	}
