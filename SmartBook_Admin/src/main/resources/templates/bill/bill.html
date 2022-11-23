@@ -1,182 +1,262 @@
-<div class="container">
-    <div class="form-check form-check-inline" ng-repeat="s in status" ng-hide="authen.role.id==3 && (s.id==1||s.id==3||s.id==4||s.id==5||s.id==6)">
-        <input class="form-check-input" type="radio" name="status" id="status{{$index}}" value="{{$index}}"
-            ng-model="sta.s" ng-checked="$index==isChecked()" ng-change="getData(0)">
-        <label class="form-check-label text-{{s.color}}" for="status{{$index}}">{{s.value}}</label>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <div class="row">
-                <div class="col-4">
-                    <span class="fs-5">Danh sách hóa đơn</span>
-                </div>
-                <!-- <div class="col-4">
-                    <div class="input-group ">
-                        <button class="btn btn-outline-secondary" type="button" ng-click="reset()">Đặt lại</button>
-                        <input type="text" class="form-control" placeholder="Nhập mã giao dịch ..." id="tranSn">
-                        <button class="btn btn-outline-secondary" type="button" ng-click="search()">Tìm
-                            kiếm</button>
-                    </div>
-                </div> -->
-            </div>
-        </div>
-        <div class="card-body">
-            <table class="table table-hover">
-                <thead>
-                    <th>Mã giao dịch</th>
-                    <th>Ngày mua</th>
-                    <th>Tổng tiền</th>
-                    <th>Trạng thái</th>
-                    <th ng-show="sta.s==2 || sta.s==0">Ghi chú</th>
-                    <th colspan="2" style="width: 5%;" ng-hide="sta.s==2||sta.s==4 || sta.s==5"></th>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="bill in bills">
-                        <td class="align-middle">{{bill.tranSn}}</td>
-                        <td class="align-middle" ng-click="getDetail(bill.id)">{{formatDate(bill.createdTime)}}</td>
-                        <td class="align-middle" ng-click="getDetail(bill.id)">{{bill.totalMoney+' vnđ'}}</td>
-                        <td class="align-middle" ng-click="getDetail(bill.id)">
-                            <span class="{{'text-'+bill.status.color}}">{{bill.status.value}}</span>
-                        </td>
-                        <td ng-show="sta.s==2 || sta.s==0" class="align-middle" ng-click="getDetail(bill.id)">{{bill.message}}
-                        </td>
-                        <td ng-hide="bill.status.id==3 || bill.status.id==5 || bill.status.id==6">
-                            <button class="btn" data-bs-toggle="modal" data-bs-target="{{'#modal'+$index}}"><i
-                                    class="fa-solid fa-xmark"></i></button>
-                            <div class="modal fade" id="{{'modal'+$index}}" tabindex="-1"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Nhận lý do</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-2">
-                                                    <label for="message">Lý do:</label>
-                                                </div>
-                                                <div class="col-10">
-                                                    <textarea name="message" id="message{{$index}}"
-                                                        class="form-control" rows="3"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Không</button>
-                                            <button type="button" class="btn btn-danger"
-                                                ng-click="showModal($index)">Hủy đơn</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal fade" id="{{'cancel'+$index}}" tabindex="-1"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Xác nhận hủy đơn</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Bạn có chắc muốn hủy đơn hàng này?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                ng-click="hideModal($index)">Không</button>
-                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                                                ng-click="cancel($index)">Chắc chắn</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td ng-hide="bill.status.id==5 || bill.status.id==3 ||bill.status.id==6 || (bill.status.id==2 && authen.role.id==2)">
-                            <button class="btn" data-bs-toggle="modal" data-bs-target="{{'#conf'+bill.id}}"><i
-                                    class="fa-solid fa-check"></i></button>
-                            <div class="modal fade" id="conf{{bill.id}}" tabindex="-1"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Xác nhận</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Bạn có chắn thực hiện đơn?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Không</button>
-                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                                                ng-click="submit($index)">Chắc
-                                                chắn</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot ng-show="users.totalPages!=0">
-                    <tr>
-                        <td colspan="6">
-                            <div class="d-flex justify-content-center mt-3">
-                                <button class="btn btn-primary me-3" ng-click="getData(0)" ng-disabled="page==0">
-                                    <span class="fas fa-backward"></span>
-                                </button>
-                                <button class="btn btn-primary me-3" ng-click="getData(page-1)"
-                                    ng-disabled="page==0"><span class="fas fa-backward-step"></span></button>
-                                <h4>{{users.pageable.pageNumber+1}}/{{users.totalPages}}</h4>
-                                <button class="btn btn-primary ms-3 me-3" ng-click="getData(page+1)"
-                                    ng-disabled="page==users.totalPages-1"><span
-                                        class="fas fa-forward-step"></span></button>
-                                <button class="btn btn-primary" ng-click="getData(users.totalPages-1)"
-                                    ng-disabled="page==users.totalPages-1">
-                                    <span class="fas fa-forward"></span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
-    <div class="modal fade" id="detailmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Mã hóa đơn: {{details[0].bill.tranSn}}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-hover">
-                        <thead>
-                            <th>Tên sách</th>
-                            <th>Hình ảnh</th>
-                            <th>Số lượng</th>
-                            <th>Đơn giá</th>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="detail in details">
-                                <td>{{detail.book.name}}</td>
-                                <td>{{detail.book.img}}</td>
-                                <td align="center">{{detail.amount}}</td>
-                                <td>{{detail.price}}</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <th colspan="4">Trạng thái: <span
-                                    class="{{'text-'+details[0].bill.status.color}}">{{details[0].bill.status.value}}</span>
-                            </th>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="pagetitle">
+	<h1>Đơn mua</h1>
+	<nav>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="#home">Smart Book</a></li>
+			<li class="breadcrumb-item">Quản lý đơn hàng</li>
+			<li class="breadcrumb-item active">Đơn mua</li>
+		</ol>
+	</nav>
 </div>
+
+<section class="section">
+	<div class="row">
+		<div class="col-md-3">
+			<div class="card">
+				<div class="card-body m-0 p-0">
+					<div class="card pb-4 m-0">
+						<!-- <div class="card-body pb-0">
+							<h5 class="card-title pb-0">Tìm kiếm</h5>
+							<input type="text" ng-model="keyWord" ng-change="getDataReset()"
+								placeholder="Từ khoá" title="Enter search keyword"
+								class="form-control">
+						</div> -->
+						<div class="card-body pb-0">
+							<h5 class="card-title pb-0">Trạng thái</h5>
+							<div class="form-check form-switch" ng-repeat="s in status"
+								ng-hide="authen.role.id==3 && (s.id==1||s.id==3||s.id==4||s.id==5||s.id==6)">
+								<input style="cursor: pointer;" class="form-check-input"
+									type="radio" name="status" id="status{{$index}}"
+									value="{{$index}}" ng-model="sta.s"
+									ng-checked="$index==isChecked()" ng-change="getData(0)">
+								<label style="cursor: pointer;"
+									class="form-check-label text-{{s.color}}"
+									for="status{{$index}}">{{s.value}}</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9">
+			<div class="card">
+				<div class="card-body ">
+					<div class="card mt-4">
+						<div class="card-body fix">
+							<div class="row d-flex mt-3">
+								<div class="col-4">
+									<!-- <button type="button" data-bs-toggle="modal"
+										data-bs-target="#createModal"
+										class="btn btn-primary btn-sm rounded-pill ps-3 pe-3 mt-1">
+										<i class="bi bi-plus-circle"></i>&ensp;Thêm mới
+									</button>
+									&ensp;
+									<button type="button"
+										class="btn btn-danger btn-sm rounded-pill ps-3 pe-3 mt-1"
+										ng-click="showDeleteListModal()">
+										<i class="bi bi-dash-circle"></i>&ensp;Xoá bỏ
+									</button> -->
+								</div>
+								<div class="col-4">
+									<ul class="pagination justify-content-center">
+										<li class="page-item ">
+										<a class="page-link" aria-label="Previous" ng-click="getData(page-1)"> 
+										<span aria-hidden="true">&laquo;</span>
+										</a></li>
+
+										<li class="page-item"><i class="page-link"> 
+											<i ng-show="!users.empty">Trang số: {{users.pageable.pageNumber+1}}/{{users.totalPages}}</i> 
+											<i ng-show="users.empty">Trang trống</i>
+										</i></li>
+
+										<li class="page-item">
+										<a class="page-link" aria-label="Next" ng-click="getData(page+1)">
+										 <span
+												aria-hidden="true">&raquo;</span>
+										</a></li>
+									</ul>
+								</div>
+								<div class="col-4">
+									<!-- <div class="row">
+										<div class="col"></div>
+										<div class="col-8">
+											<select class="form-select" ng-model="sortAuthor"
+												ng-change="getDataReset()">
+												<option value="0">Ngày thêm mới A - Z</option>
+												<option value="1">Ngày thêm mới Z - A</option>
+												<option value="2">Tác giả A - Z</option>
+												<option value="3">Tác giả Z - A</option>
+												<option value="4">Số đầu sách tăng dần</option>
+												<option value="5">Số đầu sách giảm dần</option>
+											</select>
+										</div>
+									</div> -->
+								</div>
+							</div>
+							<!-- Small tables -->
+							<div class="table-wrapper overflow-auto"
+								ng-show="!pageAuthor.empty" style="width: 100%; height: 97%">
+								<table class="table table-hover table-sm mt-3" id="example"
+									style="min-width: 110%;">
+									<thead>
+										<th>Mã giao dịch</th>
+										<th>Ngày mua</th>
+										<th>Tổng tiền</th>
+										<th>Trạng thái</th>
+										<th ng-show="sta.s==2 || sta.s==0">Ghi chú</th>
+										<th colspan="2" style="width: 5%;"
+											ng-hide="sta.s==2||sta.s==4 || sta.s==5"></th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="bill in bills">
+											<td class="align-middle">{{bill.tranSn}}</td>
+											<td class="align-middle" ng-click="getDetail(bill.id)">{{formatDate(bill.createdTime)}}</td>
+											<td class="align-middle" ng-click="getDetail(bill.id)">{{bill.totalMoney+'
+												vnđ'}}</td>
+											<td class="align-middle" ng-click="getDetail(bill.id)"><span
+												class="{{'text-'+bill.status.color}}">{{bill.status.value}}</span>
+											</td>
+											<td ng-show="sta.s==2 || sta.s==0" class="align-middle"
+												ng-click="getDetail(bill.id)">{{bill.message}}</td>
+											<td
+												ng-hide="bill.status.id==3 || bill.status.id==5 || bill.status.id==6">
+												<button class="btn" data-bs-toggle="modal"
+													data-bs-target="{{'#modal'+$index}}">
+													<i class="fa-solid fa-xmark"></i>
+												</button>
+												<div class="modal fade" id="{{'modal'+$index}}"
+													tabindex="-1" aria-labelledby="exampleModalLabel"
+													aria-hidden="true">
+													<div class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="exampleModalLabel">Nhận
+																	lý do</h5>
+																<button type="button" class="btn-close"
+																	data-bs-dismiss="modal" aria-label="Close"></button>
+															</div>
+															<div class="modal-body">
+																<div class="row">
+																	<div class="col-2">
+																		<label for="message">Lý do:</label>
+																	</div>
+																	<div class="col-10">
+																		<textarea name="message" id="message{{$index}}"
+																			class="form-control" rows="3"></textarea>
+																	</div>
+																</div>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary"
+																	data-bs-dismiss="modal">Không</button>
+																<button type="button" class="btn btn-danger"
+																	ng-click="showModal($index)">Hủy đơn</button>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="modal fade" id="{{'cancel'+$index}}"
+													tabindex="-1" aria-labelledby="exampleModalLabel"
+													aria-hidden="true">
+													<div class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="exampleModalLabel">Xác
+																	nhận hủy đơn</h5>
+																<button type="button" class="btn-close"
+																	data-bs-dismiss="modal" aria-label="Close"></button>
+															</div>
+															<div class="modal-body">Bạn có chắc muốn hủy đơn
+																hàng này?</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary"
+																	ng-click="hideModal($index)">Không</button>
+																<button type="button" class="btn btn-danger"
+																	data-bs-dismiss="modal" ng-click="cancel($index)">Chắc
+																	chắn</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</td>
+											<td
+												ng-hide="bill.status.id==5 || bill.status.id==3 ||bill.status.id==6 || (bill.status.id==2 && authen.role.id==2)">
+												<button class="btn" data-bs-toggle="modal"
+													data-bs-target="{{'#conf'+bill.id}}">
+													<i class="fa-solid fa-check"></i>
+												</button>
+												<div class="modal fade" id="conf{{bill.id}}" tabindex="-1"
+													aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog modal-lg">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="exampleModalLabel">Xác
+																	nhận</h5>
+																<button type="button" class="btn-close"
+																	data-bs-dismiss="modal" aria-label="Close"></button>
+															</div>
+															<div class="modal-body">Bạn có chắn thực hiện đơn?</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary"
+																	data-bs-dismiss="modal">Không</button>
+																<button type="button" class="btn btn-danger"
+																	data-bs-dismiss="modal" ng-click="submit($index)">Chắc
+																	chắn</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="mt-4" ng-show="pageAuthor.empty">
+								<h5 class="card-title m-0 p-0 fs-1">Danh sách tác giả
+									trống!</h5>
+							</div>
+							<!-- End small tables -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="detailmodal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Mã hóa đơn:
+						{{details[0].bill.tranSn}}</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table class="table table-hover">
+						<thead>
+							<th>Tên sách</th>
+							<th>Hình ảnh</th>
+							<th>Số lượng</th>
+							<th>Đơn giá</th>
+						</thead>
+						<tbody>
+							<tr ng-repeat="detail in details">
+								<td>{{detail.book.name}}</td>
+								<td>{{detail.book.img}}</td>
+								<td align="center">{{detail.amount}}</td>
+								<td>{{detail.price}}</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<th colspan="4">Trạng thái: <span
+								class="{{'text-'+details[0].bill.status.color}}">{{details[0].bill.status.value}}</span>
+							</th>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

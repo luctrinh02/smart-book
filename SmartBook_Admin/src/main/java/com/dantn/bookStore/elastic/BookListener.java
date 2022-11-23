@@ -34,7 +34,7 @@ public class BookListener {
     }
     @PostUpdate
     public void update(Book book) throws BeansException, IOException {
-       if(book.getStatus().getId()!=1) {
+       if(book.getStatus().getId()==2) {
            service.getObject().delete(book.getId()+"");
        }else {
            if(book.getAmount()==0) {

@@ -2,8 +2,6 @@ package com.dantn.bookStore.services;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +9,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -162,12 +159,14 @@ public class UserService {
             return map;
         }
 	}
-	public HashMap<String, Object> update(ProfileRequest request,Principal principal) throws IllegalStateException, IOException{
-	    User user=this.getByEmail(principal.getName());
+	public ResponseEntity<?> update(ProfileRequest request,Principal principal) throws IllegalStateException, IOException{
+	    User user = this.getByEmail(principal.getName());
 	    user.setFullname(request.getFullname());
 	    user.setPhoneNumber(request.getPhoneNumber());
 	    user.setAddress(request.getAddress());
 	    user.setEmail(request.getEmail());
+        HashMap<String, Object> map = new HashMap<String, Object>();
+
 	    if(request.getFile()!=null) {
 	        if (!request.getFile().isEmpty()) {
 	            String encode=FileUtil.fileToBase64(request.getFile());
@@ -176,11 +175,13 @@ public class UserService {
 	    }
         try {
             this.save(user);
-            HashMap<String, Object> map=DataUltil.setData("ok", "Chỉnh sửa thành công");
-            return map;
+            map.put("statusCode", "ok");
+            map.put("authen", user);
+            return ResponseEntity.ok(map);
         } catch (Exception e) {
-            HashMap<String, Object> map=DataUltil.setData("error", "Email trùng lặp");
-            return map;
+            map.put("statusCode", "dupli");
+            System.out.println(map.get("statusCode"));
+            return ResponseEntity.ok(map);
         }
 	}
 

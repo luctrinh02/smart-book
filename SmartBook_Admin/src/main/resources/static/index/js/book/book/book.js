@@ -1,5 +1,4 @@
-
-function ctrlBook($scope, $http, $rootScope) {
+function ctrlBook($scope, $http, $rootScope, $routeParams) {
 	$scope.listType = [];
 	$scope.listContent = [];
 	$scope.listCharactor = [];
@@ -45,7 +44,6 @@ function ctrlBook($scope, $http, $rootScope) {
 		autocomplete(document.getElementById("newType"), $scope.listType);
 		autocomplete(document.getElementById("newContent"), $scope.listContent);
 		autocomplete(document.getElementById("newCharactor"), $scope.listCharactor);
-		console.log($scope.pageBook)
 	});
 	$scope.getData = function(index) {
 		if (index < 0 || index > $scope.pageBook.totalPages - 1 && index != 0) {
@@ -67,6 +65,8 @@ function ctrlBook($scope, $http, $rootScope) {
 	};
 	$scope.updateStatus = function() {
 		$scope.elementUpdate.status = $scope.listBookStatus[$scope.statusUpdate];
+		console.log($scope.elementUpdate);
+
 		$http.put("/api/book/update", $scope.elementUpdate).then(function(response) {
 			$scope.pageBook = response.data.pageBook;
 			if (response.data.statusCode == "ok") {
@@ -82,7 +82,7 @@ function ctrlBook($scope, $http, $rootScope) {
 			}
 		});
 	};
-	$scope.getIds = function(list){
+	$scope.getIds = function(list) {
 		$scope.ids = "";
 		for (let i = 0; i < list.length; i++) {
 			$scope.ids += list[i].id + ',';
@@ -98,7 +98,7 @@ function ctrlBook($scope, $http, $rootScope) {
 			document.getElementById("newInfo").focus();
 			return;
 		}
-		
+
 		switch ($scope.titleInfo) {
 			case "Thể loại":
 				$scope.elementUpdate.type = $scope.getIds($scope.showInfo);
@@ -308,8 +308,8 @@ function ctrlBook($scope, $http, $rootScope) {
 		"id": 0,
 		"isbn": "",
 		"amount": "",
-		"charactor": $scope.getIds($scope.showCharactor),
-		"content": $scope.getIds($scope.showContent),
+		"charactor": "",
+		"content": "",
 		"createdTime": null,
 		"description": "",
 		"discount": 0,
@@ -326,36 +326,66 @@ function ctrlBook($scope, $http, $rootScope) {
 		"createdBy": $rootScope.authen,
 		"publisher": "",
 		"status": "",
+		"height": "",
+		"length": "",
+		"weight": "",
+		"year": "",
+		"width": "",
+		"saleTime": null,
 	};
-	$scope.init=function(){
+
+	$scope.statusChangeCreate = function() {
+		if ($scope.book.status == 3 || $scope.book.status == "3") {
+			document.getElementById("rowSaleTime").classList.remove("d-none");
+			document.getElementById("rowSaleTime").classList.add("d-inline");
+		} else {
+			document.getElementById("rowSaleTime").classList.add("d-none");
+			document.getElementById("rowSaleTime").classList.remove("d-inline");
+		}
+	}
+	$scope.init = function() {
 		document.getElementById("name").innerText = "";
 		document.getElementById("isbn").innerText = "";
 		document.getElementById("numOfPage").innerText = "";
+		document.getElementById("width").innerText = "";
+		document.getElementById("length").innerText = "";
+		document.getElementById("height").innerText = "";
+		document.getElementById("weight").innerText = "";
+		document.getElementById("year").innerText = "";
 		document.getElementById("author").innerText = "";
 		document.getElementById("publisher").innerText = "";
+		document.getElementById("charactor").innerText = "";
+		document.getElementById("content").innerText = "";
+		document.getElementById("status").innerText = "";
 		document.getElementById("price").innerText = "";
 		document.getElementById("amount").innerText = "";
 		document.getElementById("type").innerText = "";
+		document.getElementById("saleTime").innerText = "";
 	}
-	$scope.check=function(){
+	$scope.check = function() {
 		$scope.init();
 		$scope.book.type = $scope.getIds($scope.showType);
 		$scope.book.content = $scope.getIds($scope.showContent);
 		$scope.book.charactor = $scope.getIds($scope.showCharactor);
 		$scope.book.createdTime = new Date();
-		$http.post("/api/book/before",$scope.book).then(function(response){
+		$http.post("/api/book/before", $scope.book).then(function(response) {
 			if (response.data.statusCode == "ok") {
 				$("#addConf").modal("show");
 			} else {
-				let data = response.data.data;console.log(response.data.data)
+				let data = response.data.data;
 				for (let i = 0; i < data.length; i++) {
 					document.getElementById(data[i].field).innerText = data[i].defaultMessage;
+				}
+				if ($scope.book.status == 3 && $scope.book.saleTime == null) {
+					document.getElementById("saleTime").innerText = "Vui lòng nhập ngày ra mắt"
+				} else {
+					document.getElementById("saleTime").innerText = ""
 				}
 			}
 		})
 	}
-	$scope.showBook = function(){
-		let myForm=new FormData();
+	$scope.insertBook = function() {
+		let myForm = new FormData();
 		var config = {
 			"transformRequest": angular.identity,
 			"transformResponse": angular.identity,
@@ -363,42 +393,82 @@ function ctrlBook($scope, $http, $rootScope) {
 				'Content-Type': undefined
 			}
 		}
-		myForm.append("isbn",$scope.book.isbn)
-		myForm.append("amount",$scope.book.amount)
-		myForm.append("charactor",$scope.book.charactor)
-		myForm.append("content",$scope.book.content)
-		myForm.append("description",$scope.book.description)
-		myForm.append("discount",$scope.book.discount)
-		if($("#abc").val()!=""){
-			myForm.append("file",$scope.book.image)
+		if($routeParams.id != null){
+			myForm.append("id", $scope.book.id)
 		}
-		myForm.append("name",$scope.book.name)
-		myForm.append("numOfPage",$scope.book.numOfPage)
-		myForm.append("price",$scope.book.price)
-		myForm.append("type",$scope.book.type)
-		myForm.append("author",$scope.book.author)
-		myForm.append("publisher",$scope.book.publisher)
-		myForm.append("height",100)
-		myForm.append("weight",100)
-		myForm.append("year",2000)
-		myForm.append("length",100)
-		console.log(myForm)
-		$http.post("/api/book",myForm,config).then(function(response){console.log(response)
+		myForm.append("isbn", $scope.book.isbn)
+		myForm.append("amount", $scope.book.amount)
+		myForm.append("charactor", $scope.book.charactor)
+		myForm.append("content", $scope.book.content)
+		myForm.append("description", $scope.book.description)
+		myForm.append("discount", $scope.book.discount)
+		if ($("#abc").val() != "") {
+			myForm.append("file", $scope.book.image)
+		}
+		myForm.append("name", $scope.book.name)
+		myForm.append("numOfPage", $scope.book.numOfPage)
+		myForm.append("price", $scope.book.price)
+		myForm.append("type", $scope.book.type)
+		myForm.append("author", $scope.book.author)
+		myForm.append("publisher", $scope.book.publisher)
+		myForm.append("height", $scope.book.height)
+		myForm.append("weight", $scope.book.weight)
+		myForm.append("width", $scope.book.width)
+		myForm.append("year", $scope.book.year)
+		myForm.append("length", $scope.book.length)
+		if ($scope.book.saleTime != null) {
+			myForm.append("saleTime", $scope.book.saleTime.toLocaleDateString("en-US"))
+		} else {
+			myForm.append("saleTime", new Date().toLocaleDateString("en-US"))
+		}
+		myForm.append("status", $scope.book.status)
+
+
+		$http.post("/api/book", myForm, config).then(function(response) {
+			console.log(response)
 			if (response.status == 200) {
 				Toast.fire({
 					icon: 'success',
-					title: "Thêm thành công"
+					title: "Lưu dữ liệu thành công"
 				})
-				window.location.href="/admin/smart-book#book";
 			} else {
 				Toast.fire({
 					icon: 'error',
-					title:"Lỗi dữ liệu"
+					title: "Lỗi dữ liệu"
 				})
 			}
 		})
+	};
+	/* Update Book */
+	$scope.update = function(id){
+		window.location.href="/admin/smart-book#book/update/"+id;
 	}
-	
+	if ($routeParams.id != null) {
+		$http.get("/api/book/" + $routeParams.id).then(function(response) {
+			console.log(response.data);
+			$scope.book = response.data;
+			$scope.book.author = $scope.book.author.id.toString();
+			$scope.book.publisher = $scope.book.publisher.id.toString();
+			$scope.book.saleTime = new Date($scope.book.saleTime);
+			$scope.showType = $scope.getShows($scope.book.type, $scope.listType);
+			$scope.showContent = $scope.getShows($scope.book.content, $scope.listContent);
+			$scope.showCharactor = $scope.getShows($scope.book.charactor, $scope.listCharactor);
+			$scope.book.status = $scope.book.status.id - 1 + "";
+			$scope.statusChangeCreate();
+		});
+	}
+	$scope.getShows = function(ids, list) {
+		let listReturn = [];
+		let id = ids.split(",");
+		for (let i = 0; i < id.length; i++) {
+			for (let j = 0; j < list.length; j++) {
+				if (list[j].id == id[i]) {
+					listReturn.push(list[j]);
+				}
+			}
+		}
+		return listReturn;
+	}
 }
 
 

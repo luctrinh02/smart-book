@@ -64,30 +64,19 @@ public class BookApi {
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<?> create(@ModelAttribute @Valid BookRequest request,BindingResult result,Principal principal) throws IllegalStateException, IOException{
+	public ResponseEntity<?> save(@ModelAttribute @Valid BookRequest request,BindingResult result,Principal principal) throws IllegalStateException, IOException{
+		System.out.println(request);
 		if(result.hasErrors()) {
 			List<ObjectError> list=result.getAllErrors();
 			HashMap<String, Object> map=DataUltil.setData("error", list);
 			return ResponseEntity.ok(map);
 		}else {
-			bookService.create(request, principal);
+			bookService.save(request, principal);
 			HashMap<String, Object> map=DataUltil.setData("ok", "Thêm thành công");
 			return ResponseEntity.ok(map);
 		}
 	}
 	
-	@PutMapping("")
-	public ResponseEntity<?> update(@ModelAttribute @Valid BookRequest request,BindingResult result) throws IllegalStateException, IOException{
-	    if(result.hasErrors()) {
-            List<ObjectError> list=result.getAllErrors();
-            HashMap<String, Object> map=DataUltil.setData("error", list);
-            return ResponseEntity.ok(map);
-        }else {
-            bookService.update(request);
-            HashMap<String, Object> map=DataUltil.setData("ok", "Thêm thành công");
-            return ResponseEntity.ok(map);
-        }
-	}
 	
 	@PostMapping("/before")
     public ResponseEntity<?> check(@RequestBody @Valid BookRequest request,BindingResult result,Principal principal) throws IllegalStateException, IOException{
