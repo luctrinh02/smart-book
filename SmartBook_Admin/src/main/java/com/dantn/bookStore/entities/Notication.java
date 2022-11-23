@@ -20,7 +20,7 @@ public class Notication implements Serializable{
 	@JoinColumn(name="user_id")
 	private User user;
 	private String message;
-	private Integer color;
+	private String color;
 	public Integer getId() {
 		return id;
 	}
@@ -39,10 +39,10 @@ public class Notication implements Serializable{
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public Integer getColor() {
+	public String getColor() {
 		return color;
 	}
-	public void setColor(Integer color) {
+	public void setColor(String color) {
 		this.color = color;
 	}
 	

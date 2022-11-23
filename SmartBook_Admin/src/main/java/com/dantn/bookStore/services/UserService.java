@@ -2,6 +2,8 @@ package com.dantn.bookStore.services;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -165,8 +172,6 @@ public class UserService {
 	    user.setPhoneNumber(request.getPhoneNumber());
 	    user.setAddress(request.getAddress());
 	    user.setEmail(request.getEmail());
-        HashMap<String, Object> map = new HashMap<String, Object>();
-
 	    if(request.getFile()!=null) {
 	        if (!request.getFile().isEmpty()) {
 	            String encode=FileUtil.fileToBase64(request.getFile());
@@ -175,13 +180,14 @@ public class UserService {
 	    }
         try {
             this.save(user);
-            map.put("statusCode", "ok");
-            map.put("authen", user);
-            return ResponseEntity.ok(map);
+            List<SimpleGrantedAuthority> roles=new ArrayList<>();
+            roles.add(new SimpleGrantedAuthority("ROLE_"+user.getRole().getValue()));
+            Authentication authentication=new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword(),roles);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return ResponseEntity.ok(1);
         } catch (Exception e) {
-            map.put("statusCode", "dupli");
-            System.out.println(map.get("statusCode"));
-            return ResponseEntity.ok(map);
+        	e.printStackTrace();
+            return ResponseEntity.ok(2);
         }
 	}
 

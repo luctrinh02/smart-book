@@ -29,18 +29,20 @@ function profileController($scope, $http, $rootScope) {
 		}
 		$http.put("/api/admin/profile", myForm, config).then(function(response) {
 			console.log(response.data);
-			if (response.data.statusCode == 'ok') {
+			if (response.data==1) {
 				Toast.fire({
 					icon: 'success',
 					title: "Đổi thông tin thành công"
 				})
-				$rootScope.authen = response.data.authen;
-			} else if (response.data.statusCode == 'error') {
+				$http.get("/api/admin/pricipal").then(function(response){
+					$rootScope.authen=response.data;
+				})
+			} else if (response.data==0) {
 				Toast.fire({
 					icon: 'error',
 					title: "Lỗi thông tin"
 				})
-			} else if (response.data.statusCode == 'dupli') {
+			} else if (response.data== 2) {
 				Toast.fire({
 					icon: 'error',
 					title: "Email trùng lặp"
