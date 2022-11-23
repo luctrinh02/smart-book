@@ -150,8 +150,7 @@
 							</div>
 
 							<!-- Small tables -->
-							<div class="table-wrapper overflow-auto"
-								ng-show="!pageBook.empty" style="width: 100%; height: 97%">
+							<div class="table-wrapper overflow-auto" style="width: 100%; height: 97%">
 								<table class="table table-hover table-sm mt-3" id="example"
 									style="min-width: 250%;">
 									<thead>
@@ -178,9 +177,9 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr ng-repeat="b in pageBook.content" style="cursor: pointer;" ng-dblclick="update(b.id)">
+										<tr ng-repeat="b in pageBook.content" style="cursor: pointer;">
 											<th scope="row">{{params.page*10 + $index +1}}</th>
-											<td>{{b.name}}</td>
+											<td><a href="#book/update/{{b.id}}">{{b.name}}</a></td>
 											<td>{{b.isbn}}</td>
 											<td class="text-center"><span
 												class="text-{{b.status.color}} text-start">{{b.status.value}}</span>
@@ -211,10 +210,7 @@
 								</table>
 							</div>
 							<!-- End small tables -->
-							<div class="mt-4" ng-show="pageBook.empty">
-								<h5 class="card-title m-0 p-0 fs-1">Danh sách các đầu sách
-									trống!</h5>
-							</div>
+
 						</div>
 					</div>
 				</div>
