@@ -169,9 +169,9 @@ public class ShipmentService {
                             book.setAmount(book.getAmount()-x.getAmount());
                             bookRepository.save(book);
                         }
-                        bill.setBillDetails(details2);
-                        bill.setMessage("Đơn tạo mới do lỗi vận chuyển");
-                        returnBillService.save(bill);
+                        newBill.setBillDetails(details2);
+                        newBill.setMessage("Đơn tạo mới do lỗi vận chuyển");
+                        returnBillService.save(newBill);
                         return DataUltil.setData("ok", "Thành công");
                     }
                 }
