@@ -1,6 +1,8 @@
 package com.dantn.bookStore.dto.request;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.validation.constraints.Max;
@@ -31,7 +33,9 @@ public class BookRequest implements DtoToEntity<Book> {
     private String author;
     @NotBlank(message = "Vui lòng chọn nhà xuất bản")
     private String publisher;
-    @NotBlank(message = "Không bỏ trống số tiền")
+    @NotBlank(message = "Vui lòng chọn trạng thái")
+    private String status;
+    @NotBlank(message = "Không bỏ trống gia bán")
     @Positive(message = "Số tiền là số nguyên lớn hơn 0")
     @Size(max = 10, message = "Số tiền quá lớn")
     private String price;
@@ -44,22 +48,55 @@ public class BookRequest implements DtoToEntity<Book> {
     private String description;
     @NotBlank(message = "Không bỏ trống thể loại")
     private String type;
+    @NotBlank(message = "Không bỏ trống nhân vật")
     private String charactor;
+    @NotBlank(message = "Không bỏ trống nội dung")
     private String content;
     private MultipartFile file;
     @Positive(message = "Chiều dài là số nguyên lớn hơn 0")
     @Size(max = 3, message = "Chiều dài quá lớn")
     private String height;
-    @Positive(message = "Chiều rộng là số nguyên lớn hơn 0")
-    @Size(max = 3, message = "Chiều dài quá lớn")
+    @Positive(message = "Độ dày là số nguyên lớn hơn 0")
+    @Size(max = 3, message = "Độ dày quá lớn")
     private String length;
+    @Positive(message = "Chiều rộng là số nguyên lớn hơn 0")
+    @Size(max = 3, message = "Chiều rộng quá lớn")
+    private String width;
     @Positive(message = "Khối lượng là số nguyên lớn hơn 0")
     @Size(max = 5, message = "Khối lượng quá lớn")
     private String weight;
     @Positive(message = "Năm là số nguyên lớn hơn 0")
     @Size(min = 4,max = 4, message = "Năm không hợp lệ")
     private String year;
-    public MultipartFile getFile() {
+    private String saleTime;
+    
+    
+    @Override
+	public String toString() {
+		return "BookRequest [id=" + id + ", name=" + name + ", isbn=" + isbn + ", numOfPage=" + numOfPage + ", author="
+				+ author + ", publisher=" + publisher + ", status=" + status + ", price=" + price + ", discount="
+				+ discount + ", amount=" + amount + ", description=" + description + ", type=" + type + ", charactor="
+				+ charactor + ", content=" + content + ", file=" + file + ", height=" + height + ", length=" + length
+				+ ", width=" + width + ", weight=" + weight + ", year=" + year + ", saleTime=" + saleTime + "]";
+	}
+
+	public String getSaleTime() {
+		return saleTime;
+	}
+
+	public void setSaleTime(String saleTime) {
+		this.saleTime = saleTime;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public MultipartFile getFile() {
         return file;
     }
 
@@ -87,7 +124,15 @@ public class BookRequest implements DtoToEntity<Book> {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
+    public String getWidth() {
+		return width;
+	}
+
+	public void setWidth(String width) {
+		this.width = width;
+	}
+
+	public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
@@ -205,6 +250,8 @@ public class BookRequest implements DtoToEntity<Book> {
 
     @Override
     public Book changeToEntity(Book b) {
+    	SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
+    	b.setId(id);
         b.setAmount(Long.parseLong(amount));
         b.setCharactor(charactor);
         b.setContent(content);
@@ -218,7 +265,13 @@ public class BookRequest implements DtoToEntity<Book> {
         b.setHeight(Integer.parseInt(height));
         b.setLength(Integer.parseInt(length));
         b.setWeight(Integer.parseInt(weight));
+        b.setWidth(Integer.parseInt(width));
         b.setYear(Integer.parseInt(year));
+        try {
+			b.setSaleTime(fmt.parse(saleTime));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
         if (b.getId() == null) {
             b.setCreatedTime(new Date());
             b.setEvaluate(0);

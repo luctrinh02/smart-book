@@ -19,13 +19,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.dantn.bookStore.elastic.BookListener;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table
-@EntityListeners(BookListener.class)
-public class Book implements Serializable{
+public class Book implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -34,6 +32,7 @@ public class Book implements Serializable{
 	@Lob
 	private String image;
 	private Integer height;
+	private Integer width;
 	private Integer length;
 	private Integer weight;
 	private Integer year;
@@ -62,11 +61,14 @@ public class Book implements Serializable{
 	@Column(name = "updated_time")
 	@Temporal(TemporalType.DATE)
 	private Date updatedTime;
+	@Column(name = "sale_time")
+	@Temporal(TemporalType.DATE)
+	private Date saleTime;
 	private String type;
 	private String charactor;
 	private String content;
 	@ManyToOne
-	@JoinColumn(name="status_id")
+	@JoinColumn(name = "status_id")
 	private BookStatus status;
 	@JsonIgnore
 	@OneToMany(mappedBy = "book")
@@ -84,29 +86,37 @@ public class Book implements Serializable{
 	@OneToMany(mappedBy = "book")
 	private List<Comment> comments;
 	@JsonIgnore
-    @OneToMany(mappedBy = "book")
-    private List<ReturnBillDetail> returnBillDetails;
+	@OneToMany(mappedBy = "book")
+	private List<ReturnBillDetail> returnBillDetails;
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getISBN() {
 		return ISBN;
 	}
+
 	public void setISBN(String iSBN) {
 		ISBN = iSBN;
 	}
+
 	public String getImage() {
 		return image;
 	}
+
 	public void setImage(String image) {
 		this.image = image;
 	}
@@ -114,164 +124,233 @@ public class Book implements Serializable{
 	public Integer getNumOfPage() {
 		return numOfPage;
 	}
+
 	public void setNumOfPage(Integer numOfPage) {
 		this.numOfPage = numOfPage;
 	}
+
 	public Author getAuthor() {
 		return author;
 	}
+
 	public void setAuthor(Author author) {
 		this.author = author;
 	}
+
 	public Publisher getPublisher() {
 		return publisher;
 	}
+
 	public void setPublisher(Publisher publisher) {
 		this.publisher = publisher;
 	}
+
 	public BigDecimal getPrice() {
 		return price;
 	}
+
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
+
 	public Integer getDiscount() {
 		return discount;
 	}
+
 	public void setDiscount(Integer discount) {
 		this.discount = discount;
 	}
+
 	public Long getAmount() {
 		return amount;
 	}
+
 	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
+
 	public Long getSaleAmount() {
 		return saleAmount;
 	}
+
 	public void setSaleAmount(Long saleAmount) {
 		this.saleAmount = saleAmount;
 	}
+
 	public Integer getPoint() {
 		return point;
 	}
+
 	public void setPoint(Integer point) {
 		this.point = point;
 	}
+
 	public Integer getEvaluate() {
 		return evaluate;
 	}
+
 	public void setEvaluate(Integer evaluate) {
 		this.evaluate = evaluate;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public User getCreatedBy() {
 		return createdBy;
 	}
+
 	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
+
 	public Date getCreatedTime() {
 		return createdTime;
 	}
+
 	public void setCreatedTime(Date createdTime) {
 		this.createdTime = createdTime;
 	}
+
 	public Date getUpdatedTime() {
 		return updatedTime;
 	}
+
 	public void setUpdatedTime(Date updatedTime) {
 		this.updatedTime = updatedTime;
 	}
+
 	public String getType() {
 		return type;
 	}
+
 	public void setType(String type) {
 		this.type = type;
 	}
+
 	public String getCharactor() {
 		return charactor;
 	}
+
 	public void setCharactor(String charactor) {
 		this.charactor = charactor;
 	}
+
 	public String getContent() {
 		return content;
 	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}
+
 	public BookStatus getStatus() {
 		return status;
 	}
+
 	public void setStatus(BookStatus status) {
 		this.status = status;
 	}
+
 	public List<UserClick> getUserClicks() {
 		return userClicks;
 	}
+
 	public void setUserClicks(List<UserClick> userClicks) {
 		this.userClicks = userClicks;
 	}
+
 	public List<UserBuy> getUserBuys() {
 		return userBuys;
 	}
+
 	public void setUserBuys(List<UserBuy> userBuys) {
 		this.userBuys = userBuys;
 	}
+
 	public List<Cart> getCarts() {
 		return carts;
 	}
+
 	public void setCarts(List<Cart> carts) {
 		this.carts = carts;
 	}
+
 	public List<BillDetail> getBillDetails() {
 		return billDetails;
 	}
+
 	public void setBillDetails(List<BillDetail> billDetails) {
 		this.billDetails = billDetails;
 	}
+
 	public List<Comment> getComments() {
 		return comments;
 	}
+
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-    public List<ReturnBillDetail> getReturnBillDetails() {
-        return returnBillDetails;
-    }
-    public void setReturnBillDetails(List<ReturnBillDetail> returnBillDetails) {
-        this.returnBillDetails = returnBillDetails;
-    }
-    public Integer getHeight() {
-        return height;
-    }
-    public void setHeight(Integer height) {
-        this.height = height;
-    }
-    public Integer getLength() {
-        return length;
-    }
-    public void setLength(Integer length) {
-        this.length = length;
-    }
-    public Integer getWeight() {
-        return weight;
-    }
-    public void setWeight(Integer weight) {
-        this.weight = weight;
-    }
-    public Integer getYear() {
-        return year;
-    }
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-	
+
+	public List<ReturnBillDetail> getReturnBillDetails() {
+		return returnBillDetails;
+	}
+
+	public void setReturnBillDetails(List<ReturnBillDetail> returnBillDetails) {
+		this.returnBillDetails = returnBillDetails;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
+	}
+
+	public Integer getLength() {
+		return length;
+	}
+
+	public void setLength(Integer length) {
+		this.length = length;
+	}
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public Integer getWidth() {
+		return width;
+	}
+
+	public void setWidth(Integer width) {
+		this.width = width;
+	}
+
+	public Date getSaleTime() {
+		return saleTime;
+	}
+
+	public void setSaleTime(Date saleTime) {
+		this.saleTime = saleTime;
+	}
+
 }

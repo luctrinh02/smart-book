@@ -1,5 +1,4 @@
 function profileController($scope, $http, $rootScope) {
-	console.log($rootScope.authen)
 	$scope.init = function() {
 		$("#fullnameId").val("")
 		$("#emailId").val("")
@@ -29,18 +28,19 @@ function profileController($scope, $http, $rootScope) {
 			myForm.append("file", $scope.curentUser.image)
 		}
 		$http.put("/api/admin/profile", myForm, config).then(function(response) {
-			console.log(response.data)
-			if (response.data == 0) {
+			console.log(response.data);
+			if (response.data.statusCode == 'ok') {
 				Toast.fire({
 					icon: 'success',
 					title: "Đổi thông tin thành công"
 				})
-			} else if (response.data == 1) {
+				$rootScope.authen = response.data.authen;
+			} else if (response.data.statusCode == 'error') {
 				Toast.fire({
 					icon: 'error',
 					title: "Lỗi thông tin"
 				})
-			} else if (response.data == 2) {
+			} else if (response.data.statusCode == 'dupli') {
 				Toast.fire({
 					icon: 'error',
 					title: "Email trùng lặp"

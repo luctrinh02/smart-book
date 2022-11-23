@@ -89,6 +89,9 @@ function ctrlBill($scope,$http,$rootScope) {
     }
     $scope.tranSn = ""
     $scope.getData = function (index) {
+		if (index < 0 || index > $scope.users.totalPages - 1) {
+			return;
+		}
         $scope.page = index;
         $http.get("/api/admin/bill?page=" + index + "&transn=" + $scope.tranSn + "&status=" + $scope.sta.s).then(function (response) {
             $scope.bills = response.data.content;

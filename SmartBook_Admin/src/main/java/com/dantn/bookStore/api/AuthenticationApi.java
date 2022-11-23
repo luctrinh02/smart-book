@@ -25,50 +25,51 @@ import com.dantn.bookStore.ultilities.DataUltil;
 
 @RestController
 public class AuthenticationApi {
-    @Autowired
-    private UserService service;
-    @GetMapping("/api/admin/pricipal")
-    public ResponseEntity<?> pricipal(Principal principal){
-        if(principal==null) {
-            return null;
-        }else {
-            User u=service.getByEmail(principal.getName());
-            return ResponseEntity.ok(u);
-        }
-    }
-    @PutMapping("/api/admin/change")
-    public ResponseEntity<?> changePass(@RequestBody UserPasswordRequest request,Principal principal){
-        HashMap<String, Object> map=service.changePass(request, principal);
-        return ResponseEntity.ok(map);
-    }
-    @GetMapping("/api/admin/profile")
-    public ResponseEntity<?> profile(Principal principal){
-        User user=service.getByEmail(principal.getName());
-        return ResponseEntity.ok(user);
-    }
-    
-    @PutMapping("/api/admin/profile/before")
-    public ResponseEntity<?> check(@RequestBody @Valid ProfileRequest request,BindingResult result){
-        if(result.hasErrors()) {
-            List<ObjectError> list=result.getAllErrors();
-            HashMap<String, Object> map=DataUltil.setData("error", list);
-            return ResponseEntity.ok(map);
-        }else {
-            HashMap<String, Object> map=DataUltil.setData("ok", "");
-            return ResponseEntity.ok(map);
-        }
-    }
-    
-    @PutMapping("/api/admin/profile")
-    public ResponseEntity<?> update(@ModelAttribute @Valid ProfileRequest request,BindingResult result,Principal principal) throws IllegalStateException, IOException{
-        if(result.hasErrors()) {
-            return ResponseEntity.ok(1);
-        }else {
-            HashMap<String, Object> map=service.update(request, principal);
-            if(map.get("statusCode").equals("error")) {
-                return ResponseEntity.ok(2);
-            }
-            return ResponseEntity.ok(0);
-        }
-    }
+	@Autowired
+	private UserService service;
+
+	@GetMapping("/api/admin/pricipal")
+	public ResponseEntity<?> pricipal(Principal principal) {
+		if (principal == null) {
+			return null;
+		} else {
+			User u = service.getByEmail(principal.getName());
+			return ResponseEntity.ok(u);
+		}
+	}
+
+	@PutMapping("/api/admin/change")
+	public ResponseEntity<?> changePass(@RequestBody UserPasswordRequest request, Principal principal) {
+		HashMap<String, Object> map = service.changePass(request, principal);
+		return ResponseEntity.ok(map);
+	}
+
+	@GetMapping("/api/admin/profile")
+	public ResponseEntity<?> profile(Principal principal) {
+		User user = service.getByEmail(principal.getName());
+		return ResponseEntity.ok(user);
+	}
+
+	@PutMapping("/api/admin/profile/before")
+	public ResponseEntity<?> check(@RequestBody @Valid ProfileRequest request, BindingResult result) {
+		if (result.hasErrors()) {
+			List<ObjectError> list = result.getAllErrors();
+			HashMap<String, Object> map = DataUltil.setData("error", list);
+			return ResponseEntity.ok(map);
+		} else {
+			HashMap<String, Object> map = DataUltil.setData("ok", "");
+			return ResponseEntity.ok(map);
+		}
+	}
+
+	@PutMapping("/api/admin/profile")
+	public ResponseEntity<?> update(@ModelAttribute @Valid ProfileRequest request, BindingResult result,
+			Principal principal) throws IllegalStateException, IOException {
+		if (result.hasErrors()) {
+			return ResponseEntity.ok(result.getAllErrors());
+		} else {
+			 return service.update(request, principal);
+		}
+
+	}
 }

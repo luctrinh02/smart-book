@@ -37,6 +37,7 @@
 								<li ng-repeat="t in showContent">{{t.value}}<i class="fa-sharp fa-solid fa-xmark ms-2" ng-click="remove($index, showContent,'newContent')"></i></li>
 								<div class="autocomplete">
 									<input type="text" ng-model="newContent" id="newContent" class="form-control m-0 mt-2" placeholder="Thêm mới...">
+									<small class="text-danger" id="content"></small>
 								</div>
 								<button class="btn btn-danger mt-2  btn-sm" ng-click="removeAll(showContent, 'newContent')">Xoá hết</button>
 								<button class="btn btn-primary mt-2 ms-2  btn-sm" style="background-color: #012970" ng-click="checkAddList('newContent', showContent, listContent, 'Nội dung')">Thêm mới</button>
@@ -48,6 +49,7 @@
 								<li ng-repeat="t in showCharactor">{{t.value}}<i class="fa-sharp fa-solid fa-xmark ms-2" ng-click="remove($index, showCharactor,'newCharactor')"></i></li>
 								<div class="autocomplete">
 									<input type="text" ng-model="newCharactor" id="newCharactor" class="form-control m-0 mt-2" placeholder="Thêm mới...">
+									<small class="text-danger" id="charactor"></small>
 								</div>
 								<button class="btn btn-danger mt-2  btn-sm" ng-click="removeAll(showCharactor, 'newCharactor')">Xoá hết</button>
 								<button class="btn btn-primary mt-2 ms-2  btn-sm" style="background-color: #012970" ng-click="checkAddList('newCharactor', showCharactor, listCharactor, 'Nhân vật')">Thêm mới</button>
@@ -59,11 +61,11 @@
 		</div>
 		<div class="col-lg">
 			<div class="card">
-				<div class="card-body">
-					<div class="card mt-4">
-						<div class="card-body fix">
+				<div class="card-body pb-0 mb-0">
+					<div class="card mt-2">
+						<div class="card-body fix-create pb-0">
 
-							<div class="pt-4 pb-2">
+							<div class="pt-2 pb-2">
 								<div class="d-flex justify-content-center py-3">
 									<a href="#home" class="logo d-flex align-items-center w-auto">
 										<img src="/index/img/logo.jpg" alt=""> <span
@@ -77,17 +79,17 @@
 							<form action="return false" method="post" name="bookCreate"
 								id="bookCreate">
 								<div class="row">
-									<div class="col-4 mt-3 form-floating">
+									<div class="col-4 mt-1 form-floating">
 										<input type="text" ng-model="book.name" class="form-control" name="name" placeholder="smartbook">
 										<label for="name" class="text-center">Tên sách</label> 
 										<small class="text-danger" id="name"></small>
 									</div>
-									<div class="col-4 mt-3 form-floating">
+									<div class="col-4 mt-1 form-floating">
 										<input type="text" ng-model="book.isbn" class="form-control" name="isbn" placeholder="smartbook"> 
-										<label for="isbn" class="text-center">ISBN</label> 
+										<label for="isbn" class="text-center">ISBN </label> 
 										<small class="text-danger" id="isbn"></small>
 									</div>
-									<div class="col-4 mt-3 form-floating">
+									<div class="col-4 mt-1 form-floating">
 										<input type="text" ng-model="book.numOfPage" class="form-control" name="numOfPage" placeholder="smartbook"> 
 										<label for="numOfPage" class="text-center">Số trang</label> 
 										<small class="text-danger" id="numOfPage"></small>
@@ -95,27 +97,43 @@
 								</div>
 								
 								<div class="row">
-									<div class="col-6 mt-3 form-floating">
-										<input type="text" ng-model="book.price" class="form-control" name="price" placeholder="smartbook"> 
-										<label for="price" class="text-center">Giá bán</label> 
-										<small class="text-danger" id="price"></small>
+									<div class="col-4 mt-3 form-floating">
+										<input type="text" ng-model="book.height" class="form-control" name="height" placeholder="smartbook">
+										<label for="height" class="text-center">Chiều dài <span style="font-size: 12px">(mm)</span></label> 
+										<small class="text-danger" id="height"></small>
 									</div>
-									<div class="col-6 mt-3 form-floating">
-										<input type="text" ng-model="book.amount" class="form-control" name="amount" placeholder="smartbook"> 
-										<label for="amount" class="text-center">Số lượng</label> 
-										<small class="text-danger" id="amount"></small>
+									<div class="col-4 mt-3 form-floating">
+										<input type="text" ng-model="book.width" class="form-control" name="width" placeholder="smartbook">
+										<label for="width" class="text-center">Chiều rộng <span style="font-size: 12px">(mm)</span></label> 
+										<small class="text-danger" id="width"></small>
+									</div>
+									<div class="col-4 mt-3 form-floating">
+										<input type="text" ng-model="book.length" class="form-control" name="length" placeholder="smartbook"> 
+										<label for="length" class="text-center">Độ dày <span style="font-size: 12px">(mm)</span></label> 
+										<small class="text-danger" id="length"></small>
 									</div>
 								</div>
 								
-								<div class="row mt-3">
+								<div class="row">
 									<div class="col-4 mt-3 form-floating">
-										<select class="form-select" ng-model="book.status">
-											<option value="">Chưa chọn</option>
-											<option class="text-{{o.color}}" ng-repeat="o in listBookStatus" value="{{o}}">{{o.value}}</option>
-										</select> 
-										<label class="text-center" for="status">Trạng thái</label>
+										<input type="text" ng-model="book.weight" class="form-control" name="weight" placeholder="smartbook"> 
+										<label for="weight" class="text-center">Trọng lượng <span style="font-size: 12px">(g)</span></label> 
+										<small class="text-danger" id="weight"></small>
 									</div>
-									
+									<div class="col-4 mt-3 form-floating">
+										<input type="text" ng-model="book.amount" class="form-control" name="amount" placeholder="smartbook"> 
+										<label for="amount" class="text-center">Số lượng <span style="font-size: 12px">(cuốn)</span></label> 
+										<small class="text-danger" id="amount"></small>
+									</div>
+								
+									<div class="col-4 mt-3 form-floating">
+										<input type="text" ng-model="book.price" class="form-control" name="price" placeholder="smartbook"> 
+										<label for="price" class="text-center">Giá bán <span style="font-size: 12px">(vnđ)</span></label> 
+										<small class="text-danger" id="price"></small>
+									</div>
+								</div>
+								
+								<div class="row">
 									<div class="col-4 mt-3 form-floating">
 										<select class="form-select" ng-model="book.author">
 											<option value="">Chưa chọn</option>
@@ -133,22 +151,45 @@
 										<label class="text-center" for="publisher">Nhà xuất bản</label>
 										<small class="text-danger" id="publisher"></small>
 									</div>
+									
+									<div class="col-4 mt-3 form-floating">
+										<input type="text" ng-model="book.year" class="form-control" name="year" placeholder="smartbook"> 
+										<label for="year" class="text-center">Năm xuất bản</label> 
+										<small class="text-danger" id="year"></small>
+									</div>
 								</div>
 
-								<div class="row mt-3">
-									<div class="col-6 mt-3 form-floating">
+								<div class="row">
+									<div class="col-4 mt-3 form-floating">
 										<input id="abc" type="file" accept=".jpg,.jpeg,.png" file-model="book.image" class="form-control" name="image" placeholder="smartbook"> 
 										<label for="image" class="text-center">Hình ảnh</label> 
 										<small class="text-danger" id="image"></small>
 									</div>
-									<div class="col-6 mt-3 form-floating">
+																		
+									<div class="col-4 mt-3 form-floating">
 										<input type="text" ng-model="book.description" class="form-control" name="description" placeholder="smartbook"> 
 										<label for="description" class="text-center">Mô tả</label> 
 										<small class="text-danger" id="description"></small>
 									</div>
+									<div class="col-4 mt-3 form-floating">
+										<select class="form-select" ng-model="book.status" ng-change="statusChangeCreate()"> 
+											<option value="">Chưa chọn</option>
+											<option ng-show="o.id==1 || o.id==4" class="text-{{o.color}}" ng-repeat="o in listBookStatus" value="{{$index}}">{{o.value}}</option>
+										</select> 
+										<label class="text-center" for="status">Trạng thái</label>
+										<small class="text-danger" id="status"></small>
+									</div>
+								</div>
+								
+								<div class="row" >
+									<div id="rowSaleTime" class="col-12 mt-3 form-floating d-none">
+										<input type="date" ng-model="book.saleTime" class="form-control" name="saleTime" placeholder="smartbook"> 
+										<label for="saleTime" class="text-center">Ngày ra mắt</label> 
+										<small class="text-danger" id="saleTime"></small>
+									</div>
 								</div>
 							
-								<div class="row mt-5">
+								<div class="row mt-4">
 									<div class="col-6 text-end">
 										<button type="reset" class="btn btn-secondary">Đặt
 											lại</button>
@@ -211,7 +252,7 @@
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">Huỷ</button>
 				<button type="button" class="btn btn-primary"
-					data-bs-dismiss="modal" ng-click="showBook()">Xác
+					data-bs-dismiss="modal" ng-click="insertBook()">Xác
 					nhận</button>
 
 			</div>

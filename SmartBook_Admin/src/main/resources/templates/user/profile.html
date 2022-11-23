@@ -18,7 +18,7 @@
 			<div class="card">
 				<div
 					class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-					<img src="/index/img/xuxai.jpg" alt="Profile"
+					<img src="data:image/jpg;base64,{{authen.img}}" alt="Profile"
 						class="rounded-circle">
 					<h2>{{authen.fullname}}</h2>
 					<h3>{{authen.role.value}}</h3>
@@ -58,7 +58,7 @@
 									<label for="imgae"
 										class="col-md-4 col-lg-3 col-form-label">Hình ảnh</label>
 									<div class="col-md-8 col-lg-9">
-										<img src="/index/img/xuxai.jpg" width="150px" height="150px">
+										<img src="data:image/jpg;base64,{{authen.img}}" width="150px" height="150px">
 									</div>
 								</div>
 							<div class="row">
@@ -104,7 +104,7 @@
 									<label for="imgae"
 										class="col-md-4 col-lg-3 col-form-label">Hình ảnh</label>
 									<div class="col-md-8 col-lg-9">
-										<img src="/index/img/xuxai.jpg" width="100px" height="100px">
+										<img src="data:image/jpg;base64,{{authen.img}}" width="100px" height="100px">
 										<input type="file" name="" id="imgae" class=" mt-2 form-control" accept=".jpg,.png,.jpeg" file-model="curentUser.image">
 									</div>
 								</div>

@@ -216,13 +216,21 @@ public class BookService {
         return mapReturn;
     }
 
-    public Book create(BookRequest request, Principal principal) throws IllegalStateException, IOException {
+    public Book save(BookRequest request, Principal principal) throws IllegalStateException, IOException {
         Book b = new Book();
         b = request.changeToEntity(b);
+        if(b.getId()!=null) {
+        	Book old = repository.findById(b.getId()).get();
+        	b.setImage(old.getImage());
+        	b.setCreatedTime(old.getCreatedTime());
+        	b.setSaleAmount(old.getSaleAmount());
+        	b.setEvaluate(old.getEvaluate());
+        	b.setPoint(b.getPoint());
+        }
         b.setAuthor(authorService.findById(Integer.parseInt(request.getAuthor())));
         b.setPublisher(publisherService.findById(Integer.parseInt(request.getPublisher())));
         b.setCreatedBy(userService.getByEmail(principal.getName()));
-        b.setStatus(BookStatusSingleton.getInstance(bookStatusService).get(0));
+        b.setStatus(BookStatusSingleton.getInstance(bookStatusService).get(Integer.parseInt(request.getStatus())));
         if (request.getFile() != null) {
             if (!request.getFile().isEmpty()) {
             	String encode=FileUtil.fileToBase64(request.getFile());
@@ -232,19 +240,6 @@ public class BookService {
         return repository.save(b);
     }
 
-    public Book update(BookRequest request) throws IllegalStateException, IOException {
-        Book b = this.getById(request.getId());
-        b = request.changeToEntity(b);
-        b.setAuthor(authorService.findById(Integer.parseInt(request.getAuthor())));
-        b.setPublisher(publisherService.findById(Integer.parseInt(request.getPublisher())));
-        if (request.getFile() != null) {
-            if (!request.getFile().isEmpty()) {
-                String encode=FileUtil.fileToBase64(request.getFile());
-                b.setImage(encode);
-            }
-        }
-        return repository.save(b);
-    }
 
     public Book getById(Integer id) {
         Optional<Book> optional = this.repository.findById(id);

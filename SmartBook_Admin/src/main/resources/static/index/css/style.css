@@ -92,6 +92,9 @@ i:hover, select:hover, li:hover, a:hover{
 .fix{
 	height:  580px;
 }
+.fix-create{
+	min-height:  500px;
+}
 
 body {
   font-family: "Open Sans", sans-serif;

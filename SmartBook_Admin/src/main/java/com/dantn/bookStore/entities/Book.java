@@ -36,6 +36,7 @@ public class Book implements Serializable{
 	@Lob
 	private String image;
 	private Integer height;
+	private Integer width;
 	private Integer length;
 	private Integer weight;
 	private Integer year;
@@ -64,6 +65,9 @@ public class Book implements Serializable{
 	@Column(name = "updated_time")
 	@Temporal(TemporalType.DATE)
 	private Date updatedTime;
+	@Column(name = "sale_time")
+	@Temporal(TemporalType.DATE)
+	private Date saleTime;
 	private String type;
 	private String charactor;
 	private String content;
@@ -275,5 +279,29 @@ public class Book implements Serializable{
     public void setYear(Integer year) {
         this.year = year;
     }
+	public Integer getWidth() {
+		return width;
+	}
+	public void setWidth(Integer width) {
+		this.width = width;
+	}
+	public Date getSaleTime() {
+		return saleTime;
+	}
+	public void setSaleTime(Date saleTime) {
+		this.saleTime = saleTime;
+	}
+	@Override
+	public String toString() {
+		return "Book [id=" + id + ", name=" + name + ", ISBN=" + ISBN + ", image=" + image + ", height=" + height
+				+ ", width=" + width + ", length=" + length + ", weight=" + weight + ", year=" + year + ", numOfPage="
+				+ numOfPage + ", author=" + author + ", publisher=" + publisher + ", price=" + price + ", discount="
+				+ discount + ", amount=" + amount + ", saleAmount=" + saleAmount + ", point=" + point + ", evaluate="
+				+ evaluate + ", description=" + description + ", createdBy=" + createdBy + ", createdTime="
+				+ createdTime + ", updatedTime=" + updatedTime + ", saleTime=" + saleTime + ", type=" + type
+				+ ", charactor=" + charactor + ", content=" + content + ", status=" + status + ", userClicks="
+				+ userClicks + ", userBuys=" + userBuys + ", carts=" + carts + ", billDetails=" + billDetails
+				+ ", comments=" + comments + ", returnBillDetails=" + returnBillDetails + "]";
+	}
 	
 }
