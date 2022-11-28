@@ -14,16 +14,15 @@ function HistoryController($scope, $http) {
 		let s = date.split("-");
 		return s[2] + "/" + s[1] + "/" + s[0];
 	}
-	$scope.convertText = function(price) {
-		let newString = "";
-		let oldString = price.toString();
-		while (oldString.length > 3) {
-			newString += "." + oldString.substring(oldString.length - 3);
-			oldString = oldString.slice(0, oldString.length - 3);
-		}
-		oldString += newString;
-		return oldString;
-	}
+	//$scope.convertText = function(price) {
+		//let newString = "";
+	//	let oldString = price.toString();
+	//	while (oldString.length > 3) {
+//		newString += "." + oldString.substring(oldString.length - 3);
+	//		oldString = oldString.slice(0, oldString.length - 3);
+//		oldString += newString;
+//	return oldString;
+//	}
 	$http.get("/api/bill?page=0").then(function(response) {
 		$scope.bills = response.data.data.content;
 		$scope.users = response.data.data;
@@ -53,6 +52,7 @@ function HistoryController($scope, $http) {
 				$scope.bills[index].status.id = 3;
 				$scope.bills[index].status.value = "Đã hủy";
 				$scope.bills[index].status.color = "danger";
+				stompClient.send("/app/socket/reset", {}, {});
 			} else {
 				Toast.fire({
 					icon: 'error',
@@ -121,4 +121,12 @@ function HistoryController($scope, $http) {
 			$scope.tranSn = ""
 		$scope.getData(0)
 	}
+	var stompClient = null;
+		var socket = new SockJS('http://localhost:8081/smart-book-websocket');
+		stompClient = Stomp.over(socket);
+		stompClient.connect({}, function() {
+			stompClient.subscribe('/topic/bill', function() {
+				$scope.getData(0);
+			});
+		});
 };

@@ -61,6 +61,7 @@ function ctrlShipment ($scope, $http) {
                     title: "Thành công"
                 });
                 $scope.getData()
+                stompClient.send("/app/socket/reset", {}, {});
             } else if (response.data.statusCode == "blank") {
                 Toast.fire({
                     icon: 'error',
@@ -73,6 +74,7 @@ function ctrlShipment ($scope, $http) {
                     title: "Không đủ sách để bù đơn mới"
                 });
                 $scope.getData()
+                stompClient.send("/app/socket/reset", {}, {});
             } else {
                 Toast.fire({
                     icon: 'error',
@@ -115,6 +117,7 @@ function ctrlShipment ($scope, $http) {
                     title: "Thành công"
                 });
                 $scope.getData()
+                stompClient.send("/app/socket/reset", {}, {});
             } else {
                 Toast.fire({
                     icon: 'error',
@@ -123,4 +126,12 @@ function ctrlShipment ($scope, $http) {
             }
         })
     }
+    var stompClient = null;
+		var socket = new SockJS('http://localhost:8081/smart-book-websocket');
+		stompClient = Stomp.over(socket);
+		stompClient.connect({}, function() {
+			stompClient.subscribe('/topic/bill', function() {
+				$scope.getData();
+			});
+		});
 }
