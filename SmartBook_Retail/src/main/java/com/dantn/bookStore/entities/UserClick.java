@@ -37,5 +37,9 @@ public class UserClick implements Serializable{
 	public void setBook(Book book) {
 		this.book = book;
 	}
+	@Override
+	public String toString() {
+		return "UserClick [user=" + user + ", book=" + book + "]";
+	}
 	
 }

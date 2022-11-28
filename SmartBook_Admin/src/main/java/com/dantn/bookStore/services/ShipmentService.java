@@ -211,7 +211,7 @@ public class ShipmentService {
                     }
             default:
                 shipment.setUpdatedTime(new Date());
-                shipment.setStatus(BillStatusSingleton.getInstance(billStatusService).get(5));
+                shipment.setStatus(BillStatusSingleton.getInstance(billStatusService).get(4));
                 this.save(shipment);
                 if (shipment.getBill()) {
                     // nếu là bill thì done

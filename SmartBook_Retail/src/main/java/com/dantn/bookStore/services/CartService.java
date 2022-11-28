@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +16,13 @@ import com.dantn.bookStore.entities.Book;
 import com.dantn.bookStore.entities.Cart;
 import com.dantn.bookStore.entities.CartPK;
 import com.dantn.bookStore.entities.User;
+import com.dantn.bookStore.entities.UserClick;
 import com.dantn.bookStore.repositories.ICartRepository;
 import com.dantn.bookStore.ultilities.DataUltil;
 
 @Service
 public class CartService {
+	private static final Logger LOGGER=LoggerFactory.getLogger(CartService.class);
 	private ICartRepository repository;
 
 	public CartService(ICartRepository repository) {
@@ -60,6 +64,10 @@ public class CartService {
 			pk.setBookId(book.getId());
 			pk.setUserId(user.getId());
 			Cart c=this.getById(pk);
+			UserClick u=new UserClick();
+			u.setBook(book);
+			u.setUser(user);
+			LOGGER.info(u.toString());
 			if(c==null) {
 				Cart cart=new Cart();
 				cart.setUser(user);
