@@ -12,8 +12,14 @@ app.config(function($routeProvider, $locationProvider) {
 		templateUrl: '/smart-book/history',
 		controller: 'HistoryController'
 	})
-});
+	.when("/book/:id", {
+		templateUrl: '/smart-book/book',
+		controller: 'BookController'
+	})
+/*	.otherwise({redirectTo: '/home'})
+*/});
 app.controller("MyController", MyController);
 app.controller("CartController", CartController);
 app.controller("HistoryController", HistoryController);
+app.controller("BookController", BookController);
 

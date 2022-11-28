@@ -84,11 +84,15 @@
 												id="yourPassword" required>
 											<div class="invalid-feedback">Vui lòng nhập mật khẩu</div>
 										</div>
-										<div class="col-12">
-											<input type="checkbox" name="remember-me" id="rmm">
-											<label for="rmm">Giữ tài khoản đăng nhập</label>
+										<div class="col-12 row mt-2">
+											<div class="col-6">
+												<input type="checkbox" class="form-check-input" name="remember-me" id="rmm">
+												<label class="form-check-label" for="rmm">Lưu đăng nhập</label>
+											</div>
+											<div class="col-6 pe-0 text-end">
+												<a class="mt-2" href="/admin/smart-book/forgot_password"><span class="small">Quên mật khẩu?</span></a>
+											</div>
 										</div>
-										<a class="mt-2" href="/admin/smart-book/forgot_password"><span class="small">Quên mật khẩu?</span></a>
 										<div class="col-12">
 											<button class="btn btn-primary w-100" type="submit">Đăng nhập</button>
 										</div>

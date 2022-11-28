@@ -9,11 +9,29 @@
 .carousel-item:hover, img:hover{
 	cursor: pointer;
 }
+.main {
+	margin-top: 65px;
+	background: #E6E6E6;
+}
+
+.text {
+	color: #4fba69 !important;
+}
+.bg, .btn {
+	background-color: #4fba69 !important;
+	border: none !important;
+	color: white;
+}
+.btn:hover{
+	background-color: green !important;
+}
+
+
 
 /* Colors */
 :root {
   --color-default: #212529;
-  --color-primary: #000080;
+  --color-primary: #purple;
   --color-secondary: #37373f;
 }
 
@@ -258,16 +276,16 @@ section {
 # Header
 --------------------------------------------------------------*/
 .header {
-  background: #fff;
+  background: #ffffff;
   transition: all 0.5s;
   z-index: 997;
-  height: 90px;
-  border-bottom: 1px solid #fff;
+  height: 140px;
+  border-bottom: 1px solid #ffffff;
 }
 
 @media (max-width: 575px) {
   .header {
-    height: 70px;
+    height: 80px;
   }
 }
 
@@ -276,9 +294,13 @@ section {
   border-color: #eee;
 }
 
-.header .logo img {
-  max-height: 40px;
-  margin-right: 6px;
+
+.header .logo img{
+  display: block;
+  max-height:100%;
+  max-width:100% ;
+  width: auto;
+  height: auto;
 }
 
 .header .logo h1 {
@@ -322,6 +344,7 @@ section {
     padding: 0;
   }
 
+
   .navbar ul {
     margin: 0;
     padding: 0;
@@ -336,7 +359,7 @@ section {
 
   .navbar>ul>li {
     white-space: nowrap;
-    padding: 10px 0 10px 28px;
+    padding: 10px 0 10px 30px;
   }
 
   .navbar a,
@@ -388,7 +411,7 @@ section {
     color: #000;
   }
 
-  .navbar .dropdown ul {
+  .navbar .dropdown ul{
     display: block;
     position: absolute;
     left: 28px;
@@ -404,7 +427,7 @@ section {
     border-radius: 4px;
   }
 
-  .navbar .dropdown ul li {
+  .navbar .dropdown ul li, .dropdown-menu li{
     min-width: 200px;
   }
 
@@ -868,6 +891,7 @@ section {
   height: 100%;
   border: 0;
   border-bottom: 2px solid #b6b6bf;
+  background: #e6e6e6 !important;
 }
 
 @media (max-width: 575px) {
@@ -896,12 +920,13 @@ section {
 }
 
 .menu .nav-link:hover {
-  color: var(--color-primary);
+  	color: var(--color-primary);
+  	border-color: var(--color-primary);
 }
 
-.menu .nav-link.active {
-  color: var(--color-primary);
-  border-color: var(--color-primary);
+.menu .nav-link .active {
+  color: var(--color-primary) ;
+  border-color: var(--color-primary) !important;
 }
 
 .menu .tab-content .tab-header {
@@ -1521,8 +1546,7 @@ section {
   width: 100%;
   background-size: cover;
   position: relative;
-  min-height: 45vh;
-  padding: 100px 0 0 0;
+  min-height:25vh;
 }
 
 .hero h2 {

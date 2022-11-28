@@ -1,12 +1,12 @@
-function MyController($scope, $http) {
-	$scope.books = [];
+function MyController($scope, $http, $rootScope) {
+	$rootScope.books = [];
 	$http.get("/api/book/suggest").then(function(response) {
-		$scope.books = response.data;
+		$rootScope.books = response.data;
 	});
-	$scope.search=function(){
-		let search=document.getElementById("searchText").value;
-		$http.get("/api/book/search?key="+search).then(function(response) {
-			$scope.books = response.data;
+	$scope.search = function() {
+		let search = document.getElementById("searchText").value;
+		$http.get("/api/book/search?key=" + search).then(function(response) {
+			$rootScope.books = response.data;
 		});
 	}
 	$scope.addToCart = function(id) {
@@ -24,15 +24,23 @@ function MyController($scope, $http) {
 			}
 		});
 	};
+	$scope.detail = function(id){
+		window.location.href = "/smart-book#/book/"+id;
+	}
 	$scope.convertText = function(price) {
 		let newString = "";
 		let oldString = price.toString();
-		while(oldString.length > 3){
-			newString += "." + oldString.substring(oldString.length-3);
-			oldString = oldString.slice(0, oldString.length-3);
+		newString = oldString.substring(0, oldString.length % 3);
+		oldString = oldString.slice(oldString.length % 3, oldString.length);
+		while (oldString.length >= 3) {
+			newString += "." + oldString.substring(0, 3);
+			oldString = oldString.slice(3, oldString.length);
 		}
-		oldString += newString;
-		return oldString;
+
+		if (price.toString().length % 3 == 0) {
+			newString = newString.slice(1, newString.length);
+		}
+		return newString;
 	}
-	
+
 };

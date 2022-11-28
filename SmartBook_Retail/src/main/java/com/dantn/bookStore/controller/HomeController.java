@@ -11,7 +11,7 @@ public class HomeController {
 	}
 	@GetMapping("/smart-book/home")
 	public String home() {
-		return "home";
+		return "home/home";
 	}
 	@GetMapping("/smart-book/cart")
 	public String cart() {
@@ -23,6 +23,10 @@ public class HomeController {
 	}
 	@GetMapping("/smart-book/return")
 	public String returnBill() {
-		return "returnBill/history";
+		return "returnBill/returnBill";
+	}
+	@GetMapping("/smart-book/book")
+	public String detailBook() {
+		return "book/detail";
 	}
 }
