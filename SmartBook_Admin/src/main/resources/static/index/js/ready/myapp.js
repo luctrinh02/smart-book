@@ -107,7 +107,6 @@ app.controller("userCreateController", userCreateController);
 app.controller("userUpdateController", userUpdateController);
 app.controller("ctrlHome", ctrlHome);
 app.controller("ctrlCoupon", ctrlCoupon);
-
 app.controller("ctrlBill", ctrlBill);
 app.controller("ctrlreturn", returnBillCtrl);
 app.controller("ctrlShipment", ctrlShipment);

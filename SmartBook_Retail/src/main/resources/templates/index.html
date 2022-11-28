@@ -41,149 +41,132 @@
 
 <body ng-app="myApp">
 	<!-- ======= Header ======= -->
-	<header id="header" class="header fixed-top d-flex align-items-center">
-		<div class="container d-flex align-items-center justify-content-between p-0">
-	
-			<a href="#home" class="logo d-flex me-auto me-lg-0 mt-2 col-3">
+	<header id="header" class="header fixed-top align-items-center">
+		<div class="container-fluid d-flex align-items-center justify-content-between p-0 bg" style="height: 62px;">		
+			<div class="container p-0">
+				<img alt="" width="100%" src="/index/img/banner.jpg">
+			</div>
+		</div>
+		<div class="container d-flex align-items-center mt-1 justify-content-between p-0">
+			<a href="#home" class="logo d-flex me-lg-0 col-3">
 				<h3 class="fw-bold">
-					<img src="/index/img/s.png" class="m-0 mb-2" alt=""> 
-					<span class="me-2">mart</span> 
-					<img src="/index/img/b.png" width="20px" class="m-0 mb-2 p-0" alt="">
-					<span style="margin-left: -5px">ook</span>
+					<img src="/index/img/s.png" class="m-0 pt-2" alt="" width="100%" height="60px">
 				</h3>
 			</a>
-			
-			<nav id="navbar" class="navbar">
-				<ul>
-					<li class="dropdown mt-1 me-1"><a href="#"><span></span><img src="/index/img/menus.png" width="28px" class="m-0 mb-2" alt=""><i class="bi bi-chevron-down dropdown-indicator"></i></a>
-			            <ul class="row mt-2">
-			              <li><a href="#">Drop Down 1</a></li>
-			              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-			                <ul>
-			                  <li><a href="#">Deep Drop Down 1</a></li>
-			                  <li><a href="#">Deep Drop Down 2</a></li>
-			                  <li><a href="#">Deep Drop Down 3</a></li>
-			                  <li><a href="#">Deep Drop Down 4</a></li>
-			                  <li><a href="#">Deep Drop Down 5</a></li>
-			                </ul>
-			              </li>
-			              <li><a href="#">Drop Down 2</a></li>
-			              <li><a href="#">Drop Down 3</a></li>
-			              <li><a href="#">Drop Down 4</a></li>
-			            </ul>
-			         </li>
-				</ul>
-			</nav>
-			<div class="col-6">
-				<div class="input-group">
-				  <input type="text" class="form-control ps-3" style=" border-radius: 50px 0px 0px 50px; border: solid 1px #000080;" placeholder="Tìm kiếm sản phẩm mong muốn..." aria-describedby="button-addon2" id="searchText">
-				  <button class="btn btn-outline-dark ps-3 pe-3" style="border-radius: 0px 50px 50px 0px; border: solid 1px #000080;" type="button" id="button-addon2"><i class="bi bi-search"></i></button>
+
+			<div class="col-6 div-search" ng-controller="MyController">
+				<div class="input-group p-1"
+					style="border-radius: 10px; border: 1px solid #c2c2c2;">
+					<input type="text" class="form-control ps-4 small border-0"
+						placeholder="Tìm kiếm sản phẩm mong muốn..."
+						aria-describedby="button-addon2" id="searchText">
+
+					<button class="btn btn-dark border-0 bg ps-4 pe-4 ms-2 pt-0 pb-0" ng-click="search()"
+						style="border-radius: 10px;" type="button" id="button-addon2">
+						<i class="bi bi-search"></i>
+					</button>
 				</div>
 			</div>
-			
-			<div class="row text-end col-2 ">
-				<div class="col-xl-3 col-md-0">
-				
-				</div>
-				<div class="col-xl-3 col-md-4">
-					<a class="text-center" href="#noti"> <img src="/index/img/noti.png"
-						width="28px" class="m-0 p-0" alt="">
+
+			<div class="row fs-3 text-end col-2 mt-2 mb-2">
+				<div class="col-4">
+					<a class="text-center" href="#noti"> 
+						<i class="fa-regular fa-bell text"></i>
 					</a>
 				</div>
-				<div class="col-xl-3 col-md-4">
-					<a class="text-center" href="#cart"> <img src="/index/img/cart.png"
-						width="30px" class="m-0 p-0" alt="">
+				<div class="col-4">
+					<a class="text-center" href="#cart">
+						<i class="fas fa-shopping-cart text"></i>
 					</a>
 				</div>
-				<div class="col-xl-3 col-md-4 dropdown">
-					<a class="text-center  dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <img src="/index/img/user.png"
-						width="24px" class="m-0 p-0" alt="">
+				<div class="col-4 dropdown">
+					<a class="text-center" role="button" data-bs-toggle="dropdown"
+						aria-expanded="false"> <i class="fa-regular fa-user text"></i>
 					</a>
 					<ul class="dropdown-menu mt-2">
-					    <li><a class="dropdown-item" href="#profile">Thông tin cá nhân</a></li>
- 						<li><a class="dropdown-item" href="#history">Theo dõi đơn hàng</a></li>
-					    <li><a class="dropdown-item" href="#">Mã khuyến mãi</a></li>
-					    <li><a class="dropdown-item" href="#">Điểm tích luỹ</a></li>
-					    <li><a class="dropdown-item" href="/login">Đăng nhập</a></li>
-					    <li><a class="dropdown-item" href="#">Đăng ký</a></li>
-					    
-					 </ul>
+						<li><a class="dropdown-item" href="#profile">Thông tin cá
+								nhân</a></li>
+						<li><a class="dropdown-item" href="#history">Theo dõi đơn
+								hàng</a></li>
+						<li><a class="dropdown-item" href="#">Mã khuyến mãi</a></li>
+						<li><a class="dropdown-item" href="#">Điểm tích luỹ</a></li>
+						<li><a class="dropdown-item" href="/login">Đăng nhập</a></li>
+						<li><a class="dropdown-item" href="#">Đăng ký</a></li>
+
+					</ul>
 				</div>
 			</div>
-			<i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
-    		<i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
 		</div>
 	</header>
-	<!-- End Header -->
+
 	<main id="main" class="main">
 		<div ng-view></div>
 	</main>
+	
+	<footer id="footer" class="footer bg">
+		<div class="container">
+			<div class="row gy-3">
+				<div class="col-lg-3 col-md-6 d-flex">
+					<i class="bi bi-geo-alt icon"></i>
+					<div>
+						<h4>Địa chỉ</h4>
+						<p>
+							LK261-DV07, KĐT Mậu Lương<br> Kiến Hưng, Hà Đông, Hà Nội<br>
+						</p>
+					</div>
+
+				</div>
+
+				<div class="col-lg-3 col-md-6 footer-links d-flex">
+					<i class="bi bi-telephone icon"></i>
+					<div>
+						<h4>Liên hệ</h4>
+						<p>
+							<strong>Phone:</strong> +84 865110502<br> <strong>Email:</strong>
+							doanphuthai1152002@gmail.com<br>
+						</p>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-6 footer-links d-flex">
+					<i class="bi bi-clock icon"></i>
+					<div>
+						<h4>Giờ làm việc tại cửa hàng</h4>
+						<p>
+							<strong>T2-T7:</strong> 8AM - 17PM<br> <strong> Chủ
+								nhật:</strong> Đóng cửa
+						</p>
+					</div>
+				</div>
 
 
-<footer id="footer" class="footer">
+				<div class="col-lg-3 col-md-6 footer-links d-flex">
+					<i class="bi bi-cast icon"></i>
+					<div>
+						<h4>Mạng xã hội</h4>
+						<p class="social-links d-flex">
+							<a href="#" class="twitter"><i class="bi bi-twitter"></i></a> <a
+								href="#" class="facebook"><i class="bi bi-facebook"></i></a> <a
+								href="#" class="instagram"><i class="bi bi-instagram"></i></a> <a
+								href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="copyright">
+				&copy; Copyright <strong><span>Smart Book</span></strong>. All
+				Rights Reserved
+			</div>
+			<div class="credits">
+				Designed by <a href="https://www.facebook.com/phuthai02">Đoàn
+					Phú Thái</a>
+			</div>
+		</div>
 
-    <div class="container">
-      <div class="row gy-3">
-        <div class="col-lg-3 col-md-6 d-flex">
-          <i class="bi bi-geo-alt icon"></i>
-          <div>
-            <h4>Địa chỉ</h4>
-            <p>
-              LK261-DV07, KĐT Mậu Lương<br>
-              Kiến Hưng, Hà Đông, Hà Nội<br>
-            </p>
-          </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6 footer-links d-flex">
-          <i class="bi bi-telephone icon"></i>
-          <div>
-            <h4>Liên hệ</h4>
-            <p>
-              <strong>Phone:</strong> +84 865110502<br>
-              <strong>Email:</strong> doanphuthai1152002@gmail.com<br>
-            </p>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 footer-links d-flex">
-          <i class="bi bi-clock icon"></i>
-          <div>
-            <h4>Giờ làm việc tại cửa hàng</h4>
-            <p>
-             <strong>T2-T7:</strong> 8AM - 17PM<br>
-             <strong> Chủ nhật:</strong> Đóng cửa
-            </p>
-          </div>
-        </div>
-        
-
-        <div class="col-lg-3 col-md-6 footer-links d-flex">
-          <i class="bi bi-cast icon"></i>
-          <div>
-            <h4>Mạng xã hội</h4>
-            <p class="social-links d-flex">
-	            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-	            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-	            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-	            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-            </p>
-         </div>
-
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="copyright">
-        &copy; Copyright <strong><span>Smart Book</span></strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-        Designed by <a href="https://www.facebook.com/phuthai02">Đoàn Phú Thái</a>
-      </div>
-    </div>
-
-  </footer><!-- End Footer -->
+	</footer>
+	<!-- End Footer -->
 
 
 	<a href="#"
@@ -210,6 +193,7 @@
 	<script src="/index/js/home.js"></script>
 	<script src="/index/js/cart.js"></script>
 	<script src="/index/js/history.js"></script>
+	<script src="/index/js/book.js"></script>
 	<!-- Template Main JS File -->
 	<script src="/index/js/main.js"></script>
 	<script src="/index/js/app.js"></script>

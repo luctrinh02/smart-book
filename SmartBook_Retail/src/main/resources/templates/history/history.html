@@ -1,5 +1,14 @@
-<section class="h-100 h-custom pb-0 mb-3" style="color: var(--color-primary)">
-	<div class="container py-3 pb-0 h-100">
+<section class="h-100 h-custom pb-0 mb-3"
+	style="color: var(- -color-primary)">
+	<div class="container p-0 h-100">
+		<div class="pagetitle text">
+			<nav>
+				<ol class="breadcrumb mt-1 mb-1">
+					<li class="breadcrumb-item"><a href="#home">Smart Book</a></li>
+					<li class="breadcrumb-item active">Theo dõi đơn hàng</li>
+				</ol>
+			</nav>
+		</div>
 		<div class="row d-flex justify-content-center align-items-center h-100">
 			<div class="col-12">
 				<div class="card card-registration card-registration-2">
@@ -9,63 +18,75 @@
 								<div class="p-3">
 									<div class="d-flex align-items-center">
 										<h3 class="fw-bold m-0 fs-3">
-											<img src="/index/img/bill.png" width="35px" class="m-0 p-0 mb-2" alt=""> ĐƠN HÀNG
+											<img src="/index/img/bill.png" width="35px"
+												class="m-0 p-0 mb-2" alt=""> ĐƠN HÀNG
 										</h3>
 									</div>
 									<hr class="mt-2 mb-2 row">
 									<div class="header-cart">
 										<div class="row">
-											 <div class="input-group ">
-					                            <button class="btn btn-outline-secondary" type="button" ng-click="reset()">Đặt lại</button>
-					                            <input type="text" class="form-control" style="border: solid 1px black" placeholder="Nhập mã giao dịch ..." id="tranSn">
-					                            <button class="btn btn-outline-secondary" type="button" ng-click="search()">Tìm
-					                                kiếm</button>
-					                        </div>
+											<div class="input-group ">
+												<button class="btn btn-outline-secondary" type="button"
+													ng-click="reset()">Đặt lại</button>
+												<input type="text" class="form-control"
+													style="border: solid 1px black"
+													placeholder="Nhập mã giao dịch ..." id="tranSn">
+												<button class="btn btn-outline-secondary" type="button"
+													ng-click="search()">Tìm kiếm</button>
+											</div>
 										</div>
 									</div>
 									<hr class="mt-2 mb-2 row">
 									<div class="row fw-bold">
-											<div class="col-4">Mã giao dịch</div>
-											<div class="col-2">Ngày mua</div>
-											<div class="col-2">Tổng tiền</div>
-											<div class="col-2">Trạng thái</div>
-										 	<hr class="mt-2 mb-2">
+										<div class="col-4">Mã giao dịch</div>
+										<div class="col-2">Ngày mua</div>
+										<div class="col-2">Tổng tiền</div>
+										<div class="col-2">Trạng thái</div>
+										<hr class="mt-2 mb-2">
 									</div>
-									<div class="row" ng-repeat="bill in bills" ng-click="getDetail(bill.id)" style="cursor: pointer;">
-											<div class="col-4">{{bill.tranSn}}</div>
-											<div class="col-2">{{formatDate(bill.createdTime)}}</div>
-											<div class="col-2">{{convertText(bill.totalMoney)}}đ</div>
-											<div class="col-2 {{'text-'+bill.status.color}}">{{bill.status.value}}</div>
-											<div class="col-2 text-end">
-												<button class="btn" data-bs-toggle="modal" data-bs-target="{{'#modal'+bill.id}}"><i class="fa-solid fa-xmark"></i></button>
-				                                <div class="modal fade" id="{{'modal'+bill.id}}" tabindex="-1"
-				                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-				                                    <div class="modal-dialog">
-				                                        <div class="modal-content">
-				                                            <div class="modal-header">
-				                                                <h5 class="modal-title" id="exampleModalLabel">Xác nhận hủy đơn</h5>
-				                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-				                                                    aria-label="Close"></button>
-				                                            </div>
-				                                            <div class="modal-body">
-				                                                Bạn có chắc muốn hủy đơn hàng này?
-				                                            </div>
-				                                            <div class="modal-footer">
-				                                                <button type="button" class="btn btn-secondary"
-				                                                    data-bs-dismiss="modal">Không</button>
-				                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-				                                                    ng-click="cancel($index)">Chắc chắn</button>
-				                                            </div>
-				                                        </div>
-				                                    </div>
-                                				</div>
+									<div
+										class="row d-flex justify-content-between align-items-center"
+										ng-repeat="bill in bills" ng-click="getDetail(bill.id)"
+										style="cursor: pointer;">
+										<div class="col-4">{{bill.tranSn}}</div>
+										<div class="col-2">{{formatDate(bill.createdTime)}}</div>
+										<div class="col-2">{{convertText(bill.totalMoney)}}đ</div>
+										<div class="col-2 {{'text-'+bill.status.color}}">{{bill.status.value}}</div>
+										<div class="col-2 text-end">
+											<button class="btn" data-bs-toggle="modal"
+												data-bs-target="{{'#modal'+bill.id}}">
+												<i class="fa-solid fa-xmark"></i>
+											</button>
+											<div class="modal fade" id="{{'modal'+bill.id}}"
+												tabindex="-1" aria-labelledby="exampleModalLabel"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">Xác
+																nhận hủy đơn</h5>
+															<button type="button" class="btn-close"
+																data-bs-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body">Bạn có chắc muốn hủy đơn
+															hàng này?</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary"
+																data-bs-dismiss="modal">Không</button>
+															<button type="button" class="btn btn-danger"
+																data-bs-dismiss="modal" ng-click="cancel($index)">Chắc
+																chắn</button>
+														</div>
+													</div>
+												</div>
 											</div>
-											<!-- <div class="col-1">
+										</div>
+										<!-- <div class="col-1">
 												 <button class="btn" data-bs-toggle="modal" data-bs-target="#returnBillModal"  ng-click="getDetail(bill.id)">
                                    					 <i class="fa-solid fa-right-left"></i>
                              					 </button>
 											</div> -->
-										 	<hr class="mt-2 mb-2">
+										<hr class="mt-2 mb-2">
 									</div>
 
 								</div>
@@ -73,7 +94,8 @@
 							<div class="col-4 bg-grey" id="detail" ng-show="details.length>0">
 								<div class="p-3">
 									<h3 class="fw-bold m-0 fs-5">
-										<i class="fa-solid fa-circle-info"></i> Chi tiết đơn hàng<span class="small">: {{details[0].bill.tranSn}}</span>
+										<i class="fa-solid fa-circle-info"></i> Chi tiết đơn hàng<span
+											class="small">: {{details[0].bill.tranSn}}</span>
 									</h3>
 									<hr class="mt-2 mb-2">
 									<div style="min-height: 400px">
@@ -81,104 +103,111 @@
 											<div class="col-4 small">Tên sản phẩm</div>
 											<div class="col-4 small">Số lượng</div>
 											<div class="col-4 small">Đơn giá</div>
-									</div>
-									<hr class="mt-2 mb-2">
-									<div ng-repeat="detail in details">
-										<div class="row">
-											<div class="col-4 small">{{detail.book.name}}</div>
-											<div class="col-4 small">{{detail.amount}}</div>
-											<div class="col-4 small">{{convertText(detail.price)}}đ</div>
 										</div>
-									</div>
-									<hr class="my-2">
-									<div class="d-flex justify-content-between">
-										<h6>Tổng sản phẩm</h6>
-										<h6>Chưa tính</h6>
-									</div>
-									<div class="d-flex justify-content-between">
-										<h6>Tổng tiền sản phẩm</h6>
-										<h6>{{convertText(details[0].bill.bookMoney)}}đ</h6>
-									</div>
-									<div class="d-flex justify-content-between">
-										<h6>Phí vận chuyển</h6>
-										<h6 ng-show="details[0].bill.transportFee>0">{{convertText(details[0].bill.transportFee)}}đ</h6>
-										<h6 ng-show="details[0].bill.transportFee==0">0đ</h6>
-									</div>
-									<div class="d-flex justify-content-between">
-										<h6>Giảm giá</h6>
-										<h6>0đ</h6>
-									</div>
-									<div class="d-flex justify-content-between mb-5">
-										<h5 class="text-uppercase">Tổng số tiền</h5>
-										<h5>{{convertText(details[0].bill.totalMoney)}}đ</h5>
+										<hr class="mt-2 mb-2">
+										<div ng-repeat="detail in details">
+											<div class="row">
+												<div class="col-4 small">{{detail.book.name}}</div>
+												<div class="col-4 small">{{detail.amount}}</div>
+												<div class="col-4 small">{{convertText(detail.price)}}đ</div>
+											</div>
+										</div>
+										<hr class="my-2">
+										<div class="d-flex justify-content-between">
+											<h6>Tổng sản phẩm</h6>
+											<h6>Chưa tính</h6>
+										</div>
+										<div class="d-flex justify-content-between">
+											<h6>Tổng tiền sản phẩm</h6>
+											<h6>{{convertText(details[0].bill.bookMoney)}}đ</h6>
+										</div>
+										<div class="d-flex justify-content-between">
+											<h6>Phí vận chuyển</h6>
+											<h6 ng-show="details[0].bill.transportFee>0">{{convertText(details[0].bill.transportFee)}}đ</h6>
+											<h6 ng-show="details[0].bill.transportFee==0">0đ</h6>
+										</div>
+										<div class="d-flex justify-content-between">
+											<h6>Giảm giá</h6>
+											<h6>0đ</h6>
+										</div>
+										<div class="d-flex justify-content-between mb-5">
+											<h5 class="text-uppercase">Tổng số tiền</h5>
+											<h5>{{convertText(details[0].bill.totalMoney)}}đ</h5>
 										</div>
 
-									<button type="button" class="btn btn-dark btn-block btn-lg"
-										data-mdb-ripple-color="dark" data-bs-toggle="modal" data-bs-target="#returnBillModal" >Đổi trả</button>
+										<button type="button" class="btn btn-dark btn-block btn-lg bg"
+											data-mdb-ripple-color="dark" data-bs-toggle="modal"
+											data-bs-target="#returnBillModal">Đổi trả</button>
 
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<div class="modal fade" id="returnBillModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Chọn sản phẩm
+								đổi</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<table class="table table-hover">
+								<thead>
+									<th>Tên sách</th>
+									<th>Hình ảnh</th>
+									<th>Số lượng mua</th>
+									<th>Số lượng hợp pháp</th>
+									<th>Số lượng đổi</th>
+								</thead>
+								<tbody>
+									<tr ng-repeat="detail in details">
+										<td>{{detail.book.name}}</td>
+										<td>{{detail.book.img}}</td>
+										<td align="center">{{detail.amount}}</td>
+										<td align="center">{{detail.available}}</td>
+										<td><input type="number" id="returnAmount{{$index}}"
+											min="0" max="detail.available" class="form-control" value="0">
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Không</button>
+							<button type="button" class="btn btn-danger"
+								ng-click="beforeReturn()">Đổi hàng</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade" id="confirmModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Chọn sản phẩm
+								đổi</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">Bạn có chắn muốn đổi sách?</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Không</button>
+							<button type="button" class="btn btn-danger"
+								data-bs-dismiss="modal" ng-click="return()">Chắc chắn</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="modal fade" id="returnBillModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Chọn sản phẩm đổi</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-hover">
-                            <thead>
-                                <th>Tên sách</th>
-                                <th>Hình ảnh</th>
-                                <th>Số lượng mua</th>
-                                <th>Số lượng hợp pháp</th>
-                                <th>Số lượng đổi</th>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="detail in details">
-                                    <td>{{detail.book.name}}</td>
-                                    <td>{{detail.book.img}}</td>
-                                    <td align="center">{{detail.amount}}</td>
-                                    <td align="center">{{detail.available}}</td>
-                                    <td>
-                                        <input type="number" id="returnAmount{{$index}}" min="0" max="detail.available"
-                                            class="form-control" value="0">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
-                        <button type="button" class="btn btn-danger" ng-click="beforeReturn()">Đổi hàng</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Chọn sản phẩm đổi</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Bạn có chắn muốn đổi sách?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" ng-click="return()">Chắc
-                            chắn</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 	</div>
 </section>
 
