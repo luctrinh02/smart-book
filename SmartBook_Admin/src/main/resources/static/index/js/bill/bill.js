@@ -52,7 +52,6 @@ function ctrlBill($scope,$http,$rootScope) {
                     title: "Thành công"
                 });
                 $scope.getData(0)
-                stompClient.send("/app/socket/reset", {}, {});
             } else {
                 Toast.fire({
                     icon: 'error',
@@ -73,8 +72,7 @@ function ctrlBill($scope,$http,$rootScope) {
                     icon: 'success',
                     title: "Thành công"
                 });
-                $scope.getData(0);
-                stompClient.send("/app/socket/reset", {}, {});
+                $scope.getData(0)
             } else if (response.data.statusCode == "blank") {
                 Toast.fire({
                     icon: 'error',
@@ -91,9 +89,6 @@ function ctrlBill($scope,$http,$rootScope) {
     }
     $scope.tranSn = ""
     $scope.getData = function (index) {
-		if (index < 0 || index > $scope.users.totalPages - 1) {
-			return;
-		}
         $scope.page = index;
         $http.get("/api/admin/bill?page=" + index + "&transn=" + $scope.tranSn + "&status=" + $scope.sta.s).then(function (response) {
             $scope.bills = response.data.content;
@@ -117,12 +112,4 @@ function ctrlBill($scope,$http,$rootScope) {
         $("#cancel" + index).modal("hide");
         $("#modal" + index).modal("show");
     }
-    var stompClient = null;
-		var socket = new SockJS('http://localhost:8081/smart-book-websocket');
-		stompClient = Stomp.over(socket);
-		stompClient.connect({}, function() {
-			stompClient.subscribe('/topic/bill', function() {
-				$scope.getData(0);
-			});
-		});
 };

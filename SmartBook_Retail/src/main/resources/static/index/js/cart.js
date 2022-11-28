@@ -33,7 +33,8 @@ function CartController($scope, $http) {
 			newString += "." + oldString.substring(0, 3);
 			oldString = oldString.slice(3, oldString.length);
 		}
-		if(price.toString().length % 3 == 0){
+
+		if (price.toString().length % 3 == 0) {
 			newString = newString.slice(1, newString.length);
 		}
 		return newString;
