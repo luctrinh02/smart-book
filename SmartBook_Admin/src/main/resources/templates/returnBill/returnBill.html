@@ -26,6 +26,7 @@
                     <th>Mã giao dịch</th>
                     <th>Ngày đổi</th>
                     <th>Trạng thái</th>
+                    <th>Ghi chú</th>
                     <th colspan="2" style="width: 5%;" ng-hide="sta.s==2||sta.s==4||sta.s==5"></th>
                 </thead>
                 <tbody>
@@ -35,10 +36,13 @@
                         <td class="align-middle" ng-click="getDetail(bill.id)">
                             <span class="{{'text-'+bill.status.color}}">{{bill.status.value}}</span>
                         </td>
+                        <td class="align-middle" ng-click="getDetail(bill.id)">
+                            {{bill.message}}
+                        </td>
                         <td ng-show="sta.s==2" class="align-middle" ng-click="getDetail(bill.id)">{{bill.message}}
                         </td>
                         <td ng-hide="bill.status.id==3 || bill.status.id==5 ||bill.status==6">
-                            <button class="btn" data-bs-toggle="modal" data-bs-target="{{'#modal'+$index}}"><i
+                            <button class="btn" data-bs-toggle="modal" data-bs-target="{{'#modal'+$index}}" ng-show="authen.role.id==2"><i
                                     class="fa-solid fa-xmark"></i></button>
                             <div class="modal fade" id="{{'modal'+$index}}" tabindex="-1"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -166,7 +170,7 @@
                         </tbody>
                         <tfoot>
                             <th colspan="4">Trạng thái: <span
-                                    class="{{'text-'+details[0].bill.status.color}}">{{details[0].bill.status.value}}</span>
+                                    class="{{'text-'+details[0].returnBill.status.color}}">{{details[0].returnBill.status.value}}</span>
                             </th>
                         </tfoot>
                     </table>

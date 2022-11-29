@@ -148,19 +148,19 @@ public class ShipmentService {
                         }
                         ReturnBill newBill=new ReturnBill();
                         newBill.setCreatedTime(new Date());
-                        newBill.setUpdatedTime(null);
                         newBill.setStatus(BillStatusSingleton.getInstance(billStatusService).get(0));
                         newBill.setBill(bill.getBill());
                         newBill.setCreatedTime(new Date());
+                        newBill.setUser(bill.getUser());
                         newBill = returnBillService.save(newBill);
                         List<ReturnBillDetail> details2=new ArrayList<>();
                         for (ReturnBillDetail x : details) {
                         	ReturnBillDetailPK pk = new ReturnBillDetailPK();
-                            pk.setReturnBillId(bill.getId());
+                            pk.setReturnBillId(newBill.getId());
                             ReturnBillDetail newDetail = new ReturnBillDetail();
                             pk.setBookId(x.getBook().getId());
                             newDetail.setPK(pk);
-                            newDetail.setReturnBill(bill);
+                            newDetail.setReturnBill(newBill);
                             newDetail.setBook(x.getBook());
                             newDetail.setAmount(x.getAmount());
                             returnBillDetail.save(newDetail);
