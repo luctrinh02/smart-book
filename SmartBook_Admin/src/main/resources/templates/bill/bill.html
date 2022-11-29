@@ -41,7 +41,7 @@
                         <td ng-show="sta.s==2 || sta.s==0" class="align-middle" ng-click="getDetail(bill.id)">{{bill.message}}
                         </td>
                         <td ng-hide="bill.status.id==3 || bill.status.id==5 || bill.status.id==6">
-                            <button class="btn" data-bs-toggle="modal" data-bs-target="{{'#modal'+$index}}"><i
+                            <button class="btn" data-bs-toggle="modal" data-bs-target="{{'#modal'+$index}}" ng-show="authen.role.id==2"><i
                                     class="fa-solid fa-xmark"></i></button>
                             <div class="modal fade" id="{{'modal'+$index}}" tabindex="-1"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
