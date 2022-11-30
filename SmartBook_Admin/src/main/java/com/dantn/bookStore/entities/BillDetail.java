@@ -23,6 +23,7 @@ public class BillDetail implements Serializable{
 	private BigDecimal price;
 	private Long amount;
 	private Long available;
+	private Boolean isComment;
 	public BillDetailPK getBillDetailPK() {
 		return billDetailPK;
 	}
@@ -58,6 +59,12 @@ public class BillDetail implements Serializable{
 	}
 	public void setAvailable(Long available) {
 		this.available = available;
+	}
+	public Boolean getIsComment() {
+		return isComment;
+	}
+	public void setIsComment(Boolean isComment) {
+		this.isComment = isComment;
 	}
 	
 	

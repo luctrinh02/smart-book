@@ -67,7 +67,7 @@ public class SuggestService {
 					if(buyList.size()!=0) {
 						clickSet.removeAll(buyList);
 					}
-					return new ArrayList<>(clickSet).subList(0, 11);
+					return new ArrayList<>(clickSet).subList(0, 12);
 				}else {
 					//lấy từ cái liên quan mua
 					if(buyList.size()!=0) {
@@ -85,7 +85,7 @@ public class SuggestService {
 					}
 					//nhiều quá thì dừng
 					if(clickSet.size()>=12) {
-						return new ArrayList<>(clickSet).subList(0, 11);
+						return new ArrayList<>(clickSet).subList(0, 12);
 					}else {
 						int lost=12-clickSet.size();
 						List<Book> books=bookService.getall(lost).getContent();
@@ -94,7 +94,7 @@ public class SuggestService {
 							clickSet.removeAll(buyList);
 						}
 						if(clickSet.size()>=12) {
-							return new ArrayList<>(clickSet).subList(0, 11);
+							return new ArrayList<>(clickSet).subList(0, 12);
 						}else {
 							return new ArrayList<>(clickSet);
 						}
