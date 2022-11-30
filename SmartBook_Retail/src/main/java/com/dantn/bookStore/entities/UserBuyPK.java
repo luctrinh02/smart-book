@@ -11,6 +11,15 @@ public class UserBuyPK implements Serializable{
 	private Integer userId;
 	@Column(name = "book_id",insertable = false,updatable = false)
 	private Integer bookId;
+	
+	public UserBuyPK() {
+		super();
+	}
+	public UserBuyPK(Integer userId, Integer bookId) {
+		super();
+		this.userId = userId;
+		this.bookId = bookId;
+	}
 	public Integer getUserId() {
 		return userId;
 	}

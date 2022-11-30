@@ -4,6 +4,7 @@ package com.dantn.bookStore.services;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,10 @@ public class UserBuyService {
 	}
 	public Set<Book> getBook(){
 		return new HashSet<>(repository.findByUser(AppConstraint.USER));
+	}
+	public Book getById(Integer id) {
+		UserBuyPK buyPK=new UserBuyPK(AppConstraint.USER.getId(),id);
+		Optional<UserBuy> optional=repository.findById(buyPK);
+		return optional.isPresent()?optional.get().getBook():null;
 	}
 }
