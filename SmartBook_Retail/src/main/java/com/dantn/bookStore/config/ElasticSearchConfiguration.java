@@ -1,6 +1,5 @@
 package com.dantn.bookStore.config;
 
-import javax.net.ssl.SSLContext;
 
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -10,7 +9,6 @@ import org.elasticsearch.client.RestClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.dantn.bookStore.ultilities.TransportUtils;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
@@ -22,22 +20,15 @@ public class ElasticSearchConfiguration {
 	@Bean
 	public RestClient getRestClient() {
 		//this is product
-		String fingerprint="A2525B64D8";
-		SSLContext context=TransportUtils.sslContextFromCaFingerprint(fingerprint);
-		BasicCredentialsProvider credsProv = new BasicCredentialsProvider(); 
-		credsProv.setCredentials(
-		    AuthScope.ANY, new UsernamePasswordCredentials("elastic", "EHqoSWIeWWnuZBZYZNG8V1jo")
-		);
-		RestClient restClient = RestClient.builder(
-                new HttpHost("https://smart-book.es.us-central1.gcp.cloud.es.io"))
-				.setHttpClientConfigCallback(hc->
-				hc.setSSLContext(context)
-				.setDefaultCredentialsProvider(credsProv))
+		BasicCredentialsProvider credsProv = new BasicCredentialsProvider();
+		credsProv.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("elastic", "EHqoSWIeWWnuZBZYZNG8V1jo"));
+		RestClient restClient = RestClient.builder(new HttpHost("smart-book.es.us-central1.gcp.cloud.es.io",9243,"https"))
+				.setHttpClientConfigCallback(hc -> hc.setDefaultCredentialsProvider(credsProv))
 				.build();
-		//this is local
-//		RestClient restClient = RestClient.builder(
-//                new HttpHost("localhost", 9200)).build();
-        return restClient;
+		// this is local
+//				RestClient restClient = RestClient.builder(
+//		                new HttpHost("localhost", 9200)).build();
+		return restClient;
 	}
 	@Bean
 	public ElasticsearchTransport getElasticsearchTransport() {
