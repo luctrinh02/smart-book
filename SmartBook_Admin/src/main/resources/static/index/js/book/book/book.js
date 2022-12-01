@@ -431,6 +431,7 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 					icon: 'success',
 					title: "Lưu dữ liệu thành công"
 				})
+				window.location.href = "/#/book";
 			} else {
 				Toast.fire({
 					icon: 'error',
