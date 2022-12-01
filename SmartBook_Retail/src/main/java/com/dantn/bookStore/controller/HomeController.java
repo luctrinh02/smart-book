@@ -29,4 +29,8 @@ public class HomeController {
 	public String detailBook() {
 		return "book/detail";
 	}
+	@GetMapping("/smart-book/login")
+	public String login() {
+		return "control/login";
+	}
 }
