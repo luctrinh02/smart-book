@@ -55,6 +55,7 @@ public class Book implements Serializable{
 	private Long saleAmount;
 	private Integer point;
 	private Integer evaluate;
+	@Lob
 	private String description;
 	@ManyToOne
 	@JoinColumn(name = "created_by")
@@ -71,6 +72,7 @@ public class Book implements Serializable{
 	private String type;
 	private String charactor;
 	private String content;
+	private boolean batch;
 	@ManyToOne
 	@JoinColumn(name="status_id")
 	private BookStatus status;
@@ -290,6 +292,13 @@ public class Book implements Serializable{
 	}
 	public void setSaleTime(Date saleTime) {
 		this.saleTime = saleTime;
+	}
+	
+	public boolean isBatch() {
+		return batch;
+	}
+	public void setBatch(boolean batch) {
+		this.batch = batch;
 	}
 	@Override
 	public String toString() {

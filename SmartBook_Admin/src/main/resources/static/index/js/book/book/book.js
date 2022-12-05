@@ -470,6 +470,58 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 		}
 		return listReturn;
 	}
+	$scope.excel={};
+	$scope.upload=function(){
+		$("#excelError").val("");
+		let myForm = new FormData();
+		var config = {
+			"transformRequest": angular.identity,
+			"transformResponse": angular.identity,
+			"headers": {
+				'Content-Type': undefined
+			}
+		}
+		if ($("#excel").val() != "") {
+			myForm.append("file", $scope.excel)
+		}
+		$http.post("/api/book/upload",myForm,config).then(function(response){
+			switch(Number(response.data)){
+				case 0:
+					Toast.fire({
+						icon: 'success',
+						title: "Thành công"
+					})
+					$("#excelModal").modal("hide");
+					$("#excelModal").val("");
+					sleep(1000).then(() => {
+						location.reload();
+					})
+					break;
+				case 2:
+					Toast.fire({
+						icon: 'error',
+						title: "File không tồn tại"
+					})
+					$("#excelModal").modal("hide");
+					$("#excelModal").val("");
+					break;
+				case 4:
+					$("#excelError").html("File lỗi");
+					break;
+				case 3:
+					$("#excelError").html("File lỗi");
+					break;
+				default:
+					Toast.fire({
+						icon: 'error',
+						title: "Lỗi hệ thống"
+					})
+					$("#excelModal").modal("hide");
+					$("#excelModal").val("");
+					break;
+			}
+		})
+	}
 }
 
 
