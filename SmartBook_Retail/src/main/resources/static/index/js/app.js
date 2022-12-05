@@ -22,8 +22,21 @@ app.config(function($routeProvider, $locationProvider) {
 	})
 	.otherwise({redirectTo: '/home'})
 });
+
 app.controller("MyController", MyController);
 app.controller("CartController", CartController);
 app.controller("HistoryController", HistoryController);
 app.controller("BookController", BookController);
-
+app.controller("readyCtrl",function($rootScope,$http){
+	$http.get("/api/user").then(function(response) {
+		if(response.data==""){
+			$rootScope.authen = null;
+		}else{
+			$rootScope.authen = response.data;
+		}
+	})
+	$rootScope.logout = function() {
+		window.location.href = "/logout";
+		$rootScope.authen = null;
+	}
+})

@@ -79,7 +79,7 @@ public class IEBookRepository {
 						.should(createQuery("type", key))
 						.should(createQuery("charactor", key))
 						.should(createQuery("content", key))
-						))
+						)).from(0).size(24)
 				, EBook.class);
 		List<Hit<EBook>> hits = response.hits().hits();
 		List<EBook> eBooks=new ArrayList<>();

@@ -54,7 +54,7 @@
 										<div class="col-2 {{'text-'+bill.status.color}}">{{bill.status.value}}</div>
 										<div class="col-2 text-end">
 											<button class="btn" data-bs-toggle="modal"
-												data-bs-target="{{'#modal'+bill.id}}">
+												data-bs-target="{{'#modal'+bill.id}}" ng-show="bill.status.id==1">
 												<i class="fa-solid fa-xmark"></i>
 											</button>
 											<div class="modal fade" id="{{'modal'+bill.id}}"
@@ -137,7 +137,7 @@
 
 										<button type="button" class="btn btn-dark btn-block btn-lg bg"
 											data-mdb-ripple-color="dark" data-bs-toggle="modal"
-											data-bs-target="#returnBillModal">Đổi trả</button>
+											data-bs-target="#returnBillModal" ng-show="isShowReturn">Đổi trả</button>
 
 									</div>
 								</div>
