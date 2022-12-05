@@ -39,7 +39,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
-<body ng-app="myApp">
+<body ng-app="myApp" ng-controller="readyCtrl">
 	<!-- ======= Header ======= -->
 	<header id="header" class="header fixed-top align-items-center">
 		<div class="container-fluid d-flex align-items-center justify-content-between p-0 bg" style="height: 62px;">		
@@ -84,15 +84,15 @@
 						aria-expanded="false"> <i class="fa-regular fa-user text"></i>
 					</a>
 					<ul class="dropdown-menu mt-2">
-						<li><a class="dropdown-item" href="#profile">Thông tin cá
+						<li><a class="dropdown-item" href="#profile" ng-show="authen!=null">Thông tin cá
 								nhân</a></li>
 						<li><a class="dropdown-item" href="#history">Theo dõi đơn
 								hàng</a></li>
 						<li><a class="dropdown-item" href="#">Mã khuyến mãi</a></li>
 						<li><a class="dropdown-item" href="#">Điểm tích luỹ</a></li>
-						<li><a class="dropdown-item" href="/login">Đăng nhập</a></li>
-						<li><a class="dropdown-item" href="#">Đăng ký</a></li>
-
+						<li><a class="dropdown-item" href="/smart-book/login" ng-show="authen==null">Đăng nhập</a></li>
+						<li><a class="dropdown-item" href="#" ng-show="authen==null">Đăng ký</a></li>
+						<li><button class="dropdown-item" ng-click="logout()" ng-show="authen!=null">Đăng xuất</button></li>
 					</ul>
 				</div>
 			</div>

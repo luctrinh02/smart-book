@@ -1,9 +1,6 @@
 function HistoryController($scope, $http) {
-	$scope.checkDate = function(index) {
-		let today = new Date().setHours(7, 0, 0, 0);
-		let chek = new Date($scope.bills[index].createdTime).setHours(7, 0, 0, 0);
-		return today - chek;
-	}
+	$scope.isShowReturn=false;
+	$scope.billIndex=0;
 	$scope.returnRequest = [];
 	$scope.bills = [];
 	$scope.details = [];
@@ -36,7 +33,14 @@ function HistoryController($scope, $http) {
 	$scope.getDetail = function(id) {
 		if ($scope.details.length == 0) {
 			$http.get("/api/bill/" + id).then(function(response) {
-				$scope.details = response.data.data;
+				$scope.details = response.data.data;console.log($scope.details);
+				let today = new Date().setHours(7, 0, 0, 0);
+				let chek = new Date($scope.details[0].bill.createdTime).setHours(7, 0, 0, 0);
+				if(today-chek<=432000000 && $scope.details[0].bill.status.id==5){
+					$scope.isShowReturn=true;
+				}else{
+					$scope.isShowReturn=false;
+				}
 			});
 			document.getElementById('list').classList.add('col-8');
 			document.getElementById('list').classList.remove("col-12");

@@ -44,7 +44,10 @@ public class UserApi {
 
 	@GetMapping("")
 	public ResponseEntity<?> profile(Principal principal) {
-		User user = service.getByEmail(principal.getName());
+		User user=null;
+		if(principal!=null) {
+			user = service.getByEmail(principal.getName());
+		}
 		return ResponseEntity.ok(user);
 	}
 
