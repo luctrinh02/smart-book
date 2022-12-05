@@ -51,7 +51,9 @@ public class Book implements Serializable {
 	private Long saleAmount;
 	private Integer point;
 	private Integer evaluate;
+	@Lob
 	private String description;
+	private boolean isBatch;
 	@ManyToOne
 	@JoinColumn(name = "created_by")
 	private User createdBy;
@@ -353,4 +355,12 @@ public class Book implements Serializable {
 		this.saleTime = saleTime;
 	}
 
+	public boolean isBatch() {
+		return isBatch;
+	}
+
+	public void setBatch(boolean isBatch) {
+		this.isBatch = isBatch;
+	}
+	
 }

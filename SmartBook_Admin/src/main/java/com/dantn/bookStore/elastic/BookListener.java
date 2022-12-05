@@ -29,8 +29,10 @@ public class BookListener {
     private ObjectFactory<CharactorService> charactorService;
     @PostPersist
     public void create(Book book) throws IOException {
-        EBook eBook=getEBook(book);
-        service.getObject().save(eBook);
+        if(!book.isBatch()) {
+        	EBook eBook=getEBook(book);
+            service.getObject().save(eBook);
+        }
     }
     @PostUpdate
     public void update(Book book) throws BeansException, IOException {
