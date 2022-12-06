@@ -63,10 +63,10 @@ public class UserApi {
 	}
 
 	@PostMapping("")
-	public ResponseEntity<?> registry(@RequestBody UserRequest request, BindingResult result) {
+	public ResponseEntity<?> registry(@RequestBody @Valid UserRequest request, BindingResult result) {
 		if (result.hasErrors()) {
 			List<ObjectError> errors = result.getAllErrors();
-			HashMap<String, Object> map = DataUltil.setData("ok", errors);
+			HashMap<String, Object> map = DataUltil.setData("error", errors);
 			return ResponseEntity.ok(map);
 		} else {
 			HashMap<String, Object> map = service.registry(request, statusService, roleService);
