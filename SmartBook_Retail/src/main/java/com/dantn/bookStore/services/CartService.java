@@ -22,12 +22,13 @@ import com.dantn.bookStore.ultilities.DataUltil;
 
 @Service
 public class CartService {
-	private static final Logger LOGGER=LoggerFactory.getLogger(CartService.class);
 	private ICartRepository repository;
-
-	public CartService(ICartRepository repository) {
+	private UserClickService service;
+	
+	public CartService(ICartRepository repository, UserClickService service) {
 		super();
 		this.repository = repository;
+		this.service = service;
 	}
 	public List<Cart> getByUser(User user){
 		return this.repository.findByUser(user);
@@ -64,10 +65,7 @@ public class CartService {
 			pk.setBookId(book.getId());
 			pk.setUserId(user.getId());
 			Cart c=this.getById(pk);
-			UserClick u=new UserClick();
-			u.setBook(book);
-			u.setUser(user);
-			LOGGER.info(u.toString());
+			service.save(book);
 			if(c==null) {
 				Cart cart=new Cart();
 				cart.setUser(user);

@@ -35,4 +35,13 @@ public class CommentApi {
 			}
 		}
 	}
+	@PostMapping("/api/comment/before")
+	public ResponseEntity<?> before(@RequestBody @Valid CommentRequest request,BindingResult result){
+		if(result.hasErrors()) {
+			List<ObjectError> errors=result.getAllErrors();
+			return ResponseEntity.ok(DataUltil.setData("error", errors));
+		}else {
+			return ResponseEntity.ok(DataUltil.setData("ok", "ok"));
+		}
+	}
 }

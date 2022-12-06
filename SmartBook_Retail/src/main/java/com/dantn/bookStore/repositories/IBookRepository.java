@@ -13,4 +13,6 @@ import com.dantn.bookStore.entities.BookStatus;
 public interface IBookRepository extends JpaRepository<Book, Integer>{
 	@Query("SELECT b FROM Book b WHERE b.status=?1")
 	Page<Book> findAllByStatus(BookStatus status,Pageable pageable);
+	@Query("SELECT b FROM Book b WHERE b.status=?1")
+	Page<Book> findFuture(BookStatus status,Pageable pageable);
 }

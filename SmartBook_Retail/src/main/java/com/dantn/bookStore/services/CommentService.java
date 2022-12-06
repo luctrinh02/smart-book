@@ -45,7 +45,7 @@ public class CommentService {
 			return false;
 		}else {
 			if(detail.getBill().getStatus().getId()==5) {
-				if(detail.getBill().getUser().equals(AppConstraint.USER)) {
+				if(detail.getBill().getUser().getId()==AppConstraint.USER.getId()) {
 					return !detail.getIsComment();
 				}else {
 					return false;
