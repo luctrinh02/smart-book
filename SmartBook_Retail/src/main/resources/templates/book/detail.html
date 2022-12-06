@@ -1,85 +1,76 @@
-<section class="h-100 h-custom pb-0 mb-3"
+<section class="h-100 h-custom pb-0"
 	style="color: var(- -color-primary)">
 	<div class="container p-0 pb-0 h-100">
 		<div class="pagetitle text">
 			<nav>
 				<ol class="breadcrumb mt-1 mb-1">
 					<li class="breadcrumb-item"><a href="#home">Smart Book</a></li>
-					<li class="breadcrumb-item active">Giỏ hàng</li>
+					<li class="breadcrumb-item"><a href="#home">Chi tiết sản
+							phẩm</a></li>
+					<li class="breadcrumb-item active">{{book.name}}</li>
 				</ol>
 			</nav>
 		</div>
-		<div class="row d-flex justify-content-center align-items-center h-100">
+		<div
+			class="row d-flex justify-content-center align-items-center h-100">
 			<div class="col-12">
 				<div class="card card-registration card-registration-2">
 					<div class="card-body p-0">
 						<div class="row">
-							<div class="col-lg-9" style="height: 700px">
-								<div class="p-3">
-									<div class="d-flex align-items-center">
-										<h3 class="fw-bold m-0 fs-3">
-											<img src="/index/img/cart.png" width="35px"
-												class="m-0 p-0 mb-2" alt=""> GIỎ HÀNG
-										</h3>
-										&ensp;
-										<h6 class="mb-0 text-muted">({{carts.length}} sản phẩm)</h6>
-									</div>
-									<hr class="mt-2 mb-2">
-									<div class="header-cart fw-bold">
-										<div class="row">
-											<div class="col-6">
-												<input class="form-check-input" type="checkbox" id="chkAll">&ensp;Chọn
-												tất cả <span class="small">({{carts.length}} sản
-													phẩm)</span>
-											</div>
-											<div class="col-2">Số lượng</div>
-											<div class="col-3 text-center">Thành tiền</div>
-											<div class="col-1"></div>
-										</div>
-									</div>
-									<hr class="mt-2 mb-2">
-									<div ng-repeat="cart in carts track by $index">
-										<div
-											class="row d-flex justify-content-between align-items-center">
-											<div class="col-1">
-												<input ng-change="selectInput()" class="form-check-input"
-													type="checkbox" ng-model="selectBook" name="book"
-													ng-value={{$index}}>
-											</div>
-											<div class="col-1">
-												<img src="data:image/jpg;base64,{{cart.book.image}}"
-													class="img-fluid rounded-3">
-											</div>
-											<div class="col-4">
-												<h6 class="text-black mb-0">{{cart.book.name}}</h6>
-											</div>
-											<div class="col-2 d-flex">
-												<input id="{{'input'+$index}}" min="0" name="quantity"
-													ng-keyup="changeAmount($index)" ng-model="amount"
-													ng-value="cart.amount" type="text"
-													class="form-control form-control-sm" />
-											</div>
-											<div class="col-3 text-center">
-												<h6 class="mb-0">{{convertText((cart.book.price*(100-cart.book.discount)/100)*cart.amount)}}đ</h6>
-											</div>
-											<div class="col-1 text-end">
-												<button ng-click="deleteCart($index)"
-													class="btn btn-out-line-dark text-muted">
-													<i class="fas fa-times text-light"></i>
-												</button>
-											</div>
-										</div>
-										<hr class="mt-2 mb-2">
-									</div>
-
+							<div class="col-lg-4 col-md-6">
+								<div class="p-4">
+									<img alt="" src="data:image/jpg;base64,{{book.image}}"
+										height="500px" width="100%">
 								</div>
 							</div>
-							<div class="col-lg-3 bg-grey">
-								<div class="p-3">
-									<h3 class="fw-bold m-0 fs-5">Sản phẩm cùng mua</h3>
+							<div class="col-lg-8 col-md-6 bg-grey">
+								<div class="p-4">
+									<h3 class="fw-bold m-0 fs-5">{{book.name}}</h3>
 									<hr class="mt-2 mb-2">
-									<div style="min-height: 400px"></div>
-									<hr class="my-2">
+									<div class="row">
+										<div class="col-lg-5">
+											<span class="small">Nhà xuất bản: <a href="#"
+												class="text-primary fw-bold">{{book.publisher.name}}</a></span><br>
+											<span class="small">Tác giả: <span class="fw-bold">{{book.author.name}}</span></span>
+										</div>
+										<div class="col-lg-5">
+											<span class="small">Thể loại: <span class="fw-bold">{{book.author.name}}</span></span>
+										</div>
+									</div>
+									<div id="star" class="mt-2"></div>
+									<div id="price" class="mt-2">
+										<h1 class="fw-bold text">{{convertText(book.price -
+											book.price*book.discount/100)}} đ</h1>
+										<h5 class="fw-bold text" ng-show="book.discount>0">
+											<del class="small text-danger mt-0">{{convertText(book.price)}}đ</del>
+											&ensp; <span class="badge bg-danger p-1">-{{book.discount}}%</span>
+										</h5>
+									</div>
+									<div id="returnbill" class="mt-2">
+										<span class="small">Chính sách đổi trả: Đổi trả sản
+											phẩm trong 30 ngày <a href="#" class="text-primary fw-bold">Xem
+												thêm</a>
+										</span>
+									</div>
+									<div id="amount" class="mt-lg-3 mt-md-2 row">
+										<span class="fw-bold col-lg-2 col-md-4">Số lượng: </span>
+										<div class="col-lg-4 col-md-8">
+											<div class="input-group">
+											  <span class="input-group-text bg" id="input1"><i class="fa-solid fa-minus"></i></span>
+											  <input type="text" class="form-control text-center" value="0">
+											   <span class="input-group-text bg" id="input2"><i class="fa-solid fa-plus"></i></span>
+											</div>
+										</div>
+									</div>
+									
+									<div id="action" class="row align-items-center">
+										<div class="col-lg-4 mt-lg-4 mt-2">
+											<button class="btn-them">Thêm vào giỏ hàng</button>
+										</div> 
+										<div class="col-lg-4 mt-lg-4 mt-2">
+											<button class="btn-mua">Mua ngay</button>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -87,26 +78,900 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="confirmModal" tabindex="-1"
-			aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Xác nhận thanh
-							toán</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
+		<div
+			class="row d-flex justify-content-center align-items-center h-100 mt-2">
+			<div class="col-12">
+				<div class="card card-registration card-registration-2">
+					<div class="card-body p-0">
+						<div class="row">
+							<div class="col-lg-12 col-md-12 bg-grey">
+								<div class="p-4">
+									<h3 class="fw-bold m-0 fs-5">Sản phẩm mua cùng</h3>
+									<hr class="mt-2 mb-2">
+									<div class="row">
+										<div class="col-lg-2 col-md-4 col-sm-6">
+											<img class="p-lg-3 p-md-2 p-sm-1" alt=""
+												src="/index/img/ban1.jpg" height="250px" width="100%">
+											<span class="small">{{book.name}}</span><br> <span
+												class="fw-bold text">{{convertText(book.price -
+												book.price*book.discount/100)}} đ</span><br> <span
+												class="fw-bold small " ng-show="book.discount>0"> <del
+													class="small text-danger mt-0">{{convertText(book.price)}}đ</del>&ensp;
+												<span class="badge bg-danger p-1">-{{book.discount}}%</span>
+											</span>
+										</div>
+										<div class="col-lg-2 col-md-4 col-sm-6">
+											<img class="p-lg-3 p-md-2 p-sm-1" alt=""
+												src="/index/img/ban1.jpg" height="250px" width="100%">
+											<span class="small">{{book.name}}</span><br> <span
+												class="fw-bold text">{{convertText(book.price -
+												book.price*book.discount/100)}} đ</span><br> <span
+												class="fw-bold small " ng-show="book.discount>0"> <del
+													class="small text-danger mt-0">{{convertText(book.price)}}đ</del>&ensp;
+												<span class="badge bg-danger p-1">-{{book.discount}}%</span>
+											</span>
+										</div>
+										<div class="col-lg-2 col-md-4 col-sm-6">
+											<img class="p-lg-3 p-md-2 p-sm-1" alt=""
+												src="/index/img/ban1.jpg" height="250px" width="100%">
+											<span class="small">{{book.name}}</span><br> <span
+												class="fw-bold text">{{convertText(book.price -
+												book.price*book.discount/100)}} đ</span><br> <span
+												class="fw-bold small " ng-show="book.discount>0"> <del
+													class="small text-danger mt-0">{{convertText(book.price)}}đ</del>&ensp;
+												<span class="badge bg-danger p-1">-{{book.discount}}%</span>
+											</span>
+										</div>
+										<div class="col-lg-2 col-md-4 col-sm-6">
+											<img class="p-lg-3 p-md-2 p-sm-1" alt=""
+												src="/index/img/ban1.jpg" height="250px" width="100%">
+											<span class="small">{{book.name}}</span><br> <span
+												class="fw-bold text">{{convertText(book.price -
+												book.price*book.discount/100)}} đ</span><br> <span
+												class="fw-bold small " ng-show="book.discount>0"> <del
+													class="small text-danger mt-0">{{convertText(book.price)}}đ</del>&ensp;
+												<span class="badge bg-danger p-1">-{{book.discount}}%</span>
+											</span>
+										</div>
+										<div class="col-lg-2 col-md-4 col-sm-6">
+											<img class="p-lg-3 p-md-2 p-sm-1" alt=""
+												src="/index/img/ban1.jpg" height="250px" width="100%">
+											<span class="small">{{book.name}}</span><br> <span
+												class="fw-bold text">{{convertText(book.price -
+												book.price*book.discount/100)}} đ</span><br> <span
+												class="fw-bold small " ng-show="book.discount>0"> <del
+													class="small text-danger mt-0">{{convertText(book.price)}}đ</del>&ensp;
+												<span class="badge bg-danger p-1">-{{book.discount}}%</span>
+											</span>
+										</div>
+										<div class="col-lg-2 col-md-4 col-sm-6">
+											<img class="p-lg-3 p-md-2 p-sm-1" alt=""
+												src="/index/img/ban1.jpg" height="250px" width="100%">
+											<span class="small">{{book.name}}</span><br> <span
+												class="fw-bold text">{{convertText(book.price -
+												book.price*book.discount/100)}} đ</span><br> <span
+												class="fw-bold small " ng-show="book.discount>0"> <del
+													class="small text-danger mt-0">{{convertText(book.price)}}đ</del>&ensp;
+												<span class="badge bg-danger p-1">-{{book.discount}}%</span>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div class="modal-body">Bạn có chắn muốn mua các sách đã
-						chọn?</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">Không</button>
-						<button type="button" class="btn btn-primary"
-							data-bs-dismiss="modal" ng-click="pay()">Chắc chắn</button>
+				</div>
+			</div>
+		</div>
+		<div
+			class="row d-flex justify-content-center align-items-center h-100 mt-2">
+			<div class="col-12">
+				<div class="card card-registration card-registration-2">
+					<div class="card-body p-0">
+						<div class="row">
+							<div class="col-lg-12 col-md-12 bg-grey">
+								<div class="p-4">
+									<h3 class="fw-bold m-0 fs-5">Thông tin sản phẩm</h3>
+									<hr class="mt-2 mb-2">
+									<div class="row">
+										<div class="col-lg-2 col-md-5 col-6 mt-lg-2 mt-md-1">
+											<span>Tên sản phẩm</span><br>
+										</div>
+										<div class="col-lg-10 col-md-7 col-6 mt-lg-2 mt-md-1">
+											<span>{{book.name}}</span><br>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-2 col-md-5 col-6 mt-lg-2 mt-md-1 ">
+											<span>Mã hàng</span><br>
+										</div>
+										<div class="col-lg-10 col-md-7 col-6 mt-lg-2 mt-md-1">
+											<span>{{book.isbn}}</span><br>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-2 col-md-5 col-6 mt-lg-2 mt-md-1  ">
+											<span>Tác giả</span><br>
+										</div>
+										<div class="col-lg-10 col-md-7 col-6 mt-lg-2 mt-md-1">
+											<span>{{book.author.name}}</span><br>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-2 col-md-5 col-6 mt-lg-2 mt-md-1 ">
+											<span>Nhà xuất bản</span><br>
+										</div>
+										<div class="col-lg-10 col-md-7 col-6 mt-lg-2 mt-md-1">
+											<span><a href="#" class="text-primary fw-bold">{{book.publisher.name}}</a></span><br>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-2 col-md-5 col-6 mt-lg-2 mt-md-1 ">
+											<span>Năm xuất bản</span><br>
+										</div>
+										<div class="col-lg-10 col-md-7 col-6 mt-lg-2 mt-md-1">
+											<span>{{book.year}}</span><br>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-2 col-md-5 col-6 mt-lg-2 mt-md-1 ">
+											<span>Trọng lượng</span><br>
+										</div>
+										<div class="col-lg-10 col-md-7 col-6 mt-lg-2 mt-md-1">
+											<span>{{book.weight}} <span class="small">(g)</span></span><br>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-2 col-md-5 col-6 mt-lg-2 mt-md-1 ">
+											<span>Kích thước</span><br>
+										</div>
+										<div class="col-lg-10 col-md-7 col-6 mt-lg-2 mt-md-1">
+											<span>{{book.height}} x {{book.width}} x
+												{{book.length}} <span class="small">(mm)</span>
+											</span><br>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-2 col-md-5 col-6 mt-lg-2 mt-md-1 ">
+											<span>Số trang</span><br>
+										</div>
+										<div class="col-lg-10 col-md-7 col-6 mt-lg-2 mt-md-1">
+											<span>{{book.numOfPage}}</span><br>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-12 mt-lg-2 mt-md-1 ">
+											<span>Giá sản phẩm trên Smart Book đã bao gồm thuế
+												theo luật hiện hành. Bên cạnh đó, tuỳ vào loại sản phẩm,
+												hình thức và địa chỉ giao hàng mà có thể phát sinh thêm chi
+												phí khác như Phụ phí đóng gói, phí vận chuyển, phụ phí hàng
+												cồng kềnh,...</span><br>
+										</div>
+									</div>
+									<hr class="mt-2 mb-2">
+									<div class="row">
+										<div class="col-lg-12 mt-lg-2 mt-md-1 fw-bold">
+											<span>{{book.name}}</span><br>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-12 mt-lg-2 mt-md-1 ">
+											<span>{{book.description}}</span><br>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div
+			class="row d-flex justify-content-center align-items-center h-100 mt-2">
+			<div class="col-12">
+				<div class="card card-registration card-registration-2">
+					<div class="card-body p-0">
+						<div class="row">
+							<div class="col-lg-12 col-md-12 bg-grey">
+								<div class="row">
+									<div class="col-md-4 p-lg-4 p-md-2 p-1 text-center"
+										ng-click="showModal('#modal1')" style="cursor: pointer;">
+										<i class="fa-solid fa-truck-ramp-box text"></i>&ensp; <span
+											class="fw-bold text">Chính Sách Khách Sỉ</span>
+									</div>
+									<div class="col-md-4 p-lg-4 p-md-2 p-1 text-center"
+										ng-click="showModal('#modal2')" style="cursor: pointer;">
+										<i class="fa-solid fa-truck-fast text fs-5"></i>&ensp; <span
+											class="fw-bold text">Thời Gian Giao Hàng</span>
+									</div>
+									<div class="col-md-4 p-lg-4 p-md-2 p-1 text-center"
+										ng-click="showModal('#modal3')" style="cursor: pointer;">
+										<i class="fa-solid fa-repeat text"></i>&ensp; <span
+											class="fw-bold text">Chính Sách Đổi Trả</span>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+
+
+<div class="modal fade" id="modal1" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5 text fw-bold">Chính Sách Khách Sỉ</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Hiện nay, do mức chiết khấu trên Smartbook.com rất cao, đặc biệt vào
+				các thời điểm chạy chương trình. Do đó đối với mỗi chương trình số
+				lượng sản phẩm giảm sốc có giới hạn nhất định, vì vậy để đảm bảo
+				quyền lợi của từng khách hàng, chúng tôi xin thông báo tiêu chí xét
+				“Đơn Hàng Sỉ” và chính sách như sau: <br>1. Đơn hàng được gọi
+				là “đơn hàng sỉ” khi có tổng giá trị các đơn hàng trong 1 ngày có
+				giá trị: từ 3.000.000 đồng (Ba triệu đồng) trở lên. <br>- Các
+				đơn hàng có cùng thông tin người mua hàng (cùng số điện thoại, cùng
+				email hoặc cùng địa chỉ nhận hàng) thì được tính là đơn hàng của 1
+				khách hàng. <br> <br>2. Chính sách giá (% chiết khấu giảm
+				giá). Đây là chính sách chung chỉ mang tính tương đối. Xin quý khách
+				vui lòng liên lạc với Smartbook để có chính sách giá chính xác nhất: <br>-
+				Đối với Nhóm hàng sách kinh tế, Văn học: áp dụng mức giảm giá trên
+				web tối đa không vượt quá 30%. <br>- Đối với Nhóm hàng sách
+				thiếu nhi và tâm lý kỹ năng: áp dụng mức giảm giá trên web tối đa
+				không vượt quá 20%. <br>- Đối với Nhóm hàng sách từ điển và
+				sách ngoại văn : áp dụng mức giảm giá trên web tối đa không vượt quá
+				10%. <br>- Đối với Nhóm hàng văn phòng phẩm, đồ chơi, dụng cụ
+				học sinh: áp dụng mức giảm giá trên web tối đa không vượt quá 15%. <br>-
+				Đối với Nhóm hàng giấy photo, sản phẩm điện tử, văn hóa phẩm: áp
+				dụng mức giảm giá trên web tối đa không vượt quá 5%. <br> <br>Quý
+				khách có nhu cầu mua sỉ, vui lòng liên hệ phòng kinh doanh
+				Smartbook.com: 1900 89 83 86 hoặc Email: info@smartbook.com.vn.
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modal2" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5 text fw-bold">Thời Gian Giao Hàng</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				THÔNG TIN ĐÓNG GÓI, VẬN CHUYỂN HÀNG <br>Với đa phần đơn hàng,
+				Smartbook.com cần vài giờ làm việc để kiểm tra thông tin và đóng gói
+				hàng. Nếu các sản phẩm đều có sẵn hàng, Smartbook.com sẽ nhanh chóng
+				bàn giao cho đối tác vận chuyển. Nếu đơn hàng có sản phẩm sắp phát
+				hành, Smartbook.com sẽ ưu tiên giao những sản phẩm có hàng trước cho
+				Quý khách hàng. <br>Trong một số trường hợp, hàng nằm không có
+				sẵn tại kho gần nhất, thời gian giao hàng có thể chậm hơn so với dự
+				kiến do điều hàng. Các phí vận chuyển phát sinh, Smartbook.com sẽ hỗ
+				trợ hoàn toàn. <br>Thời gian giao hàng không tính thứ 7, Chủ
+				nhật, các ngày Lễ, Tết và không bao gồm tuyến huyện đảo xa. <br>
+				<br>THỜI GIAN VÀ CHI PHÍ GIAO HÀNG TẠI TỪNG KHU VỰC TRONG LÃNH
+				THỔ VIỆT NAM: <br>1. Nội thành TP.HCM và Hà Nội <br>Thời
+				gian: 1-2 ngày <br>Chi phí: 15.000đ/ đơn hàng (không giới hạn
+				giá trị, áp dụng từ 01.01.2022) <br> <br>2. Các tỉnh thành
+				khác <br>Thời gian: 2-3 ngày <br>Chi phí: 30.000đ/ đơn
+				hàng (không giới hạn giá trị, áp dụng từ 01.01.2022) <br> <br>Lưu
+				ý: Từ ngày 01/12/2022, Smartbook.com sẽ phụ thu thêm 5.000đ cho đơn
+				hàng chứa sản phẩm Tập học sinh (số lượng từ 5 cuốn trở lên) hoặc
+				Sách Giáo Khoa, cộng trực tiếp vào chi phí giao hàng thông thường.
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="modal3" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5 text fw-bold">Chính Sách Đổi/Trả
+					Hàng</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="col-main small">
+					<p style="margin-bottom: 0.11in;" align="center">
+						<span style="font-family: Times New Roman, serif;"><span
+							style="font-size: large;"><strong>CHÍNH SÁCH
+									ĐỔI / TRẢ </strong><strong>/</strong><strong> HOÀN TIỀN</strong></span></span>
+					</p>
+					<p style="text-align: center;">
+						<strong>Áp dụng cho toàn bộ đơn hàng của Quý Khách tại&nbsp;</strong><a href="#home"><strong>Smartbook.com</strong></a>
+					</p>
+					<p>
+						Chúng tôi luôn trân trọng sự tin tưởng và ủng hộ của quý khách
+						hàng khi trải nghiệm mua hàng tại <a href="#home"><strong>Smartbook.com</strong></a>.
+						Do đó chúng tôi luôn cố gắng hoàn thiện dịch vụ tốt nhất để phục
+						vụ mọi nhu cầu mua sắm của quý khách.
+					</p>
+					<p>
+						<a href="#home"><strong>Smartbook.com</strong></a>
+						chúng tôi luôn luôn cam kết tất cả các sản phẩm bán tại <a
+							href="#home"><strong>Smartbook.com</strong></a>
+						100% là những sản phẩm chất lượng và xuất xứ nguồn gốc rõ ràng,
+						hợp pháp cũng như an toàn cho người tiêu dùng. Để việc mua sắm của
+						quý khách tại <a href="#home"><strong>Smartbook.com</strong></a>
+						là trải nghiệm dịch vụ thân thiện, chúng tôi hy vọng quý khách sẽ
+						kiểm tra kỹ các nội dung sau trước khi nhận hàng:&nbsp;
+					</p>
+					<ul>
+						<li>
+							<p>Thông tin sản phẩm: tên sản phẩm và chất lượng sản phẩm.</p>
+						</li>
+						<li>
+							<p>Số lượng sản phẩm.</p>
+						</li>
+						<li>
+							<p>
+								Thông tin sản phẩm, người nhận <em><strong>(Đối
+										chiếu với thông tin trên phiếu giao hàng được bỏ trong hộp</strong></em>)
+								trong lúc nhận hàng trước khi ký nhận và thanh toán tiền cho
+								nhân viên giao nhận.
+							</p>
+						</li>
+					</ul>
+					<p>Trong trường hợp hiếm hoi sản phẩm quý khách nhận được có
+						khiếm khuyết, hư hỏng hoặc không như mô tả, Smartbook.com cam kết bảo
+						vệ khách hàng bằng chính sách đổi trả/ hoàn tiền trên tinh thần
+						bảo vệ quyền lợi người tiêu dùng nhằm cam kết với quý khách về
+						chất lượng sản phẩm và dịch vụ của chúng tôi.</p>
+					<p>
+						Khi quý khách hàng có hàng hóa mua tại <a
+							href="#home"><strong>Smartbook.com</strong></a>cần
+						đổi/ trả/bảo hành/hoàn tiền, xin quý khách hàng liên hệ với chúng
+						tôi qua hotline <strong>1900 89 83 86</strong> hoặc truy cập <a
+							href="#home"><strong>smartbook.com/chinh-sach-doi-tra-hang</strong></a>
+						để tìm hiểu thêm về chính sách đổi/trả:<a
+							style="background-color: #ffffff;" name="_GoBack"></a>
+					</p>
+					<strong>1. Thời gian áp dụng đổi/trả</strong><br>
+					<table class="table-bordered table">
+						<tbody>
+							<tr>
+								<td>
+									<p>&nbsp;</p>
+								</td>
+								<td>
+									<p>
+										<strong>KỂ TỪ KHI </strong><strong>SMARTBOOK.COM </strong><strong>GIAO HÀNG THÀNH CÔNG</strong>
+									</p>
+								</td>
+								<td>
+									<p>
+										<strong>SẢN PHẨM LỖI<br> (do nhà cung cấp)
+										</strong>
+									</p>
+								</td>
+								<td>
+									<p>
+										<strong>SẢN PHẨM KHÔNG LỖI&nbsp;(*)</strong>
+									</p>
+								</td>
+								<td>
+									<p>
+										<strong>SẢN PHẨM LỖI DO NGƯỜI SỬ DỤNG</strong>
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<td rowspan="4">
+									<p>Sản phẩm Điện tử, Đồ chơi điện - điện tử, điện gia
+										dụng,... (có tem phiếu bảo hành từ nhà cung cấp)</p>
+								</td>
+								<td rowspan="2">
+									<p>7 ngày đầu tiên</p>
+								</td>
+								<td>
+									<p>Đổi mới</p>
+								</td>
+								<td rowspan="3">
+									<p>Trả hàng không thu phí</p>
+								</td>
+								<td rowspan="4">
+									<p>Bảo hành hoặc sửa chữa có thu phí theo quy định của nhà
+										cung cấp.</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>Trả không thu phí</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>8 - 30 ngày</p>
+								</td>
+								<td>
+									<p>Bảo hành</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>30 ngày trở đi</p>
+								</td>
+								<td>
+									<p>Bảo hành</p>
+								</td>
+								<td>
+									<p>Không hỗ trợ đổi/ trả</p>
+								</td>
+							</tr>
+							<tr>
+								<td rowspan="3">
+									<p>Voucher/ E-voucher</p>
+								</td>
+								<td rowspan="2">
+									<p>30 ngày đầu tiên</p>
+								</td>
+								<td>
+									<p>Đổi mới</p>
+								</td>
+								<td rowspan="2">
+									<p>Không hỗ trợ đổi/ trả</p>
+								</td>
+								<td rowspan="2">
+									<p>Không hỗ trợ đổi/ trả</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>Trả hàng không thu phí</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>30 ngày trở đi</p>
+								</td>
+								<td colspan="3">
+									<p>Không hỗ trợ đổi trả</p>
+								</td>
+							</tr>
+							<tr>
+								<td rowspan="3">
+									<p>Đối với các ngành hàng còn lại</p>
+								</td>
+								<td rowspan="2">
+									<p>30 ngày đầu tiên</p>
+								</td>
+								<td>
+									<p>Đổi mới</p>
+								</td>
+								<td rowspan="2">
+									<p>Trả hàng không thu phí</p>
+								</td>
+								<td rowspan="3">
+									<p>Không hỗ trợ đổi/ trả</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>Trả không thu phí</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>30 ngày trở đi</p>
+								</td>
+								<td colspan="2">
+									<p>Không hỗ trợ đổi/ trả</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<p>&nbsp;</p>
+					<ul>
+						<li>
+							<p>Smartbook.com sẽ tiếp nhận thông tin yêu cầu đổi trả của quý
+								khách trong vòng 3 ngày kể từ khi quý khách nhận hàng thành
+								công.</p>
+						</li>
+						<li>
+							<p>Sau khi Smartbook.com xác nhận mail tiếp nhận yêu cầu kiểm
+								tra xử lý, Smartbook.com sẽ liên hệ đến quý khách để xác nhận thông
+								tin hoặc nhờ bổ sung thông tin (nếu có). Trường hợp không liên
+								hệ được Smartbook.com rất tiếc xin được phép từ chối xử lý yêu cầu.
+								Thời gian Smartbook.com liên hệ trong giờ hành chính tối đa 3 lần
+								trong vòng 7 ngày sau khi nhận thông tin yêu cầu.</p>
+						</li>
+						<li>
+							<p>Chúng tôi sẽ kiểm tra các trường hợp trên và giải quyết
+								cho quý khách tối đa trong 30 ngày làm việc kể từ khi quý khách
+								nhận được hàng, quá thời hạn trên rất tiếc chúng tôi không giải
+								quyết khiếu nại.</p>
+						</li>
+					</ul>
+					<p style="display: inline !important;">
+						<strong>2. Các trường hợp yêu cầu đổi trả</strong>
+					</p>
+					<ul>
+						<li>
+							<p>Lỗi kỹ thuật của sản phẩm - do nhà cung cấp (sách thiếu
+								trang, sút gáy, trùng nội dung, sản phẩm điện tử, đồ chơi điện –
+								điện tử không hoạt động..)</p>
+						</li>
+						<li>
+							<p>Giao nhầm/ giao thiếu (thiếu sản phẩm đã đặt, thiếu phụ
+								kiện, thiếu quà tặng kèm theo)</p>
+						</li>
+						<li>
+							<p>Chất lượng hàng hóa kém, hư hại do vận chuyển.</p>
+						</li>
+						<li>
+							<p>Hình thức sản phẩm không giống mô tả ban đầu.</p>
+						</li>
+						<li>
+							<p>Quý khách đặt nhầm/ không còn nhu cầu (*)</p>
+						</li>
+					</ul>
+					<p>(*) Đối với các Sản phẩm không bị lỗi, chỉ áp dụng khi sản
+						phẩm đáp ứng đủ điều kiện sau:</p>
+					<p>
+						Quý khách&nbsp;có thể trả lại sản phẩm đã mua tại&nbsp;<strong>Smartbook.com</strong>
+						trong vòng 30 ngày kể từ khi nhận hàng với đa số sản phẩm khi thỏa
+						mãn các điều kiện sau:
+					</p>
+					<ul>
+						<li>
+							<p>Sản phẩm không có dấu hiệu đã qua sử dụng, còn nguyên tem,
+								mác hay niêm phong của nhà sản xuất.</p>
+						</li>
+						<li>
+							<p>Sản phẩm còn đầy đủ phụ kiện hoặc phiếu bảo hành cùng quà
+								tặng kèm theo (nếu có).</p>
+						</li>
+						<li>
+							<p>Nếu là sản phẩm điện – điện tử thì chưa bị kích hoạt, chưa
+								có sao ghi dữ liệu vào thiết bị.</p>
+						</li>
+					</ul>
+					<strong>3. Điều kiện đổi trả</strong><br>
+					<p>
+						<strong>Smartbook.com</strong> hỗ trợ đổi/ trả sản phẩm cho quý khách
+						nếu:
+					</p>
+					<ul>
+						<li>
+							<p>Sản phẩm còn nguyên bao bì như hiện trạng ban đầu.</p>
+						</li>
+						<li>
+							<p>Sản phầm còn đầy đủ phụ kiện, quà tặng khuyến mãi kèm
+								theo.</p>
+						</li>
+						<li>
+							<p>Hóa đơn GTGT (nếu có).</p>
+						</li>
+						<li>
+							<p>Cung cấp đầy đủ thông tin đối chứng theo yêu cầu (điều 4).</p>
+						</li>
+					</ul>
+					<p style="display: inline !important;">
+						<strong>4. Quy trình đổi trả</strong>
+					</p>
+					<ul>
+						<li>
+							<p>
+								Quý khách vui lòng thông tin đơn hàng cần hỗ trợ đổi trả theo
+								Hotline 1900 89 83 86 hoặc email về địa chỉ: <strong>cskh@smartbook.com.vn</strong>
+								với tiêu đề <strong>“Đổi Trả Đơn Hàng " Mã đơn hàng".</strong>
+							</p>
+						</li>
+						<li>
+							<p>Quý khách cần cung cấp đính kèm thêm các bằng chứng để đối
+								chiếu/ khiếu nại sau:</p>
+						</li>
+					</ul>
+					<p style="padding-left: 60px;">+ Video clip mở kiện hàng từ lúc
+						bắt đầu khui ngoại quan đến kiểm tra sản phẩm bên trong thùng
+						hàng.</p>
+					<p style="padding-left: 60px;">+ Hình chụp tem kiện hàng có thể
+						hiện mã đơn hàng.</p>
+					<p style="padding-left: 60px;">+ Hình chụp tình trạng ngoại
+						quan (băng keo, seal, hình dạng thùng hàng, bao bì), đặc biệt các
+						vị trí nghi ngờ có tác động đến sản phẩm (móp méo, ướt, rách...)</p>
+					<p style="padding-left: 60px;">+ Hình chụp tình trạng sản phẩm
+						bên trong, nêu rõ lỗi kỹ thuật nếu có.</p>
+					<ul>
+						<li>Để đảm bảo quyền lợi khách hàng và để <strong>Smartbook.com</strong>
+							có cơ sở làm việc với các bộ phận liên quan, tất cả yêu cầu đổi/
+							trả/ bảo hành quý khách cần cung cấp hình ảnh/ clip sản phẩm lỗi.
+							Quá thời gian đổi/ trả sản phẩm nếu chưa nhận được đủ hình ảnh/
+							clip từ quý khách, <strong>Smartbook.com</strong> xin phép từ chối
+							hỗ trợ.
+						</li>
+					</ul>
+					<table class="table-bordered table">
+						<tbody>
+							<tr>
+								<td>
+									<p>
+										<strong>STT</strong>
+									</p>
+								</td>
+								<td>
+									<p>
+										<strong>Nội dung</strong>
+									</p>
+								</td>
+								<td>
+									<p>
+										<strong>Cách thức giải quyết</strong>
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>1</p>
+								</td>
+								<td>
+									<p>Lỗi kỹ thuật của sản phẩm - do nhà cung cấp (sách thiếu
+										trang, sút gáy, trùng nội dung, sản phẩm điện tử không hoạt
+										động..)</p>
+								</td>
+								<td>
+									<p>Smartbook.com có sản phẩm→ đổi mới cùng sản phẩm</p>
+									<p>
+										Smartbook.com hết hàng→ Hoàn tiền hoặc quý khách có thể chọn mặt
+										hàng khác tại website <span
+											style="text-decoration: underline;"><a
+											href="#home">www.smartbook.com</a></span>.
+									</p>
+									<p>Đổi/trả không thu phí</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>2</p>
+								</td>
+								<td>
+									<p>Sản phẩm hỏng do quý khách</p>
+								</td>
+								<td>
+									<p>Không hỗ trợ đổi/ trả</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>3</p>
+								</td>
+								<td>
+									<p>Lý do đổi/trả sản phẩm như: khách đặt nhầm hoặc không
+										còn nhu cầu.</p>
+								</td>
+								<td>
+									<p>&nbsp;</p>
+									<p>Hỗ trợ thu hồi và hoàn tiền 100% giá trị sản phẩm cho
+										quý khách hàng.</p>
+									<p>**Lưu ý: Smartbook.com rất tiếc sẽ không hỗ trợ hoàn lại
+										chi phí vận chuyển trong đơn hàng cho trường hợp này.</p>
+									<p>Đổi /trả không thu phí</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>4</p>
+								</td>
+								<td>
+									<p>Giao nhầm/ giao thiếu (thiếu sản phẩm đã đặt, thiếu phụ
+										kiện, thiếu quà tặng kèm theo)</p>
+								</td>
+								<td>
+									<p>Giao nhầm → Đổi lại đúng sản phẩm đã đặt.</p>
+									<p>Giao thiếu → Giao bù thêm số lượng còn thiếu theo đơn
+										hàng.</p>
+									<p>Đổi /trả không thu phí</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>5</p>
+								</td>
+								<td>
+									<p>Chất lượng hàng hóa kém do vận chuyển</p>
+								</td>
+								<td>
+									<p>Khi quý khách hàng nhận gói hàng bị móp méo, ướt, chúng
+										tôi khuyến cáo khách hàng nên kiểm tra thực tế hàng hóa bên
+										trong ngay thời điểm nhận hàng, vui lòng phản ảnh hiện trang
+										hàng hóa lên bill nhận hàng từ phía nhân viên giao nhận và
+										liên lạc với chúng tôi về hotline 1900-636467 trong vòng 48
+										giờ để được hỗ trợ giải quyết cụ thể.</p>
+									<p>Đổi /trả không thu phí</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>6</p>
+								</td>
+								<td>
+									<p>Hình thức sản phẩm không giống mô tả ban đầu</p>
+								</td>
+								<td>
+									<p>Hãy liên hệ với chúng tôi qua số hotline 1900 89 83 86,
+										chúng tôi sẵn sàng lắng nghe và giải quyết cho bạn (cụ thể
+										theo từng trường hợp).</p>
+									<p>Đổi /trả không thu phí</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<p>&nbsp;</p>
+					<p style="display: inline !important;">
+						<strong>5. Cách thức chuyển sản phẩm đổi trả về </strong><a
+							href="#home"><strong>Smartbook.com</strong></a>
+					</p>
+					<ul>
+						<li>
+							<p>Khi yêu cầu đổi trả được giải quyết, quý khách vui lòng
+								đóng gói sản phẩm như hiện trạng khi nhận hàng ban đầu (bao gồm
+								sản phẩm, quà tặng, phụ kiện kèm theo sản phẩm,…nếu có).</p>
+						</li>
+						<li>
+							<p>
+								Hóa đơn giá trị gia tăng của <a href="#home"><strong>Smartbook.com</strong></a>
+								(nếu có).
+							</p>
+						</li>
+						<li>
+							<p>Phụ kiện đi kèm sản phẩm và quà tặng khuyến mãi kèm theo
+								(nếu có).</p>
+						</li>
+						<li>
+							<p>Quý khách cần quay video clip đóng gói sản phẩm để làm
+								bằng chứng đối chiếu/ khiếu nại liên quan đến đổi trả về sau
+								(nếu cần).</p>
+						</li>
+						<li>
+							<p>
+								Quý khách vui lòng chịu trách nhiệm về trạng thái nguyên vẹn của
+								sản phẩm khi gửi về <a href="#home"><strong>Smartbook.com</strong></a><strong>.</strong><strong>&nbsp;</strong>
+							</p>
+						</li>
+						<li>
+							<p>
+								Sau khi nhận được sản phẩm quý khách gởi về, <a
+									href="#home"><strong>Smartbook.com</strong></a>
+								sẽ phản hồi và cập nhật thông tin trên từng giai đoạn xử lý đến
+								quý khách qua điện thoại/email .
+							</p>
+						</li>
+					</ul>
+					<p>
+						<strong>Lưu ý khác:</strong>
+					</p>
+					<p>
+						(*) Các sản phẩm thuộc "Phiên chợ sách cũ" sẽ không được áp dụng
+						chính sách đổi trả của <strong>Smartbook.com</strong>.
+					</p>
+					<p>(*) Nếu quý khách hủy đơn hàng cũ, đã thanh toán thành công,
+						mà không có nhu cầu đặt lại đơn hàng khác, hoặc quý khách yêu cầu
+						trả hàng hoàn tiền → chúng tôi sẽ hoàn tiền lại cho quý khách qua
+						hình thức thanh toán ban đầu, đối với các đơn hàng quý khách thanh
+						toán bằng tiền mặt sẽ được hoàn qua tài khoản Ngân hàng do quý
+						khách chỉ định</p>
+					<p>Thời gian hoàn tiền được quy định tại Điều 6.</p>
+					<p>(*) Không áp dụng đổi / trả / hoàn tiền đối với mặt hàng
+						Chăm Sóc Cá Nhân và các Đơn Hàng Bán Sỉ.</p>
+					<p>
+						<strong>6. Thời gian hoàn tiền</strong>
+					</p>
+					<ul>
+						<li>
+							<p>
+								Đối với những đơn hàng thanh toán trả trước: sau khi cập nhật
+								hủy, thời gian hoàn tiền sẽ tùy thuộc vào phương thức thanh
+								toán. Quý khách vui lòng tham khảo thời gian hoàn tiền như sau:<br>
+								&nbsp;
+							</p>
+						</li>
+					</ul>
+					<table class="table-bordered table">
+						<tbody>
+							<tr>
+								<td>
+									<p>
+										<strong>Phương thức thanh toán</strong>
+									</p>
+								</td>
+								<td>
+									<p>
+										<strong>Thời gian hoàn tiền</strong>
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>ATM nội địa/ Cổng Zalo Pay/ Cổng VNPay</p>
+								</td>
+								<td>
+									<p>5 - 7 ngày làm việc</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>Chuyển khoản</p>
+								</td>
+								<td>
+									<p>5 - 7 ngày làm việc</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>Visa/ Master/ JCB</p>
+								</td>
+								<td>
+									<p>5 - 7 ngày làm việc (*)</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>Ví Momo/ Moca/Zalopay/ShopeePay</p>
+								</td>
+								<td>
+									<p>1 - 3 ngày làm việc</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>Fpoint</p>
+								</td>
+								<td>
+									<p>24 giờ</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<p>
+						<br> (*) Lưu ý:<br> - Đối với thẻ Visa/ Master/
+						JCB,&nbsp; số tiền hoàn sẽ được ngân hàng chuyển vào tài khoản quý
+						khách dao động 1-3 tuần làm việc (tùy theo chính sách của từng
+						ngân hàng).&nbsp;<br> - Ngày làm việc không bao gồm thứ 7,
+						chủ nhật và ngày lễ.
+					</p>
+					<ul>
+						<li>
+							<p>Đối với những đơn hàng trả hàng hoàn tiền:</p>
+						</li>
+						<li>
+							<p>Thời gian hoàn tiền được bắt đầu tính kể từ thời điểm
+								Smartbook.com nhận được hàng hoàn trả và xác nhận với quý khách về
+								việc hàng hoàn trả đáp ứng các điều kiện trả hàng được quy định
+								tại chính sách này. Thời gian hoàn tiền tuân thủ theo quy định
+								tại Mục 6 này.</p>
+						</li>
+						<li>
+							<p>Đối với các đơn hàng hoàn tiền, hình thức thanh toán của
+								quý khách là tiền mặt (COD): Smartbook.com sẽ hoàn tiền qua tài
+								khoản Ngân hàng do quý khách chỉ định.</p>
+						</li>
+					</ul>
+					<p>Trong trường hợp đã quá thời gian trên quý khách chưa nhận
+						được tiền hoàn, vui lòng liên hệ ngân hàng phát hành thẻ hoặc liên
+						hệ bộ phận Chăm sóc khách hàng của Smartbook.com .&nbsp;</p>
+					<p>
+						<strong>Nếu cần hỗ trợ thêm</strong><strong> bất kì thông
+							tin nào, Smartbook nhờ</strong><strong> quý khách liên hệ trực tiếp
+							qua</strong><strong> hotline 1900 89 83 86 </strong><strong>để được hỗ
+							trợ nhanh chóng.</strong>
+					</p>
+					<p>&nbsp;</p>
+					<p>
+						<em>Chính sách sẽ được áp dụng và có</em><em> hiệu lực</em><em>
+							từ ngày</em><em> 01/12/2022</em>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+

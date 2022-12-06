@@ -12,6 +12,10 @@ app.config(function($routeProvider, $locationProvider) {
 		templateUrl: '/smart-book/history',
 		controller: 'HistoryController'
 	})
+	.when("/return", {
+		templateUrl: '/smart-book/return',
+		controller: 'ReturnController'
+	})
 	.when("/book/:id", {
 		templateUrl: '/smart-book/book',
 		controller: 'BookController'
@@ -32,6 +36,7 @@ app.controller("MyController", MyController);
 app.controller("CartController", CartController);
 app.controller("HistoryController", HistoryController);
 app.controller("BookController", BookController);
+app.controller("ReturnController", ReturnController);
 app.controller("registryController", registryController);
 app.controller("readyCtrl",function($rootScope,$http){
 	$http.get("/api/user").then(function(response) {
@@ -46,3 +51,4 @@ app.controller("readyCtrl",function($rootScope,$http){
 		$rootScope.authen = null;
 	}
 })
+
