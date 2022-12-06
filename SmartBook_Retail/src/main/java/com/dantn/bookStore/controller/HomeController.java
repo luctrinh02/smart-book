@@ -33,4 +33,8 @@ public class HomeController {
 	public String login() {
 		return "control/login";
 	}
+	@GetMapping("/smart-book/registry")
+	public String registry() {
+		return "control/registry";
+	}
 }

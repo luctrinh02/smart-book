@@ -49,8 +49,13 @@ public class UserService {
 		u=request.changeToEntity(u);
 		u.setStatus(UserStatusSingleton.getInstance(statusService).get(0));
 		u.setRole(UserRoleSingleton.getInstance(roleService).get(0));
-		this.repository.save(u);
-		HashMap<String, Object> map=DataUltil.setData("ok", "Đăng ký thành công");
+		HashMap<String, Object> map;
+		try {
+			this.repository.save(u);
+			map=DataUltil.setData("ok", "Đăng ký thành công");
+		} catch (Exception e) {
+			map=DataUltil.setData("email", "Email trùng");
+		}
 		return map;
 	}
 	public HashMap<String, Object> profile(UserUpdateRequest request,Principal principal) throws IllegalStateException, IOException{
