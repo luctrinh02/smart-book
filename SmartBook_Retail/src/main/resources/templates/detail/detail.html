@@ -88,7 +88,7 @@
 									<h3 class="fw-bold m-0 fs-5">Sản phẩm mua cùng</h3>
 									<hr class="mt-2 mb-2">
 									<div class="row">
-										<div class="col-lg-2 col-md-4 col-sm-6 p-lg-3 p-md-2 p-sm-1"  ng-repeat="b in books|limitTo:6">
+										<div class="col-lg-2 col-md-4 col-sm-6 p-lg-3 p-md-2 p-sm-1" ng-click="detail(b.id)"  ng-repeat="b in books|limitTo:6">
 											<img class="" src="data:image/jpg;base64,{{b.image}}" height="230px" width="100%">
 											<span class="small">{{b.name}}</span><br>
 											<span class="fw-bold text">{{convertText(b.price - b.price*b.discount/100)}} đ</span><br> 
@@ -252,7 +252,7 @@
 								<div class="p-4">
 									<h3 class="fw-bold m-0 fs-5">Đánh giá từ khách hàng</h3>
 									<hr class="mt-2 mb-2">
-									<div class="row" ng-repeat="m in comments">
+									<div class="row" ng-repeat="m in comments" ng-show="comments.length>0">
 										<div class="col-lg-1 col-md-3 col-4 mt-1 text-end">
 											<img alt="" src="data:image/jpg;base64,{{m.book.image}}" height="50px" width="50px" class="rounded-circle">
 										</div>
@@ -263,13 +263,17 @@
 											<i ng-show="m.rate >= 3" class="bi bi-star-fill text-warning"></i>
 											<i ng-show="m.rate >= 4" class="bi bi-star-fill text-warning"></i>
 											<i ng-show="m.rate >= 5" class="bi bi-star-fill text-warning"></i>
-											<div class="mt-lg-2 mt-md-1 mt-sm-1">
-												{{m.content}}
+											<div class="mt-lg-2 mt-md-1 mt-sm-1"> {{m.content}}
 											</div>
 										</div>
 										<hr class="mt-2 mb-2" style="color: #A9A9A9">
 									</div>
-								
+									<div class="row"  style="color: #A9A9A9" ng-show="comments.length==0">
+										<div class="col-lg-11 col-md-9 col-8">
+											<span>Chưa có đánh giá</span><br>
+										</div>
+										
+									</div>
 								</div>
 							</div>
 						</div>
