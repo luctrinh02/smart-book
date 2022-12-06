@@ -34,10 +34,14 @@ function HistoryController($scope, $http) {
 		if ($scope.details.length == 0) {
 			$http.get("/api/bill/" + id).then(function(response) {
 				$scope.details = response.data.data;console.log($scope.details);
-				let today = new Date().setHours(7, 0, 0, 0);
-				let chek = new Date($scope.details[0].bill.createdTime).setHours(7, 0, 0, 0);
-				if(today-chek<=432000000 && $scope.details[0].bill.status.id==5){
-					$scope.isShowReturn=true;
+				if($scope.details[0].bill.status.id==5){
+					let today = new Date().setHours(7, 0, 0, 0);
+					let chek = new Date($scope.details[0].bill.updatedTime).setHours(7, 0, 0, 0);
+					if(today-chek<=432000000){
+						$scope.isShowReturn=true;
+					}else{
+						$scope.isShowReturn=false;
+					}
 				}else{
 					$scope.isShowReturn=false;
 				}

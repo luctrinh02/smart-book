@@ -70,8 +70,13 @@ function registryController($scope, $http) {
                 sleep(1500).then(() => {
                     window.location.href="/smart-book/login"
                 })
-			} else {
+			} else if(response.data.statusCode == "email") {
 				document.getElementById("email").innerText = response.data.data;
+			}else{
+				Toast.fire({
+					icon: 'error',
+					title: "Lỗi dữ liệu"
+				})
 			}
 		})
 	}
