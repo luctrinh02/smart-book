@@ -50,9 +50,20 @@ public class UserApi {
 		}
 		return ResponseEntity.ok(user);
 	}
+	
+	@PostMapping("/before")
+	public ResponseEntity<?> check(@RequestBody @Valid UserRequest request, BindingResult result) {
+		if (result.hasErrors()) {
+			List<ObjectError> errors = result.getAllErrors();
+			HashMap<String, Object> map = DataUltil.setData("error", errors);
+			return ResponseEntity.ok(map);
+		} else {
+			return ResponseEntity.ok(DataUltil.setData("ok", ""));
+		}
+	}
 
 	@PostMapping("")
-	public ResponseEntity<?> registry(@RequestBody @Valid UserRequest request, BindingResult result) {
+	public ResponseEntity<?> registry(@RequestBody UserRequest request, BindingResult result) {
 		if (result.hasErrors()) {
 			List<ObjectError> errors = result.getAllErrors();
 			HashMap<String, Object> map = DataUltil.setData("ok", errors);

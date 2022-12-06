@@ -1,5 +1,5 @@
 <main>
-    <div class="container">
+    <div class="container mt-5">
 
         <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
             <div class="container">
@@ -12,49 +12,100 @@
 
                                 <div class="pt-4 pb-2">
                                     <div class="d-flex justify-content-center py-3">
-                                        <a href="#home" class="logo d-flex align-items-center w-auto"> <img
-                                                src="/index/img/logo.jpg" alt=""> <span class="d-none d-lg-block">Smart
+                                        <a href="#home" class="logo d-flex align-items-center w-auto">
+                                             <!-- <img src="/index/img/logo.jpg" alt="">  -->
+                                             <span class="d-none d-lg-block">Smart
                                                 Book</span>
                                         </a>
                                     </div>
 
                                     <p class="text-center small">Đăng ký tài khoản Smart Book</p>
                                 </div>
-                                <form class="row g-3 needs-validation" novalidate method="post" action="/login">
+                                <form class="row g-3 needs-validation">
                                     <div class="col-12">
-                                        <label for="yourUsername" class="form-label">Email</label>
+                                        <label for="emailInput" class="form-label">Email *</label>
                                         <div class="input-group has-validation">
                                             <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                            <input type="text" name="username" class="form-control" placeholder="Email"
-                                                id="yourUsername" required>
-                                            <div class="invalid-feedback">Vui lòng nhập email</div>
+                                            <input id="emailInput" type="text" name="email" class="form-control"
+                                                placeholder="Email">
                                         </div>
+                                        <small class="text-danger" id="email"></small>
                                     </div>
-
                                     <div class="col-12">
-                                        <label for="yourPassword" class="form-label">Mật khẩu</label>
+                                        <label for="phoneNumberInput" class="form-label">Số điện thoại *</label>
+                                        <div class="input-group has-validation">
+                                            <input type="text" name="phoneNumber" class="form-control"
+                                                placeholder="Số điện thoại" id="phoneNumberInput" required>
+                                        </div>
+                                        <small class="text-danger" id="phoneNumber"></small>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="fullnameInput" class="form-label">Họ tên *</label>
+                                        <div class="input-group has-validation">
+                                            <input type="text" name="fullname" class="form-control" placeholder="Họ tên"
+                                                id="fullnameInput" required>
+                                        </div>
+                                        <small class="text-danger" id="fullname"></small>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="addressInput" class="form-label">Địa chỉ *</label>
+                                        <div class="input-group has-validation">
+                                            <input type="text" name="address" class="form-control" placeholder="Địa chỉ"
+                                                id="addressInput" required>
+                                        </div>
+                                        <small class="text-danger" id="address"></small>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="yourPassword" class="form-label">Mật khẩu *</label>
                                         <input type="password" name="password" class="form-control"
                                             placeholder="Mật khẩu" id="yourPassword" required>
-                                        <div class="invalid-feedback">Vui lòng nhập mật khẩu</div>
+                                        <small class="text-danger" id="password"></small>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="confirm" class="form-label">Xác nhận mật khẩu</label>
+                                        <input type="password" name="confirm" class="form-control"
+                                            placeholder="Xác nhận mật khẩu" id="confirm" required>
+                                        <small class="text-danger" id="ConfirmPassword"></small>
                                     </div>
                                     <div class="col-12 row mt-2">
-                                        <div class="col-6">
-                                            <input type="checkbox" class="form-check-input" name="remember-me" id="rmm">
-                                            <label class="form-check-label" for="rmm">Lưu đăng nhập</label>
-                                        </div>
                                         <div class="col-6 pe-0 text-end">
                                             <a class="mt-2" href="/smart-book/forgot_password"><span class="small">Quên
                                                     mật khẩu?</span></a>
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary w-100" type="submit">Đăng nhập</button>
+                                        <button class="btn btn-secondary" type="button" ng-click="reset()">Đặt
+                                            lại</button>
+                                        <button class="btn btn-primary" type="button" ng-click="check()">Đăng
+                                            ký</button>
                                     </div>
                                 </form>
 
                             </div>
                         </div>
 
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <a href="#home" class="logo d-flex align-items-center"> 
+                                <!-- <img src="/index/img/logo.jpg"alt=""> -->
+                                 <span class="d-none d-lg-block">Smart Book</span>
+                            </a>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h5 class="card-title m-0 p-0 fs-6">Bạn có chắc muốn đăng ký</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                                ng-click="create()">Chắc chắn</button>
+                        </div>
                     </div>
                 </div>
             </div>
