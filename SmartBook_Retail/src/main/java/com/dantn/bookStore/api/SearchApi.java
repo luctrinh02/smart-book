@@ -2,6 +2,7 @@ package com.dantn.bookStore.api;
 
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,11 @@ public class SearchApi {
 	@Autowired
 	private SuggestService suggestService;
 	@GetMapping("/api/book/search")
-	public ResponseEntity<?> search(@RequestParam("key") String key) throws IOException{
+	public ResponseEntity<?> search(@RequestParam("key") String key,Principal principal) throws IOException{
 		List<Book> list=service.getBook(key);
-		searchService.save(AppConstraint.USER, key);
+		if(principal!=null) {
+			searchService.save(AppConstraint.USER, key);
+		}
 		return ResponseEntity.ok(list);
 	}
 	@GetMapping("/api/book/suggest")

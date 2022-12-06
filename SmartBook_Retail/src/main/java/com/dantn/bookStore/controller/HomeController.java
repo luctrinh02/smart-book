@@ -29,4 +29,12 @@ public class HomeController {
 	public String detailBook() {
 		return "book/detail";
 	}
+	@GetMapping("/smart-book/login")
+	public String login() {
+		return "control/login";
+	}
+	@GetMapping("/smart-book/registry")
+	public String registry() {
+		return "control/registry";
+	}
 }

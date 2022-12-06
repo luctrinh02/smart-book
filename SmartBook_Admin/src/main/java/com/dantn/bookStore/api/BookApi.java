@@ -22,9 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dantn.bookStore.dto.request.BookParamsRequest;
 import com.dantn.bookStore.dto.request.BookRequest;
+import com.dantn.bookStore.dto.request.ExcelDto;
 import com.dantn.bookStore.entities.Book;
 import com.dantn.bookStore.services.BookService;
 import com.dantn.bookStore.ultilities.DataUltil;
+
+import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 
 
 @RestController
@@ -95,7 +98,19 @@ public class BookApi {
 		return ResponseEntity.ok(bookService.getById(id));
 	}
 	
-	
-	
-	
+	@PostMapping("/upload")
+	public ResponseEntity<?> upload(@ModelAttribute ExcelDto dto,Principal principal){
+		try {
+			bookService.saveExcel(dto, principal);
+		} catch (ElasticsearchException e) {
+			return ResponseEntity.ok(1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.ok(3);
+		} catch (RuntimeException e) {
+			return ResponseEntity.ok(4);
+		} 
+		return ResponseEntity.ok(0);
+	}
 }

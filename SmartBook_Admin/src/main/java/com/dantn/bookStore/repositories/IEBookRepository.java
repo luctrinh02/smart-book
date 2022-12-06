@@ -9,11 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dantn.bookStore.elastic.EBook;
+import com.dantn.bookStore.entities.Book;
 import com.dantn.bookStore.ultilities.AppConstraint;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.DeleteRequest;
 import co.elastic.clients.elasticsearch.core.DeleteResponse;
 import co.elastic.clients.elasticsearch.core.GetResponse;
@@ -21,6 +25,7 @@ import co.elastic.clients.elasticsearch.core.IndexResponse;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
 
 @Repository
 public class IEBookRepository {
@@ -92,5 +97,22 @@ public class IEBookRepository {
 	public Query createQuery(String field, String key) {
 		Query query = MatchQuery.of(m -> m.field(field).query(key).fuzziness("1").prefixLength(1))._toQuery();
 		return query;
+	}
+	
+	@SuppressWarnings("null")
+	public void saveAll(List<EBook> books) throws ElasticsearchException, IOException,RuntimeException{
+		BulkRequest.Builder br = new BulkRequest.Builder();
+		for (int i = 0; i < books.size(); i++) {
+			EBook b=books.get(i);
+			br.operations(op -> op.index(idx -> idx.index(indexName).id(b.getId()).document(b)));
+		}
+		BulkResponse result = elasticsearchClient.bulk(br.build());
+		if (result.errors()) {
+		    for (BulkResponseItem item: result.items()) {
+		        if (item.error() != null) {
+		        	throw new RuntimeException(item.error().reason());
+		        }
+		    }
+		}
 	}
 }

@@ -44,15 +44,29 @@ public class UserApi {
 
 	@GetMapping("")
 	public ResponseEntity<?> profile(Principal principal) {
-		User user = service.getByEmail(principal.getName());
+		User user=null;
+		if(principal!=null) {
+			user = service.getByEmail(principal.getName());
+		}
 		return ResponseEntity.ok(user);
+	}
+	
+	@PostMapping("/before")
+	public ResponseEntity<?> check(@RequestBody @Valid UserRequest request, BindingResult result) {
+		if (result.hasErrors()) {
+			List<ObjectError> errors = result.getAllErrors();
+			HashMap<String, Object> map = DataUltil.setData("error", errors);
+			return ResponseEntity.ok(map);
+		} else {
+			return ResponseEntity.ok(DataUltil.setData("ok", ""));
+		}
 	}
 
 	@PostMapping("")
 	public ResponseEntity<?> registry(@RequestBody @Valid UserRequest request, BindingResult result) {
 		if (result.hasErrors()) {
 			List<ObjectError> errors = result.getAllErrors();
-			HashMap<String, Object> map = DataUltil.setData("ok", errors);
+			HashMap<String, Object> map = DataUltil.setData("error", errors);
 			return ResponseEntity.ok(map);
 		} else {
 			HashMap<String, Object> map = service.registry(request, statusService, roleService);

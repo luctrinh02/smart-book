@@ -129,6 +129,7 @@ public class BillApi {
 			book.setAmount(book.getAmount() - cart.getAmount());
 			detail.setBill(bill);
 			detail.setBook(book);
+			detail.setIsComment(false);
 			detail.setAvailable(cart.getAmount());
 			detail.setPrice(
 					book.getPrice().multiply(new BigDecimal(100 - book.getDiscount())).divide(new BigDecimal(100)));

@@ -20,11 +20,35 @@ app.config(function($routeProvider, $locationProvider) {
 		templateUrl: '/smart-book/book',
 		controller: 'BookController'
 	})
-/*	.otherwise({redirectTo: '/home'})
-*/});
+	.when("/login", {
+		templateUrl: '/smart-book/login',
+	})
+	.when("/signup", {
+		templateUrl: '/smart-book/registry',
+		controller: 'registryController'
+	})
+	.otherwise({redirectTo: '/home'})
+});
+function sleep (time) {
+	return new Promise((resolve) => setTimeout(resolve, time));
+  }
 app.controller("MyController", MyController);
 app.controller("CartController", CartController);
 app.controller("HistoryController", HistoryController);
 app.controller("BookController", BookController);
 app.controller("ReturnController", ReturnController);
+app.controller("registryController", registryController);
+app.controller("readyCtrl",function($rootScope,$http){
+	$http.get("/api/user").then(function(response) {
+		if(response.data==""){
+			$rootScope.authen = null;
+		}else{
+			$rootScope.authen = response.data;
+		}
+	})
+	$rootScope.logout = function() {
+		window.location.href = "/logout";
+		$rootScope.authen = null;
+	}
+})
 

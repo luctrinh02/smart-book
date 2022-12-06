@@ -120,6 +120,7 @@ public class ShipmentService {
                             newDetail.setBill(newBill);
                             newDetail.setBook(x.getBook());
                             newDetail.setAmount(x.getAmount());
+                            newDetail.setIsComment(false);
                             newDetail.setPrice(x.getPrice());
                             newDetail.setAvailable(x.getAvailable());
                             billDetailService.save(newDetail);
