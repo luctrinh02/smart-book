@@ -3,6 +3,15 @@ function MyController($scope, $http, $rootScope) {
 	$http.get("/api/book/suggest").then(function(response) {
 		$rootScope.books = response.data;
 	});
+	// $http.get("/api/book/future?condition=createdTime").then(function(response) {
+	// 	$rootScope.book4s = response.data;
+	// });
+	// $http.get("/api/book/future?condition=discount").then(function(response) {
+	// 	$rootScope.book3s = response.data;
+	// });
+	// $http.get("/api/book/future?condition=saleAmount").then(function(response) {
+	// 	$rootScope.book2s = response.data;
+	// });
 	$scope.search = function() {
 		let search = document.getElementById("searchText").value;
 		$http.get("/api/book/search?key=" + search).then(function(response) {

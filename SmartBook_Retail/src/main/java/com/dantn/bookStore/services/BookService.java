@@ -39,4 +39,7 @@ public class BookService {
 	public Book save(Book book) {
 		return this.repository.save(book);
 	}
+	public Page<Book> getFuture(String condition){
+		return this.repository.findFuture(BookStatusSingleton.getInstance(service).get(0),PageRequest.of(0, 24,Sort.by(condition,"id").descending()));
+	}
 }

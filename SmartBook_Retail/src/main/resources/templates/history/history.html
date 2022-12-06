@@ -100,7 +100,7 @@
 
 								</div>
 							</div>
-							<div class="col-4 bg-grey" id="detail" ng-show="details.length>0">
+							<div class="col-5 bg-grey" id="detail" ng-show="details.length>0">
 								<div class="p-3">
 									<h3 class="fw-bold m-0 fs-5">
 										<i class="fa-solid fa-circle-info"></i> Chi tiết đơn hàng<span
@@ -118,7 +118,57 @@
 											<div class="row">
 												<div class="col-4 small">{{detail.book.name}}</div>
 												<div class="col-4 small">{{detail.amount}}</div>
-												<div class="col-4 small">{{convertText(detail.price)}}đ</div>
+												<div class="col-4 small">{{convertText(detail.price)}}đ
+													<i class="fa-solid fa-star" ng-click="openComment($index)" ng-show="!detail.isComment && detail.bill.status.id==5"></i>
+													
+												</div>
+												<div class="modal fade" id="commentModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog modal-lg">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="exampleModalLabel">Đánh giá sách</h5>
+																<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+															</div>
+															<div class="modal-body">
+																<!-- <div class="row"> -->
+																	<div class="form-check form-check-inline">
+																		<input class="form-check-input" type="radio" name="rate{{$index}}" id="rate{{$index}}1" value="1" checked>
+																		<label class="form-check-label" for="rate{{$index}}1">1</label>
+																	</div>
+																	<div class="form-check form-check-inline">
+																		<input class="form-check-input" type="radio" name="rate{{$index}}" id="rate{{$index}}2"  value="2">
+																		<label class="form-check-label" for="rate{{$index}}2">2</label>
+																	</div>
+																	<div class="form-check form-check-inline">
+																		<input class="form-check-input" type="radio" name="rate{{$index}}" id="rate{{$index}}3"  value="3">
+																		<label class="form-check-label" for="rate{{$index}}3">3</label>
+																	</div>
+																	<div class="form-check form-check-inline">
+																		<input class="form-check-input" type="radio" name="rate{{$index}}" id="rate{{$index}}4" value="4">
+																		<label class="form-check-label" for="rate{{$index}}4">4</label>
+																	</div>
+																	<div class="form-check form-check-inline">
+																		<input class="form-check-input" type="radio" name="rate{{$index}}" id="rate{{$index}}5" value="5">
+																		<label class="form-check-label" for="rate{{$index}}5">5</label>
+																	</div>
+																<!-- </div> -->
+																<div class="row mt-2">
+																	<div class="col-2">
+																		<label for="comment">Đánh giá: </label>
+																	</div>
+																	<div class="col-10">
+																		<textarea name="comment{{$index}}" id="commentVal{{$index}}" rows="5" class="form-control"></textarea>
+																	</div>
+																</div>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+																<button type="button" class="btn btn-danger" ng-click="beforeComment($index,detail)">Chắc
+																	chắn</button>
+															</div>
+														</div>
+													</div>
+												</div>
 											</div>
 										</div>
 										<hr class="my-2">
@@ -171,6 +221,23 @@
 								data-bs-dismiss="modal">Không</button>
 							<button type="button" class="btn btn-danger"
 								data-bs-dismiss="modal" ng-click="return()">Chắc chắn</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade" id="conf" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Xác nhận đánh giá</h5>
+						</div>
+						<div class="modal-body text-start" >Bạn chắc chắn đánh giá như này?</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Không</button>
+							<button type="button" class="btn btn-danger"
+								data-bs-dismiss="modal" ng-click="commentFunc()">Chắc chắn</button>
 						</div>
 					</div>
 				</div>

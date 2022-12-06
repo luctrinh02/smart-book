@@ -7,6 +7,11 @@ function HistoryController($scope, $http) {
 	$scope.users = {}
 	$scope.page = 0;
 	$scope.tranSn = "";
+	$scope.comment={
+		detail:"",
+		rate:"",
+		comment:"",
+	}
 	$scope.formatDate = function(date) {
 		let s = date.split("-");
 		return s[2] + "/" + s[1] + "/" + s[0];
@@ -33,7 +38,7 @@ function HistoryController($scope, $http) {
 	$scope.getDetail = function(id) {
 		if ($scope.details.length == 0) {
 			$http.get("/api/bill/" + id).then(function(response) {
-				$scope.details = response.data.data;console.log($scope.details);
+				$scope.details = response.data.data;
 				if($scope.details[0].bill.status.id==5){
 					let today = new Date().setHours(7, 0, 0, 0);
 					let chek = new Date($scope.details[0].bill.updatedTime).setHours(7, 0, 0, 0);
@@ -46,12 +51,12 @@ function HistoryController($scope, $http) {
 					$scope.isShowReturn=false;
 				}
 			});
-			document.getElementById('list').classList.add('col-8');
+			document.getElementById('list').classList.add('col-7');
 			document.getElementById('list').classList.remove("col-12");
 		} else {
 			$scope.details = [];
 			document.getElementById('list').classList.add('col-12');
-			document.getElementById('list').classList.remove("col-8");
+			document.getElementById('list').classList.remove("col-7");
 		}
 	}
 
@@ -131,7 +136,54 @@ function HistoryController($scope, $http) {
 	}
 	$scope.reset = function() {
 		document.getElementById("tranSn").value = "",
-			$scope.tranSn = ""
+		$scope.tranSn = ""
 		$scope.getData(0)
+	}
+	$scope.openComment=function(index){
+		$("#commentModal"+index).modal("show");
+	}
+	$scope.beforeComment=function(index,detail){
+		let radioName="rate"+index;
+		$scope.comment={
+			detailId:{
+				bookId:detail.book.id,
+				billId:detail.bill.id
+			},
+			rate:$("input[name='"+radioName+"']:checked").val(),
+			content:$("#commentVal"+index).val()
+		}
+		$http.post("/api/comment/before",$scope.comment).then(function(response){
+			if(response.data.statusCode=="ok"){
+				$("#commentModal"+index).modal("hide");
+				$("#conf").modal("show");
+			}else{
+				Toast.fire({
+					icon: 'error',
+					title: "Vui lòng nhập đầy đủ",
+				});
+			}
+		})
+	}
+	$scope.commentFunc=function(){
+		$http.post("/api/comment",$scope.comment).then(function(response){
+			if(response.data.statusCode=="ok"){
+				Toast.fire({
+					icon: 'success',
+					title: "Đánh giá thành công",
+				});
+				document.getElementById('list').classList.add('col-12');
+				document.getElementById('list').classList.remove("col-7");
+			}else if(response.data.statusCode=="402"){
+				Toast.fire({
+					icon: 'error',
+					title: "Bạn không có quyền đánh giá sản phẩm",
+				});
+			}else{
+				Toast.fire({
+					icon: 'error',
+					title: "Lỗi dữ liệu",
+				});
+			}
+		})
 	}
 };
