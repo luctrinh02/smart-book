@@ -21,7 +21,57 @@ function CartController($scope, $http) {
 		}
 		$scope.total.toFixed()
 		$scope.items = cartId.length
+	}
+	$scope.getLack = function(price) {
+		return price - $scope.total;
+	}
 
+	$scope.getTotal = function() {
+		if ($scope.total >= 3600000) {
+			return $scope.total + 30000 - 500000;
+		} else if ($scope.total >= 2400000) {
+			return $scope.total + 30000 - 300000;
+		} else if ($scope.total >= 1200000) {
+			return $scope.total + 30000 - 120000;
+		} else {
+			return $scope.total + 30000;
+		}
+	}
+
+	$scope.getCol = function(price) {
+		let rate = Math.floor($scope.total / price * 10);
+		let col = (rate * 1.2).toFixed(0);
+		if (col >= 12) {
+			return "col-12"
+		} else if (col > 0 && col < 12) {
+			return "col-" + col;
+		} else {
+			return "d-none";
+		}
+	}
+
+	$scope.getCol = function(price) {
+		let rate = Math.floor($scope.total / price * 10);
+		let col = (rate * 1.2).toFixed(0);
+		if (col >= 12) {
+			return "col-12"
+		} else if (col > 0 && col < 12) {
+			return "col-" + col;
+		} else {
+			return "d-none";
+		}
+	}
+
+	$scope.getReduced = function() {
+		if ($scope.total >= 3600000) {
+			return 500000;
+		} else if ($scope.total >= 2400000) {
+			return 300000;
+		} else if ($scope.total >= 1200000) {
+			return 120000;
+		} else {
+			return 0;
+		}
 	}
 
 	$scope.convertText = function(price) {
@@ -80,6 +130,7 @@ function CartController($scope, $http) {
 
 		});
 	}
+
 	$scope.pay = function() {
 		console.log(cartId);
 		let data = {

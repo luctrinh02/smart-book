@@ -49,7 +49,6 @@ public class BillApi {
 	private CartService cartService;
 	private BillStatusService statusService;
 	private UserBuyService buyService;
-	
 
 	public BillApi(BillService billService, BillDetailService detailService, UserService userService,
 			BookService bookService, CartService cartService, BillStatusService statusService,
@@ -146,6 +145,15 @@ public class BillApi {
 
 		//
 		BigDecimal total = bookMoney.add(request.getTransportFee());
+
+		if (total.compareTo(new BigDecimal(3600000)) >= 0) {
+			total = total.subtract(new BigDecimal(500000));
+		} else if (total.compareTo(new BigDecimal(2400000)) >= 0) {
+			total = total.subtract(new BigDecimal(300000));
+		} else if (total.compareTo(new BigDecimal(1200000)) >= 0) {
+			total = total.subtract(new BigDecimal(120000));
+		}
+
 		bill.setTotalMoney(total);
 		billService.save(bill);
 		HashMap<String, Object> map = DataUltil.setData("ok", "Đặt hàng thành công");

@@ -63,6 +63,10 @@ function BookController($scope, $http, $routeParams) {
 		}
 		return newString;
 	}
+	
+	$scope.detail = function(id){
+		window.location.href = "/smart-book#/book/"+id;
+	}
 
 	$scope.showModal = function(id) {
 		$(id).modal("show");
