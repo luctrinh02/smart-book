@@ -1,5 +1,8 @@
 package com.dantn.bookStore.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -43,4 +46,12 @@ public class BookApi {
 		Page<Book> page=service.getFuture(condition);
 		return ResponseEntity.ok(page.getContent());
 	}
+	
+	@GetMapping("/api/book/comment/{id}")
+	public ResponseEntity<?> getComment(@PathVariable("id") Integer id){
+		return ResponseEntity.ok(service.getById(id).getComments());
+	}
+	
+
+	
 }
