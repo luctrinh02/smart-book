@@ -13,9 +13,9 @@
 
 
 .btn-them {
-	border: 2px solid #4fba69;
+	border: 2px solid var(--color-main);
 	background: #ffffff;
-	color: #4fba69;
+	color: var(--color-main);
 	width: 100%;
 	border-radius: 10px;
 	padding: 10px;
@@ -23,9 +23,9 @@
 }
 
 .btn-mua {
-	border: 2px solid #4fba69;
+	border: 2px solid var(--color-main);
 	color: #ffffff;
-	background: #4fba69;
+	background: var(--color-main);
 	width: 100%;
 	border-radius: 10px;
 	padding: 10px;
@@ -46,10 +46,10 @@
 }
 
 .text {
-	color: #4fba69 !important;
+	color: var(--color-main) !important;
 }
 .bg, .btn {
-	background-color: #4fba69 !important;
+	background-color: var(--color-main) !important;
 	border: none !important;
 	color: white;
 }
@@ -66,6 +66,7 @@
   --color-default: #212529;
   --color-primary: #purple;
   --color-secondary: #37373f;
+  --color-main : #D2691E;
 }
 
 /* Smooth scroll behavior */

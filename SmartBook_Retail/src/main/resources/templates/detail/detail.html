@@ -5,8 +5,7 @@
 			<nav>
 				<ol class="breadcrumb mt-1 mb-1">
 					<li class="breadcrumb-item"><a href="#home">Smart Book</a></li>
-					<li class="breadcrumb-item"><a href="#home">Chi tiết sản
-							phẩm</a></li>
+					<li class="breadcrumb-item"><a href="#home">Chi tiết sản phẩm</a></li>
 					<li class="breadcrumb-item active">{{book.name}}</li>
 				</ol>
 			</nav>
@@ -19,8 +18,7 @@
 						<div class="row">
 							<div class="col-lg-4 col-md-6">
 								<div class="p-4">
-									<img alt="" src="data:image/jpg;base64,{{book.image}}"
-										height="500px" width="100%">
+									<img alt="" src="data:image/jpg;base64,{{book.image}}" height="500px" width="100%" style="border: 10px solid var(--color-main)">
 								</div>
 							</div>
 							<div class="col-lg-8 col-md-6 bg-grey">
@@ -29,12 +27,12 @@
 									<hr class="mt-2 mb-2">
 									<div class="row">
 										<div class="col-lg-5">
-											<span class="small">Nhà xuất bản: <a href="#"
-												class="text-primary fw-bold">{{book.publisher.name}}</a></span><br>
-											<span class="small">Tác giả: <span class="fw-bold">{{book.author.name}}</span></span>
+											<span class="small">Nhà xuất bản: <a href="#" class="text-primary fw-bold">{{book.publisher.name}}</a></span><br>
+											<span class="small">Năm xuất bản: <span class="fw-bold">{{book.year}}</span></span>
 										</div>
-										<div class="col-lg-5">
-											<span class="small">Thể loại: <span class="fw-bold">{{book.author.name}}</span></span>
+										<div class="col-lg-7">
+											<span class="small">Tác giả: <span class="fw-bold">{{book.author.name}}</span></span><br>
+											<span class="small">Thể loại: <span class="fw-bold">{{types}}</span></span>
 										</div>
 									</div>
 									<div id="star" class="mt-2"></div>
@@ -42,8 +40,8 @@
 										<h1 class="fw-bold text">{{convertText(book.price -
 											book.price*book.discount/100)}} đ</h1>
 										<h5 class="fw-bold text" ng-show="book.discount>0">
-											<del class="small text-danger mt-0">{{convertText(book.price)}}đ</del>
-											&ensp; <span class="badge bg-danger p-1">-{{book.discount}}%</span>
+											<del class="small text-secondary mt-0">{{convertText(book.price)}}đ</del>
+											&ensp; <span class="badge bg-secondary  p-1">-{{book.discount}}%</span>
 										</h5>
 									</div>
 									<div id="returnbill" class="mt-2">
@@ -56,19 +54,21 @@
 										<span class="fw-bold col-lg-2 col-md-4">Số lượng: </span>
 										<div class="col-lg-4 col-md-8">
 											<div class="input-group">
-											  <span class="input-group-text bg" id="input1"><i class="fa-solid fa-minus"></i></span>
-											  <input type="text" class="form-control text-center" value="0">
-											   <span class="input-group-text bg" id="input2"><i class="fa-solid fa-plus"></i></span>
+											  <span class="input-group-text bg" id="input1" ng-click="changeAmount(amount-1)"><i class="fa-solid fa-minus"></i></span>
+											  <input type="number" id="amount" class="form-control text-center" ng-model="amount" ng-keyup="changeAmount(amount)">
+											   <span class="input-group-text bg" id="input2" ng-click="changeAmount(amount+1)"><i class="fa-solid fa-plus"></i></span>
 											</div>
+											<span class="small mt-1">Số lượng còn lại: {{book.amount-amountInCart}} cuốn
+											</span>
 										</div>
 									</div>
 									
 									<div id="action" class="row align-items-center">
 										<div class="col-lg-4 mt-lg-4 mt-2">
-											<button class="btn-them">Thêm vào giỏ hàng</button>
+											<button class="btn-them" ng-click="addToCart(book.id)">Thêm vào giỏ hàng</button>
 										</div> 
 										<div class="col-lg-4 mt-lg-4 mt-2">
-											<button class="btn-mua">Mua ngay</button>
+											<button class="btn-mua" ng-click="buyNow(book.id)">Mua ngay</button>
 										</div>
 									</div>
 								</div>
@@ -78,8 +78,7 @@
 				</div>
 			</div>
 		</div>
-		<div
-			class="row d-flex justify-content-center align-items-center h-100 mt-2">
+		<div class="row d-flex justify-content-center align-items-center h-100 mt-2">
 			<div class="col-12">
 				<div class="card card-registration card-registration-2">
 					<div class="card-body p-0">
@@ -89,70 +88,12 @@
 									<h3 class="fw-bold m-0 fs-5">Sản phẩm mua cùng</h3>
 									<hr class="mt-2 mb-2">
 									<div class="row">
-										<div class="col-lg-2 col-md-4 col-sm-6">
-											<img class="p-lg-3 p-md-2 p-sm-1" alt=""
-												src="/index/img/ban1.jpg" height="250px" width="100%">
-											<span class="small">{{book.name}}</span><br> <span
-												class="fw-bold text">{{convertText(book.price -
-												book.price*book.discount/100)}} đ</span><br> <span
-												class="fw-bold small " ng-show="book.discount>0"> <del
-													class="small text-danger mt-0">{{convertText(book.price)}}đ</del>&ensp;
-												<span class="badge bg-danger p-1">-{{book.discount}}%</span>
-											</span>
-										</div>
-										<div class="col-lg-2 col-md-4 col-sm-6">
-											<img class="p-lg-3 p-md-2 p-sm-1" alt=""
-												src="/index/img/ban1.jpg" height="250px" width="100%">
-											<span class="small">{{book.name}}</span><br> <span
-												class="fw-bold text">{{convertText(book.price -
-												book.price*book.discount/100)}} đ</span><br> <span
-												class="fw-bold small " ng-show="book.discount>0"> <del
-													class="small text-danger mt-0">{{convertText(book.price)}}đ</del>&ensp;
-												<span class="badge bg-danger p-1">-{{book.discount}}%</span>
-											</span>
-										</div>
-										<div class="col-lg-2 col-md-4 col-sm-6">
-											<img class="p-lg-3 p-md-2 p-sm-1" alt=""
-												src="/index/img/ban1.jpg" height="250px" width="100%">
-											<span class="small">{{book.name}}</span><br> <span
-												class="fw-bold text">{{convertText(book.price -
-												book.price*book.discount/100)}} đ</span><br> <span
-												class="fw-bold small " ng-show="book.discount>0"> <del
-													class="small text-danger mt-0">{{convertText(book.price)}}đ</del>&ensp;
-												<span class="badge bg-danger p-1">-{{book.discount}}%</span>
-											</span>
-										</div>
-										<div class="col-lg-2 col-md-4 col-sm-6">
-											<img class="p-lg-3 p-md-2 p-sm-1" alt=""
-												src="/index/img/ban1.jpg" height="250px" width="100%">
-											<span class="small">{{book.name}}</span><br> <span
-												class="fw-bold text">{{convertText(book.price -
-												book.price*book.discount/100)}} đ</span><br> <span
-												class="fw-bold small " ng-show="book.discount>0"> <del
-													class="small text-danger mt-0">{{convertText(book.price)}}đ</del>&ensp;
-												<span class="badge bg-danger p-1">-{{book.discount}}%</span>
-											</span>
-										</div>
-										<div class="col-lg-2 col-md-4 col-sm-6">
-											<img class="p-lg-3 p-md-2 p-sm-1" alt=""
-												src="/index/img/ban1.jpg" height="250px" width="100%">
-											<span class="small">{{book.name}}</span><br> <span
-												class="fw-bold text">{{convertText(book.price -
-												book.price*book.discount/100)}} đ</span><br> <span
-												class="fw-bold small " ng-show="book.discount>0"> <del
-													class="small text-danger mt-0">{{convertText(book.price)}}đ</del>&ensp;
-												<span class="badge bg-danger p-1">-{{book.discount}}%</span>
-											</span>
-										</div>
-										<div class="col-lg-2 col-md-4 col-sm-6">
-											<img class="p-lg-3 p-md-2 p-sm-1" alt=""
-												src="/index/img/ban1.jpg" height="250px" width="100%">
-											<span class="small">{{book.name}}</span><br> <span
-												class="fw-bold text">{{convertText(book.price -
-												book.price*book.discount/100)}} đ</span><br> <span
-												class="fw-bold small " ng-show="book.discount>0"> <del
-													class="small text-danger mt-0">{{convertText(book.price)}}đ</del>&ensp;
-												<span class="badge bg-danger p-1">-{{book.discount}}%</span>
+										<div class="col-lg-2 col-md-4 col-sm-6 p-lg-3 p-md-2 p-sm-1"  ng-repeat="b in books|limitTo:6">
+											<img class="" src="data:image/jpg;base64,{{b.image}}" height="230px" width="100%">
+											<span class="small">{{b.name}}</span><br>
+											<span class="fw-bold text">{{convertText(b.price - b.price*b.discount/100)}} đ</span><br> 
+											<span class="fw-bold small " ng-show="b.discount>0"> <del class="small text-danger mt-0">{{convertText(b.price)}}đ</del>&ensp;
+											<span class="badge bg-danger p-1">-{{b.discount}}%</span>
 											</span>
 										</div>
 									</div>
@@ -163,8 +104,7 @@
 				</div>
 			</div>
 		</div>
-		<div
-			class="row d-flex justify-content-center align-items-center h-100 mt-2">
+		<div class="row d-flex justify-content-center align-items-center h-100 mt-2">
 			<div class="col-12">
 				<div class="card card-registration card-registration-2">
 					<div class="card-body p-0">
@@ -195,6 +135,14 @@
 										</div>
 										<div class="col-lg-10 col-md-7 col-6 mt-lg-2 mt-md-1">
 											<span>{{book.author.name}}</span><br>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-2 col-md-5 col-6 mt-lg-2 mt-md-1 ">
+											<span>Thể lại</span><br>
+										</div>
+										<div class="col-lg-10 col-md-7 col-6 mt-lg-2 mt-md-1">
+											<span>{{types}}</span><br>
 										</div>
 									</div>
 									<div class="row">
@@ -266,8 +214,7 @@
 				</div>
 			</div>
 		</div>
-		<div
-			class="row d-flex justify-content-center align-items-center h-100 mt-2">
+		<div class="row d-flex justify-content-center align-items-center h-100 mt-2">
 			<div class="col-12">
 				<div class="card card-registration card-registration-2">
 					<div class="card-body p-0">
@@ -289,6 +236,40 @@
 										<i class="fa-solid fa-repeat text"></i>&ensp; <span
 											class="fw-bold text">Chính Sách Đổi Trả</span>
 									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row d-flex justify-content-center align-items-center h-100 mt-2">
+			<div class="col-12">
+				<div class="card card-registration card-registration-2">
+					<div class="card-body p-0">
+						<div class="row">
+							<div class="col-lg-12 col-md-12 bg-grey">
+								<div class="p-4">
+									<h3 class="fw-bold m-0 fs-5">Đánh giá từ khách hàng</h3>
+									<hr class="mt-2 mb-2">
+									<div class="row" ng-repeat="m in comments">
+										<div class="col-lg-1 col-md-3 col-4 mt-1 text-end">
+											<img alt="" src="data:image/jpg;base64,{{m.book.image}}" height="50px" width="50px" class="rounded-circle">
+										</div>
+										<div class="col-lg-11 col-md-9 col-8 small">
+											<span class="fw-bold">{{m.user.fullname}}</span><br>
+											<i ng-show="m.rate >= 1" class="bi bi-star-fill text-warning"></i>
+											<i ng-show="m.rate >= 2" class="bi bi-star-fill text-warning"></i>
+											<i ng-show="m.rate >= 3" class="bi bi-star-fill text-warning"></i>
+											<i ng-show="m.rate >= 4" class="bi bi-star-fill text-warning"></i>
+											<i ng-show="m.rate >= 5" class="bi bi-star-fill text-warning"></i>
+											<div class="mt-lg-2 mt-md-1 mt-sm-1">
+												{{m.content}}
+											</div>
+										</div>
+										<hr class="mt-2 mb-2" style="color: #A9A9A9">
+									</div>
+								
 								</div>
 							</div>
 						</div>

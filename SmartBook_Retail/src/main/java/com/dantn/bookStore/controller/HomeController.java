@@ -27,7 +27,7 @@ public class HomeController {
 	}
 	@GetMapping("/smart-book/book")
 	public String detailBook() {
-		return "book/detail";
+		return "detail/detail";
 	}
 	@GetMapping("/smart-book/login")
 	public String login() {

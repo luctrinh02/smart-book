@@ -90,7 +90,7 @@ public class Book implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "book")
 	private List<ReturnBillDetail> returnBillDetails;
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -362,5 +362,7 @@ public class Book implements Serializable {
 	public void setBatch(boolean isBatch) {
 		this.isBatch = isBatch;
 	}
+
+	
 	
 }

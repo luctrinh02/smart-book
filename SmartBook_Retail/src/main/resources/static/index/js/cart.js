@@ -41,7 +41,7 @@ function CartController($scope, $http) {
 	}
 
 	$scope.changeAmount = function(index) {
-		let cartPK = $scope.carts[index].cartPK
+		let cartPK = $scope.carts[index].cartPK;
 		let input = document.getElementById("input" + index);
 		let amount = input.value
 		if (amount != "" && amount != 0 && !isNaN(amount)) {
