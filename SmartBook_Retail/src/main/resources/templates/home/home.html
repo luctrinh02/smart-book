@@ -115,16 +115,16 @@
 		<div class="tab-content" data-aos="fade-up" data-aos-delay="300">
 			<div class="tab-pane fade active show chefs" id="menu-starters">
 				<div class="row gy-5 mt-2">
-					<div class="col-lg-2 col-md-3 d-flex align-items-stretch" ng-click="detail(b.id)" ng-repeat="b in books" data-aos="fade-up" data-aos-delay="100">
+					<div class="col-lg-2 col-md-3 col-sm-6 d-flex align-items-stretch" ng-repeat="b in books" data-aos="fade-up" data-aos-delay="100">
 						<div class="chef-member">
-							<div class="member-img">
-								<img src="data:image/jpg;base64,{{b.image}}" class="img-fluid"
+							<div class="member-img" ng-click="detail(b.id)">
+								<img src="data:image/jpg;base64,{{b.image}}" height="200px"
 									alt="">
-								<div class="social" ng-click="addToCart(b.id)">
-									<a><i class="bi bi-cart-plus-fill text-dark"></i></a>
-								</div>
 							</div>
-							<div class="member-info text-start mt-1">
+							<div class="social" ng-click="addToCart(b.id)">
+									<a><i class="bi bi-cart-plus-fill text-dark"></i></a>
+							</div>
+							<div class="member-info text-start mt-1" ng-click="detail(b.id)">
 								<h6>{{b.name}}</h6>
 								<h5 class="mt-1 mb-0 pb-0 price fw-bold text">{{convertText(b.price
 									- b.price*b.discount/100)}}đ</h5>

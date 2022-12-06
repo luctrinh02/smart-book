@@ -1,4 +1,4 @@
-<section class="h-100 h-custom pb-0 mb-3" style="color: var(--color-primary)">
+<section class="h-100 h-custom pb-0" style="color: var(--color-primary)">
 	<div class="container p-0 pb-0 h-100">
 		<div class="pagetitle text">
 			<nav>
@@ -52,9 +52,7 @@
 												<h6 class="text-black mb-0">{{cart.book.name}}</h6>
 											</div>
 											<div class="col-2 d-flex">
-												<input id="{{'input'+$index}}" min="0" name="quantity"
-													ng-keyup="changeAmount($index)" ng-model="amount"
-													ng-value="cart.amount" type="text"
+												<input id="{{'input'+$index}}" min="0" name="quantity" ng-keyup="changeAmount($index)" ng-model="amount" ng-value="cart.amount" type="text"
 													class="form-control form-control-sm" />
 											</div>
 											<div class="col-3 text-center">
