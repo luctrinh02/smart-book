@@ -15,4 +15,8 @@ public class MailSchedule {
     public void demo() {
         System.out.println("Đây là test mỗi 5 phút 1 lần......");
     }
+    @Scheduled(cron = "0 0 0 ? 1/2 *")
+    public void delete2month() {
+    	
+    }
 }
