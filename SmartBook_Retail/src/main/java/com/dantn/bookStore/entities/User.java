@@ -59,6 +59,9 @@ public class User implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<ReturnBill> returnBills ;
+	@JsonIgnore
+	@OneToMany(mappedBy = "user")
+	private List<UserClickRelation> clickRelations ;
 	public Integer getId() {
 		return id;
 	}
@@ -161,6 +164,12 @@ public class User implements Serializable{
 	}
 	public void setReturnBills(List<ReturnBill> returnBills) {
 		this.returnBills = returnBills;
+	}
+	public List<UserClickRelation> getClickRelations() {
+		return clickRelations;
+	}
+	public void setClickRelations(List<UserClickRelation> clickRelations) {
+		this.clickRelations = clickRelations;
 	}
 	
 }

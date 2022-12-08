@@ -22,10 +22,10 @@ public class SuggestService {
     private ContentService contentService;
     private TypeService typeService;
     private CharactorService charactorService;
-	
+	private UserClickRelationService clickRelationService;
 	public SuggestService(UserClickService clickService, UserSearchService searchService, UserBuyService buyService,
 			BookService bookService, ContentService contentService, TypeService typeService,
-			CharactorService charactorService) {
+			CharactorService charactorService, UserClickRelationService clickRelationService) {
 		super();
 		this.clickService = clickService;
 		this.searchService = searchService;
@@ -34,8 +34,8 @@ public class SuggestService {
 		this.contentService = contentService;
 		this.typeService = typeService;
 		this.charactorService = charactorService;
+		this.clickRelationService = clickRelationService;
 	}
-
 	public List<Book> getSuggest(EBookService service) throws IOException{
 		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
 	    if(authentication==null || authentication instanceof AnonymousAuthenticationToken) {
@@ -47,9 +47,18 @@ public class SuggestService {
 			//lấy click
 			List<Book> clickList=clickService.getByUser();
 			Set<Book> clickSet=new HashSet<>(clickList);
+			//lấy từ liên quan click
+			String key=clickRelationService.getKey();
+			if(!"".equals(key)) {
+				List<Book> relationList=service.getBook(key);
+				clickSet.addAll(new HashSet<>(relationList));
+			}
+			if(buyList.size()!=0) {
+				clickSet.removeAll(buyList);
+			}
 			//click nhiều quá thì dừng
 			if(clickList.size()>=24) {
-				return clickList;
+				return new ArrayList<>(clickSet);
 			}else {
 				//lấy từ search
 				List<Book> searchList=new ArrayList<>();
