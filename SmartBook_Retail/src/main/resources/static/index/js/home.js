@@ -14,7 +14,11 @@ function MyController($scope, $http, $rootScope) {
 	// });
 	$scope.search = function() {
 		let search = document.getElementById("searchText").value;
-		$http.get("/api/book/search?key=" + search).then(function(response) {
+		let dataSearch={
+			key:search,
+			min:-1
+		}
+		$http.post("/api/book/search",dataSearch).then(function(response) {
 			$rootScope.books = response.data;
 		});
 	}

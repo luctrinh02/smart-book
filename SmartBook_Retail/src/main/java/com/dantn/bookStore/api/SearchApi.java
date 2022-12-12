@@ -5,12 +5,17 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dantn.bookStore.dto.request.SearchRequest;
 import com.dantn.bookStore.entities.Book;
 import com.dantn.bookStore.services.EBookService;
 import com.dantn.bookStore.services.SuggestService;
@@ -25,11 +30,11 @@ public class SearchApi {
 	private UserSearchService searchService;
 	@Autowired
 	private SuggestService suggestService;
-	@GetMapping("/api/book/search")
-	public ResponseEntity<?> search(@RequestParam("key") String key,Principal principal) throws IOException{
-		List<Book> list=service.getBook(key);
+	@PostMapping("/api/book/search")
+	public ResponseEntity<?> search(@RequestBody @Valid SearchRequest request,Principal principal) throws IOException{
+		List<Book> list=service.getBook(request);
 		if(principal!=null) {
-			searchService.save(AppConstraint.USER, key);
+			searchService.save(AppConstraint.USER, request.getKey());
 		}
 		return ResponseEntity.ok(list);
 	}
