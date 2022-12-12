@@ -1,6 +1,7 @@
 package com.dantn.bookStore.elastic;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.PostPersist;
@@ -56,6 +57,7 @@ public class BookListener {
         eBook.setCharactor(charactorService.getObject().getEvalue(book.getCharactor()));
         eBook.setContent(contentService.getObject().getEvalue(book.getContent()));
         eBook.setType(typeService.getObject().getEvalue(book.getType()));
+        eBook.setPrice(book.getPrice().multiply(new BigDecimal(1-book.getDiscount()/100)).doubleValue());
         return eBook;
     }
 }

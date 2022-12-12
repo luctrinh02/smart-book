@@ -1,6 +1,7 @@
 package com.dantn.bookStore.repositories;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +15,7 @@ import com.dantn.bookStore.ultilities.AppConstraint;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
 import co.elastic.clients.elasticsearch.core.DeleteRequest;
 import co.elastic.clients.elasticsearch.core.DeleteResponse;
 import co.elastic.clients.elasticsearch.core.GetResponse;
@@ -21,6 +23,7 @@ import co.elastic.clients.elasticsearch.core.IndexResponse;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.json.JsonData;
 
 @Repository
 public class IEBookRepository {
@@ -69,7 +72,41 @@ public class IEBookRepository {
 		}
 		return eBooks;
 	}
-
+	public List<EBook> search(String key,Double min,Double max) throws IOException{
+		SearchResponse<EBook> response = null;
+		if(max ==null) {
+			response=elasticsearchClient.search(
+					s->s.index(indexName).query(q->q.bool(b->b
+							.should(createQuery("name", key))
+							.should(createQuery("author", key))
+							.should(createQuery("publisher", key))
+							.should(createQuery("type", key))
+							.should(createQuery("charactor", key))
+							.should(createQuery("content", key))
+							.must(createMinPriceQuery(min))
+							)).from(0).size(24)
+					, EBook.class);
+		} else{
+			response=elasticsearchClient.search(
+					s->s.index(indexName).query(q->q.bool(b->b
+							.should(createQuery("name", key))
+							.should(createQuery("author", key))
+							.should(createQuery("publisher", key))
+							.should(createQuery("type", key))
+							.should(createQuery("charactor", key))
+							.should(createQuery("content", key))
+							.must(createMaxPriceQuery(max))
+							.must(createMinPriceQuery(min))
+							)).from(0).size(24)
+					, EBook.class);
+		}
+		List<Hit<EBook>> hits = response.hits().hits();
+		List<EBook> eBooks=new ArrayList<>();
+		for (Hit<EBook> obj : hits) {
+			eBooks.add((EBook) obj.source());
+		}
+		return eBooks;
+	}
 	public List<EBook> getByKey(String key) throws IOException{
 		SearchResponse<EBook> response=elasticsearchClient.search(
 				s->s.index(indexName).query(q->q.bool(b->b
@@ -92,5 +129,19 @@ public class IEBookRepository {
 	public Query createQuery(String field, String key) {
 		Query query = MatchQuery.of(m -> m.field(field).query(key).fuzziness("1").prefixLength(1))._toQuery();
 		return query;
+	}
+	public Query createMinPriceQuery(Double price) {
+		Query byMinxPrice = RangeQuery.of(r -> r
+			    .field("price")
+			    .gte(JsonData.of(price)) 
+			)._toQuery();
+		return byMinxPrice;
+	}
+	public Query createMaxPriceQuery(Double price) {
+		Query byMaxPrice = RangeQuery.of(r -> r
+			    .field("price")
+			    .lte(JsonData.of(price)) 
+			)._toQuery();
+		return byMaxPrice;
 	}
 }
