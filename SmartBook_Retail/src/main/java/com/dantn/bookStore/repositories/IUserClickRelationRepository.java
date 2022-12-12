@@ -12,6 +12,6 @@ import com.dantn.bookStore.entities.UserClickRelation;
 
 @Repository
 public interface IUserClickRelationRepository extends JpaRepository<UserClickRelation, Integer>{
-	@Query("SELECT u.relation FROM UserClickRelation u Where c.user=?1 GROUP BY u.relation ORDER BY Count(u.relation) DESC")
+	@Query("SELECT u.relation FROM UserClickRelation u Where u.user=?1 GROUP BY u.relation ORDER BY Count(u.relation) DESC")
 	List<String> findRelation(User user,Pageable pageable);
 }

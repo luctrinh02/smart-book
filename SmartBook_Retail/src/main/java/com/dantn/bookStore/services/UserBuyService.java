@@ -37,8 +37,8 @@ public class UserBuyService {
 		buyPK.setUserId(AppConstraint.USER.getId());
 		this.repository.deleteById(buyPK);
 	}
-	public Set<Book> getBook(){
-		return new HashSet<>(repository.findByUser(AppConstraint.USER));
+	public List<Book> getBook(){
+		return repository.findByUser(AppConstraint.USER);
 	}
 	public Book getById(Integer id) {
 		UserBuyPK buyPK=new UserBuyPK(AppConstraint.USER.getId(),id);
