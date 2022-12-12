@@ -13,6 +13,6 @@ import com.dantn.bookStore.entities.UserClickPK;
 
 @Repository
 public interface IUserClickRepository extends JpaRepository<UserClick, UserClickPK>{
-	@Query("SELECT c.book FROM UserClick c WHERE c.user=?1")
+	@Query("SELECT c.book FROM UserClick c WHERE c.user=?1 ORDER BY c.clickDate DESC")
 	List<Book> findByUser(User user);
 }

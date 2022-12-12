@@ -1,12 +1,15 @@
 package com.dantn.bookStore.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table
@@ -19,6 +22,8 @@ public class UserClick implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "book_id",insertable = false,updatable = false)
 	private Book book;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date clickDate;
 	public UserClickPK getUserClickPK() {
 		return userClickPK;
 	}
@@ -40,6 +45,12 @@ public class UserClick implements Serializable{
 	@Override
 	public String toString() {
 		return "UserClick [user=" + user + ", book=" + book + "]";
+	}
+	public Date getClickDate() {
+		return clickDate;
+	}
+	public void setClickDate(Date clickDate) {
+		this.clickDate = clickDate;
 	}
 	
 }

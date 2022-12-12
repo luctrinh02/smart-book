@@ -53,7 +53,7 @@ public class Book implements Serializable {
 	private Integer evaluate;
 	@Lob
 	private String description;
-	private boolean isBatch;
+	private boolean batch;
 	@ManyToOne
 	@JoinColumn(name = "created_by")
 	private User createdBy;
@@ -356,12 +356,14 @@ public class Book implements Serializable {
 	}
 
 	public boolean isBatch() {
-		return isBatch;
+		return batch;
 	}
 
-	public void setBatch(boolean isBatch) {
-		this.isBatch = isBatch;
+	public void setBatch(boolean batch) {
+		this.batch = batch;
 	}
+
+	
 
 	
 	

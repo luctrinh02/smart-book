@@ -1,5 +1,6 @@
 package com.dantn.bookStore.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class UserClickService {
 		click.setBook(book);
 		click.setUser(AppConstraint.USER);
 		click.setUserClickPK(clickPK);
+		click.setClickDate(new Date());
 		return this.repository.save(click);
 	}
 	public void deleteByBook(Book book) {
