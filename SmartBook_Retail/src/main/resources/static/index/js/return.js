@@ -5,19 +5,9 @@ function ReturnController($scope, $http) {
 		return today - chek;
 	}
 	$scope.convertText = function(price) {
-		let newString = "";
-		let oldString = price.toString();
-		newString = oldString.substring(0, oldString.length % 3);
-		oldString = oldString.slice(oldString.length % 3, oldString.length);
-		while (oldString.length >= 3) {
-			newString += "." + oldString.substring(0, 3);
-			oldString = oldString.slice(3, oldString.length);
-		}
-
-		if (price.toString().length % 3 == 0) {
-			newString = newString.slice(1, newString.length);
-		}
-		return newString;
+		var x = Math.ceil(Number(price));
+		x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+		return x;
 	}
 	$scope.returnRequest = [];
 	$scope.bills = [];

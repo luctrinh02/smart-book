@@ -17,19 +17,9 @@ function HistoryController($scope, $http) {
 		return s[2] + "/" + s[1] + "/" + s[0];
 	}
 	$scope.convertText = function(price) {
-		let newString = "";
-		let oldString = price.toString();
-		newString = oldString.substring(0, oldString.length % 3);
-		oldString = oldString.slice(oldString.length % 3, oldString.length);
-		while (oldString.length >= 3) {
-			newString += "." + oldString.substring(0, 3);
-			oldString = oldString.slice(3, oldString.length);
-		}
-
-		if (price.toString().length % 3 == 0) {
-			newString = newString.slice(1, newString.length);
-		}
-		return newString;
+		var x = Math.ceil(Number(price));
+		x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+		return x;
 	}
 	$http.get("/api/bill?page=0").then(function(response) {
 		$scope.bills = response.data.data.content;

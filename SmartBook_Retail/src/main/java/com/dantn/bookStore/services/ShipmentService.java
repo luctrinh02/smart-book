@@ -14,6 +14,6 @@ public class ShipmentService {
 		return this.repository.save(shipment);
 	}
 	public Shipment getByBillId(Integer id) {
-		return this.repository.findByBillId(id, false);
+		return this.repository.getByBillId(id, false);
 	}
 }
