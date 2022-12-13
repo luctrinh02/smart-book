@@ -96,4 +96,12 @@ public class BillService {
             return map;
         }
 	}
+	public List<Bill> getBill(BillStatus billStatus){
+		Long date=new Date().getTime()-259200000;
+		Date d=new Date(date);
+		return repository.findByStatusAndUpdatedTime(billStatus, d);
+	}
+	public List<Bill> saveAll(List<Bill> bills){
+		return this.repository.saveAll(bills);
+	}
 }

@@ -2,11 +2,13 @@ package com.dantn.bookStore.api;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.xml.crypto.Data;
 
 import org.springframework.data.domain.Page;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dantn.bookStore.dto.request.BillCreateRequest;
+import com.dantn.bookStore.dto.request.BillStatusRequest;
 import com.dantn.bookStore.entities.Bill;
 import com.dantn.bookStore.entities.BillDetail;
 import com.dantn.bookStore.entities.BillDetailPK;
@@ -28,12 +31,14 @@ import com.dantn.bookStore.entities.BillStatus;
 import com.dantn.bookStore.entities.Book;
 import com.dantn.bookStore.entities.Cart;
 import com.dantn.bookStore.entities.CartPK;
+import com.dantn.bookStore.entities.Shipment;
 import com.dantn.bookStore.entities.User;
 import com.dantn.bookStore.services.BillDetailService;
 import com.dantn.bookStore.services.BillService;
 import com.dantn.bookStore.services.BillStatusService;
 import com.dantn.bookStore.services.BookService;
 import com.dantn.bookStore.services.CartService;
+import com.dantn.bookStore.services.ShipmentService;
 import com.dantn.bookStore.services.UserBuyService;
 import com.dantn.bookStore.services.UserService;
 import com.dantn.bookStore.ultilities.BillStatusSingleton;
@@ -49,10 +54,11 @@ public class BillApi {
 	private CartService cartService;
 	private BillStatusService statusService;
 	private UserBuyService buyService;
+	private ShipmentService shipmentService;
 
 	public BillApi(BillService billService, BillDetailService detailService, UserService userService,
 			BookService bookService, CartService cartService, BillStatusService statusService,
-			UserBuyService buyService) {
+			UserBuyService buyService, ShipmentService shipmentService) {
 		super();
 		this.billService = billService;
 		this.detailService = detailService;
@@ -61,6 +67,7 @@ public class BillApi {
 		this.cartService = cartService;
 		this.statusService = statusService;
 		this.buyService = buyService;
+		this.shipmentService = shipmentService;
 	}
 
 	@GetMapping("/api/bill")
@@ -113,6 +120,7 @@ public class BillApi {
 		bill.setMessage("");
 		bill.setTranSn(TranSnUltil.getTranSn());
 		bill.setUser(user);
+		bill.setMissed(false);
 		bill.setStatus(BillStatusSingleton.getInstance(statusService).get(0));
 		bill = billService.save(bill);
 		BigDecimal bookMoney = BigDecimal.ZERO;
@@ -161,25 +169,65 @@ public class BillApi {
 	}
 
 	@PutMapping("/api/bill/{id}")
-	public ResponseEntity<?> cancel(@PathVariable("id") Integer id, @RequestBody String mesage) {
-		if (mesage == null || mesage.length() == 0) {
-			HashMap<String, Object> map = DataUltil.setData("error", "Vui lòng nhập message");
-			return ResponseEntity.ok(map);
-		} else {
-			BillStatus status = BillStatusSingleton.getInstance(statusService).get(2);
-			Bill b = billService.getById(id);
-			if (b.getStatus().getId() == 1) {
-				b.setMessage(mesage);
+	public ResponseEntity<?> cancel(@PathVariable("id") Integer id, @RequestBody @Valid BillStatusRequest request) {
+		HashMap<String, Object> map = new HashMap<>();
+		BillStatus status=null;
+		Bill b = billService.getById(id);
+		switch (request.getStatus()) {
+		case 1:
+			if (request.getMessage() == null || request.getMessage().length() == 0) {
+				map = DataUltil.setData("error", "Vui lòng nhập message");
+			} else {
+				status = BillStatusSingleton.getInstance(statusService).get(2);
+				if (b.getStatus().getId() == 1) {
+					b.setMessage(request.getMessage());
+					b.setStatus(status);
+					b.setUpdatedTime(new Date());
+					map = DataUltil.setData("ok", "Hủy đơn thành công");
+				} else {
+					map = DataUltil.setData("error", "Bạn không thể hủy đơn do đơn đã được hủy hoặc chấp nhận");
+				}
+			}
+			break;
+		case 4:
+			if (b.getStatus().getId() == 4) {
+				try {
+					Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getDate());
+					if (date.getTime() - new Date().getTime() > 259200000) {
+						map = DataUltil.setData("error", "Ngày dời không quá 3 ngày");
+						break;
+					}
+				} catch (Exception e) {
+					map = DataUltil.setData("error", "Ngày không đúng định dạng");
+					break;
+				}
+				b.setMessage("Dời ngày nhận: " + request.getDate());
+				b.setMissed(true);
+				b.setUpdatedTime(new Date());
+				Shipment shipment=shipmentService.getByBillId(b.getId());
+				shipment.setMessage("Dời ngày nhận: " + request.getDate());
+				shipmentService.save(shipment);
+				map = DataUltil.setData("ok", "Xác nhận đơn thành công");
+			} else {
+				map = DataUltil.setData("error", "Yêu cầu không hợp lệ");
+			}
+			break;
+		case 5:
+			status = BillStatusSingleton.getInstance(statusService).get(6);
+			if (b.getStatus().getId() == 5) {
 				b.setStatus(status);
 				b.setUpdatedTime(new Date());
-				billService.save(b);
-				HashMap<String, Object> map = DataUltil.setData("ok", "Hủy đơn thành công");
-				return ResponseEntity.ok(map);
+				map = DataUltil.setData("ok", "Xác nhận đơn thành công");
 			} else {
-				HashMap<String, Object> map = DataUltil.setData("error",
-						"Bạn không thể hủy đơn do đơn đã được hủy hoặc chấp nhận");
-				return ResponseEntity.ok(map);
+				map = DataUltil.setData("error", "Yêu cầu không hợp lệ");
 			}
+			break;
+		default:
+			map = DataUltil.setData("error", "Yêu cầu không hợp lệ");
+			break;
 		}
+		b = billService.save(b);
+		map.put("bill", b);
+		return ResponseEntity.ok(map);
 	}
 }

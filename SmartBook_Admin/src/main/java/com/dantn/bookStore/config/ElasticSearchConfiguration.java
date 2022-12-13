@@ -22,14 +22,14 @@ public class ElasticSearchConfiguration {
 	@Bean
 	public RestClient getRestClient() throws IOException {
 		// this is product
-//		BasicCredentialsProvider credsProv = new BasicCredentialsProvider();
-//		credsProv.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("elastic", "EHqoSWIeWWnuZBZYZNG8V1jo"));
-//		RestClient restClient = RestClient.builder(new HttpHost("smart-book.es.us-central1.gcp.cloud.es.io",9243,"https"))
-//				.setHttpClientConfigCallback(hc -> hc.setDefaultCredentialsProvider(credsProv))
-//				.build();
+		BasicCredentialsProvider credsProv = new BasicCredentialsProvider();
+		credsProv.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("elastic", "OgLxgNEqVg4yIkr5vlLhBmga"));
+		RestClient restClient = RestClient.builder(new HttpHost("smart-book-2f9395.es.us-central1.gcp.cloud.es.io",9243,"https"))
+				.setHttpClientConfigCallback(hc -> hc.setDefaultCredentialsProvider(credsProv))
+				.build();
 		// this is local
-				RestClient restClient = RestClient.builder(
-		                new HttpHost("localhost", 9200)).build();
+//				RestClient restClient = RestClient.builder(
+//		                new HttpHost("localhost", 9200)).build();
 		return restClient;
 	}
 

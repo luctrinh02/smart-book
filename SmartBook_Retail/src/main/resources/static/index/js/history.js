@@ -60,17 +60,20 @@ function HistoryController($scope, $http) {
 		}
 	}
 
-	$scope.cancel = function(index) {
+	$scope.cancel = function(index,status) {
 		$scope.message = " "
-		$http.put("/api/bill/" + $scope.bills[index].id, $scope.message).then(function(response) {
+		let data={
+			message:$scope.message,
+			status:status,
+			date:$("#scaleDate"+index).val()
+		};
+		$http.put("/api/bill/" + $scope.bills[index].id, data).then(function(response) {
 			if (response.data.statusCode == "ok") {
 				Toast.fire({
 					icon: 'success',
 					title: response.data.data
 				});
-				$scope.bills[index].status.id = 3;
-				$scope.bills[index].status.value = "Đã hủy";
-				$scope.bills[index].status.color = "danger";
+				$scope.bills[index]=response.data.bill;
 			} else {
 				Toast.fire({
 					icon: 'error',

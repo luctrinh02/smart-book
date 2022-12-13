@@ -108,6 +108,7 @@ public class ShipmentService {
                         newBill.setTransportFee(bill.getTransportFee());
                         newBill.setTranSn(TranSnUltil.getTranSn());
                         newBill.setUser(bill.getUser());
+                        newBill.setMissed(false);
                         newBill.setStatus(BillStatusSingleton.getInstance(billStatusService).get(0));
                         newBill = billService.save(newBill);
                         List<BillDetail> details2=new ArrayList<>();
