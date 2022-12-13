@@ -57,6 +57,7 @@ public class Bill implements Serializable{
 	@JsonIgnore
     @OneToMany(mappedBy = "bill")
     private List<ReturnBill> returnBills;
+	private boolean missed;
 	public Integer getId() {
 		return id;
 	}
@@ -135,5 +136,11 @@ public class Bill implements Serializable{
     public void setReturnBills(List<ReturnBill> returnBills) {
         this.returnBills = returnBills;
     }
+	public boolean isMissed() {
+		return missed;
+	}
+	public void setMissed(boolean missed) {
+		this.missed = missed;
+	}
 	
 }

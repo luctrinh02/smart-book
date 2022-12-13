@@ -53,23 +53,33 @@
 									</div>
 									<hr class="mt-2 mb-2 row">
 									<div class="row fw-bold">
-										<div class="col-4">Mã giao dịch</div>
+										<div class="col-2">Mã giao dịch</div>
 										<div class="col-2">Ngày mua</div>
 										<div class="col-2">Tổng tiền</div>
 										<div class="col-2">Trạng thái</div>
+										<div class="col-2">Ghi chú</div>
 										<hr class="mt-2 mb-2">
 									</div>
 									<div class="row d-flex justify-content-between align-items-center"
-										ng-repeat="bill in bills" ng-click="getDetail(bill.id)"
+										ng-repeat="bill in bills"
 										style="cursor: pointer;">
-										<div class="col-4">{{bill.tranSn}}</div>
-										<div class="col-2">{{formatDate(bill.createdTime)}}</div>
-										<div class="col-2">{{convertText(bill.totalMoney)}}đ</div>
-										<div class="col-2 {{'text-'+bill.status.color}}">{{bill.status.value}}</div>
-										<div class="col-2 text-end">
+										<div class="col-2" ng-click="getDetail(bill.id)">{{bill.tranSn}}</div>
+										<div class="col-2" ng-click="getDetail(bill.id)">{{formatDate(bill.createdTime)}}</div>
+										<div class="col-2" ng-click="getDetail(bill.id)">{{convertText(bill.totalMoney)}}đ</div>
+										<div class="col-2 {{'text-'+bill.status.color}}" ng-click="getDetail(bill.id)">{{bill.status.value}}</div>
+										<div class="col-3" ng-click="getDetail(bill.id)">{{bill.message}}</div>
+										<div class="col-1 text-end">
 											<button class="btn" data-bs-toggle="modal"
 												data-bs-target="{{'#modal'+bill.id}}" ng-show="bill.status.id==1">
 												<i class="fa-solid fa-xmark"></i>
+											</button>
+											<button class="btn" data-bs-toggle="modal"
+												data-bs-target="{{'#modal'+bill.id}}" ng-show="bill.status.id==5">
+												<i class="fa-solid fa-check"></i>
+											</button>
+											<button class="btn" data-bs-toggle="modal"
+												data-bs-target="{{'#modal'+bill.id}}" ng-show="bill.status.id==4 && bill.missed==false">
+												<i class="fa-sharp fa-solid fa-clock-rotate-left"></i>
 											</button>
 											<div class="modal fade" id="{{'modal'+bill.id}}"
 												tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -77,18 +87,31 @@
 												<div class="modal-dialog">
 													<div class="modal-content">
 														<div class="modal-header">
-															<h5 class="modal-title" id="exampleModalLabel">Xác
+															<h5 ng-if="bill.status.id==1" class="modal-title" id="exampleModalLabel">Xác
 																nhận hủy đơn</h5>
+															<h5 ng-if="bill.status.id==5" class="modal-title" id="exampleModalLabel">Xác
+																nhận nhận hàng</h5>
+															<h5 ng-if="bill.status.id==4" class="modal-title" id="exampleModalLabel">Dời ngày nhận hàng</h5>
 															<button type="button" class="btn-close"
 																data-bs-dismiss="modal" aria-label="Close"></button>
 														</div>
-														<div class="modal-body text-start">Bạn có chắc muốn hủy đơn
-															hàng này?</div>
+														<div class="modal-body text-start" ng-switch="bill.status.id">
+															<div ng-switch-when="1">Bạn có chắc muốn huỷ đơn?</div>
+															<div ng-switch-when="5">Xác nhận đã nhận hàng</div>
+															<div ng-switch-when="4" class="row">
+																<div class="row">
+																	<div class="col-3"><label for="date">Chọn ngày nhận đơn</label></div>
+																	<div class="col-9">
+																		<input type="date" id="scaleDate{{$index}}" class="form-control">
+																	</div>
+																</div>
+															</div>
+														</div>
 														<div class="modal-footer">
 															<button type="button" class="btn btn-secondary"
 																data-bs-dismiss="modal">Không</button>
 															<button type="button" class="btn btn-danger"
-																data-bs-dismiss="modal" ng-click="cancel($index)">Chắc
+																data-bs-dismiss="modal" ng-click="cancel($index,bill.status.id)">Chắc
 																chắn</button>
 														</div>
 													</div>
