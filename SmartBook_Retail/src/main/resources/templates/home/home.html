@@ -126,8 +126,8 @@
 							</div>
 							<div class="member-info text-start mt-1" ng-click="detail(b.id)">
 								<h6>{{b.name}}</h6>
-								<h5 class="mt-1 mb-0 pb-0 price fw-bold text">{{convertText(b.price - b.price*b.discount/100)}}đ</h5>
-								<del class="small text-secondary mt-0" ng-show="b.discount>0">{{convertText(b.price)}}đ</del>
+								<h5 class="mt-1 mb-0 pb-0 price fw-bold text">{{convertText(b.price - b.price*b.discount/100)}}</h5>
+								<del class="small text-secondary mt-0" ng-show="b.discount>0">{{convertText(b.price)}}</del>
 								<span>Đã bán: {{b.saleAmount}} cuốn</span>
 							</div>
 						</div>
