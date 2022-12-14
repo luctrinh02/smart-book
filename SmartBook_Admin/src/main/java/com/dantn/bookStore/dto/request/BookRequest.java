@@ -48,9 +48,9 @@ public class BookRequest implements DtoToEntity<Book> {
     private String description;
     @NotBlank(message = "Không bỏ trống thể loại")
     private String type;
-    @NotBlank(message = "Không bỏ trống nhân vật")
+//    @NotBlank(message = "Không bỏ trống nhân vật")
     private String charactor;
-    @NotBlank(message = "Không bỏ trống nội dung")
+//    @NotBlank(message = "Không bỏ trống nội dung")
     private String content;
     private MultipartFile file;
     @Positive(message = "Chiều dài là số nguyên lớn hơn 0")

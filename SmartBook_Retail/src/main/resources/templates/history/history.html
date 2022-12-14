@@ -53,23 +53,33 @@
 									</div>
 									<hr class="mt-2 mb-2 row">
 									<div class="row fw-bold">
-										<div class="col-4">Mã giao dịch</div>
+										<div class="col-2">Mã giao dịch</div>
 										<div class="col-2">Ngày mua</div>
 										<div class="col-2">Tổng tiền</div>
 										<div class="col-2">Trạng thái</div>
+										<div class="col-2">Ghi chú</div>
 										<hr class="mt-2 mb-2">
 									</div>
 									<div class="row d-flex justify-content-between align-items-center"
-										ng-repeat="bill in bills" ng-click="getDetail(bill.id)"
+										ng-repeat="bill in bills"
 										style="cursor: pointer;">
-										<div class="col-4">{{bill.tranSn}}</div>
-										<div class="col-2">{{formatDate(bill.createdTime)}}</div>
-										<div class="col-2">{{convertText(bill.totalMoney)}}đ</div>
-										<div class="col-2 {{'text-'+bill.status.color}}">{{bill.status.value}}</div>
-										<div class="col-2 text-end">
+										<div class="col-2" ng-click="getDetail(bill.id)">{{bill.tranSn}}</div>
+										<div class="col-2" ng-click="getDetail(bill.id)">{{formatDate(bill.createdTime)}}</div>
+										<div class="col-2" ng-click="getDetail(bill.id)">{{convertText(bill.totalMoney)}}</div>
+										<div class="col-2 {{'text-'+bill.status.color}}" ng-click="getDetail(bill.id)">{{bill.status.value}}</div>
+										<div class="col-3" ng-click="getDetail(bill.id)">{{bill.message}}</div>
+										<div class="col-1 text-end">
 											<button class="btn" data-bs-toggle="modal"
 												data-bs-target="{{'#modal'+bill.id}}" ng-show="bill.status.id==1">
 												<i class="fa-solid fa-xmark"></i>
+											</button>
+											<button class="btn" data-bs-toggle="modal"
+												data-bs-target="{{'#modal'+bill.id}}" ng-show="bill.status.id==5">
+												<i class="fa-solid fa-check"></i>
+											</button>
+											<button class="btn" data-bs-toggle="modal"
+												data-bs-target="{{'#modal'+bill.id}}" ng-show="bill.status.id==4 && bill.missed==false">
+												<i class="fa-sharp fa-solid fa-clock-rotate-left"></i>
 											</button>
 											<div class="modal fade" id="{{'modal'+bill.id}}"
 												tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -77,18 +87,31 @@
 												<div class="modal-dialog">
 													<div class="modal-content">
 														<div class="modal-header">
-															<h5 class="modal-title" id="exampleModalLabel">Xác
+															<h5 ng-if="bill.status.id==1" class="modal-title" id="exampleModalLabel">Xác
 																nhận hủy đơn</h5>
+															<h5 ng-if="bill.status.id==5" class="modal-title" id="exampleModalLabel">Xác
+																nhận nhận hàng</h5>
+															<h5 ng-if="bill.status.id==4" class="modal-title" id="exampleModalLabel">Dời ngày nhận hàng</h5>
 															<button type="button" class="btn-close"
 																data-bs-dismiss="modal" aria-label="Close"></button>
 														</div>
-														<div class="modal-body text-start">Bạn có chắc muốn hủy đơn
-															hàng này?</div>
+														<div class="modal-body text-start" ng-switch="bill.status.id">
+															<div ng-switch-when="1">Bạn có chắc muốn huỷ đơn?</div>
+															<div ng-switch-when="5">Xác nhận đã nhận hàng</div>
+															<div ng-switch-when="4" class="row">
+																<div class="row">
+																	<div class="col-3"><label for="date">Chọn ngày nhận đơn</label></div>
+																	<div class="col-9">
+																		<input type="date" id="scaleDate{{$index}}" class="form-control">
+																	</div>
+																</div>
+															</div>
+														</div>
 														<div class="modal-footer">
 															<button type="button" class="btn btn-secondary"
 																data-bs-dismiss="modal">Không</button>
 															<button type="button" class="btn btn-danger"
-																data-bs-dismiss="modal" ng-click="cancel($index)">Chắc
+																data-bs-dismiss="modal" ng-click="cancel($index,bill.status.id)">Chắc
 																chắn</button>
 														</div>
 													</div>
@@ -100,7 +123,7 @@
 
 								</div>
 							</div>
-							<div class="col-4 bg-grey" id="detail" ng-show="details.length>0">
+							<div class="col-5 bg-grey" id="detail" ng-show="details.length>0">
 								<div class="p-3">
 									<h3 class="fw-bold m-0 fs-5">
 										<i class="fa-solid fa-circle-info"></i> Chi tiết đơn hàng<span
@@ -118,7 +141,57 @@
 											<div class="row">
 												<div class="col-4 small">{{detail.book.name}}</div>
 												<div class="col-4 small">{{detail.amount}}</div>
-												<div class="col-4 small">{{convertText(detail.price)}}đ</div>
+												<div class="col-4 small">{{convertText(detail.price)}}
+													<i class="fa-solid fa-star" ng-click="openComment($index)" ng-show="!detail.isComment && detail.bill.status.id==5"></i>
+													
+												</div>
+												<div class="modal fade" id="commentModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog modal-lg">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="exampleModalLabel">Đánh giá sách</h5>
+																<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+															</div>
+															<div class="modal-body">
+																<!-- <div class="row"> -->
+																	<div class="form-check form-check-inline">
+																		<input class="form-check-input" type="radio" name="rate{{$index}}" id="rate{{$index}}1" value="1" checked>
+																		<label class="form-check-label" for="rate{{$index}}1">1</label>
+																	</div>
+																	<div class="form-check form-check-inline">
+																		<input class="form-check-input" type="radio" name="rate{{$index}}" id="rate{{$index}}2"  value="2">
+																		<label class="form-check-label" for="rate{{$index}}2">2</label>
+																	</div>
+																	<div class="form-check form-check-inline">
+																		<input class="form-check-input" type="radio" name="rate{{$index}}" id="rate{{$index}}3"  value="3">
+																		<label class="form-check-label" for="rate{{$index}}3">3</label>
+																	</div>
+																	<div class="form-check form-check-inline">
+																		<input class="form-check-input" type="radio" name="rate{{$index}}" id="rate{{$index}}4" value="4">
+																		<label class="form-check-label" for="rate{{$index}}4">4</label>
+																	</div>
+																	<div class="form-check form-check-inline">
+																		<input class="form-check-input" type="radio" name="rate{{$index}}" id="rate{{$index}}5" value="5">
+																		<label class="form-check-label" for="rate{{$index}}5">5</label>
+																	</div>
+																<!-- </div> -->
+																<div class="row mt-2">
+																	<div class="col-2">
+																		<label for="comment">Đánh giá: </label>
+																	</div>
+																	<div class="col-10">
+																		<textarea name="comment{{$index}}" id="commentVal{{$index}}" rows="5" class="form-control"></textarea>
+																	</div>
+																</div>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+																<button type="button" class="btn btn-danger" ng-click="beforeComment($index,detail)">Chắc
+																	chắn</button>
+															</div>
+														</div>
+													</div>
+												</div>
 											</div>
 										</div>
 										<hr class="my-2">
@@ -128,12 +201,12 @@
 										</div>
 										<div class="d-flex justify-content-between">
 											<h6>Tổng tiền sản phẩm</h6>
-											<h6>{{convertText(details[0].bill.bookMoney)}}đ</h6>
+											<h6>{{convertText(details[0].bill.bookMoney)}}</h6>
 										</div>
 										<div class="d-flex justify-content-between">
 											<h6>Phí vận chuyển</h6>
-											<h6 ng-show="details[0].bill.transportFee>0">{{convertText(details[0].bill.transportFee)}}đ</h6>
-											<h6 ng-show="details[0].bill.transportFee==0">0đ</h6>
+											<h6 ng-show="details[0].bill.transportFee>0">{{convertText(details[0].bill.transportFee)}}</h6>
+											<h6 ng-show="details[0].bill.transportFee==0">0VND</h6>
 										</div>
 										<div class="d-flex justify-content-between">
 											<h6>Giảm giá</h6>
@@ -141,7 +214,7 @@
 										</div>
 										<div class="d-flex justify-content-between mb-5">
 											<h5 class="text-uppercase">Tổng số tiền</h5>
-											<h5>{{convertText(details[0].bill.totalMoney)}}đ</h5>
+											<h5>{{convertText(details[0].bill.totalMoney)}}</h5>
 										</div>
 
 										<button type="button" class="btn btn-dark btn-block btn-lg bg"
@@ -171,6 +244,23 @@
 								data-bs-dismiss="modal">Không</button>
 							<button type="button" class="btn btn-danger"
 								data-bs-dismiss="modal" ng-click="return()">Chắc chắn</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade" id="conf" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Xác nhận đánh giá</h5>
+						</div>
+						<div class="modal-body text-start" >Bạn chắc chắn đánh giá như này?</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Không</button>
+							<button type="button" class="btn btn-danger"
+								data-bs-dismiss="modal" ng-click="commentFunc()">Chắc chắn</button>
 						</div>
 					</div>
 				</div>

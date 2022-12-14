@@ -3,32 +3,32 @@ package com.dantn.bookStore.entities;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 @Entity
 @Table
-public class UserClick implements Serializable{
-	@EmbeddedId
-	private UserClickPK userClickPK;
+public class UserClickRelation implements Serializable{
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	@ManyToOne
-	@JoinColumn(name = "user_id",insertable = false,updatable = false)
+	@JoinColumn(name = "user_id")
 	private User user;
-	@ManyToOne
-	@JoinColumn(name = "book_id",insertable = false,updatable = false)
-	private Book book;
-	@Temporal(TemporalType.TIMESTAMP)
+	private String relation;
+	@Temporal(TemporalType.DATE)
 	private Date clickDate;
-	public UserClickPK getUserClickPK() {
-		return userClickPK;
+	public Integer getId() {
+		return id;
 	}
-	public void setUserClickPK(UserClickPK userClickPK) {
-		this.userClickPK = userClickPK;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public User getUser() {
 		return user;
@@ -36,11 +36,11 @@ public class UserClick implements Serializable{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public Book getBook() {
-		return book;
+	public String getRelation() {
+		return relation;
 	}
-	public void setBook(Book book) {
-		this.book = book;
+	public void setRelation(String relation) {
+		this.relation = relation;
 	}
 	public Date getClickDate() {
 		return clickDate;

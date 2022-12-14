@@ -3,9 +3,22 @@ function MyController($scope, $http, $rootScope) {
 	$http.get("/api/book/suggest").then(function(response) {
 		$rootScope.books = response.data;
 	});
+	// $http.get("/api/book/future?condition=createdTime").then(function(response) {
+	// 	$rootScope.book4s = response.data;
+	// });
+	// $http.get("/api/book/future?condition=discount").then(function(response) {
+	// 	$rootScope.book3s = response.data;
+	// });
+	// $http.get("/api/book/future?condition=saleAmount").then(function(response) {
+	// 	$rootScope.book2s = response.data;
+	// });
 	$scope.search = function() {
 		let search = document.getElementById("searchText").value;
-		$http.get("/api/book/search?key=" + search).then(function(response) {
+		let dataSearch={
+			key:search,
+			min:-1
+		}
+		$http.post("/api/book/search",dataSearch).then(function(response) {
 			$rootScope.books = response.data;
 		});
 	}
@@ -28,19 +41,9 @@ function MyController($scope, $http, $rootScope) {
 		window.location.href = "/smart-book#/book/"+id;
 	}
 	$scope.convertText = function(price) {
-		let newString = "";
-		let oldString = price.toString();
-		newString = oldString.substring(0, oldString.length % 3);
-		oldString = oldString.slice(oldString.length % 3, oldString.length);
-		while (oldString.length >= 3) {
-			newString += "." + oldString.substring(0, 3);
-			oldString = oldString.slice(3, oldString.length);
-		}
-
-		if (price.toString().length % 3 == 0) {
-			newString = newString.slice(1, newString.length);
-		}
-		return newString;
+		var x = Math.ceil(Number(price));
+		x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+		return x;
 	}
 
 };

@@ -23,6 +23,8 @@ public class EBook {
 	private String charactor;
 	@Field(type = FieldType.Text,name = "content")
 	private String content;
+	@Field(type = FieldType.Double,name="price")
+	private Double price;
 	public String getId() {
 		return id;
 	}
@@ -64,6 +66,12 @@ public class EBook {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 	
 }

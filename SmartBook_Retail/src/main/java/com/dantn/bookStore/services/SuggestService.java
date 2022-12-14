@@ -3,6 +3,7 @@ package com.dantn.bookStore.services;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,10 +23,10 @@ public class SuggestService {
     private ContentService contentService;
     private TypeService typeService;
     private CharactorService charactorService;
-	
+	private UserClickRelationService clickRelationService;
 	public SuggestService(UserClickService clickService, UserSearchService searchService, UserBuyService buyService,
 			BookService bookService, ContentService contentService, TypeService typeService,
-			CharactorService charactorService) {
+			CharactorService charactorService, UserClickRelationService clickRelationService) {
 		super();
 		this.clickService = clickService;
 		this.searchService = searchService;
@@ -34,8 +35,8 @@ public class SuggestService {
 		this.contentService = contentService;
 		this.typeService = typeService;
 		this.charactorService = charactorService;
+		this.clickRelationService = clickRelationService;
 	}
-
 	public List<Book> getSuggest(EBookService service) throws IOException{
 		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
 	    if(authentication==null || authentication instanceof AnonymousAuthenticationToken) {
@@ -43,12 +44,23 @@ public class SuggestService {
 	    	return books;
 	    }else {
 	    	//lấy mua
-			Set<Book> buyList=buyService.getBook();
+			List<Book> buyList=buyService.getBook();
 			//lấy click
 			List<Book> clickList=clickService.getByUser();
-			Set<Book> clickSet=new HashSet<>(clickList);
+			Set<Book> clickSet=new LinkedHashSet<>(clickList);
+			//lấy từ liên quan click
+			String key=clickRelationService.getKey();
+			if(!"".equals(key)) {
+				List<Book> relationList=service.getBook(key);
+				clickList.addAll(relationList);
+			}
+			if(buyList.size()!=0) {
+				clickList.removeAll(buyList);
+			}
+			clickSet=new LinkedHashSet<>(clickList);
+			clickList=new ArrayList<>(clickSet);
 			//click nhiều quá thì dừng
-			if(clickList.size()>=24) {
+			if(clickSet.size()>=24) {
 				return clickList;
 			}else {
 				//lấy từ search
@@ -57,17 +69,15 @@ public class SuggestService {
 				if(!"".equals(search)) {
 					searchList=service.getBook(search);
 				}
-				Set<Book> searchSet=new HashSet<>(searchList);
-				clickSet.addAll(searchSet);
+				clickList.addAll(searchList);
 				if(buyList.size()!=0) {
-					clickSet.removeAll(buyList);
+					clickList.removeAll(buyList);
 				}
 				//nhiều quá thì dừng
-				if(buyList.size()!=0) {
-					clickSet.removeAll(buyList);
-				}
-				if(clickSet.size()>24) {
-					return new ArrayList<>(clickSet).subList(0, 24);
+				clickSet=new LinkedHashSet<>(clickList);
+				clickList=new ArrayList<>(clickSet);
+				if(clickList.size()>24) {
+					return clickList.subList(0, 24);
 				}else {
 					//lấy từ cái liên quan mua
 					if(buyList.size()!=0) {
@@ -80,23 +90,26 @@ public class SuggestService {
 						builder.append(book.getPublisher().getName()+" ");
 						builder.append(book.getName()+" ");
 						searchList=service.getBook(search);
-						clickSet.addAll(new HashSet<>(searchList));
-						clickSet.removeAll(buyList);
+						clickList.addAll(searchList);
+						clickList.removeAll(buyList);
 					}
 					//nhiều quá thì dừng
-					if(clickSet.size()>24) {
-						return new ArrayList<>(clickSet).subList(0, 24);
+					clickSet=new LinkedHashSet<>(clickList);
+					clickList=new ArrayList<>(clickSet);
+					if(clickList.size()>24) {
+						return clickList.subList(0, 24);
 					}else {
-						int lost=24-clickSet.size()+buyList.size();
-						List<Book> books=bookService.getall(lost).getContent();
-						clickSet.addAll(new HashSet<>(books));
+						List<Book> books=bookService.getall(24).getContent();
+						clickList.addAll(books);
 						if(buyList.size()!=0) {
-							clickSet.removeAll(buyList);
+							clickList.removeAll(buyList);
 						}
-						if(clickSet.size()>24) {
-							return new ArrayList<>(clickSet).subList(0, 24);
+						clickSet=new LinkedHashSet<>(clickList);
+						clickList=new ArrayList<>(clickSet);
+						if(clickList.size()>24) {
+							return clickList.subList(0, 24);
 						}else {
-							return new ArrayList<>(clickSet);
+							return clickList;
 						}
 					}
 				}

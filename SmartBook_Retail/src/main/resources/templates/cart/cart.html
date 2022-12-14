@@ -61,7 +61,7 @@
 													class="form-control form-control-sm" />
 											</div>
 											<div class="col-3 text-center">
-												<h6 class="mb-0">{{convertText((cart.book.price*(100-cart.book.discount)/100)*cart.amount)}}đ</h6>
+												<h6 class="mb-0">{{convertText((cart.book.price*(100-cart.book.discount)/100)*cart.amount)}}</h6>
 											</div>
 											<div class="col-1 text-end">
 												<button ng-click="deleteCart($index)"
@@ -89,7 +89,7 @@
 												<div class="{{getCol(1200000)}} rounded-pill" id="120k" style="height: 10px; background-color: var(--color-main); z-index: 999"></div>
 											</div>
 											<div class="d-flex mt-1 justify-content-between" ng-show="getLack(1200000)>0">
-												<span class="small text-danger">Cần thêm {{convertText(getLack(1200000))}}đ</span>
+												<span class="small text-danger">Cần thêm {{convertText(getLack(1200000))}}</span>
 												<a class="small text-primary" href="#home">Mua thêm</a>
 											</div>
 											<div class="d-flex mt-1 justify-content-between" ng-show="getLack(1200000)<=0 && getLack(1200000)>-1200000">
@@ -107,7 +107,7 @@
 												<div class="{{getCol(2400000)}} rounded-pill" id="240k" style="height: 10px; background-color: var(--color-main); z-index: 999"></div>
 											</div>
 											<div class="d-flex mt-1 justify-content-between" ng-show="getLack(2400000)>0">
-												<span class="small text-danger">Cần thêm {{convertText(getLack(2400000))}}đ</span>
+												<span class="small text-danger">Cần thêm {{convertText(getLack(2400000))}}</span>
 												<a class="small text-primary" href="#home">Mua thêm</a>
 											</div>
 											<div class="d-flex mt-1 justify-content-between" ng-show="getLack(2400000)<=0 && getLack(2400000)>-1200000">
@@ -125,7 +125,7 @@
 												<div class="{{getCol(3600000)}} rounded-pill" id="360k" style="height: 10px; background-color: var(--color-main); z-index: 999"></div>
 											</div>
 											<div class="d-flex mt-1 justify-content-between" ng-show="getLack(3600000)>0">
-												<span class="small text-danger">Cần thêm {{convertText(getLack(3600000))}}đ</span>
+												<span class="small text-danger">Cần thêm {{convertText(getLack(3600000))}}</span>
 												<a class="small text-primary" href="#home">Mua thêm</a>
 											</div>
 											<div class="d-flex mt-1 justify-content-between" ng-show="getLack(3600000)<=0">
@@ -140,16 +140,21 @@
 									</div>
 									<div class="d-flex justify-content-between">
 										<h6>Tổng tiền sản phẩm</h6>
-										<h6>{{convertText(total)}}đ</h6>
+										<h6>{{convertText(total)}}</h6>
+									</div>
+									<div class="d-flex justify-content-between">
+										<h6>Phí vận chuyển</h6>
+										<h6 ng-show="total>0">30.000VND</h6>
+										<h6 ng-show="total==0">0VND</h6>
 									</div>
 									<div class="d-flex justify-content-between">
 										<h6>Giảm giá</h6>
-										<h6>{{convertText(getReduced())}}đ</h6>
+										<h6>{{convertText(getReduced())}}</h6>
 									</div>
 									<div class="d-flex justify-content-between mb-5">
 										<h5 class="text-uppercase">Tổng số tiền</h5>
-										<h5 ng-show="total>0">{{convertText(getTotal())}}đ</h5>
-										<h5 ng-show="total==0">0đ</h5>
+										<h5 ng-show="total>0">{{convertText(getTotal())}}</h5>
+										<h5 ng-show="total==0">0</h5>
 									</div>
 
 									<button type="button" class="btn btn-dark btn-block btn-lg bg"
