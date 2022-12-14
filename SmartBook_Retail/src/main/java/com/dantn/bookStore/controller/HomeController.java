@@ -3,6 +3,7 @@ package com.dantn.bookStore.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+
 @Controller
 public class HomeController {
 	@GetMapping("/smart-book")
@@ -36,5 +37,14 @@ public class HomeController {
 	@GetMapping("/smart-book/registry")
 	public String registry() {
 		return "control/registry";
+	}
+	@GetMapping("/smart-book/payment")
+	public String payment() {
+		return "payment/payment";
+	}
+	
+	@GetMapping("/smart-book/ward")
+	public String ward() {
+		return "payment/payment";
 	}
 }
