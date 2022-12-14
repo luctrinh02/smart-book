@@ -57,6 +57,39 @@ public class Bill implements Serializable{
 	@JsonIgnore
     @OneToMany(mappedBy = "bill")
     private List<ReturnBill> returnBills;
+	//transInfo
+	private String fullname;
+	private String phoneNumber;
+	private String addressDetail;
+	@ManyToOne
+	@JoinColumn(name = "ward_id")
+	private Ward ward;
+	
+	
+	public String getFullname() {
+		return fullname;
+	}
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	public String getAddressDetail() {
+		return addressDetail;
+	}
+	public void setAddressDetail(String addressDetail) {
+		this.addressDetail = addressDetail;
+	}
+	public Ward getWard() {
+		return ward;
+	}
+	public void setWard(Ward ward) {
+		this.ward = ward;
+	}
 	public Integer getId() {
 		return id;
 	}

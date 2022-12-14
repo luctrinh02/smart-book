@@ -1,5 +1,6 @@
-function CartController($scope, $http) {
+function CartController($scope, $http, $rootScope) {
 	$scope.carts = [];
+	$rootScope.cartPKs = []
 	$http.get("/api/cart").then(function(response) {
 		$scope.carts = response.data;
 	});
@@ -28,13 +29,13 @@ function CartController($scope, $http) {
 
 	$scope.getTotal = function() {
 		if ($scope.total >= 3600000) {
-			return $scope.total + 30000 - 500000;
+			return $scope.total - 500000;
 		} else if ($scope.total >= 2400000) {
-			return $scope.total + 30000 - 300000;
+			return $scope.total - 300000;
 		} else if ($scope.total >= 1200000) {
-			return $scope.total + 30000 - 120000;
+			return $scope.total - 120000;
 		} else {
-			return $scope.total + 30000;
+			return $scope.total;
 		}
 	}
 
@@ -132,8 +133,7 @@ function CartController($scope, $http) {
 	}
 
 	$scope.pay = function() {
-		console.log(cartId);
-		let data = {
+		/*let data = {
 			cartPKs: cartId,
 			transportFee: "30000"
 		}
@@ -152,7 +152,7 @@ function CartController($scope, $http) {
 					$scope.carts.splice($scope.select[i].value, 1)
 				}
 			}
-		});
+		});*/
 	}
 	$scope.beforePay = function() {
 		if (cartId.length == 0) {
@@ -161,7 +161,9 @@ function CartController($scope, $http) {
 				title: "Vui lòng chọn sản phẩm"
 			});
 		} else {
-			$("#confirmModal").modal("show");
+			$rootScope.cartPKs = cartId;
+			window.location.href = "/smart-book#/payment/";
+
 		}
 	}
 };

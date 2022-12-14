@@ -1,149 +1,209 @@
-<!DOCTYPE html>
-<html lang="en">
+<section class="h-100 h-custom pb-0"
+	style="color: var(- -color-primary)">
+	<div class="container p-0 pb-0 h-100">
+		<div class="pagetitle text">
+			<nav>
+				<ol class="breadcrumb mt-1 mb-1">
+					<li class="breadcrumb-item"><a href="#home">Smart Book</a></li>
+					<li class="breadcrumb-item active">Đặt hàng</li>
+				</ol>
+			</nav>
+		</div>
+		<div
+			class="row d-flex justify-content-center align-items-center h-100">
+			<div class="col-12">
+				<div class="card card-registration card-registration-2">
+					<div class="card-body p-0">
+						<div class="row g-0">
+							<div class="col-lg-8" style="height: 700px">
+								<div class="p-3">
+									<div class="d-flex align-items-center">
+										<h3 class="fw-bold m-0 fs-3 text">
+											<img src="/index/img/ship.png" width="35px"
+												class="m-0 p-0 mb-2" alt=""> THÔNG TIN GIAO HÀNG
+										</h3>
+									</div>
+									<hr class="mt-2 mb-2">
+									<div class="header-cart fw-bold">
+										<div class="row">
+											<span class="text-center text">Người nhận hàng</span>
+										</div>
+									</div>
+									<hr class="mt-2 mb-2">
+									<div class="row p-lg-4 p-md-3 p-sm-2 p-1">
+											<div class="col-md-6">
+												<div class="col-md-12 mt-1 mb-1">
+													<div class="form-floating">
+														<input type="text" class="form-control" id="name" placeholder="Smart Book">
+														<label for="name" class="text-center">Tên người nhận</label>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6 mt-1 mb-1">
+												<div class="col-md-12">
+													<div class="form-floating">
+														<input type="text" class="form-control" id="sdt" placeholder="Smart Book">
+														<label for="sdt" class="text-center">Số điện thoại</label>
+													</div>
+												</div>
+											</div>
+									</div>
+									<hr class="mt-2 mb-2">
+									<div class="header-cart fw-bold">
+										<div class="row">
+											<span class="text-center text">Địa chỉ nhận hàng</span>
+										</div>
+									</div>
+									<hr class="mt-2 mb-2">
+									<div class="row p-lg-4 p-md-3 p-sm-2 p-1">
+										<div class="form-floating col-md-4 mt-1 mb-1">
+							                    <select class="form-select" id="city" ng-model="city">
+							                      <option value="" disabled>Chọn tỉnh/thành phố</option>
+							                      <option ng-repeat="c in citys" value="{{c.id}}">{{c.name}}</option>
+							                    </select>
+							                    <label for="city" class="text-center">Tỉnh/Thành phố</label>
+							             </div>
+							             <div class="form-floating col-md-4 mt-1 mb-1">
+							                    <select class="form-select" id="district" ng-model="district" ng-disabled="city==''">
+							                      <option value="" disabled>Chọn quận/huyện</option>
+							                      <option ng-repeat="d in districts[city]" value="{{d.id}}">{{d.name}}</option>
+							                    </select>
+							                    <label for="district" class="text-center">Quận/Huyện</label>
+							             </div>
+							             <div class="form-floating col-md-4 mt-1 mb-1">
+							                    <select class="form-select" id="ward" ng-model="ward" ng-disabled="district==''">
+							                      <option value="" disabled>Chọn xã/phường</option>
+							                      <option ng-repeat="w in wards[district]" value="{{$index}}">{{w.name}}</option>
+							                    </select>
+							                    <label for="ward" class="text-center">Xã/Phường</label>
+							             </div>
+							             <div class="col-12 mt-md-3 mt-1 mb-1">
+												<div class="col-md-12">
+													<div class="form-floating">
+														<input type="text" class="form-control" id="detail" placeholder="Smart Book">
+														<label for="detail" class="text-center">Số nhà, tên đường,...</label>
+													</div>
+												</div>
+										</div>
+									</div>
+									<hr class="mt-2 mb-2">
+									<div class="header-cart fw-bold">
+										<div class="row">
+											<span class="text-center text">Hình thức giao hàng</span>
+										</div>
+									</div>
+									<hr class="mt-2 mb-2">
+								</div>
+							</div>
+							<div class="col-lg-4 bg-grey">
+								<div class="p-3">
+									<h3 class="fw-bold m-0 fs-5">
+										<i class="fa-solid fa-circle-info"></i> Xác nhận sản phẩm
+									</h3>
+									<hr class="mt-2 mb-2">
+									<div class="row">
+										<div class="col-4 fw-bold">Sản phẩm</div>
+										<div class="col-4 fw-bold">Số lượng</div>
+										<div class="col-4 fw-bold">Đơn giá</div>
+									</div>
+									<div class="row p-0 m-0">
+										<hr class="mt-2 mb-2">
+										<div class="col-4 small">Sách víp</div>
+										<div class="col-4 small">3</div>
+										<div class="col-4 small">3.000.000đ</div>
+									</div>	
+									<hr class="mt-2 mb-2">
+									<h3 class="fw-bold m-0 fs-5">
+										<i class="fa-regular fa-credit-card"></i> Phương thức thanh
+										toán
+									</h3>
+									<div class="form-check mt-2">
+										<input class="form-check-input" type="radio" name="pay"
+											id="p1" checked> <label class="form-check-label"
+											for="p1">Thanh toán khi nhận hàng </label>
+									</div>
+									<div class="form-check mt-1">
+										<input class="form-check-input" type="radio" name="pay"
+											id="p2" disabled> <label class="form-check-label"
+											for="p2">Ví ZaloPay </label>
+									</div>
+									<div class="form-check mt-1">
+										<input class="form-check-input" type="radio" name="pay"
+											id="p3" disabled> <label class="form-check-label"
+											for="p3">VNPAY </label>
+									</div>
+									<div class="form-check mt-1">
+										<input class="form-check-input" type="radio" name="pay"
+											id="p4" disabled> <label class="form-check-label"
+											for="p4">Ví ShopeePay </label>
+									</div>
+									<div class="form-check mt-1">
+										<input class="form-check-input" type="radio" name="pay"
+											id="p5" disabled> <label class="form-check-label"
+											for="p5">Ví Momo </label>
+									</div>
+									<div class="form-check mt-1">
+										<input class="form-check-input" type="radio" name="pay"
+											id="p6" disabled> <label class="form-check-label"
+											for="p6">ATM/ Internet Banking </label>
+									</div>
+									<div class="form-check mt-1">
+										<input class="form-check-input" type="radio" name="pay"
+											id="p7" disabled> <label class="form-check-label"
+											for="p7">Visa/ Master/ JCB </label>
+									</div>
+									<hr class="mt-2 mb-2">
+									<h3 class="fw-bold m-0 fs-5">
+										<i class="fa-solid fa-ticket"></i> Mã khuyến mãi/Mã quà tặng
+									</h3>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment</title>
+									<hr class="mt-2 mb-2">
+									<div class="d-flex justify-content-between">
+										<h6>Tổng sản phẩm</h6>
+										<h6>{{items +' sách' }}</h6>
+									</div>
+									<div class="d-flex justify-content-between">
+										<h6>Tổng tiền sản phẩm</h6>
+										<h6>{{convertText(total)}}đ</h6>
+									</div>
+									<div class="d-flex justify-content-between">
+										<h6>Giảm giá</h6>
+										<h6>{{convertText(getReduced())}}đ</h6>
+									</div>
+									<div class="d-flex justify-content-between mb-5">
+										<h5 class="text-uppercase">Tổng số tiền</h5>
+										<h5 ng-show="total>0">{{convertText(getTotal())}}đ</h5>
+										<h5 ng-show="total==0">0đ</h5>
+									</div>
+									<button type="button" class="btn btn-dark btn-block btn-lg bg" data-mdb-ripple-color="dark" ng-click="beforePay()">Thanh toán</button>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="style.css">    
-
-</head>
-
-<body>
-    <div class="container">
-        <div class="row m-0">
-            <div class="col-md-7 col-12">
-                <div class="row">
-                    <div class="col-12 mb-4">
-                        <div class="row box-right">
-                            <div class="col-md-8 ps-0 ">
-                                <p class="ps-3 textmuted fw-bold h6 mb-0">TOTAL RECIEVED</p>
-                                <p class="h1 fw-bold d-flex"> <span
-                                        class=" fas fa-dollar-sign textmuted pe-1 h6 align-text-top mt-1"></span>84,254
-                                    <span class="textmuted">.58</span> </p>
-                                <p class="ms-3 px-2 bg-green">+10% since last month</p>
-                            </div>
-                            <div class="col-md-4">
-                                <p class="p-blue"> <span class="fas fa-circle pe-2"></span>Pending </p>
-                                <p class="fw-bold mb-3"><span class="fas fa-dollar-sign pe-1"></span>1254 <span
-                                        class="textmuted">.50</span> </p>
-                                <p class="p-org"><span class="fas fa-circle pe-2"></span>On drafts</p>
-                                <p class="fw-bold"><span class="fas fa-dollar-sign pe-1"></span>00<span
-                                        class="textmuted">.00</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 px-0 mb-4">
-                        <div class="box-right">
-                            <div class="d-flex pb-2">
-                                <p class="fw-bold h7"><span class="textmuted">quickpay.to/</span>Publicnote</p>
-                                <p class="ms-auto p-blue"><span
-                                        class=" bg btn btn-primary fas fa-pencil-alt me-3"></span> <span
-                                        class=" bg btn btn-primary far fa-clone"></span> </p>
-                            </div>
-                            <div class="bg-blue p-2">
-                                <P class="h8 textmuted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
-                                    recusandae dolorem voluptas nemo, modi eos minus nesciunt.
-                                <p class="p-blue bg btn btn-primary h8">LEARN MORE</p>
-                                </P>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 px-0">
-                        <div class="box-right">
-                            <div class="d-flex mb-2">
-                                <p class="fw-bold">Create new invoice</p>
-                                <p class="ms-auto textmuted"><span class="fas fa-times"></span></p>
-                            </div>
-                            <div class="d-flex mb-2">
-                                <p class="h7">#AL2545</p>
-                                <p class="ms-auto bg btn btn-primary p-blue h8"><span
-                                        class="far fa-clone pe-2"></span>COPY PAYMENT LINK </p>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 mb-2">
-                                    <p class="textmuted h8">Project / Description</p> <input class="form-control"
-                                        type="text" placeholder="Legal Consulting">
-                                </div>
-                                <div class="col-6">
-                                    <p class="textmuted h8">Issused on</p> <input class="form-control" type="text"
-                                        placeholder="Oct 25, 2020">
-                                </div>
-                                <div class="col-6">
-                                    <p class="textmuted h8">Due on</p> <input class="form-control" type="text"
-                                        placeholder="Oct 25, 2020">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-5 col-12 ps-md-5 p-0 ">
-                <div class="box-left">
-                    <p class="textmuted h8">Invoice</p>
-                    <p class="fw-bold h7">Alex Parkinson</p>
-                    <p class="textmuted h8">3897 Hickroy St, salt Lake city</p>
-                    <p class="textmuted h8 mb-2">Utah, United States 84104</p>
-                    <div class="h8">
-                        <div class="row m-0 border mb-3">
-                            <div class="col-6 h8 pe-0 ps-2">
-                                <p class="textmuted py-2">Items</p> <span class="d-block py-2 border-bottom">Legal
-                                    Advising</span> <span class="d-block py-2">Expert Consulting</span>
-                            </div>
-                            <div class="col-2 text-center p-0">
-                                <p class="textmuted p-2">Qty</p> <span class="d-block p-2 border-bottom">2</span> <span
-                                    class="d-block p-2">1</span>
-                            </div>
-                            <div class="col-2 p-0 text-center h8 border-end">
-                                <p class="textmuted p-2">Price</p> <span class="d-block border-bottom py-2"><span
-                                        class="fas fa-dollar-sign"></span>500</span> <span class="d-block py-2 "><span
-                                        class="fas fa-dollar-sign"></span>400</span>
-                            </div>
-                            <div class="col-2 p-0 text-center">
-                                <p class="textmuted p-2">Total</p> <span class="d-block py-2 border-bottom"><span
-                                        class="fas fa-dollar-sign"></span>1000</span> <span class="d-block py-2"><span
-                                        class="fas fa-dollar-sign"></span>400</span>
-                            </div>
-                        </div>
-                        <div class="d-flex h7 mb-2">
-                            <p class="">Total Amount</p>
-                            <p class="ms-auto"><span class="fas fa-dollar-sign"></span>1400</p>
-                        </div>
-                        <div class="h8 mb-5">
-                            <p class="textmuted">Lorem ipsum dolor sit amet elit. Adipisci ea harum sed quaerat tenetur
-                            </p>
-                        </div>
-                    </div>
-                    <div class="">
-                        <p class="h7 fw-bold mb-1">Pay this Invoice</p>
-                        <p class="textmuted h8 mb-2">Make payment for this invoice by filling in the details</p>
-                        <div class="form">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="card border-0"> <input class="form-control ps-5" type="text"
-                                            placeholder="Card number"> <span class="far fa-credit-card"></span> </div>
-                                </div>
-                                <div class="col-6"> <input class="form-control my-3" type="text" placeholder="MM/YY">
-                                </div>
-                                <div class="col-6"> <input class="form-control my-3" type="text" placeholder="cvv">
-                                </div>
-                                <p class="p-blue h8 fw-bold mb-3">MORE PAYMENT METHODS</p>
-                            </div>
-                            <div class="btn btn-primary d-block h8">PAY <span
-                                    class="fas fa-dollar-sign ms-2"></span>1400<span
-                                    class="ms-3 fas fa-arrow-right"></span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-
-</html>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="confirmModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Xác nhận thanh
+							toán</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">Bạn có chắn muốn mua các sách đã
+						chọn?</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Không</button>
+						<button type="button" class="btn btn-primary"
+							data-bs-dismiss="modal" ng-click="pay()">Chắc chắn</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

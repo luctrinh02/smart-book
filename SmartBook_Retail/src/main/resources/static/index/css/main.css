@@ -962,9 +962,9 @@ section {
   	border-color: var(--color-primary);
 }
 
-.menu .nav-link .active {
-  color: var(--color-primary) ;
-  border-color: var(--color-primary) !important;
+.menu .nav-link .show {
+  	color: var(--color-main);
+  	border-color: var(--color-primary);
 }
 
 .menu .tab-content .tab-header {
@@ -1189,6 +1189,11 @@ section {
   background: url(../img/team-shape.svg) no-repeat center bottom;
   background-size: contain;
   z-index: 1;
+}
+
+.fillter {
+	position: absolute;
+	 top: 30px;
 }
 
 .chefs .chef-member .social {

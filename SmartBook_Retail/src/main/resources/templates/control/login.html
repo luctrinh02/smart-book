@@ -47,24 +47,15 @@
 					<div class="row justify-content-center">
 						<div
 							class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
-							<div class="card mb-3">
-
-								<div class="card-body">
-
-									<div class="pt-4 pb-2">
+							<div class="card">
+								<div class="card-body"><div class="pb-2">
 										<div class="d-flex justify-content-center py-3">
-											<a href="#home"
-												class="logo d-flex align-items-center w-auto"> <img
-												src="/index/img/logo.jpg" alt=""> <span
-												class="d-none d-lg-block">Smart Book</span>
+											<a href="#home" class="logo d-flex align-items-center justify-content-center w-auto">
+												<img src="/index/img/s2.png" alt="" width="85%">
 											</a>
 										</div>
-
-										<p class="text-center small">Đăng nhập với tài khoản Smart Book</p>
 									</div>
-									<div th:if="${param.error}">
-            									<p class="alert alert-danger">[[${session.message}]]</p>
+									<div th:if="${param.error}"> <p class="alert alert-danger">[[${session.message}]]</p>
        									 </div>
 									<form class="row g-3 needs-validation" novalidate method="post" action="/login">
 										<div class="col-12">

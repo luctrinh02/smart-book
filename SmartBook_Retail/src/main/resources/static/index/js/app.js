@@ -27,17 +27,26 @@ app.config(function($routeProvider, $locationProvider) {
 		templateUrl: '/smart-book/registry',
 		controller: 'registryController'
 	})
+	.when("/payment", {
+		templateUrl: '/smart-book/payment',
+		controller: 'PaymentController'
+	})
 	.otherwise({redirectTo: '/home'})
 });
+
 function sleep (time) {
 	return new Promise((resolve) => setTimeout(resolve, time));
-  }
+}
+
 app.controller("MyController", MyController);
 app.controller("CartController", CartController);
 app.controller("HistoryController", HistoryController);
 app.controller("BookController", BookController);
 app.controller("ReturnController", ReturnController);
 app.controller("registryController", registryController);
+app.controller("PaymentController", PaymentController);
+
+
 app.controller("readyCtrl",function($rootScope,$http){
 	$http.get("/api/user").then(function(response) {
 		if(response.data==""){
