@@ -3,18 +3,17 @@ package com.dantn.bookStore.api;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.xml.crypto.Data;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,12 +37,17 @@ import com.dantn.bookStore.services.BillService;
 import com.dantn.bookStore.services.BillStatusService;
 import com.dantn.bookStore.services.BookService;
 import com.dantn.bookStore.services.CartService;
+import com.dantn.bookStore.services.PaymentTypeService;
 import com.dantn.bookStore.services.ShipmentService;
+import com.dantn.bookStore.services.TransportTypeService;
 import com.dantn.bookStore.services.UserBuyService;
 import com.dantn.bookStore.services.UserService;
+import com.dantn.bookStore.services.WardService;
 import com.dantn.bookStore.ultilities.BillStatusSingleton;
 import com.dantn.bookStore.ultilities.DataUltil;
+import com.dantn.bookStore.ultilities.PaymentTypeSingleton;
 import com.dantn.bookStore.ultilities.TranSnUltil;
+import com.dantn.bookStore.ultilities.TransportTypeSingleton;
 
 @RestController
 public class BillApi {
@@ -55,10 +59,14 @@ public class BillApi {
 	private BillStatusService statusService;
 	private UserBuyService buyService;
 	private ShipmentService shipmentService;
+	private TransportTypeService transportTypeService;
+	private PaymentTypeService paymentTypeService;
+	private WardService wardService;
 
 	public BillApi(BillService billService, BillDetailService detailService, UserService userService,
 			BookService bookService, CartService cartService, BillStatusService statusService,
-			UserBuyService buyService, ShipmentService shipmentService) {
+			UserBuyService buyService, ShipmentService shipmentService, TransportTypeService transportTypeService,
+			PaymentTypeService paymentTypeService, WardService wardService) {
 		super();
 		this.billService = billService;
 		this.detailService = detailService;
@@ -68,6 +76,9 @@ public class BillApi {
 		this.statusService = statusService;
 		this.buyService = buyService;
 		this.shipmentService = shipmentService;
+		this.transportTypeService = transportTypeService;
+		this.paymentTypeService = paymentTypeService;
+		this.wardService = wardService;
 	}
 
 	@GetMapping("/api/bill")
@@ -98,11 +109,41 @@ public class BillApi {
 		}
 	}
 
+	@PostMapping("/api/payment")
+	public ResponseEntity<?> payment(@RequestBody BillCreateRequest request) {
+		List<CartPK> cartPKs = request.getCartPKs();
+		List<Cart> carts = cartService.getByIds(cartPKs);
+		return ResponseEntity.ok(carts);
+	}
+
+	@PostMapping("/api/bill/before")
+	public ResponseEntity<?> beforePay(@RequestBody @Valid BillCreateRequest request, BindingResult result) {
+		List<CartPK> cartPKs = request.getCartPKs();
+		List<Cart> carts = cartService.getByIds(cartPKs);
+		for (Cart cart : carts) {
+			if (cart.getAmount() > cart.getBook().getAmount()) {
+				// @formatter:off
+				StringBuilder builder=new StringBuilder().append("Sản phẩm ")
+						.append(cart.getBook().getName()).append(" chỉ còn ")
+						.append(cart.getBook().getAmount()).append(" cuốn.");
+				// @formatter:on
+				HashMap<String, Object> map = DataUltil.setData("max", builder.toString());
+				return ResponseEntity.ok(map);
+			}
+		}
+		if (result.hasErrors()) {
+			List<ObjectError> errors = result.getAllErrors();
+			HashMap<String, Object> map = DataUltil.setData("error", errors);
+			return ResponseEntity.ok(map);
+		}
+		return ResponseEntity.ok(DataUltil.setData("ok", ""));
+	}
+
 	@PostMapping("/api/bill")
-	public ResponseEntity<?> add(@RequestBody BillCreateRequest request, Principal principal) {
+	public ResponseEntity<?> add(@RequestBody @Valid BillCreateRequest request, BindingResult result,
+			Principal principal) {
 		List<CartPK> cartPKs = request.getCartPKs();
 		User user = userService.getByEmail(principal.getName());
-//		List<CartPK> pks=Arrays.asList(cartPKs);
 		List<Cart> carts = cartService.getByIds(cartPKs);
 		for (Cart cart : carts) {
 			if (cart.getAmount() > cart.getBook().getAmount()) {
@@ -111,17 +152,31 @@ public class BillApi {
 						.append(cart.getBook().getName()).append(" chỉ còn ")
 						.append(cart.getBook().getAmount());
 				// @formatter:on
-				HashMap<String, Object> map = DataUltil.setData("error", builder.toString());
+				HashMap<String, Object> map = DataUltil.setData("max", builder.toString());
 				return ResponseEntity.ok(map);
 			}
+		}
+		if (result.hasErrors()) {
+			List<ObjectError> errors = result.getAllErrors();
+			HashMap<String, Object> map = DataUltil.setData("error", errors);
+			return ResponseEntity.ok(map);
 		}
 		Bill bill = new Bill();
 		bill.setCreatedTime(new Date());
 		bill.setMessage("");
-		bill.setTranSn(TranSnUltil.getTranSn());
+		String transn = TranSnUltil.getTranSn();
+		bill.setTranSn(transn);
 		bill.setUser(user);
 		bill.setMissed(false);
 		bill.setStatus(BillStatusSingleton.getInstance(statusService).get(0));
+		bill.setFullname(request.getFullname());
+		bill.setPhoneNumber(request.getPhoneNumber());
+		bill.setTransType(TransportTypeSingleton.getInstance(transportTypeService).get(request.getTransportType()));
+		bill.setPayType(PaymentTypeSingleton.getInstance(paymentTypeService).get(request.getPaymentType()));
+		bill.setAddressDetail(request.getAddressDetail());
+		
+		bill.setWard(wardService.findById(request.getWard()));
+		
 		bill = billService.save(bill);
 		BigDecimal bookMoney = BigDecimal.ZERO;
 		for (Cart cart : carts) {
@@ -165,13 +220,14 @@ public class BillApi {
 		bill.setTotalMoney(total);
 		billService.save(bill);
 		HashMap<String, Object> map = DataUltil.setData("ok", "Đặt hàng thành công");
+		map.put("tranSn", transn);
 		return ResponseEntity.ok(map);
 	}
 
 	@PutMapping("/api/bill/{id}")
 	public ResponseEntity<?> cancel(@PathVariable("id") Integer id, @RequestBody @Valid BillStatusRequest request) {
 		HashMap<String, Object> map = new HashMap<>();
-		BillStatus status=null;
+		BillStatus status = null;
 		Bill b = billService.getById(id);
 		switch (request.getStatus()) {
 		case 1:
@@ -204,7 +260,7 @@ public class BillApi {
 				b.setMessage("Dời ngày nhận: " + request.getDate());
 				b.setMissed(true);
 				b.setUpdatedTime(new Date());
-				Shipment shipment=shipmentService.getByBillId(b.getId());
+				Shipment shipment = shipmentService.getByBillId(b.getId());
 				shipment.setMessage("Dời ngày nhận: " + request.getDate());
 				shipmentService.save(shipment);
 				map = DataUltil.setData("ok", "Xác nhận đơn thành công");

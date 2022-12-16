@@ -41,12 +41,12 @@ function HistoryController($scope, $http) {
 					$scope.isShowReturn=false;
 				}
 			});
-			document.getElementById('list').classList.add('col-7');
+			document.getElementById('list').classList.add('col-9');
 			document.getElementById('list').classList.remove("col-12");
 		} else {
 			$scope.details = [];
 			document.getElementById('list').classList.add('col-12');
-			document.getElementById('list').classList.remove("col-7");
+			document.getElementById('list').classList.remove("col-9");
 		}
 	}
 
