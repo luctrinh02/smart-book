@@ -42,9 +42,12 @@ public class HomeController {
 	public String payment() {
 		return "payment/payment";
 	}
-	
 	@GetMapping("/smart-book/ward")
 	public String ward() {
 		return "payment/payment";
+	}
+	@GetMapping("/smart-book/afterPayment")
+	public String afterPayment() {
+		return "payment/afterPayment";
 	}
 }

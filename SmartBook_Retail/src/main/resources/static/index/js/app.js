@@ -31,6 +31,10 @@ app.config(function($routeProvider, $locationProvider) {
 		templateUrl: '/smart-book/payment',
 		controller: 'PaymentController'
 	})
+	.when("/afterPayment/:tranSn", {
+		templateUrl: '/smart-book/afterPayment',
+		controller: 'AfterPaymentController'
+	})
 	.otherwise({redirectTo: '/home'})
 });
 
@@ -45,6 +49,7 @@ app.controller("BookController", BookController);
 app.controller("ReturnController", ReturnController);
 app.controller("registryController", registryController);
 app.controller("PaymentController", PaymentController);
+app.controller("AfterPaymentController", AfterPaymentController);
 
 
 app.controller("readyCtrl",function($rootScope,$http){

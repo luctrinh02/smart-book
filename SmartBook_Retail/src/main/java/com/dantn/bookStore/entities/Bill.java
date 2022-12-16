@@ -63,8 +63,26 @@ public class Bill implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "ward_id")
 	private Ward ward;
+	@ManyToOne
+	@JoinColumn(name = "transport_type_id")
+	private TransportType transType;
+	@ManyToOne
+	@JoinColumn(name = "payment_type_id")
+	private PaymentType payType;
 	
 	
+	public TransportType getTransType() {
+		return transType;
+	}
+	public void setTransType(TransportType transType) {
+		this.transType = transType;
+	}
+	public PaymentType getPayType() {
+		return payType;
+	}
+	public void setPayType(PaymentType payType) {
+		this.payType = payType;
+	}
 	public String getFullname() {
 		return fullname;
 	}

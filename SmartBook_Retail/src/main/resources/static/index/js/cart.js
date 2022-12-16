@@ -1,6 +1,6 @@
 function CartController($scope, $http, $rootScope) {
 	$scope.carts = [];
-	$rootScope.cartPKs = []
+	$rootScope.cartPKs = [];
 	$http.get("/api/cart").then(function(response) {
 		$scope.carts = response.data;
 	});
@@ -8,6 +8,9 @@ function CartController($scope, $http, $rootScope) {
 	$scope.select = []
 	$scope.total = 0;
 	$scope.items = 0;
+	
+	$scope.chkAll = false;
+	
 	$scope.selectInput = function() {
 		$scope.total = 0;
 		cartId = []
@@ -23,6 +26,8 @@ function CartController($scope, $http, $rootScope) {
 		$scope.total.toFixed()
 		$scope.items = cartId.length
 	}
+	
+	
 	$scope.getLack = function(price) {
 		return price - $scope.total;
 	}
@@ -152,7 +157,7 @@ function CartController($scope, $http, $rootScope) {
 			});
 		} else {
 			$rootScope.cartPKs = cartId;
-			window.location.href = "/smart-book#/payment/";
+			window.location.href = "/smart-book#/payment";
 
 		}
 	}
