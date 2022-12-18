@@ -49,8 +49,6 @@ public class Book implements Serializable {
 	private Long amount;
 	@Column(name = "sale_amount")
 	private Long saleAmount;
-	private Integer point;
-	private Integer evaluate;
 	@Lob
 	private String description;
 	private boolean batch;
@@ -179,21 +177,6 @@ public class Book implements Serializable {
 		this.saleAmount = saleAmount;
 	}
 
-	public Integer getPoint() {
-		return point;
-	}
-
-	public void setPoint(Integer point) {
-		this.point = point;
-	}
-
-	public Integer getEvaluate() {
-		return evaluate;
-	}
-
-	public void setEvaluate(Integer evaluate) {
-		this.evaluate = evaluate;
-	}
 
 	public String getDescription() {
 		return description;

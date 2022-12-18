@@ -8,6 +8,7 @@ function BookController($scope, $http, $routeParams) {
 	$scope.types = "";
 	$scope.books = [];
 	$scope.comments = [];
+	$scope.rate={};
 	$http.get("/api/book/" + $routeParams.id).then(function(response) {
 		$scope.book = response.data;
 		$http.get("/api/book/suggest").then(function(response) {
@@ -15,6 +16,22 @@ function BookController($scope, $http, $routeParams) {
 		});
 		$http.get("/api/book/comment/" + $routeParams.id).then(function(response) {
 			$scope.comments=response.data;
+		});
+		$http.get("/api/book/rate/" + $routeParams.id).then(function(response) {
+			$scope.rate=response.data;
+			$scope.star = Math.round(Number($scope.rate.point) / Number($scope.rate.evaluate) * 2) / 2;
+			if ($scope.star % 1 > 0) {
+				for (let i = 0; i < $scope.star - 1; i++) {
+					document.getElementById('star').innerHTML += '<i class="bi bi-star-fill text-warning me-1"></i>';
+				}
+				document.getElementById('star').innerHTML += '<i class="bi bi-star-half text-warning me-1"></i>';
+			} else if ($scope.star % 1 == 0) {
+				for (let i = 0; i < $scope.star; i++) {
+					document.getElementById('star').innerHTML += '<i class="bi bi-star-fill text-warning me-1"></i>';
+				}
+			}
+			console.log($scope.rete)
+			document.getElementById('star').innerHTML += '<span class="text small"> (' + $scope.rate.evaluate + ' đánh giá)</span>';console.log($scope.rate)
 		});
 		$http.get("/api/cart").then(function(response) {
 			$scope.cart = response.data;
@@ -32,19 +49,6 @@ function BookController($scope, $http, $routeParams) {
 			}
 			$scope.types += response.data[s[s.length-2]];
 		});
-		
-		$scope.star = Math.round($scope.book.point / $scope.book.evaluate * 2) / 2;
-		if ($scope.star % 1 > 0) {
-			for (let i = 0; i < $scope.star - 1; i++) {
-				document.getElementById('star').innerHTML += '<i class="bi bi-star-fill text-warning me-1"></i>';
-			}
-			document.getElementById('star').innerHTML += '<i class="bi bi-star-half text-warning me-1"></i>';
-		} else if ($scope.star % 1 == 0) {
-			for (let i = 0; i < $scope.star; i++) {
-				document.getElementById('star').innerHTML += '<i class="bi bi-star-fill text-warning me-1"></i>';
-			}
-		}
-		document.getElementById('star').innerHTML += '<span class="text small"> (' + $scope.book.evaluate + ' đánh giá)</span>';
 	});
 
 
