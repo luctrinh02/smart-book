@@ -389,4 +389,7 @@ public class BookService {
 		}
 		ieBookRepository.saveAll(eBooks);
 	}
+	public List<Book> getTop10(){
+		return repository.getBooks(PageRequest.of(0, 10,Sort.by("saleAmount"))).getContent();
+	}
 }

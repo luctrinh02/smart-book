@@ -20,5 +20,4 @@ public interface IUserRepository extends JpaRepository<User, Integer>{
 	User findByEmail(String email);
 	@Query("SELECT u FROM User u WHERE u.role=?1 AND u.fullname LIKE ?2")
 	Page<User> findByRoleAndFullname(UserRole role,String fullname,Pageable page);
-
 }
