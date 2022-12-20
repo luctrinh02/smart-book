@@ -1,5 +1,6 @@
 package com.dantn.bookStore.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,5 +28,11 @@ public class BillDetailService {
 	public BillDetail getById(BillDetailPK id) {
 	    Optional<BillDetail> optional=this.repository.findById(id);
 	    return optional.isPresent()?optional.get():null;
+	}
+	public Long countBook() {
+		return repository.countBook(new Date());
+	}
+	public Long sumBook() {
+		return repository.sumAmount();
 	}
 }
