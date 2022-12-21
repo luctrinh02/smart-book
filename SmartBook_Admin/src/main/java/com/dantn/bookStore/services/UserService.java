@@ -106,7 +106,7 @@ public class UserService {
 	}
 	public HashMap<String, Object> create(UserRequest request,UserRoleService userRoleService,UserStatusService userStatusService){
 	    User u=request.changeToEntity(new User());
-	    u.setPassword(encoder.encode(u.getPassword()));
+	    u.setPassword(encoder.encode(request.getPassword()));
         u.setStatus(UserStatusSingleton.getInstance(userStatusService).get(0));
         u.setRole(UserRoleSingleton.getInstance(userRoleService).get(request.getRole()));
         try {
