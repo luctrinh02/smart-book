@@ -27,6 +27,9 @@ public class User implements Serializable{
 	private String fullname;
 	private String phoneNumber;
 	private String address;
+	@ManyToOne
+	@JoinColumn(name = "ward_id")
+	private Ward ward;
 	@Lob
 	private String img;
 	@ManyToOne
@@ -62,6 +65,13 @@ public class User implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<ReturnBill> returnBills ;
+	
+	public Ward getWard() {
+		return ward;
+	}
+	public void setWard(Ward ward) {
+		this.ward = ward;
+	}
 	public Integer getId() {
 		return id;
 	}

@@ -17,26 +17,26 @@
 		<div class="col-lg-3">
 			<div class="card">
 				<div class="card-body m-0 p-0">
-					<div class="card">
+					<div class="card pb-4 m-0">
 						<div class="card-body pb-0">
 							<h5 class="card-title pb-0">Vai trò trong hệ thống</h5>
 
 							<div class="form-check form-switch mt-3">
 								<input style="cursor: pointer;" class="form-check-input"
 									ng-model="role" type="radio" id="f1" value="0"
-									ng-checked="role==0"> <label style="cursor: pointer;"
+									ng-checked="role==0" ng-disabled="role!=0"> <label style="cursor: pointer;"
 									class="form-check-label" for="f1">Khách hàng</label>
 							</div>
 							<div class="form-check form-switch">
 								<input style="cursor: pointer;" class="form-check-input"
 									ng-model="role" type="radio" id="f2" value="1"
-									ng-checked="role==1"> <label style="cursor: pointer;"
+									ng-checked="role==1" ng-disabled="role!=1"> <label style="cursor: pointer;"
 									class="form-check-label" for="f2">Quản trị viên</label>
 							</div>
 							<div class="form-check form-switch">
 								<input style="cursor: pointer;" class="form-check-input"
 									ng-model="role" type="radio" id="f3" value="2"
-									ng-checked="role==2"> <label style="cursor: pointer;"
+									ng-checked="role==2" ng-disabled="role!=2"> <label style="cursor: pointer;"
 									class="form-check-label" for="f3">Giao hàng</label>
 							</div>
 						</div>
@@ -44,12 +44,12 @@
 				</div>
 			</div>
 		</div>
+		
 		<div class="col-lg">
 			<div class="card">
-				<div class="card-body">
+				<div class="card-body pb-0 mb-0">
 					<div class="card mt-4">
-						<div class="card-body fix">
-
+						<div class="card-body fix-create-user pb-0">
 							<div class="pt-4 pb-2">
 								<div class="d-flex justify-content-center py-3">
 									<a href="#home"
@@ -73,18 +73,49 @@
 											class="text-danger" id="fullname"></small>
 									</div>
 									<div class="col-6 mt-3 form-floating">
-										<input type="text" class="form-control" name="address"
-											placeholder="smartbook"> <label for="address"
-											class="text-center">Địa chỉ</label> <small
-											class="text-danger" id="address"></small>
+										<input id="abc" type="file" accept=".jpg,.jpeg,.png" file-model="file" class="form-control" name="file" placeholder="smartbook"> 
+										<label for="file" class="text-center">Hình ảnh</label> 
+										<small class="text-danger" id="file"></small>
+									</div>
+								</div>
+								<div class="row mt-3">
+										<div class="form-floating col-4 mt-3 pb-0">
+						                    <select class="form-select" id="cityslt" ng-model="city">
+						                      <option value="" disabled>Chọn tỉnh/thành phố</option>
+						                      <option ng-repeat="c in citys track by $index" value="{{c.id}}">{{c.name}}</option>
+						                    </select>
+						                    <label for="cityslt" class="text-center">Tỉnh/Thành phố</label>
+							                <span class="text-danger small" id="city"></span>
+							             </div>
+							             <div class="form-floating col-4 mt-3 pb-0">
+						                    <select class="form-select" id="districtslt" ng-model="district" ng-disabled="city==''">
+						                      <option value="" disabled>Chọn quận/huyện</option>
+						                      <option ng-repeat="d in districts[city] track by $index" value="{{d.id}}">{{d.name}}</option>
+						                    </select>
+						                    <label for="districtslt" class="text-center">Quận/Huyện</label>
+						                   	<span class="text-danger small" id="district"></span>
+							             </div>
+							             <div class="form-floating col-4 mt-3 pb-0">
+						                    <select class="form-select" id="wardslt" ng-model="ward" ng-disabled="district==''">
+						                      <option value="" disabled>Chọn xã/phường</option>
+						                      <option ng-repeat="w in wards[district] track by $index" value="{{w.id}}">{{w.name}}</option>
+						                    </select>
+						                    <label for="wardslt" class="text-center">Xã/Phường</label>
+						                    <span class="text-danger small" id="ward"></span>
+							             </div>
+								</div>
+								 <div class="row mt-3">
+									<div class="form-floating pb-0 col-12  mt-3">
+										<input type="text" class="form-control" name="address" placeholder="Smart Book">
+										<label for="address" class="text-center">Số nhà, tên đường,...</label>
+										<span class="text-danger small" id="address"></span>
 									</div>
 								</div>
 								<div class="row mt-3">
 									<div class="col-6 mt-3 form-floating">
-										<input type="text" class="form-control" name="phoneNumber"
-											placeholder="smartbook"> <label for="phoneNumber"
-											class="text-center">Số điện thoại</label> <small
-											class="text-danger" id="phoneNumber"></small>
+										<input type="text" class="form-control" name="phoneNumber" placeholder="smartbook"> 
+										<label for="phoneNumber" class="text-center">Số điện thoại</label>
+										<small class="text-danger" id="phoneNumber"></small>
 									</div>
 									<div class="col-6 mt-3 form-floating">
 										<input type="email" class="form-control" name="email"
@@ -96,16 +127,14 @@
 
 								<div class="row mt-3">
 									<div class="col-6 mt-3 form-floating">
-										<input type="password" class="form-control" name="password"
-											placeholder="smartbook"> <label for="password"
-											class="text-center">Mật khẩu</label> <small
-											class="text-danger" id="password"></small>
+										<input type="password" class="form-control" name="password" placeholder="smartbook">
+										<label for="password" class="text-center">Mật khẩu</label>
+										<small class="text-danger" id="password"></small>
 									</div>
 									<div class="col-6 mt-3 form-floating">
-										<input type="password" class="form-control" name="confirm"
-											placeholder="smartbook"> <label for="confirm"
-											class="text-center">Xác nhận mật khẩu</label> <small
-											class="text-danger" id="ConfirmPassword"></small>
+										<input type="password" class="form-control" name="confirm" placeholder="smartbook">
+										<label for="confirm" class="text-center">Xác nhận mật khẩu</label>
+										<small class="text-danger" id="ConfirmPassword"></small>
 									</div>
 								</div>
 
@@ -116,8 +145,7 @@
 
 									</div>
 									<div class="col-6 text-start">
-										<button type="button" class="btn btn-primary"
-											ng-click="check()">Thêm mới</button>
+										<button type="button" class="btn btn-primary" ng-click="check()">Thêm mới</button>
 									</div>
 								</div>
 							</form>

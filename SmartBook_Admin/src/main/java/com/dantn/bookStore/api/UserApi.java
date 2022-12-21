@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -64,7 +65,7 @@ public class UserApi {
 		return ResponseEntity.ok(map);
 	}
 	@PostMapping("/validation")
-	public ResponseEntity<?> validation( @RequestBody @Valid UserRequest request,BindingResult result ){
+	public ResponseEntity<?> validation(@RequestBody @Valid UserRequest request,BindingResult result ){
 		if(result.hasErrors()) {
 			List<ObjectError> list=result.getAllErrors();
 			HashMap<String, Object> map=DataUltil.setData("error", list);
@@ -75,13 +76,14 @@ public class UserApi {
 		}
 	}
 	@PostMapping("")
-	public ResponseEntity<?> create(@RequestBody UserRequest request){
-	    HashMap<String, Object> map=userService.create(request, userRoleService, userStatusService);
+	public ResponseEntity<?> create(@ModelAttribute UserRequest request){
+	    Integer map=userService.create(request, userRoleService, userStatusService);
         return ResponseEntity.ok(map);
 	}
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable("id") Integer id,@RequestBody UserRequest request){
-	    HashMap<String, Object> map=userService.update(id, request, userRoleService, userStatusService);
+	public ResponseEntity<?> update(@PathVariable("id") Integer id,@ModelAttribute UserRequest request){
+		System.out.println(request.getBase64()==null);
+	    Integer map=userService.update(id, request, userRoleService, userStatusService);
 	    return ResponseEntity.ok(map);
 	}
 }

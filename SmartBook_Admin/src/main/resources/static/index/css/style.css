@@ -92,10 +92,12 @@ i:hover, select:hover, li:hover, a:hover{
 .fix{
 	height:  580px;
 }
-.fix-create{
-	min-height:  500px;
+.fix-create-user{
+	min-height:  800px;
 }
-
+.fix-create{
+	min-height:  700px;
+}
 body {
   font-family: "Open Sans", sans-serif;
   background: #f6f9ff;
