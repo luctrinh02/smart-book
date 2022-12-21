@@ -83,7 +83,7 @@ public class IEBookRepository {
 							.should(createQuery("type", key))
 							.should(createQuery("charactor", key))
 							.should(createQuery("content", key))
-							.must(createMinPriceQuery((double) 0))
+//							.must(createMinPriceQuery((double) 0))
 							)).from(0).size(24)
 					, EBook.class);
 		} else{

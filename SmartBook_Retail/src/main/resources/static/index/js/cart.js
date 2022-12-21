@@ -1,17 +1,37 @@
 function CartController($scope, $http, $rootScope) {
 	$scope.carts = [];
 	$rootScope.cartPKs = [];
-	$http.get("/api/cart").then(function(response) {
+	$http.get("/api/cart").then(function (response) {
 		$scope.carts = response.data;
 	});
 	let cartId = [];
 	$scope.select = []
 	$scope.total = 0;
 	$scope.items = 0;
-	
+
 	$scope.chkAll = false;
-	
-	$scope.selectInput = function() {
+	$scope.chkAllFunc = function () {
+		$scope.total = 0;
+		cartId = []
+		let select = document.getElementsByName("book");
+		for (let i = 0; i < select.length; i++) {
+			if($scope.chkAll==true){
+				select[i].checked == false;
+				cartId.push($scope.carts[select[i].value].cartPK)
+				$scope.select.push(select[i].value)
+				let c = $scope.carts[select[i].value];
+				$scope.total += (c.amount * c.book.price * (100 - c.book.discount) / 100);
+			}else{
+				select[i].checked == false;
+				cartId=[];
+				$scope.select=[]
+				$scope.total =0
+			}
+		}
+		$scope.total.toFixed()
+		$scope.items = cartId.length
+	}
+	$scope.selectInput = function () {
 		$scope.total = 0;
 		cartId = []
 		let select = document.getElementsByName("book");
@@ -26,13 +46,13 @@ function CartController($scope, $http, $rootScope) {
 		$scope.total.toFixed()
 		$scope.items = cartId.length
 	}
-	
-	
-	$scope.getLack = function(price) {
+
+
+	$scope.getLack = function (price) {
 		return price - $scope.total;
 	}
 
-	$scope.getTotal = function() {
+	$scope.getTotal = function () {
 		if ($scope.total >= 3600000) {
 			return $scope.total - 500000;
 		} else if ($scope.total >= 2400000) {
@@ -44,7 +64,7 @@ function CartController($scope, $http, $rootScope) {
 		}
 	}
 
-	$scope.getCol = function(price) {
+	$scope.getCol = function (price) {
 		let rate = Math.floor($scope.total / price * 10);
 		let col = (rate * 1.2).toFixed(0);
 		if (col >= 12) {
@@ -56,7 +76,7 @@ function CartController($scope, $http, $rootScope) {
 		}
 	}
 
-	$scope.getCol = function(price) {
+	$scope.getCol = function (price) {
 		let rate = Math.floor($scope.total / price * 10);
 		let col = (rate * 1.2).toFixed(0);
 		if (col >= 12) {
@@ -68,7 +88,7 @@ function CartController($scope, $http, $rootScope) {
 		}
 	}
 
-	$scope.getReduced = function() {
+	$scope.getReduced = function () {
 		if ($scope.total >= 3600000) {
 			return 500000;
 		} else if ($scope.total >= 2400000) {
@@ -80,18 +100,18 @@ function CartController($scope, $http, $rootScope) {
 		}
 	}
 
-	$scope.convertText = function(price) {
+	$scope.convertText = function (price) {
 		var x = Math.ceil(Number(price));
-		x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+		x = x.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
 		return x;
 	}
 
-	$scope.changeAmount = function(index) {
+	$scope.changeAmount = function (index) {
 		let cartPK = $scope.carts[index].cartPK;
 		let input = document.getElementById("input" + index);
 		let amount = input.value
 		if (amount != "" && amount != 0 && !isNaN(amount)) {
-			$http.put("/api/cart?amount=" + amount, cartPK).then(function(response) {
+			$http.put("/api/cart?amount=" + amount, cartPK).then(function (response) {
 				if (response.status == 200) {
 					if (response.data.statusCode == "error") {
 						Toast.fire({
@@ -115,9 +135,9 @@ function CartController($scope, $http, $rootScope) {
 			input.value = $scope.carts[index].amount
 		}
 	}
-	$scope.deleteCart = function(index) {
+	$scope.deleteCart = function (index) {
 		let cartPK = $scope.carts[index].cartPK
-		$http.post("/api/cart", cartPK).then(function(response) {
+		$http.post("/api/cart", cartPK).then(function (response) {
 			Toast.fire({
 				icon: 'success',
 				title: response.data.data
@@ -127,7 +147,7 @@ function CartController($scope, $http, $rootScope) {
 		});
 	}
 
-	$scope.pay = function() {
+	$scope.pay = function () {
 		/*let data = {
 			cartPKs: cartId,
 			transportFee: "30000"
@@ -149,7 +169,7 @@ function CartController($scope, $http, $rootScope) {
 			}
 		});*/
 	}
-	$scope.beforePay = function() {
+	$scope.beforePay = function () {
 		if (cartId.length == 0) {
 			Toast.fire({
 				icon: 'error',
