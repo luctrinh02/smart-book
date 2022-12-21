@@ -249,7 +249,7 @@ public class CharactorApi {
 	}
 
 	public List<Book> getListBook(Charactor type) {
-		List<Book> lstBookAll = bookService.getAll();
+		List<Book> lstBookAll = new ArrayList<>();
 		List<Book> bookInCharactor = new ArrayList<>();
 		for (Book book : lstBookAll) {
 			List<String> types = Arrays.asList(book.getCharactor().split(","));

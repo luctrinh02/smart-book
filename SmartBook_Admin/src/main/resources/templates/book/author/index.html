@@ -22,7 +22,7 @@
 								placeholder="Từ khoá" title="Enter search keyword"
 								class="form-control">
 						</div>
-						<div class="card-body pb-0">
+						<!-- <div class="card-body pb-0">
 							<h5 class="card-title pb-0">Số lượng đầu sách</h5>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
@@ -48,7 +48,7 @@
 									style="cursor: pointer;" class="form-check-label" for="f4">
 									Lớn hơn 100</label>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -101,8 +101,6 @@
 												<option value="1">Ngày thêm mới Z - A</option>
 												<option value="2">Tác giả A - Z</option>
 												<option value="3">Tác giả Z - A</option>
-												<option value="4">Số đầu sách tăng dần</option>
-												<option value="5">Số đầu sách giảm dần</option>
 											</select>
 										</div>
 									</div>
@@ -117,7 +115,7 @@
 									<tr>
 										<th scope="col">#</th>
 										<th scope="col">Tác giả</th>
-										<th class="text-center" scope="col">Các đầu sách</th>
+										<th class="text-center" scope="col">Mã tác giả</th>
 										<th scope="col"></th>
 										<th scope="col"></th>
 										<th scope="col"><!-- <input class="form-check-input" type="checkbox" id="chkAll" onchange="selectAll()"> --></th>
@@ -127,10 +125,8 @@
 									<tr ng-repeat="p in pageAuthor.content">
 										<th class="col-1" scope="row">{{pageIndex*10 + $index + 1}}</th>
 										<td class="col">{{p.name}}</td>
-										<td class="text-center col-4">
-											 <a ng-show="listBook[p.id].length > 0" type="button" data-bs-toggle="modal" data-bs-target="{{'#modal' + p.id}}">
-											{{listBook[p.id].length}} đầu sách</a> 
-											<a ng-show="listBook[p.id].length <= 0 || listBook[p.id] == null"><i>---------------</i></a></td> 
+										<td class="text-center col-4">{{p.id}}</td>
+											
 										<td class="text-center col-1"><a ng-click="showUpdateModal(p)"><i
 												class="bi bi-pencil text-warning"></i></a></td>
 										<td class="text-center col-1"><a ng-click="showDeleteModal(p)"><i

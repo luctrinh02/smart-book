@@ -249,7 +249,7 @@ public class TypeApi {
 	}
 
 	public List<Book> getListBook(Type type) {
-		List<Book> lstBookAll = bookService.getAll();
+		List<Book> lstBookAll = new ArrayList<>();
 		List<Book> bookInType = new ArrayList<>();
 		for (Book book : lstBookAll) {
 			List<String> types = Arrays.asList(book.getType().split(","));

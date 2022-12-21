@@ -22,7 +22,7 @@
 								placeholder="Từ khoá" title="Enter search keyword"
 								class="form-control">
 						</div>
-						<div class="card-body pb-0">
+						<!-- <div class="card-body pb-0">
 							<h5 class="card-title pb-0">Số lượng đầu sách</h5>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
@@ -48,7 +48,7 @@
 								<label style="cursor: pointer;" class="form-check-label"
 									for="f4"> Lớn hơn 100</label>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -103,8 +103,6 @@
 												<option value="1">Ngày thêm mới Z - A</option>
 												<option value="2">Nhân vật A - Z</option>
 												<option value="3">Nhân vật Z - A</option>
-												<option value="4">Số đầu sách tăng dần</option>
-												<option value="5">Số đầu sách giảm dần</option>
 											</select>
 										</div>
 									</div>
@@ -119,7 +117,7 @@
 										<tr>
 											<th scope="col">#</th>
 											<th scope="col">Nhân vật</th>
-											<th class="text-center" scope="col">Các đầu sách</th>
+											<th class="text-center" scope="col">Mã nhân vật</th>
 											<th scope="col"></th>
 											<th scope="col"></th>
 											<th scope="col">
@@ -133,11 +131,7 @@
 											<th class="col-1" scope="row">{{pageIndex*10 + $index +
 												1}}</th>
 											<td class="col">{{charactor.charactor.value}}</td>
-											<td class="text-center col-4"><a
-												ng-show="charactor.listBook.length > 0" type="button"
-												data-bs-toggle="modal"
-												data-bs-target="{{'#modal' + charactor.charactor.id}}">{{charactor.listBook.length}}
-													đầu sách</a> <a ng-show="charactor.listBook.length <= 0"><i>---------------</i></a>
+											<td class="text-center col-4">{{charactor.charactor.id}}
 											</td>
 											<td class="text-center col-1"><a
 												ng-click="showUpdateModal($index)"><i

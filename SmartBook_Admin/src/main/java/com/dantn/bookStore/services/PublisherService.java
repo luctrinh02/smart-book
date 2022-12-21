@@ -205,7 +205,6 @@ public class PublisherService {
                     getFromSize(getPublisher), "%" + keyWord + "%");
             break;
         }
-
         // Return View
         return pageReturn;
     }
@@ -225,9 +224,10 @@ public class PublisherService {
 
     private HashMap<String, Object> getListBook(Page<Publisher> page) {
         HashMap<String, Object> mapReturn = new HashMap<String, Object>();
-        for (Publisher publisher : page) {
-            mapReturn.put(publisher.getId() + "", publisher.getBooks());
-        }
+		/*
+		 * for (Publisher publisher : page) { mapReturn.put(publisher.getId() + "",
+		 * publisher.getBooks()); }
+		 */
         return mapReturn;
     }
 
