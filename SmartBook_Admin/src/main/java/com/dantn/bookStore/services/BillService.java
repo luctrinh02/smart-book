@@ -114,4 +114,7 @@ public class BillService {
 	public List<Bill> saveAll(List<Bill> bills) {
 		return this.repository.saveAll(bills);
 	}
+	public Long countCustomerInday() {
+		return this.repository.countCustomerInday(new Date());
+	}
 }

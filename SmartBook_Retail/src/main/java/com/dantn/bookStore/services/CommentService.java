@@ -2,9 +2,11 @@ package com.dantn.bookStore.services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.dantn.bookStore.dto.request.CommentRequest;
+import com.dantn.bookStore.dto.response.BookRedis;
 import com.dantn.bookStore.entities.BillDetail;
 import com.dantn.bookStore.entities.Book;
 import com.dantn.bookStore.entities.Comment;
@@ -16,9 +18,9 @@ public class CommentService {
 	@Autowired
 	private ICommentRepository repository;
 	@Autowired
-	private BookService bookService;
-	@Autowired
 	private BillDetailService service;
+	@Autowired
+	private RedisTemplate<Object, Object> template;
 	public Comment create(CommentRequest request) {
 		if(!isValidRequest(request)) {
 			return null;
@@ -34,9 +36,14 @@ public class CommentService {
 		cm=request.changeToEntity(cm);
 		cm.setBook(b);
 		cm.setUser(AppConstraint.USER);
-		b.setPoint(b.getPoint()+request.getRate());
-		b.setEvaluate(b.getEvaluate()+1);
-		bookService.save(b);
+		BookRedis redis=(BookRedis) template.opsForValue().get(b.getId());
+		if(redis==null) {
+			redis=new BookRedis(b,(long) request.getRate(),(long) 1);
+		}else {
+			redis.setEvaluate(redis.getEvaluate()+1);
+			redis.setPoint(request.getRate()+redis.getPoint());
+		}
+		template.opsForValue().set(b.getId(), redis);
 		return repository.save(cm);
 	}
 	public boolean isValidRequest(CommentRequest request) {

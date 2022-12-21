@@ -53,8 +53,6 @@ public class Book implements Serializable{
 	private Long amount;
 	@Column(name = "sale_amount")
 	private Long saleAmount;
-	private Integer point;
-	private Integer evaluate;
 	@Lob
 	private String description;
 	@ManyToOne
@@ -160,18 +158,6 @@ public class Book implements Serializable{
 	}
 	public void setSaleAmount(Long saleAmount) {
 		this.saleAmount = saleAmount;
-	}
-	public Integer getPoint() {
-		return point;
-	}
-	public void setPoint(Integer point) {
-		this.point = point;
-	}
-	public Integer getEvaluate() {
-		return evaluate;
-	}
-	public void setEvaluate(Integer evaluate) {
-		this.evaluate = evaluate;
 	}
 	public String getDescription() {
 		return description;
@@ -305,8 +291,7 @@ public class Book implements Serializable{
 		return "Book [id=" + id + ", name=" + name + ", ISBN=" + ISBN + ", image=" + image + ", height=" + height
 				+ ", width=" + width + ", length=" + length + ", weight=" + weight + ", year=" + year + ", numOfPage="
 				+ numOfPage + ", author=" + author + ", publisher=" + publisher + ", price=" + price + ", discount="
-				+ discount + ", amount=" + amount + ", saleAmount=" + saleAmount + ", point=" + point + ", evaluate="
-				+ evaluate + ", description=" + description + ", createdBy=" + createdBy + ", createdTime="
+				+ discount + ", amount=" + amount + ", saleAmount=" + saleAmount + ", description=" + description + ", createdBy=" + createdBy + ", createdTime="
 				+ createdTime + ", updatedTime=" + updatedTime + ", saleTime=" + saleTime + ", type=" + type
 				+ ", charactor=" + charactor + ", content=" + content + ", status=" + status + ", userClicks="
 				+ userClicks + ", userBuys=" + userBuys + ", carts=" + carts + ", billDetails=" + billDetails

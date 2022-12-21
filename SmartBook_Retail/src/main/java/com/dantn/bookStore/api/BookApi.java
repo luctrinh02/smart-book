@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dantn.bookStore.dto.response.BookRedis;
 import com.dantn.bookStore.entities.Book;
 import com.dantn.bookStore.entities.BookStatus;
 import com.dantn.bookStore.services.BookService;
@@ -24,6 +26,8 @@ public class BookApi {
 	private BookService service;
 	@Autowired
 	private UserClickService clickService;
+	@Autowired
+	private RedisTemplate<Object, Object> template;
 	@GetMapping("/api/book")
 	public ResponseEntity<?> getAll(){
 		return ResponseEntity.ok(this.service.getall());
@@ -40,6 +44,14 @@ public class BookApi {
 			clickService.save(book);
 		}
 		return ResponseEntity.ok(book);
+	}
+	@GetMapping("/api/book/rate/{id}")
+	public ResponseEntity<?> getRate(@PathVariable("id") Integer id){
+		BookRedis redis=(BookRedis) template.opsForValue().get(id);
+		if(redis==null) {
+			redis=new BookRedis(null,(long)0,(long)0);
+		}
+		return ResponseEntity.ok(redis);
 	}
 	@GetMapping("/api/book/future")
 	public ResponseEntity<?> future(@RequestParam("condition") String condition){

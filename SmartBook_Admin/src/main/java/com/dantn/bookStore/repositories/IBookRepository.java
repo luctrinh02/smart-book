@@ -19,5 +19,6 @@ import com.dantn.bookStore.entities.Publisher;
 public interface IBookRepository extends JpaRepository<Book, Integer>{
 	@Query("select b from Book b where b.name like ?1 and (?2 is null or b.publisher = ?2) and (?3 is null or b.author = ?3) and (?4 is null or b.status = ?4) and b.type like ?5")
 	Page<Book> getBooks(String keyWord, Publisher publisher, Author author, BookStatus status, String type ,Pageable page);
-
+	@Query("select b from Book b where b.saleAmount>0")
+	Page<Book> getBooks(Pageable pageable);
 }

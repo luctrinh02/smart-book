@@ -244,8 +244,6 @@ public class BookService {
 			b.setImage(old.getImage());
 			b.setCreatedTime(old.getCreatedTime());
 			b.setSaleAmount(old.getSaleAmount());
-			b.setEvaluate(old.getEvaluate());
-			b.setPoint(b.getPoint());
 		}
 		b.setBatch(false);
 		b.setAuthor(authorService.findById(Integer.parseInt(request.getAuthor())));
@@ -281,8 +279,6 @@ public class BookService {
 			Iterator<Cell> cellIterator = nextRow.cellIterator();
 			Book book = new Book();
 			book.setCreatedBy(user);
-			book.setEvaluate(0);
-			book.setPoint(0);
 			book.setSaleAmount((long) 0);
 			book.setSaleTime(null);
 			book.setBatch(true);
@@ -388,5 +384,8 @@ public class BookService {
 			eBooks.add(getEBook(book));
 		}
 		ieBookRepository.saveAll(eBooks);
+	}
+	public List<Book> getTop10(){
+		return repository.getBooks(PageRequest.of(0, 10,Sort.by("saleAmount"))).getContent();
 	}
 }

@@ -274,8 +274,6 @@ public class BookRequest implements DtoToEntity<Book> {
 		}
         if (b.getId() == null) {
             b.setCreatedTime(new Date());
-            b.setEvaluate(0);
-            b.setPoint(0);
             b.setSaleAmount((long) 0);
         } else {
             b.setUpdatedTime(new Date());
