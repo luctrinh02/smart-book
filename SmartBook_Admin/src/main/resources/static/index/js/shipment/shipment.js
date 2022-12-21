@@ -8,6 +8,11 @@ function ctrlShipment($scope, $http) {
 		let chek = new Date($scope.bills[index].createdTime).setHours(7, 0, 0, 0);
 		return today - chek;
 	}
+	$scope.convertText = function(price) {
+		var x = Math.ceil(Number(price));
+		x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+		return x;
+	}
 	$scope.getDate = function(cDate) {
 		let today = new Date().setHours(7, 0, 0, 0);
 		let chek = new Date(cDate).setHours(7, 0, 0, 0);
@@ -31,7 +36,6 @@ function ctrlShipment($scope, $http) {
 		if ($scope.bills[index].bill == true) {
 			$http.get("/api/admin/bill/" + $scope.bills[index].billId).then(function(response) {
 				$scope.details = response.data;
-				console.log($scope.details)
 			})
 			$("#detailmodalBill").modal("show");
 		} else {

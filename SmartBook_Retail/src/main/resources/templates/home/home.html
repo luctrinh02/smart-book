@@ -154,8 +154,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="text-center">
-					<button class="btn">Xem thêm</button>
+				<div class="text-center mt-2">
+					<button class="btn" ng-click="getMore('saleAmount',booksTrend.page+1)" ng-hide="booksTrend.number==booksTrend.totalPages">Xem thêm</button>
 				</div>
 			</div>
 			<div class="tab-pane fade show chefs" id="menu-sale">
@@ -179,6 +179,9 @@
 						</div>
 					</div>
 				</div>
+				<div class="text-center mt-2">
+					<button class="btn" ng-click="getMore('discount',booksHot.page+1)" ng-hide="booksHot.number==booksHot.totalPages">Xem thêm</button>
+				</div>
 			</div>
 			<div class="tab-pane fade show chefs" id="menu-new">
 				<div class="row gy-5 mt-2">
@@ -200,6 +203,9 @@
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="text-center mt-2">
+					<button class="btn" ng-click="getMore('createdTime',booksNew.page+1)" ng-hide="booksNew.number==booksNew.totalPages">Xem thêm</button>
 				</div>
 			</div>
 			<div class="tab-pane fade show chefs" id="menu-non-start">
