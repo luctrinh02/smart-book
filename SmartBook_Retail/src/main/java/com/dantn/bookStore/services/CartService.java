@@ -54,6 +54,10 @@ public class CartService {
 		return this.repository.findAllById(cartPKs);
 	}
 	public HashMap<String, Object> addToCart(Integer id,Long amount,Principal principal,UserService userService,BookService bookService){
+		if(principal==null) {
+			HashMap<String, Object> map=DataUltil.setData("error", "Vui lòng đăng nhập");
+			return map;
+		}
 		Book book=bookService.getById(id);
 		if(amount>book.getAmount()) {
 			HashMap<String, Object> map=DataUltil.setData("error", "Số lượng sách không đủ");
