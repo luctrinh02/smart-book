@@ -193,13 +193,12 @@ public class BillApi {
 			detail.setBook(book);
 			detail.setIsComment(false);
 			detail.setAvailable(cart.getAmount());
-			detail.setPrice(
-					book.getPrice().multiply(new BigDecimal(100 - book.getDiscount())).divide(new BigDecimal(100)));
+			detail.setPrice( book.getPrice().multiply(new BigDecimal(100 - book.getDiscount())).divide(new BigDecimal(100)));
 			detailService.save(detail);
 			book.setSaleAmount(cart.getAmount() + book.getSaleAmount());
 			bookService.save(book);
 			cartService.delete(cart.getCartPK());
-			bookMoney = bookMoney.add(detail.getPrice().multiply(new BigDecimal(cart.getAmount())));
+			bookMoney = bookMoney.add(detail.getPrice().multiply(new BigDecimal(cart.getAmount())).divide(new BigDecimal((100-cart.getBook().getDiscount())/100)));
 			buyService.save(book);
 		}
 		bill.setBookMoney(bookMoney);

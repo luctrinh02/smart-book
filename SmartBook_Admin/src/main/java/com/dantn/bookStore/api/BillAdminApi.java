@@ -32,8 +32,8 @@ public class BillAdminApi {
 	private BillStatusService billStatusService;
 	private BillDetailService billDetailService;
 	private UserService service;
-	
-    public BillAdminApi(BillService billService, BillStatusService billStatusService,
+
+	public BillAdminApi(BillService billService, BillStatusService billStatusService,
 			BillDetailService billDetailService, UserService service) {
 		super();
 		this.billService = billService;
@@ -41,31 +41,36 @@ public class BillAdminApi {
 		this.billDetailService = billDetailService;
 		this.service = service;
 	}
-	@GetMapping("")
-	public ResponseEntity<?> getByStatus(@RequestParam("status") Integer statusIndex
-			,@RequestParam("page")Integer pageNum,Principal principal){
-    	User user=service.getByEmail(principal.getName());
-    	if(user.getRole().getId()==3) {
-    		statusIndex=1;
-    	}
-    	BillStatus billStatus=BillStatusSingleton.getInstance(billStatusService).get(statusIndex);
-		Page<Bill> page=billService.getByAcepted(billStatus, pageNum);
+
+	@GetMapping("/getData")
+	public ResponseEntity<?> getByStatus(@RequestParam("status") Integer statusIndex, @RequestParam("page") Integer pageNum, Principal principal) {
+
+		User user = service.getByEmail(principal.getName());
+		if (user.getRole().getId() == 3) {
+			statusIndex = 1;
+		}
+		BillStatus billStatus = BillStatusSingleton.getInstance(billStatusService).get(statusIndex);
+		Page<Bill> page = billService.getByAcepted(billStatus, pageNum);
 		return ResponseEntity.ok(page);
 	}
+
 	@PutMapping("")
-	public ResponseEntity<?> updateStatus(@RequestBody BillUpdateRequest request,Principal principal){
-		HashMap<String, Object> map=billService.update(request, billStatusService,principal);
+	public ResponseEntity<?> updateStatus(@RequestBody BillUpdateRequest request, Principal principal) {
+		
+		HashMap<String, Object> map = billService.update(request, billStatusService, principal);
 		return ResponseEntity.ok(map);
 	}
+
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getDetail(@PathVariable("id") Integer id){
-	    Bill b=billService.getById(id);
-	    List<BillDetail> details=billDetailService.getByBill(b);
-        return ResponseEntity.ok(details);
+	public ResponseEntity<?> getDetail(@PathVariable("id") Integer id) {
+		Bill b = billService.getById(id);
+		List<BillDetail> details = billDetailService.getByBill(b);
+		return ResponseEntity.ok(details);
 	}
+
 	@GetMapping("/status")
-	public ResponseEntity<?> getStatus(){
-	    List<BillStatus> list=BillStatusSingleton.getInstance(billStatusService);
-	    return ResponseEntity.ok(list);
+	public ResponseEntity<?> getStatus() {
+		List<BillStatus> list = BillStatusSingleton.getInstance(billStatusService);
+		return ResponseEntity.ok(list);
 	}
 }

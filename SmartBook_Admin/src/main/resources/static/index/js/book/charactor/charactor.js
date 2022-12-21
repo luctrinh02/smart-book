@@ -92,7 +92,7 @@ function ctrlCharactor($scope, $http) {
 
 
 	$scope.createCharactor = function() {
-		$http.post("/api/charactor/create?value=" + $scope.createInput).then(function(response) {
+		$http.post("/api/charactor/create?value=" + $scope.createInput.trim()).then(function(response) {
 			if (response.data.statusCode == "blank") {
 				$scope.createInput = " ";
 				Toast.fire({
