@@ -248,8 +248,8 @@ public class BillApi {
 			if (b.getStatus().getId() == 4) {
 				try {
 					Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getDate());
-					if (date.getTime() - new Date().getTime() > 259200000) {
-						map = DataUltil.setData("error", "Ngày dời không quá 3 ngày");
+					if (date.getTime() - new Date().getTime() <= 86400000) {
+						map = DataUltil.setData("error", "Ngày dời phải sau ngày hôm nay");
 						break;
 					}
 				} catch (Exception e) {

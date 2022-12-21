@@ -282,6 +282,7 @@ public class BookService {
 			book.setSaleAmount((long) 0);
 			book.setSaleTime(null);
 			book.setBatch(true);
+			book.setCreatedTime(new Date());
 			while (cellIterator.hasNext()) {
 				Cell cell = cellIterator.next();
 				Object cellValue = ExcelUltil.getCellValue(cell);

@@ -127,7 +127,7 @@ public class IEBookRepository {
 	}
 
 	public Query createQuery(String field, String key) {
-		Query query = MatchQuery.of(m -> m.field(field).query(key).fuzziness("1").prefixLength(1))._toQuery();
+		Query query = MatchQuery.of(m -> m.field(field).query(key).fuzziness("AUTO").prefixLength(1))._toQuery();
 		return query;
 	}
 	public Query createMinPriceQuery(Double price) {

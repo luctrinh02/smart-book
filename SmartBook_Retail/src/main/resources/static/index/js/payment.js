@@ -58,9 +58,12 @@ function PaymentController($scope, $http, $rootScope) {
 	}
 	$scope.changeTransportType = function() {
 		$scope.transportFee = 0;
+		$scope.totalWeight=0;
 		for (let i = 0; i < $scope.carts.length; i++) {
-			$scope.transportFee += $scope.transportTypes[$scope.transportType.t].fee * ($scope.carts[i].book.weight * $scope.carts[i].amount) / 1000;
+			$scope.totalWeight += ($scope.carts[i].book.weight * $scope.carts[i].amount) / 1000;
 		}
+		$scope.totalWeight = Math.floor(Number($scope.totalWeight * 10)) / 10;
+		$scope.transportFee = $scope.transportTypes[$scope.transportType.t].fee * $scope.totalWeight;
 		$scope.transportFee.toFixed();
 	}
 
