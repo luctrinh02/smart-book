@@ -52,7 +52,7 @@ function ctrlAuthor($scope, $http) {
 
 
 	$scope.createAuthor = function() {
-		$http.post("/api/author/create?value=" + $scope.createInput).then(function(response) {
+		$http.post("/api/author/create?value=" + $scope.createInput.trim()).then(function(response) {
 			if (response.data.statusCode == "blank") {
 				$scope.createInput = " ";
 				Toast.fire({

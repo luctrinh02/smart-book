@@ -109,7 +109,7 @@
 										<i class="bi bi-plus-circle"></i>&ensp;Thêm mới
 									</a> &ensp;
 									<button class="btn btn-primary btn-sm rounded-pill ps-3 pe-3 mt-1" data-bs-target="#excelModal" data-bs-toggle="modal">
-										<i class="fa-solid fa-file-excel"></i>&ensp;Thêm file
+										<i class="fa-solid fa-file-excel"></i>&ensp;Upload excel
 									</button>&ensp;
 								</div>
 								<div class="col-4">
@@ -194,7 +194,7 @@
 											<td class="text-center">{{b.numOfPage}}</td>
 											<td class="text-center">{{b.height}}x{{b.width}}x{{b.length}}</td>
 											<td class="text-center">{{b.weight}}</td>
-											<td class="text-center">{{b.price}}</td>
+											<td class="text-center">{{convertText(b.price)}}</td>
 											<td class="text-center">{{b.amount}}</td>
 											<td class="text-center">{{b.evaluate}}</td>
 											<td class="text-center">{{b.point}}</td>

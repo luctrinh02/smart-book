@@ -1,6 +1,8 @@
 package com.dantn.bookStore.repositories;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +13,7 @@ import com.dantn.bookStore.entities.Author;
 import com.dantn.bookStore.entities.Book;
 import com.dantn.bookStore.entities.BookStatus;
 import com.dantn.bookStore.entities.Publisher;
+
 
 @Repository
 public interface IBookRepository extends JpaRepository<Book, Integer>{

@@ -92,7 +92,7 @@ function ctrlType($scope, $http) {
 
 
 	$scope.createType = function() {
-		$http.post("/api/type/create?value=" + $scope.createInput).then(function(response) {
+		$http.post("/api/type/create?value=" + $scope.createInput.trim()).then(function(response) {
 			if (response.data.statusCode == "blank") {
 				$scope.createInput = " ";
 				Toast.fire({

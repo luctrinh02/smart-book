@@ -58,6 +58,11 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 			$scope.pageBook = response.data.pageBook;
 		});
 	};
+	$scope.convertText = function(price) {
+		var x = Math.ceil(Number(price));
+		x = x.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+		return x;
+	}
 	$scope.showModalUpdate = function(index) {
 		$scope.elementUpdate = $scope.pageBook.content[index];
 		$scope.statusUpdate = $scope.elementUpdate.status.id - 1 + '';
@@ -393,7 +398,7 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 				'Content-Type': undefined
 			}
 		}
-		if($routeParams.id != null){
+		if ($routeParams.id != null) {
 			myForm.append("id", $scope.book.id)
 		}
 		myForm.append("isbn", $scope.book.isbn)
@@ -431,7 +436,8 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 					icon: 'success',
 					title: "Lưu dữ liệu thành công"
 				})
-				window.location.href = "/#/book";
+				$scope.init();
+				window.location.href = "/admin/smart-book#/book";
 			} else {
 				Toast.fire({
 					icon: 'error',
@@ -441,23 +447,6 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 		})
 	};
 	/* Update Book */
-	$scope.update = function(id){
-		window.location.href="/admin/smart-book#book/update/"+id;
-	}
-	if ($routeParams.id != null) {
-		$http.get("/api/book/" + $routeParams.id).then(function(response) {
-			console.log(response.data);
-			$scope.book = response.data;
-			$scope.book.author = $scope.book.author.id.toString();
-			$scope.book.publisher = $scope.book.publisher.id.toString();
-			$scope.book.saleTime = new Date($scope.book.saleTime);
-			$scope.showType = $scope.getShows($scope.book.type, $scope.listType);
-			$scope.showContent = $scope.getShows($scope.book.content, $scope.listContent);
-			$scope.showCharactor = $scope.getShows($scope.book.charactor, $scope.listCharactor);
-			$scope.book.status = $scope.book.status.id - 1 + "";
-			$scope.statusChangeCreate();
-		});
-	}
 	$scope.getShows = function(ids, list) {
 		let listReturn = [];
 		let id = ids.split(",");
@@ -470,8 +459,29 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 		}
 		return listReturn;
 	}
-	$scope.excel={};
-	$scope.upload=function(){
+
+
+	if ($routeParams.id != null) {
+		$http.get("/api/book/" + $routeParams.id).then(function(response) {
+			$scope.book = response.data;
+			$scope.book.author = $scope.book.author.id.toString();
+			$scope.book.publisher = $scope.book.publisher.id.toString();
+			$scope.book.status = $scope.book.status.id - 1 + "";
+			$scope.statusChangeCreate();
+			$scope.book.saleTime = new Date($scope.book.saleTime);
+			$http.post("/api/book/getBooks", $scope.params).then(function(response) {
+				$scope.listType = response.data.listType;
+				$scope.listContent = response.data.listContent;
+				$scope.listCharactor = response.data.listCharactor;
+				$scope.showType = $scope.getShows($scope.book.type, $scope.listType);
+				$scope.showContent = $scope.getShows($scope.book.content, $scope.listContent);
+				$scope.showCharactor = $scope.getShows($scope.book.charactor, $scope.listCharactor);
+			});
+		});
+	}
+
+	$scope.excel = {};
+	$scope.upload = function() {
 		$("#excelError").val("");
 		let myForm = new FormData();
 		var config = {
@@ -484,8 +494,8 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 		if ($("#excel").val() != "") {
 			myForm.append("file", $scope.excel)
 		}
-		$http.post("/api/book/upload",myForm,config).then(function(response){
-			switch(Number(response.data)){
+		$http.post("/api/book/upload", myForm, config).then(function(response) {
+			switch (Number(response.data)) {
 				case 0:
 					Toast.fire({
 						icon: 'success',

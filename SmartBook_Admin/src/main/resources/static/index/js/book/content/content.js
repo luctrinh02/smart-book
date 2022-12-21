@@ -92,7 +92,7 @@ function ctrlContent($scope, $http) {
 
 
 	$scope.createContent = function() {
-		$http.post("/api/content/create?value=" + $scope.createInput).then(function(response) {
+		$http.post("/api/content/create?value=" + $scope.createInput.trim()).then(function(response) {
 			if (response.data.statusCode == "blank") {
 				$scope.createInput = " ";
 				Toast.fire({

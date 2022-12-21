@@ -53,7 +53,7 @@ function ctrlPublisher($scope, $http) {
 
 
 	$scope.createPublisher = function() {
-		$http.post("/api/publisher/create?value=" + $scope.createInput).then(function(response) {
+		$http.post("/api/publisher/create?value=" + $scope.createInput.trim()).then(function(response) {
 			if (response.data.statusCode == "blank") {
 				$scope.createInput = " ";
 				Toast.fire({
