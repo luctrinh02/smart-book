@@ -303,7 +303,6 @@ public class BookService {
 					break;
 				case ExcelUltil.COLUMN_INDEX_CONTENT:
 					book.setContent((String) cellValue);
-					;
 					break;
 				case ExcelUltil.COLUMN_INDEX_DESCRIPTION:
 					book.setDescription((String) cellValue);
@@ -322,7 +321,6 @@ public class BookService {
 					break;
 				case ExcelUltil.COLUMN_INDEX_LENGTH:
 					book.setLength(Double.valueOf((Double) cellValue).intValue());
-					;
 					break;
 				case ExcelUltil.COLUMN_INDEX_NAME:
 					book.setName((String) cellValue);
@@ -355,7 +353,9 @@ public class BookService {
 					break;
 				}
 			}
-			books.add(book);
+			if(book.getISBN()!=null && book.getAmount()!=null) {
+				books.add(book);
+			}
 		}
 		return books;
 	}
