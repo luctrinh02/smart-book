@@ -29,7 +29,7 @@ function HistoryController($scope, $http) {
 		if ($scope.details.length == 0) {
 			$http.get("/api/bill/" + id).then(function(response) {
 				$scope.details = response.data.data;
-				if($scope.details[0].bill.status.id==5){
+				if($scope.details[0].bill.status.id==5 ||$scope.details[0].bill.status.id==6 ){
 					let today = new Date().setHours(7, 0, 0, 0);
 					let chek = new Date($scope.details[0].bill.updatedTime).setHours(7, 0, 0, 0);
 					if(today-chek<=432000000){

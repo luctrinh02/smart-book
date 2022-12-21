@@ -198,7 +198,7 @@ public class BillApi {
 			book.setSaleAmount(cart.getAmount() + book.getSaleAmount());
 			bookService.save(book);
 			cartService.delete(cart.getCartPK());
-			bookMoney = bookMoney.add(detail.getPrice().multiply(new BigDecimal(cart.getAmount())).divide(new BigDecimal((100-cart.getBook().getDiscount())/100)));
+			bookMoney = bookMoney.add(detail.getPrice().multiply(new BigDecimal(cart.getAmount())));
 			buyService.save(book);
 		}
 		bill.setBookMoney(bookMoney);
