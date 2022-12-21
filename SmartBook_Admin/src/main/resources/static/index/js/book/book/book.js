@@ -184,7 +184,7 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 			return true;
 		}
 		for (var i = 0; i < listCheck.length; i++) {
-			if (document.getElementById(inputId).value.trim().toUpperCase() == listCheck[i].value.toUpperCase()) {
+			if (document.getElementById(inputId).value.trim().toUpperCase() == listCheck[i].value.trim().toUpperCase()) {
 				for (var j = 0; j < listAdd.length; j++) {
 					if (listAdd[j].id == listCheck[i].id) {
 						Toast.fire({
@@ -250,7 +250,7 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 	$scope.createElement = function(inputId, list) {
 		switch ($scope.titleInfo) {
 			case "Thể loại":
-				$http.post("/api/book/createType", document.getElementById(inputId).value).then(function(response) {
+				$http.post("/api/book/createType", document.getElementById(inputId).value.trim()).then(function(response) {
 					if (response.data.statusCode == "ok") {
 						$scope.listType = response.data.listType;
 						list.push($scope.listType[$scope.listType.length - 1]);
@@ -268,7 +268,7 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 				});
 				break;
 			case "Nội dung":
-				$http.post("/api/book/createContent", document.getElementById(inputId).value).then(function(response) {
+				$http.post("/api/book/createContent", document.getElementById(inputId).value.trim()).then(function(response) {
 					if (response.data.statusCode == "ok") {
 						$scope.listContent = response.data.listContent;
 						list.push($scope.listContent[$scope.listContent.length - 1]);
@@ -286,7 +286,7 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 				});
 				break;
 			default:
-				$http.post("/api/book/createCharactor", document.getElementById(inputId).value).then(function(response) {
+				$http.post("/api/book/createCharactor", document.getElementById(inputId).value.trim()).then(function(response) {
 					if (response.data.statusCode == "ok") {
 						$scope.listCharactor = response.data.listCharactor;
 						list.push($scope.listCharactor[$scope.listCharactor.length - 1]);

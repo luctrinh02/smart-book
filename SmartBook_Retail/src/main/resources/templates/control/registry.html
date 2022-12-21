@@ -1,116 +1,215 @@
-<main>
-    <div class="container mt-5">
+<section class="h-100 h-custom pb-0"
+	style="color: var(- -color-primary)">
+	<div class="container p-0 h-100">
+		<div class="pagetitle text">
+			<nav>
+				<ol class="breadcrumb mt-1 mb-1">
+					<li class="breadcrumb-item"><a href="#home">Smart Book</a></li>
+					<li class="breadcrumb-item active">Đăng ký</li>
+				</ol>
+			</nav>
+		</div>
+		<div
+			class="row d-flex justify-content-center align-items-center h-100">
+			<div class="col-12">
+				<div class="card card-registration card-registration-2">
+					<div class="card-body p-0">
+						<div class="row g-0">
+							<div class="col-12" id="list" style="min-height: 700px">
+								<div class="d-flex justify-content-center py-3 mt-3">
+									<a href="#home"
+										class="logo d-flex align-items-center justify-content-center w-auto">
+										<img src="/index/img/s2.png" alt="" width="60%">
+									</a>
+								</div>
+								<p class="text-center pb-0">
+									Đăng ký tài khoản <span class="text fw-bold">Smart Book</span>
+									để nhận những ưu đãi giảm giá
+								</p>
+								<form class="row g-3 needs-validation p-lg-4 p-md-3 p-2">
+									<div class="col-12 mt-0">
+										<label for="emailInput" class="form-label">Email <span
+											class="text-danger">*</span></label>
+										<div class="input-group has-validation">
+											<span class="input-group-text" id="inputGroupPrepend">@</span>
+											<input id="emailInput" type="text" name="email"
+												class="form-control" placeholder="Email">
+										</div>
+										<small class="text-danger" id="email"></small>
+									</div>
+									<div class="col-12">
+										<label for="phoneNumberInput" class="form-label">Số
+											điện thoại <span class="text-danger">*</span>
+										</label>
+										<div class="input-group has-validation">
+											<input type="text" name="phoneNumber" class="form-control"
+												placeholder="Số điện thoại" id="phoneNumberInput" required>
+										</div>
+										<small class="text-danger" id="phoneNumber"></small>
+									</div>
+									<div class="col-12">
+										<label for="fullnameInput" class="form-label">Họ và
+											tên <span class="text-danger">*</span>
+										</label>
+										<div class="input-group has-validation">
+											<input type="text" name="fullname" class="form-control"
+												placeholder="Họ và tên" id="fullnameInput" required>
+										</div>
+										<small class="text-danger" id="fullname"></small>
+									</div>
+									<div class="col-12">
+										<label for="addressInput" class="form-label">Địa chỉ <span
+											class="text-danger">*</span></label>
+										<div class="input-group has-validation">
+											<input type="text" name="address" class="form-control"
+												placeholder="Địa chỉ" id="addressInput" required>
+										</div>
+										<small class="text-danger" id="address"></small>
+									</div>
+									<div class="col-12">
+										<label for="yourPassword" class="form-label">Mật khẩu <span
+											class="text-danger">*</span></label> <input type="password"
+											name="password" class="form-control" placeholder="Mật khẩu"
+											id="yourPassword" required> <small
+											class="text-danger" id="password"></small>
+									</div>
+									<div class="col-12">
+										<label for="confirm" class="form-label">Xác nhận mật
+											khẩu <span class="text-danger">*</span>
+										</label> <input type="password" name="confirm" class="form-control"
+											placeholder="Xác nhận mật khẩu" id="confirm" required>
+										<small class="text-danger" id="ConfirmPassword"></small>
+									</div>
 
-        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+									<div class="col-12 text-center mt-lg-5 mt-md-2 mt-1">
+										<button class="btn btn-secondary" type="button"
+											ng-click="reset()">Đặt lại</button>
+										<button class="btn btn-primary ms-2" type="button"
+											ng-click="check()">Đăng ký</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 
-                        <div class="card mb-3">
 
-                            <div class="card-body">
 
-                                <div class="pt-4 pb-2">
-                                    <div class="d-flex justify-content-center py-3">
-                                        <a href="#home" class="logo d-flex align-items-center w-auto">
-                                             <!-- <img src="/index/img/logo.jpg" alt="">  -->
-                                             <span class="d-none d-lg-block">Smart
-                                                Book</span>
-                                        </a>
-                                    </div>
+<!-- <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-0 w-100">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div
+				class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-                                    <p class="text-center small">Đăng ký tài khoản Smart Book</p>
-                                </div>
-                                <form class="row g-3 needs-validation">
-                                    <div class="col-12">
-                                        <label for="emailInput" class="form-label">Email *</label>
-                                        <div class="input-group has-validation">
-                                            <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                            <input id="emailInput" type="text" name="email" class="form-control"
-                                                placeholder="Email">
-                                        </div>
-                                        <small class="text-danger" id="email"></small>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="phoneNumberInput" class="form-label">Số điện thoại *</label>
-                                        <div class="input-group has-validation">
-                                            <input type="text" name="phoneNumber" class="form-control"
-                                                placeholder="Số điện thoại" id="phoneNumberInput" required>
-                                        </div>
-                                        <small class="text-danger" id="phoneNumber"></small>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="fullnameInput" class="form-label">Họ tên *</label>
-                                        <div class="input-group has-validation">
-                                            <input type="text" name="fullname" class="form-control" placeholder="Họ tên"
-                                                id="fullnameInput" required>
-                                        </div>
-                                        <small class="text-danger" id="fullname"></small>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="addressInput" class="form-label">Địa chỉ *</label>
-                                        <div class="input-group has-validation">
-                                            <input type="text" name="address" class="form-control" placeholder="Địa chỉ"
-                                                id="addressInput" required>
-                                        </div>
-                                        <small class="text-danger" id="address"></small>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="yourPassword" class="form-label">Mật khẩu *</label>
-                                        <input type="password" name="password" class="form-control"
-                                            placeholder="Mật khẩu" id="yourPassword" required>
-                                        <small class="text-danger" id="password"></small>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="confirm" class="form-label">Xác nhận mật khẩu</label>
-                                        <input type="password" name="confirm" class="form-control"
-                                            placeholder="Xác nhận mật khẩu" id="confirm" required>
-                                        <small class="text-danger" id="ConfirmPassword"></small>
-                                    </div>
-                                    <div class="col-12 row mt-2">
-                                        <div class="col-6 pe-0 text-end">
-                                            <a class="mt-2" href="/smart-book/forgot_password"><span class="small">Quên
-                                                    mật khẩu?</span></a>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-secondary" type="button" ng-click="reset()">Đặt
-                                            lại</button>
-                                        <button class="btn btn-primary" type="button" ng-click="check()">Đăng
-                                            ký</button>
-                                    </div>
-                                </form>
+				<div class="card mb-3">
 
-                            </div>
-                        </div>
+					<div class="card-body">
 
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <a href="#home" class="logo d-flex align-items-center"> 
-                                <!-- <img src="/index/img/logo.jpg"alt=""> -->
-                                 <span class="d-none d-lg-block">Smart Book</span>
-                            </a>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h5 class="card-title m-0 p-0 fs-6">Bạn có chắc muốn đăng ký</h5>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                                ng-click="create()">Chắc chắn</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+						<div class="pt-4 pb-2">
+							<div class="d-flex justify-content-center py-3">
+								<a href="#home"
+									class="logo d-flex align-items-center justify-content-center w-auto">
+									<img src="/index/img/s2.png" alt="" width="85%">
+								</a>
+							</div>
+							<p class="text-center small">Đăng ký tài khoản Smart Book</p>
+						</div>
+						<form class="row g-3 needs-validation">
+							<div class="col-12">
+								<label for="emailInput" class="form-label">Email<span
+									class="text-danger">*</span></label>
+								<div class="input-group has-validation">
+									<span class="input-group-text" id="inputGroupPrepend">@</span>
+									<input id="emailInput" type="text" name="email"
+										class="form-control" placeholder="Email">
+								</div>
+								<small class="text-danger" id="email"></small>
+							</div>
+							<div class="col-12">
+								<label for="phoneNumberInput" class="form-label">Số điện
+									thoại <span class="text-danger">*</span>
+								</label>
+								<div class="input-group has-validation">
+									<input type="text" name="phoneNumber" class="form-control"
+										placeholder="Số điện thoại" id="phoneNumberInput" required>
+								</div>
+								<small class="text-danger" id="phoneNumber"></small>
+							</div>
+							<div class="col-12">
+								<label for="fullnameInput" class="form-label">Họ và tên<span
+									class="text-danger">*</span></label>
+								<div class="input-group has-validation">
+									<input type="text" name="fullname" class="form-control"
+										placeholder="Họ tên" id="fullnameInput" required>
+								</div>
+								<small class="text-danger" id="fullname"></small>
+							</div>
+							<div class="col-12">
+								<label for="addressInput" class="form-label">Địa chỉ<span
+									class="text-danger">*</span></label>
+								<div class="input-group has-validation">
+									<input type="text" name="address" class="form-control"
+										placeholder="Địa chỉ" id="addressInput" required>
+								</div>
+								<small class="text-danger" id="address"></small>
+							</div>
+							<div class="col-12">
+								<label for="yourPassword" class="form-label">Mật khẩu<span
+									class="text-danger">*</span></label> <input type="password"
+									name="password" class="form-control" placeholder="Mật khẩu"
+									id="yourPassword" required> <small class="text-danger"
+									id="password"></small>
+							</div>
+							<div class="col-12">
+								<label for="confirm" class="form-label">Xác nhận mật
+									khẩu <span class="text-danger">*</span>
+								</label> <input type="password" name="confirm" class="form-control"
+									placeholder="Xác nhận mật khẩu" id="confirm" required>
+								<small class="text-danger" id="ConfirmPassword"></small>
+							</div>
 
-        </section>
+							<div class="col-12">
+								<button class="btn btn-secondary" type="button"
+									ng-click="reset()">Đặt lại</button>
+								<button class="btn btn-primary" type="button" ng-click="check()">Đăng
+									ký</button>
+							</div>
+						</form>
 
-    </div>
-</main>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="exampleModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a href="#home" class="logo d-flex align-items-center"> <img src="/index/img/logo.jpg"alt="">
+						<span class="d-none d-lg-block">Smart Book</span>
+					</a>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<h5 class="card-title m-0 p-0 fs-6">Bạn có chắc muốn đăng ký</h5>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Huỷ</button>
+					<button type="button" class="btn btn-primary"
+						data-bs-dismiss="modal" ng-click="create()">Chắc chắn</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+ -->
