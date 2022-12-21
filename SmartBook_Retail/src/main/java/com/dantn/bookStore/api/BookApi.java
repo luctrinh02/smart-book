@@ -53,12 +53,6 @@ public class BookApi {
 		}
 		return ResponseEntity.ok(redis);
 	}
-	@GetMapping("/api/book/future")
-	public ResponseEntity<?> future(@RequestParam("condition") String condition){
-		Page<Book> page=service.getFuture(condition);
-		return ResponseEntity.ok(page.getContent());
-	}
-	
 	@GetMapping("/api/book/comment/{id}")
 	public ResponseEntity<?> getComment(@PathVariable("id") Integer id){
 		return ResponseEntity.ok(service.getById(id).getComments());

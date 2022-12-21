@@ -3,15 +3,15 @@ function MyController($scope, $http, $rootScope) {
 	$http.get("/api/book/suggest").then(function(response) {
 		$rootScope.books = response.data;
 	});
-	// $http.get("/api/book/future?condition=createdTime").then(function(response) {
-	// 	$rootScope.book4s = response.data;
-	// });
-	// $http.get("/api/book/future?condition=discount").then(function(response) {
-	// 	$rootScope.book3s = response.data;
-	// });
-	// $http.get("/api/book/future?condition=saleAmount").then(function(response) {
-	// 	$rootScope.book2s = response.data;
-	// });
+	$http.get("/api/home/future?condition=createdTime&page=0").then(function(response) {
+		$rootScope.booksNew = response.data;
+	});
+	$http.get("/api/home/future?condition=discount&page=0").then(function(response) {
+		$rootScope.booksHot = response.data;
+	});
+	$http.get("/api/home/future?condition=saleAmount&page=0").then(function(response) {
+		$rootScope.booksTrend = response.data;
+	});
 	$scope.search = function() {
 		let search = document.getElementById("searchText").value;
 		let dataSearch={
