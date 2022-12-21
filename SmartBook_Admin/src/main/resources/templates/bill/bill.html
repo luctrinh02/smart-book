@@ -17,7 +17,7 @@
 
 						<div class="card-body pb-0">
 							<h5 class="card-title pb-0">Trạng thái</h5>
-							<div class="form-check form-switch" ng-repeat="s in status" ng-hide="authen.role.id==3 && (s.id==1||s.id==3||s.id==4||s.id==5||s.id==6)">
+							<div class="form-check form-switch" ng-repeat="s in status" ng-hide="authen.role.id==3 && (s.id==1||s.id==3||s.id==4||s.id==5||s.id==6 || s.id==7)">
 							
 						        <input class="form-check-input" type="radio" name="status" id="status{{$index}}" 
 						         ng-checked="$index == 0 && authen.role.id == 2 || $index == 1 && authen.role.id != 2"
