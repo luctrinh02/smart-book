@@ -22,7 +22,7 @@
 								placeholder="Từ khoá" title="Enter search keyword"
 								class="form-control">
 						</div>
-						<div class="card-body pb-0">
+						<!-- <div class="card-body pb-0">
 							<h5 class="card-title pb-0">Số lượng đầu sách</h5>
 							<div class="form-check form-switch" ng-click="getDataReset()">
 								<input style="cursor: pointer;" class="form-check-input"
@@ -48,7 +48,7 @@
 									style="cursor: pointer;" class="form-check-label" for="f4">
 									Lớn hơn 100</label>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -103,8 +103,8 @@
 												<option value="1">Ngày thêm mới Z - A</option>
 												<option value="2">Thể loại A - Z</option>
 												<option value="3">Thể loại Z - A</option>
-												<option value="4">Số đầu sách tăng dần</option>
-												<option value="5">Số đầu sách giảm dần</option>
+												<!-- <option value="4">Số đầu sách tăng dần</option>
+												<option value="5">Số đầu sách giảm dần</option> -->
 											</select>
 										</div>
 									</div>
@@ -119,7 +119,7 @@
 									<tr>
 										<th scope="col">#</th>
 										<th scope="col">Thể loại</th>
-										<th class="text-center" scope="col">Các đầu sách</th>
+										<th class="text-center" scope="col">Mã thể loại</th>
 										<th scope="col"></th>
 										<th scope="col"></th>
 										<th scope="col"><!-- <input class="form-check-input"
@@ -130,11 +130,7 @@
 									<tr ng-repeat="type in listType">
 										<th class="col-1" scope="row">{{pageIndex*10 + $index + 1}}</th>
 										<td class="col">{{type.type.value}}</td>
-										<td class="text-center col-4"><a
-											ng-show="type.listBook.length > 0" type="button"
-											data-bs-toggle="modal"
-											data-bs-target="{{'#modal' + type.type.id}}">{{type.listBook.length}}
-												đầu sách</a> <a ng-show="type.listBook.length <= 0"><i>---------------</i></a>
+										<td class="text-center col-4">{{type.type.id}}
 										</td>
 										<td class="text-center col-1"><a ng-click="showUpdateModal($index)"><i
 												class="bi bi-pencil text-warning"></i></a></td>

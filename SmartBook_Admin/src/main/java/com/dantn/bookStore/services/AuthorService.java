@@ -221,9 +221,10 @@ public class AuthorService {
 
     private HashMap<String, Object> getListBook(Page<Author> page) {
         HashMap<String, Object> mapReturn = new HashMap<String, Object>();
-        for (Author author : page) {
-            mapReturn.put(author.getId() + "", author.getBooks());
-        }
+		/*
+		 * for (Author author : page) { mapReturn.put(author.getId() + "",
+		 * author.getBooks()); }
+		 */
         return mapReturn;
     }
 
