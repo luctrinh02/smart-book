@@ -68,7 +68,7 @@
 							<!-- Small tables -->
 								<div class="table-wrapper overflow-auto"  style="width: 100%; height: 97%">
 								<table class="table table-hover table-sm mt-3" id="example"
-									style="min-width: 150%;">
+									style="min-width: 170%;">
 								<thead>
 									<th>#</th>
 									<th>Email</th>
@@ -83,14 +83,16 @@
 										<th style="width: 5%;">{{page*10 + $index + 1}}</th>
 										<td style="width: 15%;">{{user.email}}</td>
 										<td style="width: 15%;">{{user.fullname}}</td>
-										<td style="width: 15%;" class="text-truncate">
+										<td style="width: 10%;" class="text-truncate">
 											{{user.phoneNumber}}</td>
-										<td style="width: 20%;" class="text-truncate">
-											{{user.address}}</td>
-										<td style="width: 19%"><span
-											class="text-{{user.status.color}} small">{{user.status.value}}</span></td>
-										<td style="width: 7%">
+										<td style="width: 30%;" class="text-truncate">
+											{{user.address+', '+user.ward.name+', '+user.ward.district.name+', '+user.ward.district.city.name}}</td>
+										<td style="width: 14%"><span class="text-{{user.status.color}} small">{{user.status.value}}</span></td>
+										<td style="width: 7%" ng-show="authen.id != user.id">
 											<a href="#admin/profile/{{user.id}}"><i class="fa-solid fa-pen-to-square text-warning"></i></a>
+										</td>
+										<td style="width: 7%" ng-show="authen.id == user.id">
+											<a href="#profile"><i class="fa-solid fa-pen-to-square text-warning"></i></a>
 										</td>
 										<td style="width: 7%">
 											<a data-bs-toggle="modal" ng-show="user.status.id==1" data-bs-target="{{'#modal'+user.id}}" type="button"><i class="fa-solid fa-user-slash text-danger"></i></a>	

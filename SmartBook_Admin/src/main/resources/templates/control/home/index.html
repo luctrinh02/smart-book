@@ -107,8 +107,7 @@
 								</thead>
 								<tbody>
 									<tr ng-repeat="b in home.books">
-										<th scope="row"><img
-												src="assets/img/product-1.jpg" alt=""></th>
+										<th scope="row"><img src="data:image/jpg;base64,{{b.image}}" alt=""></th>
 										<td>{{b.name}}</td>
 										<td>{{convertText(b.price - b.price*b.discount/100)}}</td>
 										<td class="fw-bold">{{b.saleAmount}}</td>

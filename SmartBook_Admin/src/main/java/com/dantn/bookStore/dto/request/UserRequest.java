@@ -1,10 +1,12 @@
 package com.dantn.bookStore.dto.request;
 
+
 import javax.validation.constraints.Email;
 
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dantn.bookStore.adapter.DtoToEntity;
 import com.dantn.bookStore.entities.User;
@@ -12,6 +14,7 @@ import com.dantn.bookStore.ultilities.ConfirmPassword;
 import com.dantn.bookStore.ultilities.PhoneNumerChecking;
 @ConfirmPassword
 public class UserRequest implements DtoToEntity<User>{
+
 	private Integer id;
 	@NotBlank(message = "Không bỏ trống email")
 	@Email(message = "Email không đúng định dạng")
@@ -21,11 +24,52 @@ public class UserRequest implements DtoToEntity<User>{
 	private String confirm;
 	@NotBlank(message = "Không bỏ trống tên")
 	private String fullname;
-	@NotBlank(message = "Không bỏ trống địa chỉ")
+	@NotBlank(message = "Không bỏ trống địa chỉ cụ thể")
 	private String address;
 	@PhoneNumerChecking
 	private String phoneNumber;
 	private Integer role;
+	private MultipartFile file;
+	@NotBlank(message = "Vui lòng chọn xã/phường")
+	private String ward;
+	@NotBlank(message = "Vui lòng chọn tỉnh/thành phố")
+	private String city;
+	@NotBlank(message = "Vui lòng chọn quận/huyện")
+	private String district;
+	private String base64;
+	
+	
+	public String getBase64() {
+		return base64;
+	}
+	public void setBase64(String base64) {
+		this.base64 = base64;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getDistrict() {
+		return district;
+	}
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+
+	public Integer getWard() {
+		return Integer.parseInt(ward);
+	}
+	public void setWard(String ward) {
+		this.ward = ward;
+	}
 	public Integer getId() {
 		return id;
 	}

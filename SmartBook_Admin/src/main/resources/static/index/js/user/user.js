@@ -1,4 +1,4 @@
-function adminController($scope, $http) {
+function adminController($scope, $http, $rootScope) {
 	$scope.users = {};
 	$scope.user = "1";
 	$scope.page = 0;
@@ -185,6 +185,13 @@ function shipperController($scope, $http) {
 
 function userCreateController($scope, $http, $routeParams) {
 	$scope.title = "";
+	$scope.citys = [];
+	$scope.districts = [];
+	$scope.wards = [];
+	$scope.city = "";
+	$scope.district = "";
+	$scope.ward = "";
+	$scope.file = {};
 	switch ($routeParams.role) {
 		case "0":
 			$scope.title = "Khách hàng";
@@ -196,6 +203,11 @@ function userCreateController($scope, $http, $routeParams) {
 			$scope.title = "Giao hàng";
 			break;
 	}
+	$http.get("/api/city").then(function(response) {
+		$scope.citys = response.data.citys;
+		$scope.districts = response.data.districts;
+		$scope.wards = response.data.wards;
+	});
 	$scope.role = $routeParams.role;
 	$scope.initError = function() {
 		document.getElementById('email').innerText = "";
@@ -204,15 +216,20 @@ function userCreateController($scope, $http, $routeParams) {
 		document.getElementById('ConfirmPassword').innerText = "";
 		document.getElementById('password').innerText = "";
 		document.getElementById('address').innerText = "";
+		document.getElementById('file').innerText = "";
+		document.getElementById('ward').innerText = "";
+		document.getElementById('city').innerText = "";
+		document.getElementById('district').innerText = "";
 	}
+
 	$scope.check = function() {
 		$scope.initError();
 		let email = document.getElementsByName("email")[0].value;
 		let fullname = document.getElementsByName("fullname")[0].value;
 		let phoneNumber = document.getElementsByName("phoneNumber")[0].value;
-		let confirm = document.getElementsByName("confirm")[0].value;
-		let password = document.getElementsByName("password")[0].value;
 		let address = document.getElementsByName("address")[0].value;
+		let password = document.getElementsByName("password")[0].value;
+		let confirm = document.getElementsByName("confirm")[0].value;
 		let formData = {
 			"email": email,
 			"fullname": fullname,
@@ -220,11 +237,19 @@ function userCreateController($scope, $http, $routeParams) {
 			"confirm": confirm,
 			"password": password,
 			"address": address,
-			"role": $scope.role
+			"role": $scope.role,
+			"city": $scope.city,
+			"district": $scope.district,
+			"ward": $scope.ward,
 		}
 		$http.post("/api/admin/user/validation", formData).then(function(response) {
 			if (response.data.statusCode == "ok") {
-				$("#exampleModal").modal("show");
+				if ($('#abc').val() == '') {
+					document.getElementById('file').innerText = "Vui lòng chọn hình ảnh người dùng";
+				} else {
+					$("#exampleModal").modal("show");
+					document.getElementById('file').innerText = "";
+				}
 			} else {
 				let data = response.data.data;
 				for (let i = 0; i < data.length; i++) {
@@ -234,33 +259,58 @@ function userCreateController($scope, $http, $routeParams) {
 						document.getElementById(data[i].code).innerText = data[i].defaultMessage;
 					}
 				}
+				if ($('#abc').val() == '') {
+					document.getElementById('file').innerText = "Vui lòng chọn hình ảnh người dùng";
+				} else {
+					document.getElementById('file').innerText = "";
+				}
 			}
 		})
 	}
 	$scope.create = function() {
-		let email = document.getElementsByName("email")[0].value;
-		let fullname = document.getElementsByName("fullname")[0].value;
-		let phoneNumber = document.getElementsByName("phoneNumber")[0].value;
-		let confirm = document.getElementsByName("confirm")[0].value;
-		let password = document.getElementsByName("password")[0].value;
-		let address = document.getElementsByName("address")[0].value;
-		let formData = {
-			"email": email,
-			"fullname": fullname,
-			"phoneNumber": phoneNumber,
-			"confirm": confirm,
-			"password": password,
-			"address": address,
-			"role": $scope.role
+		$scope.initError();
+		let myForm = new FormData();
+		var config = {
+			"transformRequest": angular.identity,
+			"transformResponse": angular.identity,
+			"headers": {
+				'Content-Type': undefined
+			}
 		}
-		$http.post("/api/admin/user", formData).then(function(response) {
-			if (response.data.statusCode == "ok") {
+		myForm.append("email", document.getElementsByName("email")[0].value);
+		myForm.append("fullname", document.getElementsByName("fullname")[0].value);
+		myForm.append("phoneNumber", document.getElementsByName("phoneNumber")[0].value)
+		myForm.append("confirm", document.getElementsByName("confirm")[0].value)
+		myForm.append("password", document.getElementsByName("password")[0].value)
+		myForm.append("address", document.getElementsByName("address")[0].value)
+		myForm.append("file", $scope.file);
+		myForm.append("role", $scope.role);
+
+		myForm.append("ward", $scope.ward);
+		myForm.append("city", $scope.city);
+		myForm.append("district", $scope.district);
+
+		$http.post("/api/admin/user", myForm, config).then(function(response) {
+			if (response.data == 0) {
 				Toast.fire({
 					icon: 'success',
-					title: response.data.data
+					title: "Thêm thành công"
 				})
+				switch ($routeParams.role) {
+					case "0":
+						window.location.href = "/admin/smart-book#/guest";
+						break;
+					case "1":
+						window.location.href = "/admin/smart-book#/admin";
+
+						break;
+					case "2":
+						window.location.href = "/admin/smart-book#/shipper";
+
+						break;
+				}
 			} else {
-				document.getElementById("email").innerText = response.data.data;
+				document.getElementById("email").innerText = "Email trùng lặp";
 			}
 		})
 	}
@@ -268,6 +318,14 @@ function userCreateController($scope, $http, $routeParams) {
 
 function userUpdateController($scope, $http, $routeParams) {
 	$scope.title = "";
+	$scope.citys = [];
+	$scope.districts = [];
+	$scope.wards = [];
+	$scope.city = "";
+	$scope.district = "";
+	$scope.ward = "";
+	$scope.file = {};
+
 	$scope.userDefault = {
 		"email": "",
 		"fullname": "",
@@ -275,8 +333,11 @@ function userUpdateController($scope, $http, $routeParams) {
 		"confirm": "",
 		"password": "",
 		"address": "",
-		"role": ""
+		"role": "",
+		"img": "",
+		"ward": {}
 	}
+
 	$scope.user = angular.copy($scope.userDefault);
 	$scope.name = "";
 	$scope.role = 1;
@@ -285,6 +346,15 @@ function userUpdateController($scope, $http, $routeParams) {
 		$scope.user = response.data.data;
 		$scope.name = $scope.user.fullname;
 		$scope.role = $scope.user.role.id - 1;
+		$scope.city = $scope.user.ward.district.city.id.toString();
+		$scope.district = $scope.user.ward.district.id.toString();
+		$scope.ward = $scope.user.ward.id.toString();
+
+		$http.get("/api/city").then(function(response) {
+			$scope.citys = response.data.citys;
+			$scope.districts = response.data.districts;
+			$scope.wards = response.data.wards;
+		});
 		switch ($scope.role) {
 			case 0:
 				$scope.title = "Khách hàng";
@@ -297,11 +367,21 @@ function userUpdateController($scope, $http, $routeParams) {
 				break;
 		}
 	})
+	$scope.resetAbc = function() {
+		$scope.user = angular.copy($scope.userDefault);
+		$scope.city = angular.copy($scope.userDefault.ward.district.city.id.toString());
+		$scope.district = angular.copy($scope.userDefault.ward.district.id.toString());
+		$scope.ward = angular.copy($scope.userDefault.ward.id.toString());
+	}
 	$scope.initError = function() {
 		document.getElementById('email').innerText = "";
 		document.getElementById('fullname').innerText = "";
 		document.getElementById('phoneNumber').innerText = "";
 		document.getElementById('address').innerText = "";
+		document.getElementById('file').innerText = "";
+		document.getElementById('ward').innerText = "";
+		document.getElementById('city').innerText = "";
+		document.getElementById('district').innerText = "";
 	}
 	$scope.check = function() {
 		$scope.initError();
@@ -309,6 +389,7 @@ function userUpdateController($scope, $http, $routeParams) {
 		let fullname = document.getElementsByName("fullname")[0].value;
 		let phoneNumber = document.getElementsByName("phoneNumber")[0].value;
 		let address = document.getElementsByName("address")[0].value;
+
 		let formData = {
 			"email": email,
 			"fullname": fullname,
@@ -316,10 +397,12 @@ function userUpdateController($scope, $http, $routeParams) {
 			"confirm": "smartbook",
 			"password": "smartbook",
 			"address": address,
-			"role": $scope.role
+			"role": $scope.role,
+			"city": $scope.city,
+			"district": $scope.district,
+			"ward": $scope.ward,
 		}
 		$http.post("/api/admin/user/validation", formData).then(function(response) {
-
 			if (response.data.statusCode == "ok") {
 				$("#exampleModal").modal("show");
 			} else {
@@ -336,33 +419,55 @@ function userUpdateController($scope, $http, $routeParams) {
 	}
 
 	$scope.update = function() {
-		let email = document.getElementsByName("email")[0].value;
-		let fullname = document.getElementsByName("fullname")[0].value;
-		let phoneNumber = document.getElementsByName("phoneNumber")[0].value;
-		let address = document.getElementsByName("address")[0].value;
-		let formData = {
-			"email": email,
-			"fullname": fullname,
-			"phoneNumber": phoneNumber,
-			"confirm": "smartbook",
-			"password": "smartbook",
-			"address": address,
-			"role": $scope.role,
-			"id": $scope.user.id
+		let myForm = new FormData();
+		var config = {
+			"transformRequest": angular.identity,
+			"transformResponse": angular.identity,
+			"headers": {
+				'Content-Type': undefined
+			}
 		}
-		$http.put("/api/admin/user/" + $scope.user.id, formData).then(function(response) {
-			if (response.data.statusCode == "ok") {
+		myForm.append("email", document.getElementsByName("email")[0].value);
+		myForm.append("fullname", document.getElementsByName("fullname")[0].value);
+		myForm.append("phoneNumber", document.getElementsByName("phoneNumber")[0].value)
+		myForm.append("confirm", "smartbook")
+		myForm.append("password", "smartbook")
+		myForm.append("address", document.getElementsByName("address")[0].value)
+		if ($('#abc').val() == '') {
+			myForm.append("base64", $scope.user.img);
+		} else {
+			myForm.append("file", $scope.file);
+		}
+		myForm.append("role", $scope.role);
+		myForm.append("ward", $scope.ward);
+		myForm.append("city", $scope.city);
+		myForm.append("district", $scope.district);
+
+		myForm.append("id", $scope.user.id);
+
+		$http.put("/api/admin/user/" + $scope.user.id, myForm, config).then(function(response) {
+			if (response.data == 0) {
 				Toast.fire({
 					icon: 'success',
-					title: response.data.data
+					title: "Chỉnh sửa thành công"
 				})
+				switch ($scope.role.toString()) {
+					case "0":
+						window.location.href = "/admin/smart-book#/guest";
+						break;
+					case "1":
+						window.location.href = "/admin/smart-book#/admin";
+
+						break;
+					case "2":
+						window.location.href = "/admin/smart-book#/shipper";
+
+						break;
+				}
 				$scope.name = formData.fullname;
 			} else {
-				document.getElementById("email").innerText = response.data.data;
+				document.getElementById("email").innerText = "Email trùng lặp";
 			}
 		})
-	}
-	$scope.reset = function() {
-		$scope.user = angular.copy($scope.userDefault)
 	}
 };
