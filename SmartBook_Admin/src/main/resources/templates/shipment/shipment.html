@@ -233,8 +233,16 @@
 									class="{{'text-'+details[0].bill.status.color}}">{{details[0].bill.status.value}}</span>
 							</th>
 							</tr>
-							<tr colspan="4" ng-hide="{{details[0].bill.status.id==3}}">
+							<tr colspan="4" ng-show="{{details[0].bill.status.id==3}}">
 								Ghi chú: {{details[0].bill.message}}
+							</tr>
+							<tr>
+								<th colspan="4">Khách hàng: <span
+									>{{details[0].bill.fullname+" ("+details[0].bill.phoneNumber+")"}}</span>
+							</tr>
+							<tr>
+								<th colspan="4">Địa chỉ: <span
+									>{{details[0].bill.addressDetail+", "+details[0].bill.ward.name+", "+details[0].bill.ward.district.name+", "+details[0].bill.ward.district.city.name}}</span>
 							</tr>
 						</tfoot>
 					</table>
@@ -268,9 +276,22 @@
 							</tr>
 						</tbody>
 						<tfoot>
-							<th colspan="4">Trạng thái: <span
+							<tr>
+								<th colspan="4">Trạng thái: <span
 									class="{{'text-'+details[0].returnBill.status.color}}">{{details[0].returnBill.status.value}}</span>
 							</th>
+							</tr>
+							<tr colspan="4" ng-show="{{details[0].returnBill.status.id==3}}">
+								Ghi chú: {{details[0].returnBill.message}}
+							</tr>
+							<tr>
+								<th colspan="4">Khách hàng: <span
+									>{{details[0].returnBill.bill.fullname+" ("+details[0].returnBill.bill.phoneNumber+")"}}</span>
+							</tr>
+							<tr>
+								<th colspan="4">Địa chỉ: <span
+									>{{details[0].returnBill.bill.addressDetail+", "+details[0].returnBill.bill.ward.name+", "+details[0].returnBill.bill.ward.district.name+", "+details[0].returnBill.bill.ward.district.city.name}}</span>
+							</tr>
 						</tfoot>
 					</table>
 				</div>
