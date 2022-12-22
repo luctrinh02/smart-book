@@ -486,6 +486,7 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 
 	$scope.excel = {};
 	$scope.upload = function() {
+		document.getElementById("load").classList.remove("d-none");
 		$("#excelError").val("");
 		let myForm = new FormData();
 		var config = {
@@ -501,6 +502,7 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 		$http.post("/api/book/upload", myForm, config).then(function(response) {
 			switch (Number(response.data)) {
 				case 0:
+					document.getElementById("load").classList.add("d-none");
 					Toast.fire({
 						icon: 'success',
 						title: "Thành công"

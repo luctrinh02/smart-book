@@ -18,14 +18,16 @@
 					<div class="card pb-4 m-0">
 						<div class="card-body pb-0">
 							<h5 class="card-title pb-0">Tìm kiếm</h5>
-							<input type="text" name="query" placeholder="Nhập tên sách..." ng-change="getData(0)"
-								ng-model="params.keyWord" class="form-control">
+							<input type="text" name="query" placeholder="Nhập tên sách..."
+								ng-change="getData(0)" ng-model="params.keyWord"
+								class="form-control">
 						</div>
 
 						<div class="card-body pb-0">
 							<h5 class="card-title pb-0">Lọc</h5>
 							<div class="form-floating mt-2">
-								<select class="form-select" ng-change="getData(0)" ng-model="params.type">
+								<select class="form-select" ng-change="getData(0)"
+									ng-model="params.type">
 									<option value="">Tất cả</option>
 									<option ng-repeat="o in listType" value="{{o.id}}">{{o.value}}</option>
 								</select> <label for="findType">Thể loại</label>
@@ -34,7 +36,8 @@
 
 						<div class="card-body pb-0">
 							<div class="form-floating mt-2">
-								<select class="form-select" ng-change="getData(0)" ng-model="params.author">
+								<select class="form-select" ng-change="getData(0)"
+									ng-model="params.author">
 									<option value="">Tất cả</option>
 									<option ng-repeat="o in listAuthor" value="{{$index}}">{{o.name}}</option>
 								</select> <label for="findType">Tác giả</label>
@@ -44,7 +47,8 @@
 
 						<div class="card-body pb-0">
 							<div class="form-floating mt-2">
-								<select class="form-select" ng-change="getData(0)" ng-model="params.publisher">
+								<select class="form-select" ng-change="getData(0)"
+									ng-model="params.publisher">
 									<option value="">Tất cả</option>
 									<option ng-repeat="o in listPublisher" value="{{$index}}">{{o.name}}</option>
 								</select> <label for="findType">Nhà xuất bản</label>
@@ -54,9 +58,11 @@
 
 						<div class="card-body pb-0">
 							<div class="form-floating mt-2">
-								<select class="form-select" ng-change="getData(0)" ng-model="params.status">
+								<select class="form-select" ng-change="getData(0)"
+									ng-model="params.status">
 									<option value="">Tất cả</option>
-									<option ng-repeat="o in listBookStatus" class="text-{{o.color}}" value="{{$index}}">
+									<option ng-repeat="o in listBookStatus"
+										class="text-{{o.color}}" value="{{$index}}">
 										{{o.value}}</option>
 								</select> <label for="findType">Trạng thái</label>
 							</div>
@@ -105,25 +111,30 @@
 							<!-- Pagination with icons -->
 							<div class="row d-flex mt-3">
 								<div class="col-4">
-									<a href="#book/create" class="btn btn-primary btn-sm rounded-pill ps-3 pe-3 mt-1">
+									<a href="#book/create"
+										class="btn btn-primary btn-sm rounded-pill ps-3 pe-3 mt-1">
 										<i class="bi bi-plus-circle"></i>&ensp;Thêm mới
 									</a> &ensp;
-									<button class="btn btn-primary btn-sm rounded-pill ps-3 pe-3 mt-1" data-bs-target="#excelModal" data-bs-toggle="modal">
+									<button
+										class="btn btn-primary btn-sm rounded-pill ps-3 pe-3 mt-1"
+										data-bs-target="#excelModal" data-bs-toggle="modal">
 										<i class="fa-solid fa-file-excel"></i>&ensp;Upload excel
-									</button>&ensp;
+									</button>
+									&ensp;
 								</div>
 								<div class="col-4">
 									<ul class="pagination justify-content-center">
 										<li class="page-item" ng-click="getData(params.page-1)"><a
-												class="page-link"><span aria-hidden="true">&laquo;</span>
-											</a></li>
-										<li ng-show="!pageBook.empty" class="page-item"><a class="page-link"><i>
+											class="page-link"><span aria-hidden="true">&laquo;</span>
+										</a></li>
+										<li ng-show="!pageBook.empty" class="page-item"><a
+											class="page-link"><i>
 													{{params.page+1}}/{{pageBook.totalPages}}</i></a></li>
-										<li ng-show="pageBook.empty" class="page-item"><a class="page-link"><i>Trang
-													trống</i></a></li>
-										<li class="page-item" ng-click="getData(params.page+1)"><a class="page-link">
-												<span aria-hidden="true">&raquo;</span>
-											</a></li>
+										<li ng-show="pageBook.empty" class="page-item"><a
+											class="page-link"><i>Trang trống</i></a></li>
+										<li class="page-item" ng-click="getData(params.page+1)"><a
+											class="page-link"> <span aria-hidden="true">&raquo;</span>
+										</a></li>
 									</ul>
 								</div>
 								<div class="col-4">
@@ -145,8 +156,10 @@
 							</div>
 
 							<!-- Small tables -->
-							<div class="table-wrapper overflow-auto" style="width: 100%; height: 97%">
-								<table class="table table-hover table-sm mt-3" id="example" style="min-width: 250%;">
+							<div class="table-wrapper overflow-auto"
+								style="width: 100%; height: 97%">
+								<table class="table table-hover table-sm mt-3" id="example"
+									style="min-width: 250%;">
 									<thead>
 										<tr>
 											<th width="2%">#</th>
@@ -157,10 +170,10 @@
 											<th class="text-center" width="4%">Nội dung</th>
 											<th class="text-center" width="4%">Nhân vật</th>
 											<th class="text-center" width="4%">Số trang</th>
-											<th class="text-center" width="6%">Kích thước <span class="small"
-													style="font-weight: normal;">(DxRxC)</span></th>
-											<th class="text-center" width="6%">Trọng lượng <span class="small"
-													style="font-weight: normal;">(g)</span></th>
+											<th class="text-center" width="6%">Kích thước <span
+												class="small" style="font-weight: normal;">(DxRxC)</span></th>
+											<th class="text-center" width="6%">Trọng lượng <span
+												class="small" style="font-weight: normal;">(g)</span></th>
 											<th class="text-center" width="4%">Giá bán</th>
 											<th class="text-center" width="4%">Số lượng</th>
 											<th class="text-center" width="6%">Lượt đánh giá</th>
@@ -178,18 +191,17 @@
 											<td><a href="#book/update/{{b.id}}">{{b.name}}</a></td>
 											<td>{{b.isbn}}</td>
 											<td class="text-center"><span
-													class="text-{{b.status.color}} text-start">{{b.status.value}}</span>
+												class="text-{{b.status.color}} text-start">{{b.status.value}}</span>
 												<i ng-click="showModalUpdate($index)"
-													class="fa-solid fa-repeat ms-2 text-primary"></i>
-											</td>
+												class="fa-solid fa-repeat ms-2 text-primary"></i></td>
 											<td class="text-center"><a
-													ng-click="showInfoModal($index,-1)">{{typeInBook[b.id].length}}
+												ng-click="showInfoModal($index,-1)">{{typeInBook[b.id].length}}
 													thể loại</a></td>
 											<td class="text-center"><a
-													ng-click="showInfoModal($index,0)">{{contentInBook[b.id].length}}
+												ng-click="showInfoModal($index,0)">{{contentInBook[b.id].length}}
 													nội dung</a></td>
 											<td class="text-center"><a
-													ng-click="showInfoModal($index,1)">{{charactorInBook[b.id].length}}
+												ng-click="showInfoModal($index,1)">{{charactorInBook[b.id].length}}
 													nhân vật</a></td>
 											<td class="text-center">{{b.numOfPage}}</td>
 											<td class="text-center">{{b.height}}x{{b.width}}x{{b.length}}</td>
@@ -219,25 +231,28 @@
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
-				<a href="#home" class="logo d-flex align-items-center"> <img src="/index/img/logo.jpg" alt=""> <span
-						class="d-none d-lg-block">Smart Book</span>
+				<a href="#home" class="logo d-flex align-items-center"> <img
+					src="/index/img/logo.jpg" alt=""> <span
+					class="d-none d-lg-block">Smart Book</span>
 				</a>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<div class="card-body pb-0">
 					<div class="form-floating mt-2">
 						<select class="form-select" ng-model="statusUpdate">
-							<option ng-repeat="o in listBookStatus" class="text-{{o.color}}" value="{{$index}}">
-								{{o.value}}</option>
+							<option ng-repeat="o in listBookStatus" class="text-{{o.color}}"
+								value="{{$index}}">{{o.value}}</option>
 						</select> <label for="findType">Trạng thái</label>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
-				<button type="button" class="btn btn-primary" data-bs-dismiss="modal" ng-click="updateStatus()">Xác
-					nhận</button>
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Huỷ</button>
+				<button type="button" class="btn btn-primary"
+					data-bs-dismiss="modal" ng-click="updateStatus()">Xác nhận</button>
 
 			</div>
 		</div>
@@ -249,31 +264,37 @@
 	<div class="modal-dialog  modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
-				<a href="#home" class="logo d-flex align-items-center"> <img src="/index/img/logo.jpg" alt=""> <span
-						class="d-none d-lg-block">Smart Book</span>
+				<a href="#home" class="logo d-flex align-items-center"> <img
+					src="/index/img/logo.jpg" alt=""> <span
+					class="d-none d-lg-block">Smart Book</span>
 				</a>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<div class="wrapper">
 					<h5 class="text-center fw-bold fs-2" style="color: #012970">{{titleInfo}}</h5>
 					<div class="content ">
-						<li ng-repeat="t in showInfo">{{t.value}}<i class="fa-sharp fa-solid fa-xmark ms-2"
-								ng-click="remove($index, showInfo, 'newInfo')"></i></li>
+						<li ng-repeat="t in showInfo">{{t.value}}<i
+							class="fa-sharp fa-solid fa-xmark ms-2"
+							ng-click="remove($index, showInfo, 'newInfo')"></i></li>
 						<div class="autocomplete">
-							<input type="text" ng-model="newInfo" id="newInfo" class="form-control m-0 mt-2"
-								placeholder="Thêm mới...">
+							<input type="text" ng-model="newInfo" id="newInfo"
+								class="form-control m-0 mt-2" placeholder="Thêm mới...">
 						</div>
-						<button class="btn btn-danger mt-2 btn-sm" ng-click="removeAll(showInfo, 'newInfo')">Xoá
-							hết</button>
-						<button class="btn btn-primary mt-2 ms-2 btn-sm" style="background-color: #012970"
+						<button class="btn btn-danger mt-2 btn-sm"
+							ng-click="removeAll(showInfo, 'newInfo')">Xoá hết</button>
+						<button class="btn btn-primary mt-2 ms-2 btn-sm"
+							style="background-color: #012970"
 							ng-click="checkNewInfo('newInfo', showInfo)">Thêm mới</button>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
-				<button type="button" class="btn btn-primary" ng-click="updateInfo()">Xác nhận</button>
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Huỷ</button>
+				<button type="button" class="btn btn-primary"
+					ng-click="updateInfo()">Xác nhận</button>
 
 			</div>
 		</div>
@@ -283,18 +304,22 @@
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
-				<a href="#home" class="logo d-flex align-items-center"> <img src="/index/img/logo.jpg" alt=""> <span
-						class="d-none d-lg-block">Smart Book</span>
+				<a href="#home" class="logo d-flex align-items-center"> <img
+					src="/index/img/logo.jpg" alt=""> <span
+					class="d-none d-lg-block">Smart Book</span>
 				</a>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<h5 class="card-title m-0 p-0 fs-6">{{titleInfo}} chưa tồn
-					tại, bạn có muốn thêm mới không?</h5>
+				<h5 class="card-title m-0 p-0 fs-6">{{titleInfo}} chưa tồn tại,
+					bạn có muốn thêm mới không?</h5>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
-				<button type="button" class="btn btn-primary" data-bs-dismiss="modal" ng-click="createNewInfo()">Xác
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Huỷ</button>
+				<button type="button" class="btn btn-primary"
+					data-bs-dismiss="modal" ng-click="createNewInfo()">Xác
 					nhận</button>
 
 			</div>
@@ -309,27 +334,33 @@
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
-				<a href="#home" class="logo d-flex align-items-center"> <img src="/index/img/logo.jpg" alt=""> <span
-						class="d-none d-lg-block">Smart Book</span>
+				<a href="#home" class="logo d-flex align-items-center"> <img
+					src="/index/img/logo.jpg" alt=""> <span
+					class="d-none d-lg-block">Smart Book</span>
 				</a>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<div class="row">
-					<label for="excel" class="text-center">Chọn file</label>
-					<input id="excel" type="file" accept=".xls,.xlsx" file-model="excel" class="form-control"
-						name="excel" placeholder="smartbook">
-					<a href="/BookTemplate.xlsx"><i class="fa-sharp fa-solid fa-file-excel"></i> Mẫu file excel</a>
+				<div class="row p-3 pb-1 pt-1">
+					<h4 class="text-center fw-bold">Chọn file dữ liệu</h4>
+					<input id="excel" type="file" accept=".xls,.xlsx" file-model="excel" class="form-control" name="excel" placeholder="smartbook">
+					<a href="/BookTemplate.xlsx" class="mt-1 ms-1	= p-0"><i class="fa-sharp fa-solid fa-file-excel"></i> Mẫu file excel</a>
+					<label class="text-center fw-bold mt-1 d-none" id="load">
+						<div class="spinner-border spinner-border-sm text-dark" role="status">
+							<span class="visually-hidden">Loading...</span>
+						</div>&ensp;Đang tải dữ liệu
+					</label>
 				</div>
 				<div class="row">
 					<small class="text-danger" id="excelError"></small>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Huỷ</button>
 				<button type="button" class="btn btn-primary" ng-click="upload()">Xác
 					nhận</button>
-
 			</div>
 		</div>
 	</div>
