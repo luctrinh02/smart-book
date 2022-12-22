@@ -78,7 +78,6 @@ public class SpringSecurityConfig implements UserDetailsService{
 			UserDetails user =  org.springframework.security.core.userdetails.User.builder()
 					.username(u.getEmail()).password(u.getPassword()).roles(u.getRole().getValue())
 					.disabled(u.getStatus().getId() ==1? false : true).build();
-			AppConstraint.USER=u;
 			return user;
 		}
 	}

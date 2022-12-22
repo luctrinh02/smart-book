@@ -141,7 +141,7 @@
 												<div class="col-4 small">{{detail.book.name}}</div>
 												<div class="col-4 small">{{detail.amount}}</div>
 												<div class="col-4 small">{{convertText(detail.price)}}
-													<i class="fa-solid fa-star" ng-click="openComment($index)" ng-show="!detail.isComment && detail.bill.status.id==5"></i>
+													<i class="fa-solid fa-star" ng-click="openComment($index)" ng-show="!detail.isComment && detail.bill.status.id==7"></i>
 													
 												</div>
 												<div class="modal fade" id="commentModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -227,6 +227,44 @@
 					</div>
 				</div>
 			</div>
+			<div class="modal fade" id="returnBillModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Chọn sản phẩm đổi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <th>Tên sách</th>
+                                <th>Hình ảnh</th>
+                                <th>Số lượng mua</th>
+                                <th>Số lượng hợp pháp</th>
+                                <th>Số lượng đổi</th>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="detail in details">
+                                    <td>{{detail.book.name}}</td>
+                                    <td>{{detail.book.img}}</td>
+                                    <td align="center">{{detail.amount}}</td>
+                                    <td align="center">{{detail.available}}</td>
+                                    <td>
+                                        <input type="number" id="returnAmount{{$index}}" min="0" max="detail.available"
+                                            class="form-control" value="0">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+                        <button type="button" class="btn btn-danger" ng-click="beforeReturn()">Đổi hàng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 			<div class="modal fade" id="confirmModal" tabindex="-1"
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-lg">
