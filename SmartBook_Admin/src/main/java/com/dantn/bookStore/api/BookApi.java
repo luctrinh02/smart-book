@@ -109,6 +109,7 @@ public class BookApi {
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.ok(3);
 		} catch (RuntimeException e) {
+			e.printStackTrace();
 			return ResponseEntity.ok(4);
 		} 
 		return ResponseEntity.ok(0);
