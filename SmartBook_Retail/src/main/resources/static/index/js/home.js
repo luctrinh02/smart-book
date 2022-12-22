@@ -59,14 +59,14 @@ function MyController($scope, $http, $rootScope) {
 				break;
 		}
 	}
-	$scope.search = function () {
+	$rootScope.search = function () {
 		let search = document.getElementById("searchText").value;
 		let dataSearch = {
 			key: search,
 			min: -1
 		}
 		$http.post("/api/book/search", dataSearch).then(function (response) {
-			$scope.books = response.data;
+			$rootScope.books = response.data;
 		});
 	}
 	$scope.addToCart = function (id) {

@@ -11,7 +11,7 @@ function BookController($scope, $http, $routeParams) {
 	$scope.rate={};
 	$http.get("/api/book/" + $routeParams.id).then(function(response) {
 		$scope.book = response.data;
-		$http.get("/api/book/suggest").then(function(response) {
+		$http.get("/api/home/related/"+ $routeParams.id).then(function(response) {
 			$scope.books = response.data;
 		});
 		$http.get("/api/book/comment/" + $routeParams.id).then(function(response) {

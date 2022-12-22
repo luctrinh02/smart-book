@@ -47,6 +47,7 @@ public class SuggestService {
 			List<Book> buyList=buyService.getBook();
 			//lấy click
 			List<Book> clickList=clickService.getByUser();
+			if(clickList.size()>3) {clickList=clickList.subList(0, 3);}
 			Set<Book> clickSet=new LinkedHashSet<>(clickList);
 			//lấy từ liên quan click
 			String key=clickRelationService.getKey();
@@ -60,8 +61,8 @@ public class SuggestService {
 			clickSet=new LinkedHashSet<>(clickList);
 			clickList=new ArrayList<>(clickSet);
 			//click nhiều quá thì dừng
-			if(clickSet.size()>=24) {
-				return clickList;
+			if(clickSet.size()>24) {
+				return clickList.subList(0, 24);
 			}else {
 				//lấy từ search
 				List<Book> searchList=new ArrayList<>();

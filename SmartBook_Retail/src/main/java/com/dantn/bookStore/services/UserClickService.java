@@ -2,6 +2,7 @@ package com.dantn.bookStore.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,12 +28,20 @@ public class UserClickService {
 		UserClickPK clickPK=new UserClickPK();
 		clickPK.setBookId(book.getId());
 		clickPK.setUserId(u.getId());
-		UserClick click=new UserClick();
-		click.setBook(book);
-		click.setUser(u);
-		click.setUserClickPK(clickPK);
-		click.setClickDate(new Date());
-		return this.repository.save(click);
+		Optional<UserClick> optional=repository.findById(clickPK);
+		if(optional.isPresent()) {
+			UserClick click=optional.get();
+			click.setClickDate(new Date());
+			return this.repository.save(click);
+		}else {
+			UserClick click=new UserClick();
+			click.setUserClickPK(clickPK);
+			click.setBook(book);
+			click.setUser(u);
+			click.setUserClickPK(clickPK);
+			click.setClickDate(new Date());
+			return this.repository.save(click);
+		}
 	}
 	public void deleteByBook(Book book) {
 		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
