@@ -66,7 +66,7 @@
 								<table class="table table-hover table-sm mt-3" id="example"
 									style="min-width: 130%;">
 									<thead>
-										<th colspan="2" style="width: 5%;" ng-hide="sta.s==4 || sta.s==5"></th>
+										<th colspan="2" style="width: 5%;" ng-hide="sta.s==2||sta.s==4 || sta.s==5"></th>
 										<th>Mã giao dịch</th>
 										<th>Tổng tiền</th>
 										<th>Thông tin khách hàng</th>
@@ -101,7 +101,7 @@
 													</div>
 												</div>
 											</td>
-											<td class="text-center" ng-hide="bill.status.id==3 || bill.status.id==5 || bill.status.id==6" colspan="{{(bill.status.id==2 && authen.role.id!=3)==true?2:1}}">
+											<td class="text-center" ng-hide="bill.status.id==3 || bill.status.id==5 || bill.status.id==6 || authen.role.id==3" colspan="{{(bill.status.id==2 && authen.role.id!=3)==true?2:1}}">
 												<button class="btn" data-bs-toggle="modal" data-bs-target="{{'#modal'+$index}}">
 													<i class="fa-solid fa-xmark text-danger"></i>
 												</button>

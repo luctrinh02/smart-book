@@ -64,7 +64,7 @@
 									</thead>
 									<tbody>
 										<tr ng-repeat="bill in bills">
-											<td class="align-middle">{{bill.id}}</td>
+											<td class="align-middle" ng-click="getDetail($index)">{{bill.id}}</td>
 											<td class="align-middle" ng-click="getDetail($index)">
 												{{formatDate(bill.createdTime)}}</td>
 											<td class="align-middle" ng-click="getDetail($index)">{{bill.bill==true?'Đơn
@@ -204,7 +204,7 @@
 		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Mã hóa đơn:
+					<h5 class="modal-title fw-bold" id="exampleModalLabel">Mã hóa đơn:
 						{{details[0].bill.tranSn}}</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
@@ -220,8 +220,7 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="detail in details">
-								<td class="col-2"><img src="data:image/jpg;base64,{{detail.book.image}}" alt=""
-										class="rounded w-25"></td>
+								<td class="col-2"><img src="data:image/jpg;base64,{{detail.book.image}}" alt="" height="200px" class="rounded w-100"></td>
 								<td class="col-4">{{detail.book.name}}</td>
 								<td class="col-2">{{detail.amount}}</td>
 								<td class="col-4">{{convertText(detail.price)}}</td>
@@ -233,8 +232,11 @@
 									class="{{'text-'+details[0].bill.status.color}}">{{details[0].bill.status.value}}</span>
 							</th>
 							</tr>
-							<tr colspan="4" ng-show="{{details[0].bill.status.id==3}}">
-								Ghi chú: {{details[0].bill.message}}
+							<tr> <th colspan="4">
+								Tổng tiền: {{convertText(details[0].bill.totalMoney)}}</th>
+							</tr>
+							<tr> <th colspan="4" ng-show="{{details[0].bill.status.id==3}}">
+								Ghi chú: {{details[0].bill.message}}</th>
 							</tr>
 							<tr>
 								<th colspan="4">Khách hàng: <span
@@ -281,8 +283,11 @@
 									class="{{'text-'+details[0].returnBill.status.color}}">{{details[0].returnBill.status.value}}</span>
 							</th>
 							</tr>
-							<tr colspan="4" ng-show="{{details[0].returnBill.status.id==3}}">
-								Ghi chú: {{details[0].returnBill.message}}
+							<tr> <th colspan="4" ng-show="{{details[0].returnBill.status.id==3}}">
+								Ghi chú: {{details[0].returnBill.message}}</th>
+							</tr>
+							<tr> <th colspan="4">
+								Tổng tiền: {{details[0].bill.totalMoney}}</th>
 							</tr>
 							<tr>
 								<th colspan="4">Khách hàng: <span
