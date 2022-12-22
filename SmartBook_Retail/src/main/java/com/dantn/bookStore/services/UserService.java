@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 
@@ -19,6 +18,7 @@ import com.dantn.bookStore.dto.request.UserUpdateRequest;
 import com.dantn.bookStore.entities.User;
 import com.dantn.bookStore.entities.UserRole;
 import com.dantn.bookStore.repositories.IUserRepository;
+import com.dantn.bookStore.repositories.IWardRepository;
 import com.dantn.bookStore.ultilities.DataUltil;
 import com.dantn.bookStore.ultilities.UserRoleSingleton;
 import com.dantn.bookStore.ultilities.UserStatusSingleton;
@@ -26,40 +26,51 @@ import com.dantn.bookStore.ultilities.UserStatusSingleton;
 @Service
 public class UserService {
 	private IUserRepository repository;
+	private IWardRepository iWardRepository;
+	
 
-	public UserService(IUserRepository repository) {
+	public UserService(IUserRepository repository, IWardRepository iWardRepository) {
 		super();
 		this.repository = repository;
+		this.iWardRepository = iWardRepository;
 	}
-	public List<User> getUserByRole(UserRole role){
+
+	public List<User> getUserByRole(UserRole role) {
 		return this.repository.findByRole(role);
 	}
-	public User getUserByRoleAndEmail(UserRole role,String email) {
+
+	public User getUserByRoleAndEmail(UserRole role, String email) {
 		return this.repository.findByRoleAndEmail(role, email);
 	}
+
 	public User getByEmail(String email) {
 		return this.repository.findByEmail(email);
 	}
+
 	public User getById(Integer id) {
-		Optional<User> optional=this.repository.findById(id);
-		return optional.isPresent()?optional.get():null;
+		Optional<User> optional = this.repository.findById(id);
+		return optional.isPresent() ? optional.get() : null;
 	}
-	public HashMap<String, Object> registry(UserRequest request,UserStatusService statusService,UserRoleService roleService){
-		User u=new User();
-		u=request.changeToEntity(u);
+
+	public Integer registry(UserRequest request, UserStatusService statusService,
+			UserRoleService roleService) {
+		User u = new User();
+		u.setWard(iWardRepository.findById(request.getWard()).get());
+		u = request.changeToEntity(u);
 		u.setStatus(UserStatusSingleton.getInstance(statusService).get(0));
 		u.setRole(UserRoleSingleton.getInstance(roleService).get(0));
 		HashMap<String, Object> map;
 		try {
 			this.repository.save(u);
-			map=DataUltil.setData("ok", "Đăng ký thành công");
+			return 0;
 		} catch (Exception e) {
-			map=DataUltil.setData("email", "Email trùng");
+			return 1;
 		}
-		return map;
 	}
-	public HashMap<String, Object> profile(UserUpdateRequest request,Principal principal) throws IllegalStateException, IOException{
-		User u=this.getByEmail(principal.getName());
+
+	public HashMap<String, Object> profile(UserUpdateRequest request, Principal principal)
+			throws IllegalStateException, IOException {
+		User u = this.getByEmail(principal.getName());
 		u.setAddress(request.getFullname());
 		u.setEmail(request.getEmail());
 		u.setFullname(request.getFullname());
@@ -76,26 +87,27 @@ public class UserService {
 		}
 		try {
 			this.repository.save(u);
-			HashMap<String, Object> map=DataUltil.setData("ok", "Thay đổi thông tin thành công");
+			HashMap<String, Object> map = DataUltil.setData("ok", "Thay đổi thông tin thành công");
 			return map;
 		} catch (Exception e) {
-			HashMap<String, Object> map=DataUltil.setData("email", "Email không được trùng lặp");
+			HashMap<String, Object> map = DataUltil.setData("email", "Email không được trùng lặp");
 			return map;
 		}
 	}
-	public HashMap<String, Object> changePassword(UserPasswordRequest request,Principal principal){
-		User u=this.getByEmail(principal.getName());
+
+	public HashMap<String, Object> changePassword(UserPasswordRequest request, Principal principal) {
+		User u = this.getByEmail(principal.getName());
 		HashMap<String, Object> map;
-		if("".equals(request.getPassword())) {
-			map=DataUltil.setData("error", "lỗi");
+		if ("".equals(request.getPassword())) {
+			map = DataUltil.setData("error", "lỗi");
 			map.put("password", "Không bỏ trống password");
-		}else if(request.getPassword().equals(request.getConfirm())) {
-			map=DataUltil.setData("error", "lỗi");
+		} else if (request.getPassword().equals(request.getConfirm())) {
+			map = DataUltil.setData("error", "lỗi");
 			map.put("password", "Xác nhận mật khẩu không chính xác");
-		}else {
+		} else {
 			u.setPassword(request.getPassword());
 			this.repository.save(u);
-			map=DataUltil.setData("ok", "Đổi mật khẩu thành công");
+			map = DataUltil.setData("ok", "Đổi mật khẩu thành công");
 		}
 		return map;
 	}

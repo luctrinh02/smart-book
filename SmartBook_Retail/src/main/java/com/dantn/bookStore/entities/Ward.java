@@ -24,10 +24,19 @@ public class Ward {
 	@JsonIgnore
     @OneToMany(mappedBy = "ward")
     private List<Bill> bills;
+	@JsonIgnore
+    @OneToMany(mappedBy = "ward")
+    private List<User> users;
 	@ManyToOne
 	@JoinColumn(name = "district_id")
 	private District district;
 	
+	public List<User> getUsers() {
+		return users;
+	}
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 	public List<Bill> getBills() {
 		return bills;
 	}
