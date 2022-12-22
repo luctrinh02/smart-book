@@ -139,6 +139,10 @@ public class BookService {
 		mapReturn.put("charactorInBook", getCharactor(pageBook.getContent()));
 		return mapReturn;
 	}
+	
+	public Iterable<Book> saveAll(Iterable<Book> iBook) {
+		return repository.saveAll(iBook);
+	}
 
 	public Map<String, Object> getType(List<Book> lstBookAll) {
 		Map<String, Object> mapReturn = new HashMap<String, Object>();
