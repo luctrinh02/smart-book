@@ -110,6 +110,12 @@ public class ShipmentService {
                         newBill.setUser(bill.getUser());
                         newBill.setMissed(false);
                         newBill.setStatus(BillStatusSingleton.getInstance(billStatusService).get(0));
+                        newBill.setWard(bill.getWard());
+                        newBill.setAddressDetail(bill.getAddressDetail());
+                        newBill.setFullname(bill.getFullname());
+                        newBill.setPhoneNumber(bill.getPhoneNumber());
+                        newBill.setPayType(bill.getPayType());
+                        newBill.setTransType(bill.getTransType());
                         newBill = billService.save(newBill);
                         List<BillDetail> details2=new ArrayList<>();
                         for (BillDetail x : details) {

@@ -64,26 +64,47 @@
 							<!-- Small tables -->
 							<div class="table-wrapper overflow-auto"  style="width: 100%; height: 97%">
 								<table class="table table-hover table-sm mt-3" id="example"
-									style="min-width: 110%;">
+									style="min-width: 130%;">
 									<thead>
+										<th colspan="2" style="width: 5%;" ng-hide="sta.s==2||sta.s==4 || sta.s==5"></th>
 										<th>Mã giao dịch</th>
-										<th>Ngày mua</th>
 										<th>Tổng tiền</th>
+										<th>Thông tin khách hàng</th>
+										<th>Địa chỉ</th>
+										<th>Ngày mua</th>
 										<th>Trạng thái</th>
 										<th ng-show="sta.s==2 || sta.s==0">Ghi chú</th>
-										<th colspan="2" style="width: 5%;" ng-hide="sta.s==2||sta.s==4 || sta.s==5"></th>
 									</thead>
 									<tbody>
 										<tr ng-repeat="bill in bills.content">
-											<td class="align-middle">{{bill.tranSn}}</td>
-											<td class="align-middle" ng-click="getDetail(bill.id)">{{formatDate(bill.createdTime)}}</td>
-											<td class="align-middle" ng-click="getDetail(bill.id)">{{convertText(bill.totalMoney)}}</td>
-											<td class="align-middle" ng-click="getDetail(bill.id)"><span class="{{'text-'+bill.status.color}}">{{bill.status.value}}</span>
+											<td ng-hide="bill.status.id==5 || bill.status.id==3 ||bill.status.id==6 || (bill.status.id==2 && authen.role.id==2)">
+												<button class="btn" data-bs-toggle="modal"
+													data-bs-target="{{'#conf'+bill.id}}">
+													<i class="fa-solid fa-check"></i>
+												</button>
+												<div class="modal fade" id="conf{{bill.id}}" tabindex="-1"
+													aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog modal-lg">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="exampleModalLabel">Xác
+																	nhận</h5>
+																<button type="button" class="btn-close"
+																	data-bs-dismiss="modal" aria-label="Close"></button>
+															</div>
+															<div class="modal-body">Bạn có chắn thực hiện đơn?</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary"
+																	data-bs-dismiss="modal">Không</button>
+																<button type="button" class="btn btn-danger"
+																	data-bs-dismiss="modal" ng-click="submit($index)">Chắc
+																	chắn</button>
+															</div>
+														</div>
+													</div>
+												</div>
 											</td>
-											<td ng-show="sta.s==2 || sta.s==0" class="align-middle"
-												ng-click="getDetail(bill.id)">{{bill.message}}</td>
-											<td
-												ng-hide="bill.status.id==3 || bill.status.id==5 || bill.status.id==6">
+											<td ng-hide="bill.status.id==3 || bill.status.id==5 || bill.status.id==6" colspan="{{bill.status.id==2?2:1}}">
 												<button class="btn" data-bs-toggle="modal"
 													data-bs-target="{{'#modal'+$index}}">
 													<i class="fa-solid fa-xmark"></i>
@@ -143,34 +164,13 @@
 													</div>
 												</div>
 											</td>
-											<td
-												ng-hide="bill.status.id==5 || bill.status.id==3 ||bill.status.id==6 || (bill.status.id==2 && authen.role.id==2)">
-												<button class="btn" data-bs-toggle="modal"
-													data-bs-target="{{'#conf'+bill.id}}">
-													<i class="fa-solid fa-check"></i>
-												</button>
-												<div class="modal fade" id="conf{{bill.id}}" tabindex="-1"
-													aria-labelledby="exampleModalLabel" aria-hidden="true">
-													<div class="modal-dialog modal-lg">
-														<div class="modal-content">
-															<div class="modal-header">
-																<h5 class="modal-title" id="exampleModalLabel">Xác
-																	nhận</h5>
-																<button type="button" class="btn-close"
-																	data-bs-dismiss="modal" aria-label="Close"></button>
-															</div>
-															<div class="modal-body">Bạn có chắn thực hiện đơn?</div>
-															<div class="modal-footer">
-																<button type="button" class="btn btn-secondary"
-																	data-bs-dismiss="modal">Không</button>
-																<button type="button" class="btn btn-danger"
-																	data-bs-dismiss="modal" ng-click="submit($index)">Chắc
-																	chắn</button>
-															</div>
-														</div>
-													</div>
-												</div>
-											</td>
+											<td class="align-middle" ng-click="getDetail(bill.id)">{{bill.tranSn}}</td>
+											<td class="align-middle" ng-click="getDetail(bill.id)">{{convertText(bill.totalMoney)}}</td>
+											<td class="align-middle" ng-click="getDetail(bill.id)">{{bill.fullname+" ("+bill.phoneNumber+")"}}</td>
+											<td class="align-middle" ng-click="getDetail(bill.id)">{{bill.addressDetail+", "+bill.ward.name+", "+bill.ward.district.name+", "+bill.ward.district.city.name}}</td>
+											<td class="align-middle" ng-click="getDetail(bill.id)">{{formatDate(bill.createdTime)}}</td>
+											<td class="align-middle" ng-click="getDetail(bill.id)"><span class="{{'text-'+bill.status.color}}">{{bill.status.value}}</span> </td>
+											<td ng-show="sta.s==2 || sta.s==0" class="align-middle" ng-click="getDetail(bill.id)">{{bill.message}}</td>
 										</tr>
 									</tbody>
 								</table>
