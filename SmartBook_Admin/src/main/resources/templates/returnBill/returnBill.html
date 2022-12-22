@@ -104,7 +104,7 @@
 													</div>
 												</div>
 											</td>
-											<td ng-hide="bill.status.id==3 || bill.status.id==5 || bill.status.id==6" colspan="{{bill.status.id==2?2:1}}">
+											<td ng-hide="bill.status.id==3 || bill.status.id==5 || bill.status.id==6" colspan="{{(bill.status.id==2 && authen.role.id!=3)==true?2:1}}">
 												<button class="btn" data-bs-toggle="modal"
 													data-bs-target="{{'#modal'+$index}}">
 													<i class="fa-solid fa-xmark"></i>
@@ -185,7 +185,7 @@
 	</div>
 	<div class="modal fade" id="detailmodal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Mã hóa đơn:
@@ -199,14 +199,12 @@
 							<tr>
 								<th class="col-6">Sản phẩm</th>
 								<th class="col-2">SL</th>
-								<th class="col-4">Đơn giá</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr ng-repeat="detail in details">
 								<td class="col-6"><img src="data:image/jpg;base64,{{detail.book.image}}" alt="" class="rounded w-25">&ensp;{{detail.book.name}}</td>
 								<td class="col-2">{{detail.amount}}</td>
-								<td class="col-4">{{convertText(detail.price)}}</td>
 							</tr>
 						</tbody>
 						<tfoot>

@@ -20,6 +20,6 @@ public interface IBillRepository extends JpaRepository<Bill, Integer>{
 	Page<Bill> findByStatus(BillStatus status,Pageable pageable);
 	@Query("SELECT b FROM Bill b WHERE  b.status=?1 and b.updatedTime <= ?2")
 	List<Bill> findByStatusAndUpdatedTime(BillStatus status,Date updatedTime);
-	@Query("SELECT COUNT(b.user) FROM Bill b WHERE b.createdTime=?1 GROUP BY b.user")
+	@Query("SELECT COUNT(*) FROM Bill b WHERE b.createdTime=?1 AND b.status.id!=3 AND b.status.id!=6")
 	Long countCustomerInday(Date date);
 }
