@@ -1,5 +1,6 @@
 package com.dantn.bookStore.api;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -22,12 +23,12 @@ public class CommentApi {
 	@Autowired
 	private CommentService service;
 	@PostMapping("/api/comment")
-	public ResponseEntity<?> addComment(@RequestBody @Valid CommentRequest request,BindingResult result){
+	public ResponseEntity<?> addComment(@RequestBody @Valid CommentRequest request,BindingResult result,Principal principal){
 		if(result.hasErrors()) {
 			List<ObjectError> errors=result.getAllErrors();
 			return ResponseEntity.ok(DataUltil.setData("error", errors));
 		}else {
-			Comment m=service.create(request);
+			Comment m=service.create(request,principal);
 			if(m==null) {
 				return ResponseEntity.ok(DataUltil.setData("402", "Lỗi dữ liệu"));
 			}else {

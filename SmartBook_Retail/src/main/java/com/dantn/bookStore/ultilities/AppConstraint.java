@@ -9,7 +9,6 @@ public class AppConstraint {
 	public static int C_SUCCESS=2;
 	public static int C_DANGER=3;
 	public static int C_WARNING=4;
-	public static User USER=null;
 	public static char CHARACTOR_PREFIX='A';
 	public static char CONTENT_PREFIX='B';
 	public static char TYPE_PREFIX='C';

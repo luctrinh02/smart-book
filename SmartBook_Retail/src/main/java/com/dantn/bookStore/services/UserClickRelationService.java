@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.dantn.bookStore.entities.Book;
@@ -25,17 +27,23 @@ public class UserClickRelationService {
 	private ContentService contentService;
 	@Autowired
 	private TypeService typeService;
-
+	@Autowired
+	private UserService service;
 	public List<String> getRelation() {
-		List<String> list = repository.findRelation(AppConstraint.USER, PageRequest.of(0, 2));
+		List<String> list = repository.findRelation(getUser(), PageRequest.of(0, 2));
 		return list;
 	}
-
+	public User getUser() {
+		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		User user=service.getByEmail(authentication.getName());
+		return user;
+	}
 	public String getKey() {
 		List<String> list = this.getRelation();
 		if(list.size()==0) return "";
 		String result="";
 		for (String x : list) {
+			if(x.length()==0) continue;
 			switch (x.charAt(0)) {
 			case 'A':
 				result.concat(" "+charactorService.findById(Integer.parseInt(x.substring(1))).getValue());
