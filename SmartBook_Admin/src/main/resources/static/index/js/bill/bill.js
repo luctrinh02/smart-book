@@ -33,6 +33,7 @@ function ctrlBill($scope, $http, $rootScope) {
 	})
 	$http.get("/api/admin/bill/getData?page=0&status=0").then(function(response) {
 		$scope.bills = response.data;
+		console.log($scope.bills)
 		$scope.users = response.data;
 	})
 	$scope.getDetail = function(id) {
