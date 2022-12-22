@@ -45,13 +45,13 @@ public class UserClickRelationService {
 		for (String x : list) {
 			if(x.length()==0) continue;
 			switch (x.charAt(0)) {
-			case 'A':
+			case '*':
 				result.concat(" "+charactorService.findById(Integer.parseInt(x.substring(1))).getValue());
 				break;
-			case 'B':
+			case '&':
 				result.concat(" "+contentService.findById(Integer.parseInt(x.substring(1))).getValue());
 				break;
-			case 'C':
+			case '#':
 				result.concat(" "+typeService.findById(Integer.parseInt(x.substring(1))).getValue());
 				break;
 			default:
@@ -67,21 +67,21 @@ public class UserClickRelationService {
 		for(String x: charactor) {
 			if("".equals(x)) continue;
 			int index=charactor.indexOf(x);
-			x="A"+x;
+			x="*"+x;
 			charactor.set(index, x);
 		}
 		List<String> content=Arrays.asList(b.getContent().split(","));
 		for(String x: content) {
 			if("".equals(x)) continue;
 			int index=content.indexOf(x);
-			x="B"+x;
+			x="&"+x;
 			content.set(index, x);
 		}
 		List<String> type=Arrays.asList(b.getType().split(","));
 		for(String x: type) {
 			if("".equals(x)) continue;
 			int index=type.indexOf(x);
-			x="C"+x;
+			x="#"+x;
 			type.set(index, x);
 		}
 		List<String> strings=new ArrayList<>();
