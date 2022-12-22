@@ -6,13 +6,13 @@ function BookController($scope, $http, $routeParams) {
 	$scope.cart = [];
 	$scope.amountInCart = 0;
 	$scope.types = "";
-	$scope.books = [];
+	$scope.booksDeXuat = [];
 	$scope.comments = [];
 	$scope.rate={};
 	$http.get("/api/book/" + $routeParams.id).then(function(response) {
 		$scope.book = response.data;
 		$http.get("/api/home/related/"+ $routeParams.id).then(function(response) {
-			$scope.books = response.data;
+			$scope.booksDeXuat = response.data;
 		});
 		$http.get("/api/book/comment/" + $routeParams.id).then(function(response) {
 			$scope.comments=response.data;

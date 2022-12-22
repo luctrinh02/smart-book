@@ -46,16 +46,16 @@ public class UserClickRelationService {
 			if(x.length()==0) continue;
 			switch (x.charAt(0)) {
 			case '*':
-				result.concat(" "+charactorService.findById(Integer.parseInt(x.substring(1))).getValue());
+				result=result+(" "+charactorService.findById(Integer.parseInt(x.substring(1))).getValue());
 				break;
 			case '&':
-				result.concat(" "+contentService.findById(Integer.parseInt(x.substring(1))).getValue());
+				result=result+(" "+contentService.findById(Integer.parseInt(x.substring(1))).getValue());
 				break;
 			case '#':
-				result.concat(" "+typeService.findById(Integer.parseInt(x.substring(1))).getValue());
+				result=result+(" "+typeService.findById(Integer.parseInt(x.substring(1))).getValue());
 				break;
 			default:
-				result.concat(" "+x);
+				result=result+(" "+x);
 				break;
 			}
 		}

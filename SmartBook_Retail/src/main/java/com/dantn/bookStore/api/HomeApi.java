@@ -1,13 +1,13 @@
 package com.dantn.bookStore.api;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,11 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dantn.bookStore.elastic.EBook;
 import com.dantn.bookStore.entities.Book;
-import com.dantn.bookStore.entities.User;
 import com.dantn.bookStore.services.BookService;
 import com.dantn.bookStore.services.EBookService;
 import com.dantn.bookStore.services.UserBuyService;
-import com.dantn.bookStore.services.UserService;
 
 @RestController
 @RequestMapping("/api/home")
@@ -41,15 +39,16 @@ public class HomeApi {
 		List<Book> books=buyService.getBook();
 		Book book=bookService.getById(id);
 		EBook eBook=eBookService.getById(book.getId()+"");
-		// @formatter:off
-		String key=eBook.getName()+" "+eBook.getAuthor()+" "+eBook.getPublisher()+" "+eBook.getType()+" "+eBook.getCharactor()+" "+eBook.getContent();
-		// @formatter:on
-		List<Book> list=eBookService.getBook(key);
+		LinkedHashSet<Book> list1=new LinkedHashSet<>(eBookService.getBookByName(eBook.getName()));
+		LinkedHashSet<Book> list2=new LinkedHashSet<>(eBookService.getBookByType(eBook.getType()));
+		list1.addAll(list2);
+		List<Book> list=new ArrayList<>(list1);
 		list.remove(book);
 		list.removeAll(books);
-		if(list.size()>6) {
+		if(list.size()>=6) {
 			return ResponseEntity.ok(list.subList(0, 6));
 		}else {
+			
 			return ResponseEntity.ok(list);
 		}
 	}
