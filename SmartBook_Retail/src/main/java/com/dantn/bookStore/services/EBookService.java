@@ -52,4 +52,20 @@ public class EBookService {
 		}
 		return bookService.getByIds(ids);
 	}
+	public List<Book> getBookByName(String key) throws IOException{
+		List<EBook> eBooks=repository.getByName(key);
+		List<Integer> ids=new ArrayList<>();
+		for(EBook e:eBooks) {
+			ids.add(Integer.parseInt(e.getId()));
+		}
+		return bookService.getByIds(ids);
+	}
+	public List<Book> getBookByType(String key) throws IOException{
+		List<EBook> eBooks=repository.getByType(key);
+		List<Integer> ids=new ArrayList<>();
+		for(EBook e:eBooks) {
+			ids.add(Integer.parseInt(e.getId()));
+		}
+		return bookService.getByIds(ids);
+	}
 }

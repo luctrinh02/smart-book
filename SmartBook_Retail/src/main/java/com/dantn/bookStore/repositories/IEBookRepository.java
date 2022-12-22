@@ -13,6 +13,7 @@ import com.dantn.bookStore.elastic.EBook;
 import com.dantn.bookStore.ultilities.AppConstraint;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
@@ -127,7 +128,7 @@ public class IEBookRepository {
 	}
 
 	public Query createQuery(String field, String key) {
-		Query query = MatchQuery.of(m -> m.field(field).query(key).fuzziness("AUTO").prefixLength(1))._toQuery();
+		Query query = MatchQuery.of(m -> m.field(field).query(key).fuzziness("AUTO"))._toQuery();
 		return query;
 	}
 	public Query createMinPriceQuery(Double price) {
@@ -143,5 +144,31 @@ public class IEBookRepository {
 			    .lte(JsonData.of(price)) 
 			)._toQuery();
 		return byMaxPrice;
+	}
+	public List<EBook> getByName(String name) throws ElasticsearchException, IOException{
+		SearchResponse<EBook> response=elasticsearchClient.search(
+				s->s.index(indexName).query(q->q.bool(b->b
+						.should(createQuery("name", name))
+						)).from(0).size(24)
+				, EBook.class);
+		List<Hit<EBook>> hits = response.hits().hits();
+		List<EBook> eBooks=new ArrayList<>();
+		for (Hit<EBook> obj : hits) {
+			eBooks.add((EBook) obj.source());
+		}
+		return eBooks;
+	}
+	public List<EBook> getByType(String type) throws ElasticsearchException, IOException{
+		SearchResponse<EBook> response=elasticsearchClient.search(
+				s->s.index(indexName).query(q->q.bool(b->b
+						.should(createQuery("type", type))
+						)).from(0).size(24)
+				, EBook.class);
+		List<Hit<EBook>> hits = response.hits().hits();
+		List<EBook> eBooks=new ArrayList<>();
+		for (Hit<EBook> obj : hits) {
+			eBooks.add((EBook) obj.source());
+		}
+		return eBooks;
 	}
 }
