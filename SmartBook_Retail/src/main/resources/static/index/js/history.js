@@ -1,16 +1,16 @@
 function HistoryController($scope, $http) {
-	$scope.isShowReturn=false;
-	$scope.billIndex=0;
+	$scope.isShowReturn = false;
+	$scope.billIndex = 0;
 	$scope.returnRequest = [];
 	$scope.bills = [];
 	$scope.details = [];
 	$scope.users = {}
 	$scope.page = 0;
 	$scope.tranSn = "";
-	$scope.comment={
-		detail:"",
-		rate:"",
-		comment:"",
+	$scope.comment = {
+		detail: "",
+		rate: "",
+		comment: "",
 	}
 	$scope.formatDate = function(date) {
 		let s = date.split("-");
@@ -18,7 +18,7 @@ function HistoryController($scope, $http) {
 	}
 	$scope.convertText = function(price) {
 		var x = Math.ceil(Number(price));
-		x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+		x = x.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
 		return x;
 	}
 	$http.get("/api/bill?page=0").then(function(response) {
@@ -29,33 +29,33 @@ function HistoryController($scope, $http) {
 		if ($scope.details.length == 0) {
 			$http.get("/api/bill/" + id).then(function(response) {
 				$scope.details = response.data.data;
-				if($scope.details[0].bill.status.id==5){
+				if ($scope.details[0].bill.status.id == 5) {
 					let today = new Date().setHours(7, 0, 0, 0);
 					let chek = new Date($scope.details[0].bill.updatedTime).setHours(7, 0, 0, 0);
-					if(today-chek<=432000000){
-						$scope.isShowReturn=true;
-					}else{
-						$scope.isShowReturn=false;
+					if (today - chek <= 432000000) {
+						$scope.isShowReturn = true;
+					} else {
+						$scope.isShowReturn = false;
 					}
-				}else{
-					$scope.isShowReturn=false;
+				} else {
+					$scope.isShowReturn = false;
 				}
 			});
-			document.getElementById('list').classList.add('col-9');
+			document.getElementById('list').classList.add('col-8');
 			document.getElementById('list').classList.remove("col-12");
 		} else {
 			$scope.details = [];
 			document.getElementById('list').classList.add('col-12');
-			document.getElementById('list').classList.remove("col-9");
+			document.getElementById('list').classList.remove("col-8");
 		}
 	}
 
-	$scope.cancel = function(index,status) {
+	$scope.cancel = function(index, status) {
 		$scope.message = " "
-		let data={
-			message:$scope.message,
-			status:status,
-			date:$("#scaleDate"+index).val()
+		let data = {
+			message: $scope.message,
+			status: status,
+			date: $("#scaleDate" + index).val()
 		};
 		$http.put("/api/bill/" + $scope.bills[index].id, data).then(function(response) {
 			if (response.data.statusCode == "ok") {
@@ -63,7 +63,7 @@ function HistoryController($scope, $http) {
 					icon: 'success',
 					title: response.data.data
 				});
-				$scope.bills[index]=response.data.bill;
+				$scope.bills[index] = response.data.bill;
 			} else {
 				Toast.fire({
 					icon: 'error',
@@ -129,27 +129,27 @@ function HistoryController($scope, $http) {
 	}
 	$scope.reset = function() {
 		document.getElementById("tranSn").value = "",
-		$scope.tranSn = ""
+			$scope.tranSn = ""
 		$scope.getData(0)
 	}
-	$scope.openComment=function(index){
-		$("#commentModal"+index).modal("show");
+	$scope.openComment = function(index) {
+		$("#commentModal" + index).modal("show");
 	}
-	$scope.beforeComment=function(index,detail){
-		let radioName="rate"+index;
-		$scope.comment={
-			detailId:{
-				bookId:detail.book.id,
-				billId:detail.bill.id
+	$scope.beforeComment = function(index, detail) {
+		let radioName = "rate" + index;
+		$scope.comment = {
+			detailId: {
+				bookId: detail.book.id,
+				billId: detail.bill.id
 			},
-			rate:$("input[name='"+radioName+"']:checked").val(),
-			content:$("#commentVal"+index).val()
+			rate: $("input[name='" + radioName + "']:checked").val(),
+			content: $("#commentVal" + index).val()
 		}
-		$http.post("/api/comment/before",$scope.comment).then(function(response){
-			if(response.data.statusCode=="ok"){
-				$("#commentModal"+index).modal("hide");
+		$http.post("/api/comment/before", $scope.comment).then(function(response) {
+			if (response.data.statusCode == "ok") {
+				$("#commentModal" + index).modal("hide");
 				$("#conf").modal("show");
-			}else{
+			} else {
 				Toast.fire({
 					icon: 'error',
 					title: "Vui lòng nhập đầy đủ",
@@ -157,21 +157,21 @@ function HistoryController($scope, $http) {
 			}
 		})
 	}
-	$scope.commentFunc=function(){
-		$http.post("/api/comment",$scope.comment).then(function(response){
-			if(response.data.statusCode=="ok"){
+	$scope.commentFunc = function() {
+		$http.post("/api/comment", $scope.comment).then(function(response) {
+			if (response.data.statusCode == "ok") {
 				Toast.fire({
 					icon: 'success',
 					title: "Đánh giá thành công",
 				});
 				document.getElementById('list').classList.add('col-12');
 				document.getElementById('list').classList.remove("col-7");
-			}else if(response.data.statusCode=="402"){
+			} else if (response.data.statusCode == "402") {
 				Toast.fire({
 					icon: 'error',
 					title: "Bạn không có quyền đánh giá sản phẩm",
 				});
-			}else{
+			} else {
 				Toast.fire({
 					icon: 'error',
 					title: "Lỗi dữ liệu",

@@ -122,7 +122,7 @@
 
 								</div>
 							</div>
-							<div class="col-3 bg-grey" id="detail" ng-show="details.length>0">
+							<div class="col-4 bg-grey" id="detail" ng-show="details.length>0">
 								<div class="p-3">
 									<h3 class="fw-bold m-0 fs-5">
 										<i class="fa-solid fa-circle-info"></i> Chi tiết đơn hàng<span
@@ -131,15 +131,15 @@
 									<hr class="mt-2 mb-2">
 									<div style="min-height: 400px">
 										<div class="row fw-bold">
-											<div class="col-4 small">Tên sản phẩm</div>
-											<div class="col-4 small">Số lượng</div>
+											<div class="col-6 small">Tên sản phẩm</div>
+											<div class="col-2 small">SL</div>
 											<div class="col-4 small">Đơn giá</div>
 										</div>
 										<hr class="mt-2 mb-2">
 										<div ng-repeat="detail in details">
 											<div class="row">
-												<div class="col-4 small">{{detail.book.name}}</div>
-												<div class="col-4 small">{{detail.amount}}</div>
+												<div class="col-6 small">{{detail.book.name}}</div>
+												<div class="col-2 small">{{detail.amount}}</div>
 												<div class="col-4 small">{{convertText(detail.price)}}
 													<i class="fa-solid fa-star" ng-click="openComment($index)" ng-show="!detail.isComment && detail.bill.status.id==7"></i>
 													
@@ -196,7 +196,7 @@
 										<hr class="my-2">
 										<div class="d-flex justify-content-between">
 											<h6>Tổng sản phẩm</h6>
-											<h6>Chưa tính</h6>
+											<h6>{{details.length}} sản phẩm</h6>
 										</div>
 										<div class="d-flex justify-content-between">
 											<h6>Tổng tiền sản phẩm</h6>
@@ -209,10 +209,10 @@
 										</div>
 										<div class="d-flex justify-content-between">
 											<h6>Giảm giá</h6>
-											<h6>0đ</h6>
+											<h6>{{convertText(details[0].bill.bookMoney+details[0].bill.transportFee-details[0].bill.totalMoney)}}</h6>
 										</div>
 										<div class="d-flex justify-content-between mb-5">
-											<h5 class="text-uppercase">Tổng số tiền</h5>
+											<h5 class="text-uppercase">Tổng</h5>
 											<h5>{{convertText(details[0].bill.totalMoney)}}</h5>
 										</div>
 

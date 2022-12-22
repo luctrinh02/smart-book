@@ -83,7 +83,7 @@
 <!-- End Hero Section -->
 
 <!-- ======= Menu Section ======= -->
-<section id="menu" class="menu pt-4">
+<section id="menu" class="menu pt-4 mb-0">
 	<div class="container" data-aos="fade-up">
 		<div class="section-header pb-2">
 			<h2 class="fs-4">Danh mục các đầu sách</h2>
@@ -118,7 +118,7 @@
 					<div class="col-lg-2 col-md-3 col-sm-6 d-flex align-items-stretch" ng-repeat="b in books track by $index" data-aos="fade-up" data-aos-delay="100">
 						<div class="chef-member w-100">
 							<div class="member-img" ng-click="detail(b.id)">
-								<img src="data:image/jpg;base64,{{b.image}}" height="185px" alt="">
+								<img src="data:image/jpg;base64,{{b.image}}" height="200px" width="100%" alt="">
 							</div>
 							<div class="social" ng-click="addToCart(b.id)">
 									<a><i class="bi bi-cart-plus-fill text-dark"></i></a>
@@ -138,7 +138,7 @@
 					<div class="col-lg-2 col-md-3 col-sm-6 d-flex align-items-stretch" ng-repeat="b in booksTrend.content track by $index" data-aos="fade-up" data-aos-delay="100">
 						<div class="chef-member">
 							<div class="member-img" ng-click="detail(b.id)">
-								<img src="data:image/jpg;base64,{{b.image}}" height="200px"
+								<img src="data:image/jpg;base64,{{b.image}}" height="200px" width="100%"
 									alt="">
 							</div>
 							<div class="social" ng-click="addToCart(b.id)">
@@ -148,13 +148,13 @@
 								<h6>{{b.name}}</h6>
 								<h5 class="mt-1 mb-0 pb-0 price fw-bold text">{{convertText(b.price
 									- b.price*b.discount/100)}}</h5>
-								<del class="small text-danger mt-0" ng-show="b.discount>0">{{convertText(b.price)}}</del>
+								<del class="small text-secondary mt-0" ng-show="b.discount>0">{{convertText(b.price)}}</del>
 								<span>Đã bán: {{b.saleAmount}} cuốn</span>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="text-center mt-2">
+				<div class="text-center" style="margin: 50px">
 					<button class="btn" ng-click="getMore('saleAmount',booksTrend.page+1)" ng-hide="booksTrend.number==booksTrend.totalPages">Xem thêm</button>
 				</div>
 			</div>
@@ -163,7 +163,7 @@
 					<div class="col-lg-2 col-md-3 col-sm-6 d-flex align-items-stretch" ng-repeat="b in booksHot.content track by $index" data-aos="fade-up" data-aos-delay="100">
 						<div class="chef-member">
 							<div class="member-img" ng-click="detail(b.id)">
-								<img src="data:image/jpg;base64,{{b.image}}" height="200px"
+								<img src="data:image/jpg;base64,{{b.image}}" height="200px" width="100%"
 									alt="">
 							</div>
 							<div class="social" ng-click="addToCart(b.id)">
@@ -173,7 +173,7 @@
 								<h6>{{b.name}}</h6>
 								<h5 class="mt-1 mb-0 pb-0 price fw-bold text">{{convertText(b.price
 									- b.price*b.discount/100)}}</h5>
-								<del class="small text-danger mt-0" ng-show="b.discount>0">{{convertText(b.price)}}</del>
+								<del class="small text-secondary mt-0" ng-show="b.discount>0">{{convertText(b.price)}}</del>
 								<span>Đã bán: {{b.saleAmount}} cuốn</span>
 							</div>
 						</div>
@@ -188,7 +188,7 @@
 					<div class="col-lg-2 col-md-3 col-sm-6 d-flex align-items-stretch" ng-repeat="b in booksNew.content track by $index" data-aos="fade-up" data-aos-delay="100">
 						<div class="chef-member">
 							<div class="member-img" ng-click="detail(b.id)">
-								<img src="data:image/jpg;base64,{{b.image}}" height="200px"
+								<img src="data:image/jpg;base64,{{b.image}}" height="200px" width="100%"
 									alt="">
 							</div>
 							<div class="social" ng-click="addToCart(b.id)">
@@ -198,7 +198,7 @@
 								<h6>{{b.name}}</h6>
 								<h5 class="mt-1 mb-0 pb-0 price fw-bold text">{{convertText(b.price
 									- b.price*b.discount/100)}}</h5>
-								<del class="small text-danger mt-0" ng-show="b.discount>0">{{convertText(b.price)}}</del>
+								<del class="small text-secondary mt-0" ng-show="b.discount>0">{{convertText(b.price)}}</del>
 								<span>Đã bán: {{b.saleAmount}} cuốn</span>
 							</div>
 						</div>
@@ -213,7 +213,7 @@
 					<div class="col-lg-2 col-md-3 col-sm-6 d-flex align-items-stretch" ng-repeat="b in book5s track by $index" data-aos="fade-up" data-aos-delay="100">
 						<div class="chef-member">
 							<div class="member-img" ng-click="detail(b.id)">
-								<img src="data:image/jpg;base64,{{b.image}}" height="200px"
+								<img src="data:image/jpg;base64,{{b.image}}" height="200px" width="100%"
 									alt="">
 							</div>
 							<div class="social" ng-click="addToCart(b.id)">
@@ -221,9 +221,8 @@
 							</div>
 							<div class="member-info text-start mt-1" ng-click="detail(b.id)">
 								<h6>{{b.name}}</h6>
-								<h5 class="mt-1 mb-0 pb-0 price fw-bold text">{{convertText(b.price
-									- b.price*b.discount/100)}}</h5>
-								<del class="small text-danger mt-0" ng-show="b.discount>0">{{convertText(b.price)}}</del>
+								<h5 class="mt-1 mb-0 pb-0 price fw-bold text">{{convertText(b.price - b.price*b.discount/100)}}</h5>
+								<del class="small text-secondary mt-0" ng-show="b.discount>0">{{convertText(b.price)}}</del>
 								<span>Đã bán: {{b.saleAmount}} cuốn</span>
 							</div>
 						</div>
