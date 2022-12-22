@@ -106,10 +106,6 @@
 				data-bs-target="#menu-new">
 					<h4>Sản phẩm mới</h4>
 			</a></li>
-			<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
-				data-bs-target="#menu-non-start">
-					<h4>Sắp ra mắt</h4>
-			</a></li>
 		</ul>
 
 		<div class="tab-content" data-aos="fade-up" data-aos-delay="300">
@@ -136,7 +132,7 @@
 			<div class="tab-pane fade show chefs" id="menu-future">
 				<div class="row gy-5 mt-2">
 					<div class="col-lg-2 col-md-3 col-sm-6 d-flex align-items-stretch" ng-repeat="b in booksTrend.content track by $index" data-aos="fade-up" data-aos-delay="100">
-						<div class="chef-member">
+						<div class="chef-member w-100">
 							<div class="member-img" ng-click="detail(b.id)">
 								<img src="data:image/jpg;base64,{{b.image}}" height="200px" width="100%"
 									alt="">
@@ -161,7 +157,7 @@
 			<div class="tab-pane fade show chefs" id="menu-sale">
 				<div class="row gy-5 mt-2">
 					<div class="col-lg-2 col-md-3 col-sm-6 d-flex align-items-stretch" ng-repeat="b in booksHot.content track by $index" data-aos="fade-up" data-aos-delay="100">
-						<div class="chef-member">
+						<div class="chef-member w-100">
 							<div class="member-img" ng-click="detail(b.id)">
 								<img src="data:image/jpg;base64,{{b.image}}" height="200px" width="100%"
 									alt="">
@@ -186,7 +182,7 @@
 			<div class="tab-pane fade show chefs" id="menu-new">
 				<div class="row gy-5 mt-2">
 					<div class="col-lg-2 col-md-3 col-sm-6 d-flex align-items-stretch" ng-repeat="b in booksNew.content track by $index" data-aos="fade-up" data-aos-delay="100">
-						<div class="chef-member">
+						<div class="chef-member w-100">
 							<div class="member-img" ng-click="detail(b.id)">
 								<img src="data:image/jpg;base64,{{b.image}}" height="200px" width="100%"
 									alt="">
@@ -211,7 +207,7 @@
 			<div class="tab-pane fade show chefs" id="menu-non-start">
 				<div class="row gy-5 mt-2">
 					<div class="col-lg-2 col-md-3 col-sm-6 d-flex align-items-stretch" ng-repeat="b in book5s track by $index" data-aos="fade-up" data-aos-delay="100">
-						<div class="chef-member">
+						<div class="chef-member w-100">
 							<div class="member-img" ng-click="detail(b.id)">
 								<img src="data:image/jpg;base64,{{b.image}}" height="200px" width="100%"
 									alt="">
