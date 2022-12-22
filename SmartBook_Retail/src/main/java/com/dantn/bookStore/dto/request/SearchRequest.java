@@ -7,7 +7,6 @@ public class SearchRequest {
 	@NotBlank(message =  "Vui lòng nhập từ khoá")
 	private String key;
 	private Double min;
-	@PositiveOrZero(message = "Là số dương")
 	private Double max;
 	public String getKey() {
 		return key;

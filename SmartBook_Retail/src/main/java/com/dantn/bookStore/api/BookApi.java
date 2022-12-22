@@ -1,5 +1,6 @@
 package com.dantn.bookStore.api;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,9 +39,9 @@ public class BookApi {
 	}
 	
 	@GetMapping("/api/book/{id}")
-	public ResponseEntity<?> getById(@PathVariable("id") Integer id){
+	public ResponseEntity<?> getById(@PathVariable("id") Integer id,Principal principal){
 		Book book=service.getById(id);
-		if(book!=null && AppConstraint.USER!=null) {
+		if(book!=null && principal!=null) {
 			clickService.save(book);
 		}
 		return ResponseEntity.ok(book);
