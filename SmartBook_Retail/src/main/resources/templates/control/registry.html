@@ -58,8 +58,31 @@
 										<small class="text-danger" id="fullname"></small>
 									</div>
 									<div class="col-12">
-										<label for="addressInput" class="form-label">Địa chỉ <span
+										<label for="addressInput" class="form-label">Địa chỉ<span
 											class="text-danger">*</span></label>
+										<div class="row">
+											<div class="col-4">
+												 <select class="form-select" id="cityslt" ng-model="city" ng-change="changeCity()">
+							                      <option value="" disabled>Chọn tỉnh/thành phố</option>
+							                      <option ng-repeat="c in citys track by $index" value="{{c.id}}">{{c.name}}</option>
+							                    </select>
+							                    <span class="text-danger small ms-1" id="city"></span>
+											</div>
+											<div class="col-4">
+												<select class="form-select" id="districtslt" ng-model="district" ng-disabled="city==''">
+							                      <option value="" disabled>Chọn quận/huyện</option>
+							                      <option ng-repeat="d in districts[city] track by $index" value="{{d.id}}">{{d.name}}</option>
+							                    </select>
+							                     <span class="text-danger small ms-1" id="district"></span>
+											</div>
+											<div class="col-4">
+												 <select class="form-select" id="wardslt" ng-model="ward" ng-disabled="district==''">
+							                      <option value="" disabled>Chọn xã/phường</option>
+							                      <option ng-repeat="w in wards[district] track by $index" value="{{w.id}}">{{w.name}}</option>
+							                    </select>
+							                      <span class="text-danger small" id="ward"></span>
+											</div>
+										</div>
 										<div class="input-group has-validation">
 											<input type="text" name="address" class="form-control"
 												placeholder="Địa chỉ" id="addressInput" required>
@@ -90,6 +113,29 @@
 								</form>
 							</div>
 						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="exampleModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<a href="#home" class="logo d-flex align-items-center"> <img src="/index/img/logo.jpg"alt="">
+							<span class="d-none d-lg-block">Smart Book</span>
+						</a>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<h5 class="card-title m-0 p-0 fs-6">Bạn có chắc muốn đăng ký</h5>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Huỷ</button>
+						<button type="button" class="btn btn-primary"
+							data-bs-dismiss="modal" ng-click="create()">Chắc chắn</button>
 					</div>
 				</div>
 			</div>

@@ -27,6 +27,9 @@ public class User implements Serializable{
 	private String fullname;
 	private String phoneNumber;
 	private String address;
+	@ManyToOne
+	@JoinColumn(name = "ward_id")
+	private Ward ward;
 	@Lob
 	private String img;
 	@ManyToOne
@@ -58,10 +61,17 @@ public class User implements Serializable{
 	private List<Comment> comments;
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
-	private List<ReturnBill> returnBills ;
+	private List<Shipment> shipments ;
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
-	private List<UserClickRelation> clickRelations ;
+	private List<ReturnBill> returnBills ;
+	
+	public Ward getWard() {
+		return ward;
+	}
+	public void setWard(Ward ward) {
+		this.ward = ward;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -153,6 +163,12 @@ public class User implements Serializable{
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
+	public List<Shipment> getShipments() {
+		return shipments;
+	}
+	public void setShipments(List<Shipment> shipments) {
+		this.shipments = shipments;
+	}
 	public String getImg() {
 		return img;
 	}
@@ -165,11 +181,6 @@ public class User implements Serializable{
 	public void setReturnBills(List<ReturnBill> returnBills) {
 		this.returnBills = returnBills;
 	}
-	public List<UserClickRelation> getClickRelations() {
-		return clickRelations;
-	}
-	public void setClickRelations(List<UserClickRelation> clickRelations) {
-		this.clickRelations = clickRelations;
-	}
-	
+
+
 }

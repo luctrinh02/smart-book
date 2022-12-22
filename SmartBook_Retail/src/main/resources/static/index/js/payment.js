@@ -1,7 +1,7 @@
 function PaymentController($scope, $http, $rootScope) {
 	$scope.cartPKs = angular.copy($rootScope.cartPKs);
 	$rootScope.cartPKs = "";
-	if ($scope.cartPKs == null) {  $('#confirmModal').modal("hide"); window.location.href = "/smart-book#/cart"; };
+	if ($scope.cartPKs == null) { $('#confirmModal').modal("hide"); window.location.href = "/smart-book#/cart"; };
 	$scope.total = 0;
 	$scope.totalWeight = 0;
 
@@ -9,16 +9,26 @@ function PaymentController($scope, $http, $rootScope) {
 	$scope.transportTypes = [];
 	$scope.citys = [];
 	$scope.districts = [];
-
-
-	$scope.carts = [];
 	$scope.wards = [];
-	$scope.fullname = "";
-	$scope.phoneNumber = "";
-	$scope.city = "";
-	$scope.district = "";
-	$scope.ward = "";
-	$scope.addressDetail = "";
+
+	$http.get("/api/city").then(function(response) {
+		$scope.citys = response.data.citys;
+		$scope.districts = response.data.districts;
+		$scope.wards = response.data.wards;
+		$scope.fullname = $rootScope.authen.fullname;
+		$scope.phoneNumber = $rootScope.authen.phoneNumber;
+		$scope.city = $rootScope.authen.ward.district.city.id.toString();
+		$scope.district = $rootScope.authen.ward.district.id.toString();
+		$scope.ward = "";
+		for (let i = 0; i < $scope.wards[$scope.district].length; i++) {
+			if ($scope.wards[$scope.district][i].id == $rootScope.authen.ward.id) {
+				$scope.ward = i + '';
+				return;
+			}
+		}
+	});
+
+	$scope.addressDetail = $rootScope.authen.address;
 	$scope.paymentType = { p: 0 };
 	$scope.transportType = { t: 0 };
 	$scope.transportFee = 0;
@@ -42,11 +52,19 @@ function PaymentController($scope, $http, $rootScope) {
 			});
 		}
 	});
-	$http.get("/api/city").then(function(response) {
-		$scope.citys = response.data.citys;
-		$scope.districts = response.data.districts;
-		$scope.wards = response.data.wards;
-	});
+
+	$scope.getTotal = function() {
+		if ($scope.total >= 3600000) {
+			return $scope.total - 500000 + $scope.transportFee;
+		} else if ($scope.total >= 2400000) {
+			return $scope.total - 300000 + $scope.transportFee;
+		} else if ($scope.total >= 1200000) {
+			return $scope.total - 120000 + $scope.transportFee;
+		} else {
+			return $scope.total + $scope.transportFee;;
+		}
+	}
+
 	$http.get("/api/paymentType").then(function(response) {
 		$scope.paymentTypes = response.data;
 	});
@@ -58,7 +76,7 @@ function PaymentController($scope, $http, $rootScope) {
 	}
 	$scope.changeTransportType = function() {
 		$scope.transportFee = 0;
-		$scope.totalWeight=0;
+		$scope.totalWeight = 0;
 		for (let i = 0; i < $scope.carts.length; i++) {
 			$scope.totalWeight += ($scope.carts[i].book.weight * $scope.carts[i].amount) / 1000;
 		}
@@ -67,17 +85,7 @@ function PaymentController($scope, $http, $rootScope) {
 		$scope.transportFee.toFixed();
 	}
 
-	$scope.getTotal = function() {
-		if ($scope.total >= 3600000) {
-			return $scope.total - 500000 + $scope.transportFee;
-		} else if ($scope.total >= 2400000) {
-			return $scope.total - 300000 + $scope.transportFee;
-		} else if ($scope.total >= 1200000) {
-			return $scope.total - 120000 + $scope.transportFee;
-		} else {
-			return $scope.total;
-		}
-	}
+
 	$scope.getReduced = function() {
 		if ($scope.total >= 3600000) {
 			return 500000;
@@ -114,7 +122,7 @@ function PaymentController($scope, $http, $rootScope) {
 			fullname: $scope.fullname,
 			phoneNumber: $scope.phoneNumber,
 			addressDetail: $scope.addressDetail,
-			ward: $scope.ward==''?$scope.ward:$scope.wards[$scope.district][$scope.ward].id,
+			ward: $scope.ward == '' ? $scope.ward : $scope.wards[$scope.district][$scope.ward].id,
 			district: $scope.district,
 			city: $scope.city
 		}
@@ -150,7 +158,7 @@ function PaymentController($scope, $http, $rootScope) {
 			fullname: $scope.fullname,
 			phoneNumber: $scope.phoneNumber,
 			addressDetail: $scope.addressDetail,
-			ward: $scope.ward==''?$scope.ward:$scope.wards[$scope.district][$scope.ward].id,
+			ward: $scope.ward == '' ? $scope.ward : $scope.wards[$scope.district][$scope.ward].id,
 			district: $scope.district,
 			city: $scope.city
 		}
