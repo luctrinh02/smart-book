@@ -68,7 +68,6 @@
 									<thead>
 										<th colspan="2" style="width: 5%;" ng-hide="sta.s==2||sta.s==4 || sta.s==5"></th>
 										<th>Mã giao dịch</th>
-										<th>Tổng tiền</th>
 										<th>Thông tin khách hàng</th>
 										<th>Địa chỉ</th>
 										<th>Ngày mua</th>
@@ -164,13 +163,12 @@
 													</div>
 												</div>
 											</td>
-											<td class="align-middle" ng-click="getDetail(bill.id)">{{bill.tranSn}}</td>
-											<td class="align-middle" ng-click="getDetail(bill.id)">{{convertText(bill.totalMoney)}}</td>
-											<td class="align-middle" ng-click="getDetail(bill.id)">{{bill.fullname+" ("+bill.phoneNumber+")"}}</td>
-											<td class="align-middle" ng-click="getDetail(bill.id)">{{bill.addressDetail+", "+bill.ward.name+", "+bill.ward.district.name+", "+bill.ward.district.city.name}}</td>
-											<td class="align-middle" ng-click="getDetail(bill.id)">{{formatDate(bill.createdTime)}}</td>
+											<td class="align-middle" ng-click="getDetail(bill.id)">{{bill.bill.tranSn}}</td>
+											<td class="align-middle" ng-click="getDetail(bill.id)">{{bill.bill.fullname+" ("+bill.bill.phoneNumber+")"}}</td>
+											<td class="align-middle" ng-click="getDetail(bill.id)">{{bill.bill.addressDetail+", "+bill.bill.ward.name+", "+bill.bill.ward.district.name+", "+bill.bill.ward.district.city.name}}</td>
+											<td class="align-middle" ng-click="getDetail(bill.id)">{{formatDate(bill.bill.createdTime)}}</td>
 											<td class="align-middle" ng-click="getDetail(bill.id)"><span class="{{'text-'+bill.status.color}}">{{bill.status.value}}</span> </td>
-											<td ng-show="sta.s==2 || sta.s==0" class="align-middle" ng-click="getDetail(bill.id)">{{bill.message}}</td>
+											<td ng-show="sta.s==2 || sta.s==0" class="align-middle" ng-click="getDetail(bill.id)">{{bill.bill.message}}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -189,7 +187,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Mã hóa đơn:
-						{{details[0].bill.tranSn}}</h5>
+						{{details[0].returnBill.tranSn}}</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
@@ -209,7 +207,7 @@
 						</tbody>
 						<tfoot>
 							<th colspan="4">Trạng thái: <span
-								class="{{'text-'+details[0].bill.status.color}}">{{details[0].bill.status.value}}</span>
+								class="{{'text-'+details[0].returnBill.status.color}}">{{details[0].returnBill.status.value}}</span>
 							</th>
 						</tfoot>
 					</table>
