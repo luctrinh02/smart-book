@@ -26,7 +26,7 @@ public class HomeApi {
 
 	@GetMapping("/api/home")
 	public ResponseEntity<?> getHome(){
-		Long user=billService.countCustomerInday();
+		Long user = billService.countCustomerInday();
 		Long sale=billDetailService.countBook();
 		Long sales=billDetailService.sumBook();
 		List<Book> books=bookService.getTop10();
