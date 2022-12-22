@@ -51,11 +51,15 @@ function ctrlBook($scope, $http, $rootScope, $routeParams) {
 		}
 		$scope.params.page = index;
 		$http.post("/api/book/getBooks", $scope.params).then(function(response) {
+			console.log(response.data)
 			$scope.listType = response.data.listType;
 			$scope.listAuthor = response.data.listAuthor;
 			$scope.listPublisher = response.data.listPublisher;
 			$scope.listBookStatus = response.data.listBookStatus;
 			$scope.pageBook = response.data.pageBook;
+			$scope.typeInBook = response.data.typeInBook;
+			$scope.charactorInBook = response.data.charactorInBook;
+			$scope.contentInBook = response.data.contentInBook;
 		});
 	};
 	$scope.convertText = function(price) {
